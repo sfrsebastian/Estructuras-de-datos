@@ -1,8 +1,8 @@
-package estructuras;
+package Lista;
 
 import java.lang.reflect.Array;
 
-public class Lista<T extends Comparable<T>> implements iLista<T> {
+public class Lista<T extends Comparable<T>> implements ILista<T> {
 
 	//------------------------------------------
 	// Atributos

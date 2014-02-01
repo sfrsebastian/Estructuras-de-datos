@@ -1,4 +1,4 @@
-package estructuras;
+package Lista;
 
 public class NodoLista<T> {
 

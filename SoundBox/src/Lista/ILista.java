@@ -1,6 +1,6 @@
-package estructuras;
+package Lista;
 
-public interface iLista<T> {
+public interface ILista<T> {
 	
 	/**
 	 * Da la longitud total de la lista, la cuenta de todos los elementos
