@@ -6,7 +6,7 @@ package ListaOrdenada;
  */
 public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T> {
 	
-	private NodoLista primerNodo;
+	private NodoLista<T> primerNodo;
 	private int longitud;
 
 
@@ -31,21 +31,26 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 		if(primerNodo == null){
 			primerNodo = porAgregar;
 		}
+		else if(porAgregar.darElemento().compareTo(primerNodo.darElemento())<0){
+			porAgregar.cambiarSiguiente(primerNodo);
+			primerNodo = porAgregar;
+		}
 		else{
 			NodoLista<T> actual = primerNodo;
-			while(actual.darSiguiente() != null && porAgregar.darElemento().compareTo(actual.darElemento())>0){
+			while(actual.darSiguiente() != null && porAgregar.darElemento().compareTo(actual.darSiguiente().darElemento())>0){
 				actual = actual.darSiguiente();
 			}
 			porAgregar.cambiarSiguiente(actual.darSiguiente());
 			actual.cambiarSiguiente(porAgregar);
-			longitud++;
 		}
+		longitud++;
 		return elemento;
 	}
 
 	@Override
 	public T buscar(T elemento) {
-		NodoLista<T> actual = new NodoLista(elemento);
+		NodoLista<T> porBuscar = new NodoLista(elemento);
+		NodoLista<T> actual = primerNodo;
 		while(actual != null){
 			if(actual.darElemento().compareTo(elemento)==0){
 				return actual.darElemento();
