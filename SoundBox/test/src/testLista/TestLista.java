@@ -1,6 +1,6 @@
 package testLista;
 
-import estructuras.Lista;
+import Lista.Lista;
 import junit.framework.TestCase;
 
 public class TestLista extends TestCase{
