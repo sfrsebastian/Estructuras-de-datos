@@ -7,16 +7,14 @@ public class testListaOrdenada extends TestCase {
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
-		
 	/**
-	 * Es la lista que hace las pruebas
+	 * La lista que hace las pruebas
 	 */
 	private ListaOrdenada<String> listaPrueba;
 	
 	//------------------------------------------
 	// Setup Scenarios
 	//------------------------------------------
-	
 	private void setupScenario1(){
 		listaPrueba = new ListaOrdenada<String>();
 		
@@ -36,10 +34,10 @@ public class testListaOrdenada extends TestCase {
 	private void setupScenario2(){
 		listaPrueba = new ListaOrdenada<String>();
 	}
+	
 	//------------------------------------------
 	// Test Scenarios
 	//------------------------------------------
-	
 	public void testAgregarElemento(){
 		setupScenario2();
 		
@@ -119,48 +117,43 @@ public class testListaOrdenada extends TestCase {
 		
 		//Prueba eliminar primer elemento de la lista
 		String primero = (String) listaPrueba.darElementos()[0];
-		System.out.println(listaPrueba.eliminar("Carmen"));;
-		for(int i = 0 ; i<listaPrueba.darLongitud();i++){
-			System.out.println(listaPrueba.darElementos()[i]);
-		}
-		assertFalse("No deben ser iguales los primeros elementos",primero==listaPrueba.darElementos()[0]);
+		listaPrueba.eliminar("Carmen");
+		assertFalse("No deben ser iguales los primeros elementos", primero==listaPrueba.darElementos()[0]);
 		assertNull("No debe encontrar al elemento eliminado", listaPrueba.buscar("Carmen"));
 		assertEquals("El primer elemento debe ser Jose", "Jose", listaPrueba.darElementos()[0]);
 		assertEquals("La longitud de la lista debe disminuir", 4, listaPrueba.darLongitud());
 
-//		//Eliminar en la mitad
-//		listaPrueba.agregar(new Enfermera("b", 1, "a"));
-//		listaPrueba.agregar(new Enfermera("b", 2, "c"));
-//		assertNotNull("se debio eliminar un elemento", listaPrueba.eliminar(new Enfermera("b", 1, "a")));
-//		
-//		Enfermera t5 = new Enfermera("b", 2, "c");
-//		Enfermera b1 = (Enfermera) listaPrueba.eliminar(t5);
-//		
-//		//Eliminar ultimo elemento
-//		assertEquals("Se debio eliminar el ultimo elemento", t5.getCedula(),b1.getCedula());
-//		assertNull("La enfermera no se elimino correctamente", listaPrueba.buscar(new Enfermera("b", 2, "c")));
+		//Eliminar en la mitad
+		listaPrueba.eliminar("Maria");
+		assertTrue("El ultimo elemento debe ser diferente debe ser pedro", listaPrueba.darElementos()[2] == "Pedro");
+		assertNull("La persona no debio haber sido encontrada", listaPrueba.buscar("Maria"));
+		try{
+			String bla = (String) listaPrueba.darElementos()[3];
+			fail("No debe pasar por aca");
+		}
+		catch(Exception e){
+			
+		}
+		//Eliminar ultimo elemento
+		listaPrueba.eliminar("Pedro");
+		assertEquals("El tamaño de la lista debe ser de 2", 2, listaPrueba.darLongitud());
+		assertNull("La persona eliminada no debio haber sido encontrada", listaPrueba.buscar("Pedro"));
+		try{
+			String bla = (String) listaPrueba.darElementos()[3];
+			fail("No debe pasar por aca");
+		}
+		catch(Exception e){
+			
+		}
 	}
 	
-	public void testDarArreglo(){
+	public void testDarElementos(){
 		setupScenario1();
-		
-		Object[] arreglo = listaPrueba.darArreglo();
-		Enfermera e1 = (Enfermera)arreglo[0];
-		Enfermera e2 = (Enfermera)arreglo[2];
-		
-		//Primera posicion del arreglo
-		assertEquals("El arreglo no esta correctamente configurado", "Laura", e1.getNombre());
-		
-		//Mitad
-		assertEquals("El arreglo no esta correctamente configurado", "Maria", e2.getNombre());
-		
-		listaPrueba.agregar(new Enfermera("b", 1, "a"));
-		listaPrueba.agregar(new Enfermera("b", 2, "c"));
-		
-		Object[] enfermeras = listaPrueba.darArreglo();
-		
-		Enfermera e3 = (Enfermera)enfermeras[5];
-		//Final del arreglo
-		assertEquals("El arreglo no esta correctamente configurado", "b", e3.getNombre());		
+		assertEquals("El tamaño de la lista no fue el mismo", 5, listaPrueba.darElementos().length);
+		assertEquals("No se retorno a la persona esperada", "Carmen", listaPrueba.darElementos()[0]);
+		assertEquals("No se retorno a la persona esperada", "Jose", listaPrueba.darElementos()[1]);
+		assertEquals("No se retorno a la persona esperada", "Laura", listaPrueba.darElementos()[2]);
+		assertEquals("No se retorno a la persona esperada", "Maria", listaPrueba.darElementos()[3]);
+		assertEquals("No se retorno a la persona esperada", "Pedro", listaPrueba.darElementos()[4]);
 	}
 }
