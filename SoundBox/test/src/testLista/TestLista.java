@@ -34,6 +34,14 @@ public class TestLista extends TestCase{
 		listaPrueba.agregar(e5);
 	}
 	
+	private void setupScenario2(){
+		listaPrueba = new Lista<Enfermera>();
+		
+		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
+		
+		listaPrueba.agregar(e1);
+	}
+	
 	//------------------------------------------
 	// Test Scenarios
 	//------------------------------------------
@@ -117,6 +125,10 @@ public class TestLista extends TestCase{
 		//Eliminar ultimo elemento
 		assertEquals("Se debio eliminar el ultimo elemento", t5.getCedula(),b1.getCedula());
 		assertNull("La enfermera no se elimino correctamente", listaPrueba.buscar(new Enfermera("b", 2, "c")));
+	}
+	
+	public void testEliminarElemento2(){
+		setupScenario2();
 	}
 	
 	public void testDarArreglo(){

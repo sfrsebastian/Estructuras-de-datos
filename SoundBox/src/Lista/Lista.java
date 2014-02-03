@@ -45,7 +45,6 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 
 	@Override
 	public boolean agregar(T elemento) {
-		NodoLista<T> actual = primero;
 		if(primero == null){
 			NodoLista<T> aAgregar = new NodoLista<T>(elemento);
 			primero = aAgregar;
