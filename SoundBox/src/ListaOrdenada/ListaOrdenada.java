@@ -1,4 +1,5 @@
 package ListaOrdenada;
+
 /**
  * @author Sebastian Florez
  * @version 1.0
@@ -141,6 +142,8 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 			if(anterior != null && siguiente != null){
 				anterior.cambiarSiguiente(siguiente);
 				siguiente.cambiarAnterior(anterior);
+				aEliminar.cambiarAnterior(null);
+				aEliminar.cambiarSiguiente(null);
 			}
 			else if(anterior == null && siguiente != null){
 				siguiente.cambiarAnterior(null);
