@@ -145,13 +145,6 @@ public class testListaOrdenada extends TestCase {
 		catch(Exception e){
 			
 		}
-		
-		//Eliminar primerNodo
-		setupScenario2();
-		listaPrueba.agregar(t1);
-		listaPrueba.eliminar(t1);
-		assertNull("El primer nodo debe ser null", listaPrueba.buscar(t1));
-		assertEquals("El tamaño de la lista debe ser de 0", 0, listaPrueba.darLongitud());
 	}
 	
 	public void testDarElementos(){
