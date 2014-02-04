@@ -15,6 +15,11 @@ public class NodoLista<T> {
 	 */
 	private NodoLista<T> siguiente;
 	
+	/**
+	 * El anterior elemento de tipo T que contiene el nodo
+	 */
+	private NodoLista<T> anterior;
+	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
@@ -22,6 +27,7 @@ public class NodoLista<T> {
 	{
 		elemento = nElemento;
 		siguiente = null;
+		anterior = null;
 	}
 
 	//------------------------------------------
@@ -44,6 +50,14 @@ public class NodoLista<T> {
 	}
 	
 	/**
+	 * Da el anterior nodo correspondiente a la posicion actual
+	 * @return
+	 */
+	public NodoLista<T> darAnterior(){
+		return anterior;
+	}
+	
+	/**
 	 * Cambia el siguiente nodo del nodo actual al dado por parametro
 	 * @param nodo El nodo a reemplazar
 	 */
@@ -51,19 +65,14 @@ public class NodoLista<T> {
 		siguiente = nodo;
 		return nodo;
 	}
+	
 	/**
-	 * Desconecta el siguiente nodo
-	 * @return El nodo desconectado, null en caso contrario
+	 * Cambia el anterior nodo del nodo actual al dado por parametro
+	 * @param nodo El nodo a reemplazar
 	 */
-	public NodoLista<T> desconectarSiguiente() {
-		if(siguiente == null){
-			return null;
-		}
-		else{
-			NodoLista<T> sig = darSiguiente();
-			siguiente = darSiguiente().darSiguiente();
-			return sig;
-		}
+	public NodoLista<T> cambiarAnterior(NodoLista<T> nodo) {
+		anterior = nodo;
+		return nodo;
 	}
 }
 

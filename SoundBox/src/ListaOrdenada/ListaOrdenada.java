@@ -55,29 +55,26 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 	 * Pos: La longitud de la lista aumenta en una unidad y se agrega el nuevo elemento a la lista.
 	 */
 	public T agregar(T elemento) {
-		if(elemento == null){
-			return null;
+		NodoLista<T> porAgregar = new NodoLista<T>(elemento);
+		if(primerNodo == null){
+			primerNodo = porAgregar;
+		}
+		else if(porAgregar.darElemento().compareTo(primerNodo.darElemento())<0){
+			porAgregar.cambiarSiguiente(primerNodo);
+			primerNodo.cambiarAnterior(porAgregar);
+			primerNodo = porAgregar;
 		}
 		else{
-			NodoLista<T> porAgregar = new NodoLista<T>(elemento);
-			if(primerNodo == null){
-				primerNodo = porAgregar;
+			NodoLista<T> actual = primerNodo;
+			while(actual.darSiguiente() != null && porAgregar.darElemento().compareTo(actual.darSiguiente().darElemento())>0){
+				actual = actual.darSiguiente();
 			}
-			else if(porAgregar.darElemento().compareTo(primerNodo.darElemento())<0){
-				porAgregar.cambiarSiguiente(primerNodo);
-				primerNodo = porAgregar;
-			}
-			else{
-				NodoLista<T> actual = primerNodo;
-				while(actual.darSiguiente() != null && porAgregar.darElemento().compareTo(actual.darSiguiente().darElemento())>0){
-					actual = actual.darSiguiente();
-				}
-				porAgregar.cambiarSiguiente(actual.darSiguiente());
-				actual.cambiarSiguiente(porAgregar);
-			}
-			longitud++;
-			return elemento;
+			porAgregar.cambiarSiguiente(actual.darSiguiente());
+			porAgregar.cambiarAnterior(actual);
+			actual.cambiarSiguiente(porAgregar);
 		}
+		longitud++;
+		return elemento;
 	}
 
 	/**
@@ -86,21 +83,34 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 	 * @return El objeto dado por parametro, null de lo contrario.
 	 */
 	public T buscar(T elemento) {
-		if(elemento == null){
-			return null;
-		}
-		else{
-			NodoLista<T> actual = primerNodo;
-			while(actual != null){
-				if(actual.darElemento().compareTo(elemento)==0){
-					return actual.darElemento();
-				}
-				else{
-					actual = actual.darSiguiente();
-				}
+		NodoLista<T> actual = primerNodo;
+		while(actual != null){
+			if(actual.darElemento().compareTo(elemento)==0){
+				return actual.darElemento();
 			}
-			return null;	
+			else{
+				actual = actual.darSiguiente();
+			}
 		}
+		return null;
+	}
+	
+	 /**
+	  * Metodo auxiliar para la busqueda de Nodos.
+	  * @param El elemento presente en el nodo
+	  * @return El nodo donde se encuentra el elemento.
+	  */
+	private NodoLista<T> buscarNodo(T elemento) {
+		NodoLista<T> actual = primerNodo;
+		while(actual != null){
+			if(actual.darElemento().compareTo(elemento)==0){
+				return actual;
+			}
+			else{
+				actual = actual.darSiguiente();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -117,28 +127,35 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 	 * @return El elemento eliminado, null en caso de no haber sido encontrado.
 	 */
 	public T eliminar(T elemento) {
-		if(elemento == null){
+		T buscado = buscar(elemento);
+		if(primerNodo == null){
+			return null;
+		}
+		else if(buscado == null){
 			return null;
 		}
 		else{
-			NodoLista<T> actual = primerNodo;
-			if(actual !=null && actual.darElemento().compareTo(elemento)==0){
-				primerNodo = actual.darSiguiente();
-				actual.cambiarSiguiente(null);
-				longitud--;
-				return elemento;
+			NodoLista<T> aEliminar = buscarNodo(buscado);
+			NodoLista<T> anterior = aEliminar.darAnterior();
+			NodoLista<T> siguiente = aEliminar.darSiguiente();
+			if(anterior != null && siguiente != null){
+				anterior.cambiarSiguiente(siguiente);
+				siguiente.cambiarAnterior(anterior);
+			}
+			else if(anterior == null && siguiente != null){
+				siguiente.cambiarAnterior(null);
+				aEliminar.cambiarSiguiente(null);
+				primerNodo = siguiente;
+			}
+			else if(siguiente == null && anterior!=null){
+				anterior.cambiarSiguiente(null);
+				aEliminar.cambiarAnterior(null);
 			}
 			else{
-				while(actual != null && actual.darSiguiente()!=null){
-					NodoLista<T> siguiente = actual.darSiguiente();
-					if(siguiente.darElemento().compareTo(elemento)==0){
-						longitud--;
-						return actual.desconectarSiguiente().darElemento();
-					}
-					actual = actual.darSiguiente();
-				}
+				primerNodo = null;
 			}
-			return null;
+			longitud--;
+			return elemento;
 		}
 	}
 }
