@@ -45,6 +45,9 @@ public class testListaOrdenada extends TestCase {
 		String t2 = "Santiago";
 		String t3 = "Juan";
 		
+		//Prueba para agregar null
+		assertNull("No se debe dejar agregar null", listaPrueba.agregar(null));
+		
 		//Prueba para agregar el primer elemento
 		assertEquals("No se agrego correctamente", t1, listaPrueba.agregar(t1));
 		assertEquals("No se agrego correctamente", 1, listaPrueba.darLongitud());
@@ -68,6 +71,14 @@ public class testListaOrdenada extends TestCase {
 		catch(Exception e){
 			
 		}
+		
+		//Prueba agregar mismos elementos
+		listaPrueba.agregar(t3);
+		listaPrueba.agregar(t3);
+		listaPrueba.agregar(t3);
+		assertEquals("No se agrego correctamente", t3, listaPrueba.darElementos()[4]);
+		assertEquals("No se agrego correctamente", t3, listaPrueba.darElementos()[5]);
+		assertEquals("No se agrego correctamente", t3, listaPrueba.darElementos()[6]);
 	}
 	
 	public void testBuscarElemento(){
@@ -75,8 +86,11 @@ public class testListaOrdenada extends TestCase {
 		setupScenario2();
 		assertNull("Se espera null en una lista vacia", listaPrueba.buscar("Juan"));
 		
-		//Prueba busqueda lista llena
 		setupScenario1();
+		//Prueba busqueda null
+		assertNull("No se debe poder buscar Null", listaPrueba.buscar(null));
+		
+		//Prueba busqueda lista llena
 		assertEquals("Debio encontrar otra persona","Laura",listaPrueba.buscar("Laura"));
 		
 		//Prueba busqueda lista llena fallida
@@ -112,6 +126,9 @@ public class testListaOrdenada extends TestCase {
 		assertNull("No se debio eliminar ningun nodo", listaPrueba.eliminar("Pedro"));
 		
 		setupScenario1();
+		//Prueba eliminar null
+		assertNull("No se debe dejar eliminar null", listaPrueba.eliminar(null));
+		
 		//Prueba eliminar elemento no existente
 		assertNull("No se elimino correctamente el elemento", listaPrueba.eliminar("t1"));
 		
