@@ -18,6 +18,9 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 	 */
 	private NodoLista<T> primero;
 	
+	/**
+	 * El ultimo nodo de la lista
+	 */
 	private NodoLista<T> ultimo;
 	
 	//------------------------------------------
@@ -45,6 +48,9 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 
 	@Override
 	public boolean agregar(T elemento) {
+		if(elemento == null)
+			return false;
+		
 		if(primero == null){
 			NodoLista<T> aAgregar = new NodoLista<T>(elemento);
 			primero = aAgregar;
@@ -77,6 +83,9 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 	@Override
 	public T eliminar(T elemento) {
 		NodoLista<T> actual = primero;
+		
+		if(longitud == 0)
+			return null;
 
 		if(elemento.compareTo(actual.darElemento()) == 0){
 			primero = actual.darSiguiente();
@@ -85,6 +94,9 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 		}else{
 			while(actual != null && actual.darSiguiente() != null){
 				if(elemento.compareTo(actual.darSiguiente().darElemento()) == 0){
+					if(actual.darSiguiente() == ultimo){
+						ultimo = actual;
+					}
 					longitud--;
 					return actual.desconectarSiguiente().darElemento();
 				}else{
@@ -108,6 +120,10 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 		}
 		
 		return array;
+	}
+	
+	public T darUltimo(){
+		return ultimo.darElemento();
 	}
 
 }
