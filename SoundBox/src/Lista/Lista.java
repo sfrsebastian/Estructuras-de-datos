@@ -39,8 +39,7 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	
-
+	 
 	@Override
 	public int darLongitud() {
 		return longitud;
