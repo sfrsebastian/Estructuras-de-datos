@@ -8,34 +8,39 @@
 public interface ISoundBox {
 
 	/**
-	 * 
-	 * @param nReproductor    El proyecto a abrir != null
+	 * Abre un nuevo proyecto guardado <br>
+	 * @param nReproductor:  El proyecto a abrir != null <br>
+	 * @return Reproductor: El proyecto que se habia guardado 
 	 */
 	public Reproductor abrirProyecto(Reproductor nReproductor);
 
 	/**
-	 * 
-	 * @param nCanal    c
+	 * Agrega un nuevo canal a la lista de canales del proyecto
+	 * @param nCanal El canal que se quiere agregar
+	 * @return Canal: El canal que ha sido agregado
 	 */
 	public Canal agregarCanal(Canal nCanal);
 
 	/**
-	 * 
-	 * @param nCategoria    s
+	 * Agrega una nueva categoria a la lista de categorias del reproductor <br>
+	 * @param nCategoria La nueva categoria que se quiere anadir nCategoria != "" && nCategoria !+ null <br>
+	 * @return Categoria: La categoria anadida
 	 */
 	public Categoria agregarCategoria(Categoria nCategoria);
 
 	/**
-	 * 
-	 * @param nSonidos
-	 * @param nCanal    c
+	 * Agrega un nuevo sonido a la lista de sonidos de un canal <br>
+	 * @param nSonidos El nuevo sonido que se quiere anadir al canal <br>
+	 * @param nCanal El canal al cual se le van a anadir los/el sonido/s <br>
+	 * @return Sample El sonido anadido al canal
 	 */
 	public Sample agregarSonido(Sample[] nSonidos, Canal nCanal);
 
 	/**
-	 * 
-	 * @param nCategoria
-	 * @param nSonido    sa
+	 * Asigna una categoria a un sonido <br>
+	 * @param nCategoria La categoria que se quiere asignar <br>
+	 * @param nSonido El sonido al que se le va a asginar la categoria <br>
+	 * @return TRUE si fue exitoso, FALSE en caso contrario
 	 */
 	public boolean asignarCategoria(Categoria nCategoria, Sample nSonido);
 
