@@ -1,3 +1,7 @@
+package mundo;
+
+import javax.xml.datatype.Duration;
+
 /**
  * @author Sebastian
  * @author Felipe Otalora
@@ -59,14 +63,14 @@ public interface ISoundBox {
 	 * @param nAutor El autor del proyecto que se quiere buscar <br>
 	 * @return El proyecto encontrado, null en caso contrario
 	 */
-	public Proyecto buscarProyectoPorAutor(String nAutor);
+	public Reproductor buscarProyectoPorAutor(String nAutor);
 
 	/**
 	 * Busca el proyecto con el nombre dado por parametro <br>
 	 * @param nNombre El nombre del proyecto que se quiere buscar <br>
 	 * @return Proyecto: El proyecto encontrado, null en caso contrario
 	 */
-	public Proyecto buscarProyectoPorNombre(String nNombre);
+	public Reproductor buscarProyectoPorNombre(String nNombre);
 	
 	/**
 	 * Crea un nuevo proyecto con un autor, nombre y numero inicial de canales 
