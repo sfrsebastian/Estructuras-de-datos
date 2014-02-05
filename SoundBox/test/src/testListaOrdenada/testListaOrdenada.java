@@ -119,8 +119,8 @@ public class testListaOrdenada extends TestCase {
 		String t3 = "Juan";	
 		
 		setupScenario2();
-		//Prueba agregar null
-		assertNull("No se debio haber agregado null", listaPrueba.buscar(null));
+		//Prueba eliminar null
+		assertNull("No se debio haber eliminado null", listaPrueba.eliminar(null));
 		
 		//Prueba no hay elementos en la lista
 		assertNull("No se debio eliminar ningun nodo", listaPrueba.eliminar("Pedro"));
@@ -159,22 +159,6 @@ public class testListaOrdenada extends TestCase {
 		catch(Exception e){
 			
 		}
-	}
-	
-	public void testAgregarElemento2(){
-		setupScenario2();
-		
-		assertNull("Se debio(?) agregar el elemento", listaPrueba.agregar(null));
-		assertEquals("La lista debe tener longitud 1", 1, listaPrueba.darLongitud());
-		
-		assertNull("Se debio(?) agregar el elemento", listaPrueba.agregar(null));
-		listaPrueba.agregar("Hola");
-		listaPrueba.agregar("Perro");
-		listaPrueba.agregar(null);
-		
-		System.out.println(listaPrueba.darLongitud());
-		
-		
 	}
 	
 	public void testDarElementos(){
