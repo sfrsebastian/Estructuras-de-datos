@@ -150,7 +150,7 @@ public class testListaOrdenada extends TestCase {
 		}
 		//Eliminar ultimo elemento
 		listaPrueba.eliminar("Pedro");
-		assertEquals("El tamaño de la lista debe ser de 2", 2, listaPrueba.darLongitud());
+		assertEquals("El tamano de la lista debe ser de 2", 2, listaPrueba.darLongitud());
 		assertNull("La persona eliminada no debio haber sido encontrada", listaPrueba.buscar("Pedro"));
 		try{
 			String bla = (String) listaPrueba.darElementos()[3];
@@ -161,9 +161,25 @@ public class testListaOrdenada extends TestCase {
 		}
 	}
 	
+	public void testAgregarElemento2(){
+		setupScenario2();
+		
+		assertNull("Se debio(?) agregar el elemento", listaPrueba.agregar(null));
+		assertEquals("La lista debe tener longitud 1", 1, listaPrueba.darLongitud());
+		
+		assertNull("Se debio(?) agregar el elemento", listaPrueba.agregar(null));
+		listaPrueba.agregar("Hola");
+		listaPrueba.agregar("Perro");
+		listaPrueba.agregar(null);
+		
+		System.out.println(listaPrueba.darLongitud());
+		
+		
+	}
+	
 	public void testDarElementos(){
 		setupScenario1();
-		assertEquals("El tamaño de la lista no fue el mismo", 5, listaPrueba.darElementos().length);
+		assertEquals("El tamano de la lista no fue el mismo", 5, listaPrueba.darElementos().length);
 		assertEquals("No se retorno a la persona esperada", "Carmen", listaPrueba.darElementos()[0]);
 		assertEquals("No se retorno a la persona esperada", "Jose", listaPrueba.darElementos()[1]);
 		assertEquals("No se retorno a la persona esperada", "Laura", listaPrueba.darElementos()[2]);

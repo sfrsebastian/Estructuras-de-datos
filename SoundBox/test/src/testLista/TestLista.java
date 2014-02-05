@@ -34,6 +34,18 @@ public class TestLista extends TestCase{
 		listaPrueba.agregar(e5);
 	}
 	
+	private void setupScenario2(){
+		listaPrueba = new Lista<Enfermera>();
+		
+		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
+		
+		listaPrueba.agregar(e1);
+	}
+	
+	private void setupScenario3(){
+		listaPrueba = new Lista<Enfermera>();
+	}
+	
 	//------------------------------------------
 	// Test Scenarios
 	//------------------------------------------
@@ -54,6 +66,35 @@ public class TestLista extends TestCase{
 		
 		listaPrueba.agregar(new Enfermera("a", 1, "hola"));
 		assertNotNull("Se debio agregar un nuevo elemento", listaPrueba.buscar(new Enfermera("a", 1, "hola")));
+		
+		assertFalse("No se debio poder anadir null", listaPrueba.agregar(null));
+	}
+	
+	public void testAgregarElemento2(){
+		setupScenario2();
+		
+		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
+		Enfermera t2 = new Enfermera("Maria", 40, "3.5");
+		Enfermera t3 = new Enfermera("Pdero", 45, "7.6");
+		
+		listaPrueba.agregar(t1);
+		listaPrueba.agregar(t2);
+		listaPrueba.agregar(t3);
+		
+		assertEquals("No se agrego bien el ultimo elemento", t3,listaPrueba.darUltimo());
+		listaPrueba.eliminar(t3);
+		
+		Enfermera d = new Enfermera("a", 1, "a");
+		
+		listaPrueba.agregar(d);
+		assertEquals("Se debio anadir el ultimo elemento", d, listaPrueba.darUltimo());
+		
+		listaPrueba.agregar(new Enfermera("a", 2, "q"));
+		listaPrueba.agregar(new Enfermera("b", 3, "r"));
+		
+		assertNotNull("El elemento se debe encontrar", listaPrueba.buscar(new Enfermera("b", 3, "r")));
+		assertNotNull("El elemento se debe encontrar", listaPrueba.buscar(new Enfermera("a", 2, "q")));
+		
 	}
 	
 	public void testBuscarElemento(){
@@ -71,7 +112,7 @@ public class TestLista extends TestCase{
 		assertNotNull("No se agrego correctamente", listaPrueba.buscar(t3));
 		
 		//Prueba para no encontrar elemento
-		assertNull("No se debió encontrar elemento", listaPrueba.buscar(new Enfermera("a", 1, "cedulaFalsa")));
+		assertNull("No se debio encontrar elemento", listaPrueba.buscar(new Enfermera("a", 1, "cedulaFalsa")));
 	}
 	
 	public void testDarLongitud(){
@@ -86,6 +127,18 @@ public class TestLista extends TestCase{
 		
 		//Nueva longitud
 		assertEquals("La longitud de la lista es incorrecta", 6, listaPrueba.darLongitud());
+	}
+	
+	public void testDarLongitud2(){
+		setupScenario2();
+		
+		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
+		assertNotNull("Se debio eliminar un elemento", listaPrueba.eliminar(t1));
+		
+		listaPrueba.agregar(null);
+		listaPrueba.agregar(null);
+		
+		assertEquals("La longitud de la lista debe ser 0", 0, listaPrueba.darLongitud());
 	}
 	
 	public void testEliminarElemento(){
@@ -117,6 +170,20 @@ public class TestLista extends TestCase{
 		//Eliminar ultimo elemento
 		assertEquals("Se debio eliminar el ultimo elemento", t5.getCedula(),b1.getCedula());
 		assertNull("La enfermera no se elimino correctamente", listaPrueba.buscar(new Enfermera("b", 2, "c")));
+	}
+	
+	public void testEliminarElemento2(){
+		setupScenario2();
+		
+		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
+		
+		//Eliminar cuando solo hay un elemento
+		assertNotNull("Se debio eliminar un elemento", listaPrueba.eliminar(t1));
+		assertEquals("La longitud debe ser 0", 0, listaPrueba.darLongitud());
+		
+		//Eliminar cuando no hay elemento
+		assertNull("No se debio eliminar ningun elemento", listaPrueba.eliminar(t1));
+		
 	}
 	
 	public void testDarArreglo(){
