@@ -1,29 +1,29 @@
 package mundo;
 
+import javax.xml.datatype.Duration;
+
+import Lista.Lista;
+
 
 /**
  * @author Sebastian
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Canal extends ISonido {
+public class Canal implements ISonido {
+	public static final String DEFAULT = "Sin Nombre";
+	private Lista <Sample> sonidos;
+	private String nombre;
+	
 
-	private Sample sonidos;
-
+	public Canal(String nNombre){
+		nombre = nNombre;
+		sonidos = new Lista<Sample>();
+	}
+	
 	public Canal(){
-
-	}
-
-	public void finalize() throws Throwable {
-		super.finalize();
-	}
-
-	/**
-	 * 
-	 * @param nombre
-	 */
-	public void Canal(String nombre){
-
+		nombre = DEFAULT;
+		sonidos = new Lista<Sample>();
 	}
 
 	/**
@@ -31,7 +31,8 @@ public class Canal extends ISonido {
 	 * @param Sample
 	 */
 	public Sample agregarSonido(Sample nSample){
-		return null;
+		sonidos.agregar(nSample);
+		return nSample;
 	}
 
 	/**
@@ -39,7 +40,7 @@ public class Canal extends ISonido {
 	 * @param Sample
 	 */
 	public Sample buscarSonido(Sample nSample){
-		return null;
+		return sonidos.buscar(nSample);
 	}
 
 	public Sample[] darSonidos(){
@@ -52,6 +53,36 @@ public class Canal extends ISonido {
 	 */
 	public Sample eliminarSonido(Sample nSample){
 		return null;
+	}
+
+	@Override
+	public Duration darDuracion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String darNombre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Duration pausar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void reproducir(Duration nDuracion, int bpm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

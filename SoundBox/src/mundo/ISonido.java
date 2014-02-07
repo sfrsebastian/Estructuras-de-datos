@@ -9,41 +9,21 @@ import javax.xml.datatype.Duration;
  * @version 1.0
  * @created 04-Feb-2014 11:09:36 PM
  */
-public class ISonido {
+public interface ISonido {
+	
+	public Duration darDuracion();
 
-	private String nombre;
+	public String darNombre();
 
-	public ISonido(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	public Duration darDuracion(){
-		return null;
-	}
-
-	public String darNombre(){
-		return "";
-	}
-
-	public Duration pausar(){
-		return null;
-	}
+	public Duration pausar();
 
 	/**
 	 * 
 	 * @param Duration
 	 * @param bpm
 	 */
-	public void reproducir(Duration nDuracion, int bpm){
+	public void reproducir(Duration nDuracion, int bpm);
 
-	}
-
-	public void stop(){
-
-	}
+	public void stop();
 
 }
