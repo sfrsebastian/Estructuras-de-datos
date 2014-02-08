@@ -1,6 +1,8 @@
 package mundo;
 
-import javax.xml.datatype.Duration;
+import javafx.util.Duration;
+
+
 
 
 
@@ -22,7 +24,7 @@ public interface ISonido {
 	 * @param Duration
 	 * @param bpm
 	 */
-	public void reproducir(Duration nDuracion, int bpm);
+	public void reproducir(Duration nDuracion, double nBpm);
 
 	public void stop();
 

@@ -1,7 +1,6 @@
 package mundo;
 
-import javax.xml.datatype.Duration;
-
+import javafx.util.Duration;
 import Lista.Lista;
 
 
@@ -74,7 +73,7 @@ public class Canal implements ISonido {
 	}
 
 	@Override
-	public void reproducir(Duration nDuracion, int bpm) {
+	public void reproducir(Duration nDuracion, double bpm) {
 		// TODO Auto-generated method stub
 		
 	}
