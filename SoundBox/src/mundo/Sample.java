@@ -1,5 +1,7 @@
 package mundo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javafx.embed.swing.JFXPanel;
@@ -13,16 +15,21 @@ import javafx.util.Duration;
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Sample implements ISonido, Comparable<Sample> {
+public class Sample implements ISonido, Comparable<Sample>, ActionListener {
 
+	private static final String REPRODUCIRSONIDO = "Reproducir";
+	private static final String PAUSARSONIDO = "Pausar";
+	private static final String STOPSONIDO = "Stop";
 	private String nombre;
 	private File archivo;
 	private double bpm;
 	private MediaPlayer player;
 	private Categoria categoria;
 	private Duration estadoDuracion;
+	private int id;
+	private Canal canal;
 	
-	public Sample(File f, Categoria nCategoria){
+	public Sample(File f, Categoria nCategoria,int nId,Canal nCanal){
 		JFXPanel fxPanel = new JFXPanel();
 		bpm = 1.0;	
 		categoria = nCategoria;
@@ -31,6 +38,8 @@ public class Sample implements ISonido, Comparable<Sample> {
 		estadoDuracion = new Duration(0);
 		Media sample = new Media(archivo.toURI().toString());
 		player= new MediaPlayer(sample);
+		id = nId;
+		canal = nCanal;
 		verificarInvariante();
 	}
 
@@ -39,6 +48,10 @@ public class Sample implements ISonido, Comparable<Sample> {
 		return player.getTotalDuration();
 	}
 
+	public Duration cambiarEstadoDuracion(Duration nDuracion){
+		estadoDuracion = nDuracion;
+		return estadoDuracion;
+	}
 	@Override
 	public String darNombre() {
 		return nombre;
@@ -49,6 +62,14 @@ public class Sample implements ISonido, Comparable<Sample> {
 		return nNombre;
 	}
 	
+	public double darBpm(){
+		return bpm;
+	}
+	
+	public double cambiarBpm(double nBpm){
+		bpm = Math.floor(nBpm* 10) / 10;
+		return bpm;
+	}
 	public Categoria darCategoria(){
 		return categoria;
 	}
@@ -57,19 +78,16 @@ public class Sample implements ISonido, Comparable<Sample> {
 		categoria = nCategoria;
 		return nCategoria;
 	}
+	
+	public void reproducir() {
+		player.play();
+	}
+	
 	@Override
 	public Duration pausar() {
 		player.pause();
-		estadoDuracion = player.getCurrentTime();
+		estadoDuracion = player.getCurrentTime();	
 		return estadoDuracion;
-	}
-	
-	public void reproducir(Duration nDuracion, double nBpm) {
-		player.seek(nDuracion);
-		bpm = Math.floor(nBpm* 10) / 10;
-		player.setRate(bpm);
-		verificarInvariante();
-		player.play();
 	}
 
 	@Override
@@ -89,7 +107,21 @@ public class Sample implements ISonido, Comparable<Sample> {
 			return 0;
 		}	
 	}
-	
+
+	@Override
+	public void actionPerformed(ActionEvent evento) {
+		String comando = evento.getActionCommand();
+		if(comando.equals(REPRODUCIRSONIDO)){
+			reproducir();
+		}
+		else if(comando.equals(PAUSARSONIDO)){
+			pausar();
+		}
+		else if(comando.equals(STOPSONIDO)){
+			stop();
+		}
+		
+	}
 	private void verificarInvariante(){
 		assert bpm>0: "El bpm debe ser mayor a cero";
 	}

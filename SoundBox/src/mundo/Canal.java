@@ -1,5 +1,8 @@
 package mundo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javafx.util.Duration;
 import Lista.Lista;
 
@@ -9,20 +12,25 @@ import Lista.Lista;
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Canal implements ISonido {
+public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 	public static final String DEFAULT = "Sin Nombre";
+	public static final String REPRODUCIRCANALES = "ReproducirCanales";
 	private Lista <Sample> sonidos;
 	private String nombre;
+	private int id;
+	private double bpm;
 	
 
 	public Canal(String nNombre){
 		nombre = nNombre;
 		sonidos = new Lista<Sample>();
+		bpm = 1.0;
 	}
 	
 	public Canal(){
 		nombre = DEFAULT;
 		sonidos = new Lista<Sample>();
+		bpm = 1.0;
 	}
 
 	/**
@@ -43,7 +51,7 @@ public class Canal implements ISonido {
 	}
 
 	public Sample[] darSonidos(){
-		return null;
+		return (Sample[]) sonidos.darArreglo();
 	}
 
 	/**
@@ -51,19 +59,24 @@ public class Canal implements ISonido {
 	 * @param Sample
 	 */
 	public Sample eliminarSonido(Sample nSample){
-		return null;
+		sonidos.eliminar(nSample);
+		return nSample;
 	}
 
 	@Override
 	public Duration darDuracion() {
-		// TODO Auto-generated method stub
-		return null;
+		Sample[] recorrido = (Sample[]) sonidos.darArreglo();
+		double duracion = 0;
+		for(int i = 0; i< recorrido.length;i++){
+			duracion+=recorrido[i].darDuracion().toSeconds();
+		}
+		Duration respuesta = new Duration(duracion);
+		return respuesta;
 	}
 
 	@Override
 	public String darNombre() {
-		// TODO Auto-generated method stub
-		return null;
+		return nombre;
 	}
 
 	@Override
@@ -73,15 +86,27 @@ public class Canal implements ISonido {
 	}
 
 	@Override
-	public void reproducir(Duration nDuracion, double bpm) {
+	public void stop() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void stop() {
+	public void reproducir() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		
+	}
+
+	@Override
+	public int compareTo(Canal o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

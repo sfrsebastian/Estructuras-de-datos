@@ -24,7 +24,7 @@ public interface ISonido {
 	 * @param Duration
 	 * @param bpm
 	 */
-	public void reproducir(Duration nDuracion, double nBpm);
+	public void reproducir();
 
 	public void stop();
 
