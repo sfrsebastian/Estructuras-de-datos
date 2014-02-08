@@ -17,7 +17,7 @@ public interface ISonido {
 
 	public String darNombre();
 
-	public Duration pausar();
+	public void pausar();
 
 	/**
 	 * 

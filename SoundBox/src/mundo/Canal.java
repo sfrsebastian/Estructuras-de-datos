@@ -3,6 +3,8 @@ package mundo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import Lista.Lista;
 
@@ -13,24 +15,34 @@ import Lista.Lista;
  * @created 04-Feb-2014 11:09:35 PM
  */
 public class Canal implements ISonido, ActionListener,Comparable<Canal> {
-	public static final String DEFAULT = "Sin Nombre";
-	public static final String REPRODUCIRCANALES = "ReproducirCanales";
+	public static final String AUMENTAR_BPM = "+";
+	public static final String DISMINUIR_BPM = "-";
+	public static final String PLAY = "Play";
+	public static final String PAUSE = "Pause";
+	public static final String STOP = "Stop";
+	private static final String DEFAULT = "Sin Nombre";
+	
 	private Lista <Sample> sonidos;
 	private String nombre;
-	private int id;
 	private double bpm;
-	
+	private int sonidoActual;
+	private boolean termino;
+	private MediaPlayer player;
 
 	public Canal(String nNombre){
 		nombre = nNombre;
 		sonidos = new Lista<Sample>();
 		bpm = 1.0;
+		sonidoActual = 0;
+		termino = false;
 	}
 	
 	public Canal(){
 		nombre = DEFAULT;
 		sonidos = new Lista<Sample>();
 		bpm = 1.0;
+		sonidoActual = 0;
+		termino = false;
 	}
 
 	/**
@@ -43,7 +55,15 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 	}
 
 	public void aumentarBpm(){
-		
+		bpm+=0.1;
+		bpm = Math.floor(bpm * 10) / 10;
+		player.setRate(bpm);
+	}
+	
+	public void disminuirBpm(){
+		bpm-=0.1;
+		bpm = Math.floor(bpm * 10) / 10;
+		player.setRate(bpm);
 	}
 	/**
 	 * 
@@ -68,10 +88,10 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 
 	@Override
 	public Duration darDuracionTotal() {
-		Sample[] recorrido = (Sample[]) sonidos.darArreglo();
+		Object[] recorrido = sonidos.darArreglo();
 		double duracion = 0;
 		for(int i = 0; i< recorrido.length;i++){
-			duracion+=recorrido[i].darDuracionTotal().toSeconds();
+			duracion+=((Sample)recorrido[i]).darDuracion().toSeconds();
 		}
 		Duration respuesta = new Duration(duracion);
 		return respuesta;
@@ -83,38 +103,75 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 	}
 
 	@Override
-	public Duration pausar() {
-		// TODO Auto-generated method stub
-		return null;
+	public void pausar() {
+		player.pause();
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		
+		player.stop();
+		sonidoActual = 0;
 	}
 
-	@Override
 	public void reproducir() {
-		// TODO Auto-generated method stub
-		
+		Object[] lista = sonidos.darArreglo();
+		if(sonidoActual>=lista.length){
+			termino = true;
+		}
+		if(!termino){
+			Sample reproduciendo = (Sample)lista[sonidoActual];
+			inicializarPlayer(reproduciendo.darMedia());
+			player.play();
+			player.setOnEndOfMedia(new Runnable(){
+				public void run() {
+					sonidoActual++;
+					reproducir();
+				}
+			});	
+		}
+		else{
+			sonidoActual = 0;
+			termino = false;
+		}
+	}
+
+	
+	private void inicializarPlayer(Media reproduciendo) {
+		player = new MediaPlayer(reproduciendo);
+		player.setRate(bpm);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		
+		String comando  = e.getActionCommand();
+		if(comando.equals(AUMENTAR_BPM)){
+			aumentarBpm();
+		}
+		else if(comando.equals(DISMINUIR_BPM)){
+			disminuirBpm();
+		}
+		else if(comando.equals(PLAY)){
+			reproducir();
+		}
+		else if(comando.equals(PAUSE)){
+			pausar();
+		}
+		else{
+			stop();
+		}
 	}
 
 	@Override
-	public int compareTo(Canal o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void notificarFin(int nId) {
-		// TODO Auto-generated method stub
-		
+	public int compareTo(Canal aComparar) {
+		if(nombre.compareTo(aComparar.darNombre())<0){
+			return -1;
+		}
+		else if(nombre.compareTo(aComparar.darNombre())>0){
+			return 1;
+		}
+		else{
+			return 0;
+		}	
 	}
 
 }

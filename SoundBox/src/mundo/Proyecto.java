@@ -15,7 +15,6 @@ public class Proyecto implements Comparable <Proyecto> {
 	private static final String RUTA_GUARDADO = "./data/Proyectos/";
 	private String autor;
 	private String nombre;
-	private double bpm;
 	private Lista <Canal> canales;
 	private Duration duracion;
 	private Date fechaCreacion;
@@ -23,7 +22,6 @@ public class Proyecto implements Comparable <Proyecto> {
 	public Proyecto(String nAutor, String nNombre, int numCanales){
 		autor = nAutor;
 		nombre = nNombre;
-		bpm = 1.0;
 		canales = new Lista <Canal>();
 		for(int i = 0; i<numCanales;i++){
 			canales.agregar(new Canal());
@@ -72,18 +70,6 @@ public class Proyecto implements Comparable <Proyecto> {
 
 	public Sample agregarSonidoACanal(Sample nSonido, Canal nCanal){
 		return nCanal.agregarSonido(nSonido);
-	}
-
-	/**
-	 * 
-	 * @param nBpm    d
-	 */
-	public void aumentarBpm(){
-		notificarCanalesBpm(bpm);
-	}
-
-	public void disminuirBpm(){
-		notificarCanalesBpm();
 	}
 
 	public  String darNombre() {
