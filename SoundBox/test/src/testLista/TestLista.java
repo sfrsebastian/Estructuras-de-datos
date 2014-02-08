@@ -67,7 +67,7 @@ public class TestLista extends TestCase{
 		listaPrueba.agregar(new Enfermera("a", 1, "hola"));
 		assertNotNull("Se debio agregar un nuevo elemento", listaPrueba.buscar(new Enfermera("a", 1, "hola")));
 		
-		assertFalse("No se debio poder anadir null", listaPrueba.agregar(null));
+		assertNull("No se debio poder anadir null", listaPrueba.agregar(null));
 	}
 	
 	public void testAgregarElemento2(){
