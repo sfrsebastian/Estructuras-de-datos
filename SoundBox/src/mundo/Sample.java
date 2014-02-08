@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import Lista.Lista;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -24,27 +25,24 @@ public class Sample implements ISonido, Comparable<Sample>, ActionListener {
 	private File archivo;
 	private double bpm;
 	private MediaPlayer player;
-	private Categoria categoria;
+	private Lista <Categoria> categorias;
 	private Duration estadoDuracion;
-	private int id;
-	private Canal canal;
 	
-	public Sample(File f, Categoria nCategoria,int nId,Canal nCanal){
+	public Sample(File f, Categoria nCategoria){
 		JFXPanel fxPanel = new JFXPanel();
-		bpm = 1.0;	
-		categoria = nCategoria;
+		bpm = 1.0;
+		categorias = new Lista <Categoria>();
+		categorias.agregar(nCategoria);
 		archivo = f;
 		nombre = archivo.getName();
 		estadoDuracion = new Duration(0);
 		Media sample = new Media(archivo.toURI().toString());
 		player= new MediaPlayer(sample);
-		id = nId;
-		canal = nCanal;
 		verificarInvariante();
 	}
 
 	@Override
-	public Duration darDuracion() {
+	public Duration darDuracionTotal() {
 		return player.getTotalDuration();
 	}
 
@@ -66,21 +64,33 @@ public class Sample implements ISonido, Comparable<Sample>, ActionListener {
 		return bpm;
 	}
 	
-	public double cambiarBpm(double nBpm){
-		bpm = Math.floor(nBpm* 10) / 10;
+	public double aumentarBpm(){
+		bpm+=0.1;
+		bpm = Math.floor(bpm * 10) / 10;
+		player.setRate(bpm);
 		return bpm;
 	}
-	public Categoria darCategoria(){
-		return categoria;
+	
+	public double disminuirBpm(){
+		bpm-=0.1;
+		bpm = Math.floor(bpm * 10) / 10;
+		player.setRate(bpm);
+		return bpm;
+	}
+	public Categoria[] darCategoria(){
+		return (Categoria[]) categorias.darArreglo();
 	}
 	
-	public Categoria cambiarCategoria(Categoria nCategoria){
-		categoria = nCategoria;
-		return nCategoria;
+	public Categoria agregarCategoria(Categoria nCategoria){
+		return categorias.agregar(nCategoria);
 	}
 	
+	public Categoria eliminarCategoria(Categoria categoria) {
+		return categorias.eliminar(categoria);	
+	}
+
 	public void reproducir() {
-		player.play();
+		
 	}
 	
 	@Override

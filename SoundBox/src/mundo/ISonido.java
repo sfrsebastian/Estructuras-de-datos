@@ -13,7 +13,7 @@ import javafx.util.Duration;
  */
 public interface ISonido {
 	
-	public Duration darDuracion();
+	public Duration darDuracionTotal();
 
 	public String darNombre();
 

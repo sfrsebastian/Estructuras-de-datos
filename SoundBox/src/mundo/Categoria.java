@@ -10,8 +10,8 @@ import ListaOrdenada.ListaOrdenada;
  */
 public class Categoria implements Comparable<Categoria> {
 
-	private String nombre;
 	private static final String SIN_CATEGORIA = "Sin Categoria";
+	private String nombre;
 	private ListaOrdenada<Sample> sonidos;
 
 	public Categoria(String nNombre){	
@@ -49,6 +49,13 @@ public class Categoria implements Comparable<Categoria> {
 		}
 		else{
 			return 0;
+		}
+	}
+
+	public void eliminarDeSonidos() {
+		Sample[] lista = (Sample[]) sonidos.darElementos();
+		for(int i = 0; i<lista.length;i++){
+			lista[i].eliminarCategoria(this);
 		}
 	}
 

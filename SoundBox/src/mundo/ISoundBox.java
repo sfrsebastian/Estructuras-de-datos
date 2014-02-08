@@ -57,14 +57,14 @@ public interface ISoundBox {
 	 * @param nAutor El autor del proyecto que se quiere buscar <br>
 	 * @return El proyecto encontrado, null en caso contrario
 	 */
-	public File buscarProyectoPorAutor(String nAutor);
+	public Proyecto buscarProyectoPorAutor(String nAutor);
 
 	/**
 	 * Busca el proyecto con el nombre dado por parametro <br>
 	 * @param nNombre El nombre del proyecto que se quiere buscar <br>
 	 * @return Proyecto: El proyecto encontrado, null en caso contrario
 	 */
-	public File buscarProyectoPorNombre(String nNombre);
+	public Proyecto buscarProyectoPorNombre(String nNombre);
 	
 	/**
 	 * Crea un nuevo proyecto con un autor, nombre y numero inicial de canales 
@@ -132,9 +132,11 @@ public interface ISoundBox {
 
 	public Canal agregarSonidosACanal(Sample[] nSonidos, Canal nCanal);
 
-	public ListaOrdenada<Sample> filtrarSonidosPorCategoria(Categoria nCategoria);
+	public Sample[] filtrarSonidosPorCategoria(Categoria nCategoria);
 
 	public Sample[] darSonidos();
+
+	boolean agregarSonidosALibreria(File[] nSonidos);
 
 
 

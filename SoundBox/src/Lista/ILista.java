@@ -13,7 +13,7 @@ public interface ILista<T> {
 	 * @param elemento El elemento para agregar de tipo T
 	 * @return True en caso de exito, False de lo contrario.
 	 */
-	public boolean agregar(T elemento);
+	public T agregar(T elemento);
 	
 	/**
 	 * Busca el elemento de tipo T en la lista

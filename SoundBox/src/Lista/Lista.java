@@ -45,10 +45,10 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 		return longitud;
 	}
 
-	@Override
-	public boolean agregar(T elemento) {
+
+	public T agregar(T elemento) {
 		if(elemento == null)
-			return false;
+			return null;
 		
 		if(primero == null){
 			NodoLista<T> aAgregar = new NodoLista<T>(elemento);
@@ -61,7 +61,7 @@ public class Lista<T extends Comparable<T>> implements ILista<T> {
 			ultimo = nuevo;
 			longitud++;
 		}
-		return true;
+		return elemento;
 	}
 
 	@Override

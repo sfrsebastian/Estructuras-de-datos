@@ -42,6 +42,9 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 		return nSample;
 	}
 
+	public void aumentarBpm(){
+		
+	}
 	/**
 	 * 
 	 * @param Sample
@@ -64,11 +67,11 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 	}
 
 	@Override
-	public Duration darDuracion() {
+	public Duration darDuracionTotal() {
 		Sample[] recorrido = (Sample[]) sonidos.darArreglo();
 		double duracion = 0;
 		for(int i = 0; i< recorrido.length;i++){
-			duracion+=recorrido[i].darDuracion().toSeconds();
+			duracion+=recorrido[i].darDuracionTotal().toSeconds();
 		}
 		Duration respuesta = new Duration(duracion);
 		return respuesta;
@@ -107,6 +110,11 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 	public int compareTo(Canal o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void notificarFin(int nId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
