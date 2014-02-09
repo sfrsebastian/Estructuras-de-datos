@@ -13,7 +13,7 @@ import ListaOrdenada.ListaOrdenada;
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Reproductor {//implements ISoundBox {
+public class Reproductor implements ISoundBox {
 
 	private static final String RUTA_PROYECTOS = "./data/Proyectos/";
 	private static final String RUTA_PROPIEDADES = "./data/reproductorProperties.rp/";
@@ -69,10 +69,12 @@ public class Reproductor {//implements ISoundBox {
 		}	
 	}
 	
+	@Override
 	public void abrirProyecto(Proyecto nProyecto){
 		proyectoActual = nProyecto;
 	}
 	
+	@Override
 	public Proyecto darProyectoActual(){
 		return proyectoActual;
 	}
@@ -81,10 +83,12 @@ public class Reproductor {//implements ISoundBox {
 	 * 
 	 * @param nCategoria
 	 */
+	@Override
 	public Sample[] filtrarSonidosPorCategoria(Categoria nCategoria){
 		return nCategoria.darSonidos();
 	}
 
+	@Override
 	public boolean agregarSonidosALibreria(File[] nSonidos){
 		Categoria vacia = new Categoria();
 		for(int i = 0; i< nSonidos.length; i++){
@@ -98,11 +102,13 @@ public class Reproductor {//implements ISoundBox {
 	 * 
 	 * @param nCategoria    s
 	 */
+	@Override
 	public Categoria agregarCategoria(Categoria nCategoria){
 		categorias.agregar(nCategoria);
 		return nCategoria;
 	}
 
+	@Override
 	public Categoria eliminarCategoria(Categoria nCategoria){
 		nCategoria.eliminarDeSonidos();
 		return categorias.eliminar(nCategoria);
@@ -112,6 +118,7 @@ public class Reproductor {//implements ISoundBox {
 	 * @param nCategoria
 	 * @param nSonido    sa
 	 */
+	@Override
 	public Categoria asignarCategoria(Categoria nCategoria, Sample nSonido){
 		nCategoria.agregarSonido(nSonido);
 		return nSonido.agregarCategoria(nCategoria);
@@ -121,6 +128,7 @@ public class Reproductor {//implements ISoundBox {
 	 * 
 	 * @param nAutor    autor
 	 */
+	@Override
 	public Proyecto buscarProyectoPorAutor(String nAutor){
 		Proyecto[] lista = (Proyecto[]) proyectos.darElementos();
 		for(int i = 0; i<lista.length;i++){
@@ -135,6 +143,7 @@ public class Reproductor {//implements ISoundBox {
 	 * 
 	 * @param nNombre    nombre
 	 */
+	@Override
 	public Proyecto buscarProyectoPorNombre(String nNombre){
 		Proyecto[] lista = (Proyecto[]) proyectos.darElementos();
 		for(int i = 0; i<lista.length;i++){
