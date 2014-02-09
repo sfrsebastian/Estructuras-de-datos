@@ -9,7 +9,6 @@ import java.util.Date;
 
 import javafx.util.Duration;
 import Lista.Lista;
-import ListaOrdenada.ListaOrdenada;
 
 public class Proyecto implements Comparable <Proyecto> {
 	private static final String RUTA_GUARDADO = "./data/Proyectos/";
@@ -67,11 +66,7 @@ public class Proyecto implements Comparable <Proyecto> {
 		}
 		return nCanal;
 	}
-
-	public Sample agregarSonidoACanal(Sample nSonido, Canal nCanal){
-		return nCanal.agregarSonido(nSonido);
-	}
-
+	
 	public  String darNombre() {
 		return nombre;
 	}
@@ -91,27 +86,16 @@ public class Proyecto implements Comparable <Proyecto> {
 	}
 
 	public Duration darDuracion() {
+		Object[] lista  = canales.darArreglo();
+		double segundos = 0.0;
+		for(int i = 0; i<lista.length;i++){
+			Canal actual = (Canal)lista[i];
+			segundos+=actual.darDuracionTotal().toSeconds();
+		}
+		duracion = new Duration(segundos);
 		return duracion;
 	}
-
-	public double darBpm() {
-		return bpm;
-	}
-	/**
-	 * 
-	 * @param nDuracion    d
-	 */
-	public void reproducir(Duration nDuracion){
-		
-	}
-
-	public void pausar(){
-		
-	}
-
-	public void stop(){
-
-	}
+	
 	@Override
 	public int compareTo(Proyecto nProyecto) {
 		if(nombre.compareTo(nProyecto.darNombre())<0){

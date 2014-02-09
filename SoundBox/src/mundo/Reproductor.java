@@ -2,15 +2,8 @@ package mundo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Calendar;
-import java.util.Date;
 
-import javafx.util.Duration;
-import Lista.Lista;
 import ListaOrdenada.ListaOrdenada;
 
 
@@ -24,16 +17,16 @@ public class Reproductor {//implements ISoundBox {
 
 	private static final String RUTA_PROYECTOS = "./data/Proyectos/";
 	private static final String RUTA_PROPIEDADES = "./data/reproductorProperties.rp/";
-	private Proyecto proyectoActual;
 	private ListaOrdenada <Proyecto> proyectos;
 	private ListaOrdenada <Categoria> categorias;
 	private ListaOrdenada <Sample> sonidos;
-	
+	private Proyecto proyectoActual;
 	public Reproductor(){
 		proyectoActual = null;
 		cargarPropiedades();
 		cargarProyectos();
 	}
+	@SuppressWarnings("unchecked")
 	private void cargarPropiedades() {
 		File propiedades = new File(RUTA_PROPIEDADES);
 		if(propiedades.exists()){
@@ -78,6 +71,10 @@ public class Reproductor {//implements ISoundBox {
 	
 	public void abrirProyecto(Proyecto nProyecto){
 		proyectoActual = nProyecto;
+	}
+	
+	public Proyecto darProyectoActual(){
+		return proyectoActual;
 	}
 	/**
 	 * @param String
