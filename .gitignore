@@ -43,7 +43,7 @@ local.properties
 *.launch
 .buildpath
 .rej
-.class
+*.class
 
 # phpstorm
 .idea/
