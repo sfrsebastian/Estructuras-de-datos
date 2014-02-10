@@ -6,8 +6,11 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+
+import mundo.Canal;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -38,9 +41,13 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String canalAEliminar = (String) comboCanales.getSelectedItem();
-					padre.eliminarCanal(canalAEliminar);
-					inicializarComboBox(comboCanales);
+					Canal canalAEliminar = (Canal) comboCanales.getSelectedItem();
+					if(canalAEliminar.equals("No hay canales")){
+						mostrarError("No hay canal a eliminar");
+					}else{
+						padre.eliminarCanal(canalAEliminar);
+						inicializarComboBox(comboCanales);
+					}
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -67,7 +74,11 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String canal = txtNombre.getText();
+					if(canal.equals("")){
+						mostrarError("Debe llenar el campo");
+					}else{
 					padre.agregarCanal(canal);
+					}
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -78,10 +89,20 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 	}
 	
 	public void inicializarComboBox(JComboBox caja){
-		String[] nombreCanales = padre.darCanales();
-		for (String string : nombreCanales) {
-			comboCanales.addItem(string);
+		caja.removeAll();
+		
+		Object[] canales = padre.darCanales();
+		if(canales != null){
+			for (Object canal : canales) {
+				comboCanales.addItem(canal);
+			}
+		}else{
+			comboCanales.addItem("No hay canales");
 		}
+	}
+	
+	public void mostrarError(String error){
+		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public void setPadre(InterfazCupiSoundBox interfaz){
