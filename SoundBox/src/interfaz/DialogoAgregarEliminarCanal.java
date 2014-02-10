@@ -74,7 +74,11 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String canal = txtNombre.getText();
+					if(canal.equals("")){
+						mostrarError("Debe llenar el campo");
+					}else{
 					padre.agregarCanal(canal);
+					}
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
