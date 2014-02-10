@@ -2,13 +2,19 @@ package interfaz;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextField;
+
+import mundo.Canal;
 
 public class PanelProyecto extends JPanel {
 
@@ -25,29 +31,17 @@ public class PanelProyecto extends JPanel {
 		add(lblNewLabel);
 		
 		JButton btnPausar = new JButton("Pausar");
-		btnPausar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				padre.pausar();
-			}
-		});
+		btnPausar.setActionCommand(Canal.PAUSE);
 		btnPausar.setBounds(204, 387, 117, 29);
 		add(btnPausar);
 		
 		JButton btnReproducir = new JButton("Reproducir");
-		btnReproducir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				padre.reproducir();
-			}
-		});
+		btnReproducir.setActionCommand(Canal.PLAY);
 		btnReproducir.setBounds(333, 387, 117, 29);
 		add(btnReproducir);
 		
 		JButton btnParar = new JButton("Parar");
-		btnParar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				padre.parar();
-			}
-		});
+		btnParar.setActionCommand(Canal.STOP);
 		btnParar.setBounds(462, 387, 117, 29);
 		add(btnParar);
 		
@@ -83,14 +77,28 @@ public class PanelProyecto extends JPanel {
 		
 		textField = new JTextField();
 		textField.setBounds(48, 388, 51, 28);
+		textField.setEditable(false);
 		add(textField);
 		textField.setColumns(10);
 		
 		JButton btnAumentar = new JButton("+");
+		btnAumentar.setActionCommand(Canal.AUMENTAR_BPM);
+		btnAumentar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText(padre.darBPM());
+				
+			}
+		});		
 		btnAumentar.setBounds(100, 389, 51, 29);
 		add(btnAumentar);
 		
 		JButton btnDisminuir = new JButton("-");
+		btnDisminuir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText(padre.darBPM());
+				
+			}
+		});	
 		btnDisminuir.setBounds(146, 389, 51, 29);
 		add(btnDisminuir);
 	}
