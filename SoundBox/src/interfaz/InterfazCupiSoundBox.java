@@ -12,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import mundo.Canal;
 import mundo.Proyecto;
 import mundo.Reproductor;
 
@@ -35,8 +36,6 @@ public class InterfazCupiSoundBox extends JFrame{
 	private Reproductor reproductor;
 	private PanelProyectosGuardados panelProyectosGuardados;
 	private PanelProyecto panelProyecto;
-	
-	private Proyecto proyectoActual;
 	
 	//------------------------------------
 	// Constructor
@@ -163,7 +162,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public void pausar() {
-		// TODO Auto-generated method stub
+		//TODO  pausar 
 	}
 	
 	public void reproducir(){
@@ -174,8 +173,15 @@ public class InterfazCupiSoundBox extends JFrame{
 		//TODO parar
 	}
 
+	/**
+	 * 
+	 * @param nombre
+	 * @param autor
+	 */
 	public void editarProyecto(String nombre, String autor) {
-		// TODO Auto-generated method stub
+		Proyecto proyecto = reproductor.darProyectoActual();
+		proyecto.cambiarAutor(autor);
+		proyecto.cambiarNombre(nombre);
 	}
 
 	public void filtrarProyectos(String filtro, String combo) {
@@ -191,6 +197,11 @@ public class InterfazCupiSoundBox extends JFrame{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public double darBPM(){
+		//return reproductor.darProyectoActual().darBPM();
+		return 0;
+	}
 
 	public String[] darCategorias() {
 		// TODO Auto-generated method stub
@@ -204,24 +215,31 @@ public class InterfazCupiSoundBox extends JFrame{
 		
 	}
 
-	public String[] darCanales() {
-		String[] hola = {"cat1","cat2","cat3","cat4"};
-		return hola;
+	public Object[] darCanales() {
+//		Object[] canales = reproductor.darProyectoActual().darCanales();
+//		return canales;
+		return null;
 	}
 
-	public void eliminarCanal(String canalAEliminar) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * 
+	 * @param canalAEliminar
+	 */
+	public void eliminarCanal(Canal canalAEliminar) {
+		reproductor.darProyectoActual().eliminarCanal(canalAEliminar);
 	}
 
+	/**
+	 * 
+	 * @param canal
+	 */
 	public void agregarCanal(String canal) {
-		// TODO Auto-generated method stub
-		
+		reproductor.darProyectoActual().agregarCanal(new Canal(canal));
 	}
 
 	public String[] darSonidos() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] hola = {"cat1","cat2","cat3","cat4"};
+		return hola;
 	}
 
 	public void filtrarSonidos(String tipoFiltro, String filtro) {
@@ -231,7 +249,6 @@ public class InterfazCupiSoundBox extends JFrame{
 
 	public void escogerArchivo() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void escogerCarpeta() {
