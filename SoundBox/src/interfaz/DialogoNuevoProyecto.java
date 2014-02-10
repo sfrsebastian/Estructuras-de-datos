@@ -15,7 +15,6 @@ public class DialogoNuevoProyecto extends JDialog {
 
 	private InterfazCupiSoundBox padre;
 	private JTextField txtNombre;
-	private JTextField txtBPM;
 	private JTextField txtAutor;
 	private JTextField txtCanales;
 	private JButton botonCrearProyecto;
@@ -38,11 +37,6 @@ public class DialogoNuevoProyecto extends JDialog {
 		JLabel lblBpm = new JLabel("BPM:");
 		lblBpm.setBounds(6, 55, 61, 16);
 		getContentPane().add(lblBpm);
-		
-		txtBPM = new JTextField();
-		txtBPM.setBounds(98, 49, 146, 28);
-		getContentPane().add(txtBPM);
-		txtBPM.setColumns(10);
 		
 		JLabel lblAutor = new JLabel("Autor:");
 		lblAutor.setBounds(6, 89, 61, 16);
@@ -67,14 +61,13 @@ public class DialogoNuevoProyecto extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					String nombre = txtNombre.getText();
-					int bpm = Integer.parseInt(txtBPM.getText());
 					String autor = txtAutor.getText();
 					int canales = Integer.parseInt(txtCanales.getText());
 					
 					if(nombre.equals("") || autor.equals("") ){
 						mostrarError("Debe llenar todos los campos");
 					}else{
-						padre.crearProyecto(nombre, bpm, autor, canales);
+						padre.crearProyecto(nombre, autor, canales);
 						dismissSelf();
 					}
 					

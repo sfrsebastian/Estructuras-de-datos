@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import mundo.Canal;
 import mundo.Proyecto;
 import mundo.Reproductor;
+import mundo.Sample;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
+
+import org.omg.CORBA.RepositoryIdHelper;
 
 public class InterfazCupiSoundBox extends JFrame{
 
@@ -37,6 +40,8 @@ public class InterfazCupiSoundBox extends JFrame{
 	private PanelProyectosGuardados panelProyectosGuardados;
 	private PanelProyecto panelProyecto;
 	
+	private Proyecto proyectoActual;
+	
 	//------------------------------------
 	// Constructor
 	//------------------------------------
@@ -44,6 +49,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	public InterfazCupiSoundBox(){
 		
 		reproductor = new Reproductor();
+		proyectoActual = reproductor.darProyectoActual();
 		
 		setSize(800, 500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -137,28 +143,27 @@ public class InterfazCupiSoundBox extends JFrame{
 		this.dispose();
 	}
 	
-	public void crearProyecto(String nombre, int bpm, String autor, int canales){
-		//TODO agregar un nuevo proyecto
+	public boolean tieneProyecto(){
+		return (proyectoActual == null) ? false : true;
 	}
 	
+	//------------------------------------
+	
+	/**
+	 * 
+	 * @param nombre
+	 * @param autor
+	 * @param canales
+	 */
+	public void crearProyecto(String nombre, String autor, int canales){
+		//proyectoActual = reproductor.agregarProyecto(nombre,autor,canales);
+	}
+	
+	/**
+	 * Guarda el proecto actual
+	 */
 	public void salvarProyecto(){
-		//TODO guardar proyecto
-	}
-	
-	//------------------------------------
-	// Action Listener
-	//------------------------------------
-	
-	
-	
-	//------------------------------------
-	// Main
-	//------------------------------------
-	
-	public static void main(String[] args) {
-		InterfazCupiSoundBox interfaz = new InterfazCupiSoundBox();
-		self = interfaz;
-		interfaz.setVisible(true);
+		reproductor.darProyectoActual().guardarProyecto();
 	}
 
 	public void pausar() {
@@ -174,9 +179,9 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	/**
-	 * 
-	 * @param nombre
-	 * @param autor
+	 * Edita el proyecto dado un nombre y autor dados por parametro
+	 * @param nombre El nombre del proyecto
+	 * @param autor El autor del proyecto
 	 */
 	public void editarProyecto(String nombre, String autor) {
 		Proyecto proyecto = reproductor.darProyectoActual();
@@ -204,10 +209,10 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public String[] darCategorias() {
-		// TODO Auto-generated method stub
-		//return null;
-		String[] hola = {"cat1","cat2","cat3","cat4"};
-		return hola;
+			// TODO Auto-generated method stub
+			//return null;
+			String[] hola = {"cat1","cat2","cat3","cat4"};
+			return hola;
 	}
 
 	public void filtrarCategorias(String filtro) {
@@ -237,9 +242,9 @@ public class InterfazCupiSoundBox extends JFrame{
 		reproductor.darProyectoActual().agregarCanal(new Canal(canal));
 	}
 
-	public String[] darSonidos() {
-		String[] hola = {"cat1","cat2","cat3","cat4"};
-		return hola;
+	public Sample[] darSonidos() {
+		//return reproductor.darSonidos();
+		return null;
 	}
 
 	public void filtrarSonidos(String tipoFiltro, String filtro) {
@@ -259,5 +264,15 @@ public class InterfazCupiSoundBox extends JFrame{
 	public void agregarSonidoACanal(String sonido) {
 		// TODO Auto-generated method stub
 		//Ni idea!!!!!!!!!!!!!!!!!!!
+	}
+	
+	//------------------------------------
+	// Main
+	//------------------------------------
+	
+	public static void main(String[] args) {
+		InterfazCupiSoundBox interfaz = new InterfazCupiSoundBox();
+		self = interfaz;
+		interfaz.setVisible(true);
 	}
 }

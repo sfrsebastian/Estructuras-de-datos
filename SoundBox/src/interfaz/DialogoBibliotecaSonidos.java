@@ -20,6 +20,8 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import mundo.Sample;
+
 public class DialogoBibliotecaSonidos extends JDialog {
 
 	//------------------------------------
@@ -169,10 +171,14 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		
 	}
 	
-	public void refrescarLista(String[] categorias){
+	public void refrescarLista(Sample[] sonidos){
 		DefaultListModel model = new DefaultListModel();
-		for (String string : categorias) {
-			model.addElement(string);
+		if(sonidos != null){
+		for (Sample sample : sonidos) {
+			model.addElement(sample);
+		}
+		}else{
+			model.addElement("No hay sonidos");
 		}
 		listaSonidos.setModel(model);
 	}

@@ -42,14 +42,10 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Canal canalAEliminar = (Canal) comboCanales.getSelectedItem();
-					if(canalAEliminar.equals("No hay canales")){
-						mostrarError("No hay canal a eliminar");
-					}else{
 						padre.eliminarCanal(canalAEliminar);
 						inicializarComboBox(comboCanales);
-					}
 				} catch (Exception e2) {
-					// TODO: handle exception
+					mostrarError("No hay canal para eliminar");
 				}
 			}
 		});
@@ -77,10 +73,12 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 					if(canal.equals("")){
 						mostrarError("Debe llenar el campo");
 					}else{
-					padre.agregarCanal(canal);
+						padre.agregarCanal(canal);
+						salir();
 					}
 				} catch (Exception e2) {
 					// TODO: handle exception
+					e2.printStackTrace();
 				}
 			}
 		});
@@ -108,5 +106,9 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 	public void setPadre(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
 		inicializarComboBox(comboCanales);
+	}
+	
+	private void salir(){
+		this.dispose();
 	}
 }

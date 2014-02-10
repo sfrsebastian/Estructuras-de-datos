@@ -7,6 +7,7 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
@@ -48,9 +49,11 @@ public class PanelProyecto extends JPanel {
 		JButton btnOpciones = new JButton("Opciones");
 		btnOpciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				DialogoOpcionesProyecto dialogoOpcionesProyecto = new DialogoOpcionesProyecto();
 				dialogoOpcionesProyecto.setPadre(padre);
 				dialogoOpcionesProyecto.setVisible(true);
+
 			}
 		});
 		btnOpciones.setBounds(333, 32, 117, 29);
@@ -59,9 +62,14 @@ public class PanelProyecto extends JPanel {
 		JButton btnCanal = new JButton("+/- Canal");
 		btnCanal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!padre.tieneProyecto()){
+					mostrarError("No hay proyecto abierto");
+				}
+				else{
 				DialogoAgregarEliminarCanal dialogoAgregarEliminarCanal = new DialogoAgregarEliminarCanal();
 				dialogoAgregarEliminarCanal.setPadre(padre);
 				dialogoAgregarEliminarCanal.setVisible(true);
+				}
 			}
 		});
 		btnCanal.setBounds(462, 32, 117, 29);
@@ -85,7 +93,7 @@ public class PanelProyecto extends JPanel {
 		btnAumentar.setActionCommand(Canal.AUMENTAR_BPM);
 		btnAumentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(padre.darBPM());
+				textField.setText("" + padre.darBPM());
 				
 			}
 		});		
@@ -95,7 +103,7 @@ public class PanelProyecto extends JPanel {
 		JButton btnDisminuir = new JButton("-");
 		btnDisminuir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(padre.darBPM());
+				textField.setText("" + padre.darBPM());
 				
 			}
 		});	
@@ -105,5 +113,9 @@ public class PanelProyecto extends JPanel {
 	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
+	}
+	
+	public void mostrarError(String error){
+		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
 	}
 }
