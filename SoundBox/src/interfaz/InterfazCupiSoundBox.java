@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import mundo.Canal;
+import mundo.Categoria;
 import mundo.Proyecto;
 import mundo.Reproductor;
 import mundo.Sample;
@@ -195,9 +196,11 @@ public class InterfazCupiSoundBox extends JFrame{
 	 * @param autor El autor del proyecto
 	 */
 	public void editarProyecto(String nombre, String autor) {
-		Proyecto proyecto = reproductor.darProyectoActual();
+		Proyecto proyecto = proyectoActual;
 		proyecto.cambiarAutor(autor);
 		proyecto.cambiarNombre(nombre);
+		panelProyecto.refrescarPanel(proyectoActual);
+		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
 	}
 
 	public Proyecto filtrarProyectos(String filtro, String combo) {
@@ -210,23 +213,24 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public void agregarCategoria(String categoria) {
-		// TODO Auto-generated method stub
-		
+		reproductor.agregarCategoria(new Categoria(categoria));
 	}
 
-	public void eliminarCategoria(String categoriaEliminada) {
-		// TODO Auto-generated method stub
-		
+	public void eliminarCategoria(Categoria categoriaEliminada) {
+		reproductor.eliminarCategoria(categoriaEliminada);
 	}
 	
 	public double darBPM(){
 		//return reproductor.darProyectoActual().darBPM();
 		return 0;
 	}
+	
+	public void eliminarProyecto(){
+		//TODO eliminar proyecto!!
+	}
 
-	public String[] darCategorias() {
-		//return reproductor.darCategorias();
-		return null;
+	public Object[] darCategorias() {
+		return reproductor.darCategorias();
 	}
 
 	public void filtrarCategorias(String filtro) {
@@ -303,7 +307,9 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 	
 	public void cargarProyecto(Proyecto proyectoCargado) {
-		// TODO Auto-generated method stub
+		proyectoActual = proyectoCargado;
+		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
+		panelProyecto.refrescarPanel(proyectoActual);
 	}
 
 	//------------------------------------

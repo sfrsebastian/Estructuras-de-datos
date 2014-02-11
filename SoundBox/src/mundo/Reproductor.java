@@ -42,7 +42,7 @@ public class Reproductor implements ISoundBox {
 				ois.close();
 			}
 			catch(Exception e){
-				System.out.println("Error");
+				System.out.println("Error al cargar los sonidos - Clase Reproductor");
 			}
 		}
 	}
@@ -189,5 +189,9 @@ public class Reproductor implements ISoundBox {
 	}
 	public Object[] darSonidos() {
 		return sonidos.darElementos();
+	}
+	
+	public Object[] darCategorias() {
+		return categorias.darElementos();
 	}
 }

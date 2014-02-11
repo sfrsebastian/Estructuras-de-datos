@@ -67,7 +67,7 @@ public class PanelProyectosGuardados extends JPanel {
 						refrescarListaProyectos(proyectos);
 					}
 				}catch(Exception e2){
-
+					e2.printStackTrace();
 				}
 			}
 		});
@@ -81,7 +81,7 @@ public class PanelProyectosGuardados extends JPanel {
 					Proyecto proyectoCargado = (Proyecto)listaProyectos.getSelectedValue();
 					padre.cargarProyecto(proyectoCargado);
 				} catch (Exception e) {
-					// TODO: handle exception
+					mostrarError("No hay proyecto valido seleccionado");
 				}
 			}
 		});

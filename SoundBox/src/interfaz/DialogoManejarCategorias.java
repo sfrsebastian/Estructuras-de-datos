@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
 
+import mundo.Categoria;
+
 public class DialogoManejarCategorias extends JDialog {
 
 	private InterfazCupiSoundBox padre;
@@ -105,8 +107,10 @@ public class DialogoManejarCategorias extends JDialog {
 					String categoria = txtNombreCat.getText();
 					if(categoria.equals(""))
 						mostrarError("Debe llenar el campo");
-					else
+					else{
 						padre.agregarCategoria(categoria);
+						refrescarLista(padre.darCategorias());
+					}
 					
 				}catch(Exception e1)
 				{
@@ -117,24 +121,25 @@ public class DialogoManejarCategorias extends JDialog {
 		btnEliminarCat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					String categoriaEliminada = (String) listaCategorias.getSelectedValue();
+					Categoria categoriaEliminada = (Categoria) listaCategorias.getSelectedValue();
 					padre.eliminarCategoria(categoriaEliminada);
 					refrescarLista(padre.darCategorias());
 					//May fail badly
 				}catch(Exception e1){
-
+					e1.printStackTrace();
 				}
 			}
 		});
 	}
 	
-	public void refrescarLista(String[] categorias){
+	public void refrescarLista(Object[] categorias){
 		listaCategorias.removeAll();
 		DefaultListModel model = new DefaultListModel();
-		if(categorias != null){
-		for (String string : categorias) {
-			model.addElement(string);
-		}
+		if(categorias.length != 0){
+			for (int i = 0; i < categorias.length; i++) {
+				Categoria categoria = (Categoria)categorias[i];
+				model.addElement(categoria);
+			}
 		listaCategorias.setModel(model);
 		}else{
 			model.addElement("No hay categorias");

@@ -45,8 +45,13 @@ public class DialogoOpcionesProyecto extends JDialog {
 				try{
 					String nombre = txtNombre.getText();
 					String autor = txtAutor.getText();
-					padre.editarProyecto(nombre,autor);
-					
+					if(nombre.equals("") || autor.equals("")){
+						mostrarError("Debe llenar los campos");
+					}else{	
+						padre.editarProyecto(nombre,autor);
+						dismissSelf();
+					}
+
 				}catch(Exception e1){
 					mostrarError("Debe llenar los campos correctamente");
 				}
@@ -59,6 +64,10 @@ public class DialogoOpcionesProyecto extends JDialog {
 	
 	public void mostrarError(String error){
 		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void dismissSelf(){
+		this.dispose();
 	}
 	
 	public void setPadre(InterfazCupiSoundBox interfaz){

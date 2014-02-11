@@ -51,10 +51,13 @@ public class PanelProyecto extends JPanel {
 		JButton btnOpciones = new JButton("Opciones");
 		btnOpciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				if(padre.tieneProyecto()){
 				DialogoOpcionesProyecto dialogoOpcionesProyecto = new DialogoOpcionesProyecto();
 				dialogoOpcionesProyecto.setPadre(padre);
 				dialogoOpcionesProyecto.setVisible(true);
+				}else{
+					mostrarError("No hay proyecto actual");
+				}
 
 			}
 		});
@@ -113,15 +116,15 @@ public class PanelProyecto extends JPanel {
 		add(btnDisminuir);
 	}
 	
+	public void mostrarError(String error){
+		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
 	}
 	
 	public void refrescarPanel(Proyecto proyectoActual){
 		lblInformacion.setText(proyectoActual.toString());
-	}
-	
-	public void mostrarError(String error){
-		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
 	}
 }

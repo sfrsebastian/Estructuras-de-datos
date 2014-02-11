@@ -60,5 +60,9 @@ public class Categoria implements Comparable<Categoria>,Serializable {
 			lista[i].eliminarCategoria(this);
 		}
 	}
+	
+	public String toString(){
+		return nombre;
+	}
 
 }
