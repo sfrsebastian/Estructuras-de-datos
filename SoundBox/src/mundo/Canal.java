@@ -74,8 +74,8 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 		return sonidos.buscar(nSample);
 	}
 
-	public Sample[] darSonidos(){
-		return (Sample[]) sonidos.darArreglo();
+	public Object[] darSonidos(){
+		return sonidos.darArreglo();
 	}
 
 	/**

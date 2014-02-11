@@ -146,11 +146,12 @@ public class PanelProyecto extends JPanel {
 	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
-		refrescarCanales(padre.darCanales());
+		panelDibujo.setParent(padre);
+		panelDibujo.dibujarSonidos();
 	}
-	
-	public void refrescarCanales(Object[] objects){
-		panelDibujo.setCanales(objects);
+
+	public void refrescarPanelDibujo(){
+		panelDibujo.dibujarSonidos();
 	}
 	
 	public void refrescarPanel(Proyecto proyectoActual){

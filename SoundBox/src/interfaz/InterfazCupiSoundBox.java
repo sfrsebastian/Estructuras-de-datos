@@ -271,6 +271,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	 */
 	public void agregarCanal(String canal) {
 		proyectoActual.agregarCanal(new Canal(canal));
+		panelProyecto.refrescarPanelDibujo();
 	}
 
 	/**
@@ -325,6 +326,7 @@ public class InterfazCupiSoundBox extends JFrame{
 		proyectoActual = proyectoCargado;
 		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
 		panelProyecto.refrescarPanel(proyectoActual);
+		panelProyecto.refrescarPanelDibujo();
 	}
 
 	//------------------------------------
@@ -345,8 +347,8 @@ public class InterfazCupiSoundBox extends JFrame{
 		proyectoActual.agregarSonidosACanal(sonidos, canal);
 	}
 
-	public void eliminarCategoriaDeSonido(Sample sonido, Categoria cat) {
-		sonido.eliminarCategoria(cat);
+	public Categoria eliminarCategoriaDeSonido(Sample sonido, Categoria cat) {
+		return sonido.eliminarCategoria(cat);
 	}
 
 }

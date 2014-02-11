@@ -11,6 +11,7 @@ import java.awt.Dimension;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ListSelectionModel;
@@ -207,7 +208,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 					
 				} catch (Exception e) {
 					// TODO: handle exception
-					e.printStackTrace();
+					mostrarError("La categoria no es valida");
 				}
 			}
 		});
@@ -217,26 +218,31 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		JLabel lblEditarCategoriasDel = new JLabel("Editar categorias del Sonido");
 		lblEditarCategoriasDel.setBounds(191, 99, 209, 14);
 		getContentPane().add(lblEditarCategoriasDel);
-		
+
 		btnEliminarCategoria = new JButton("Eliminar Categoria del Sonido Seleccionado");
 		btnEliminarCategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
 					Sample sonido = (Sample) listaSonidos.getSelectedValue();
 					Categoria cat = (Categoria) comboCategorias.getSelectedItem();	
-					padre.eliminarCategoriaDeSonido(sonido,cat);
-					refrescar();
-					
+					if(padre.eliminarCategoriaDeSonido(sonido,cat) == null){
+						mostrarError("La categoria que se quiere eliminar no esta en este sonido");
+					}else{
+						refrescar();
+					}
 				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
+					mostrarError("Ha ocurrido un error");
 				}		
 			}
 		});
 		btnEliminarCategoria.setBounds(343, 175, 241, 23);
 		getContentPane().add(btnEliminarCategoria);
 		
+	}
+	
+	public void mostrarError(String error){
+		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public void refrescarLista(Object[] sonidos){
