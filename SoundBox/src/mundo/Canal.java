@@ -88,14 +88,14 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 	}
 
 	@Override
-	public Duration darDuracionTotal() {
+	public double darDuracionTotal() {
 		Object[] recorrido = sonidos.darArreglo();
 		double duracion = 0;
 		for(int i = 0; i< recorrido.length;i++){
-			duracion+=((Sample)recorrido[i]).darDuracion().toSeconds();
+			Media sonidoActual = new Media(((Sample)recorrido[i]).darSrc());
+			duracion+=sonidoActual.getDuration().toSeconds();
 		}
-		Duration respuesta = new Duration(duracion);
-		return respuesta;
+		return duracion;
 	}
 
 	@Override
@@ -120,8 +120,8 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 			termino = true;
 		}
 		if(!termino){
-			Sample reproduciendo = (Sample)lista[sonidoActual];
-			inicializarPlayer(reproduciendo.darMedia());
+			Media reproduciendo = new Media (((Sample)lista[sonidoActual]).darSrc());
+			inicializarPlayer(reproduciendo);
 			player.play();
 			player.setOnEndOfMedia(new Runnable(){
 				public void run() {

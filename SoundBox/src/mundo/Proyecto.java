@@ -86,15 +86,14 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 		return fechaCreacion;
 	}
 
-	public Duration darDuracion() {
+	public double darDuracion() {
 		Object[] lista  = canales.darArreglo();
 		double segundos = 0.0;
 		for(int i = 0; i<lista.length;i++){
 			Canal actual = (Canal)lista[i];
-			segundos+=actual.darDuracionTotal().toSeconds();
+			segundos+=actual.darDuracionTotal();
 		}
-		duracion = new Duration(segundos);
-		return duracion;
+		return segundos;
 	}
 	
 	@Override
