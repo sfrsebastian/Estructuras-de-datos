@@ -72,6 +72,7 @@ public class DialogoNuevoProyecto extends JDialog {
 					}
 					
 				}catch(Exception e1){
+					e1.printStackTrace();
 					mostrarError("Debe llenar todos los campos correctamente");
 				}
 			}

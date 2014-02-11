@@ -1,8 +1,9 @@
 package Lista;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 
-public class Lista<T extends Comparable<T>> implements ILista<T> {
+public class Lista<T extends Comparable<T>> implements ILista<T>, Serializable {
 
 	//------------------------------------------
 	// Atributos

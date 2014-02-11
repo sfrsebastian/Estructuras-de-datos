@@ -1,6 +1,8 @@
 package mundo;
 
 import java.io.File;
+import java.io.Serializable;
+
 import Lista.Lista;
 import javafx.scene.media.Media;
 import javafx.util.Duration;
@@ -11,7 +13,7 @@ import javafx.util.Duration;
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Sample implements Comparable<Sample> {//,ISonido{
+public class Sample implements Comparable<Sample>,Serializable {//,ISonido{
 	private String nombre;
 	private File archivo;
 	private Lista <Categoria> categorias;
@@ -70,5 +72,9 @@ public class Sample implements Comparable<Sample> {//,ISonido{
 	}
 	private void verificarInvariante(){
 		assert nombre != null && nombre != "":"Nombre incorrecto";
+	}
+	
+	public String toString(){
+		return  nombre + " - " + media.getDuration().toString();
 	}
 }

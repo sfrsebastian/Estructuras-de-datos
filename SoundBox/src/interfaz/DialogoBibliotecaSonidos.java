@@ -77,7 +77,6 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				}
 				catch(Exception e){
 					//En caso de que no hayan sonidos
-					System.out.println("Error");
 				}
 			}
 		});
@@ -172,6 +171,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		botonEscogerArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				padre.escogerArchivo();
+				refrescarLista(padre.darSonidos());
 			}
 		});
 		botonEscogerArchivo.setBounds(193, 107, 175, 29);
@@ -181,6 +181,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		botonEscogerCarpeta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				padre.escogerCarpeta();
+				refrescarLista(padre.darSonidos());
 			}
 		});
 		botonEscogerCarpeta.setBounds(193, 148, 175, 29);
@@ -188,12 +189,14 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		
 	}
 	
-	public void refrescarLista(Sample[] sonidos){
+	public void refrescarLista(Object[] sonidos){
+		listaSonidos.removeAll();
 		DefaultListModel model = new DefaultListModel();
-		if(sonidos != null){
-		for (Sample sample : sonidos) {
-			model.addElement(sample);
-		}
+		if(sonidos.length != 0){
+			for (int i = 0; i < sonidos.length; i++) {
+				Sample sonido = (Sample)sonidos[i];
+				model.addElement(sonido);
+			}
 		}else{
 			model.addElement("No hay sonidos");
 		}

@@ -1,10 +1,13 @@
 package ListaOrdenada;
+
+import java.io.Serializable;
+
 /**
  * @author Sebastian Florez
  * @version 1.0
  * @created 01-Feb-2014 6:19:56 PM
  */
-public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T> {
+public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T>, Serializable {
 	
 	//------------------------------------------
 	// Atributos

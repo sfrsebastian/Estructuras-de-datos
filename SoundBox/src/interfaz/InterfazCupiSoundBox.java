@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -20,6 +21,7 @@ import mundo.Sample;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -162,6 +164,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	public void crearProyecto(String nombre, String autor, int canales){
 		proyectoActual = reproductor.agregarProyecto(nombre,autor,canales);
 		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
+		panelProyecto.refrescarPanel(proyectoActual);
 	}
 	
 	/**
@@ -169,7 +172,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	 */
 	public void salvarProyecto(){
 		if(proyectoActual != null)
-			reproductor.darProyectoActual().guardarProyecto();
+			 proyectoActual.guardarProyecto();
 		else
 			mostrarError("No hay proyecto cargado");
 	}
@@ -231,9 +234,8 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public Object[] darCanales() {
-//		Object[] canales = reproductor.darProyectoActual().darCanales();
-//		return canales;
-		return null;
+		Object[] canales = proyectoActual.darCanales();
+		return canales;
 	}
 
 	/**
@@ -241,7 +243,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	 * @param canalAEliminar
 	 */
 	public void eliminarCanal(Canal canalAEliminar) {
-		reproductor.darProyectoActual().eliminarCanal(canalAEliminar);
+		proyectoActual.eliminarCanal(canalAEliminar);
 	}
 
 	/**
@@ -249,12 +251,15 @@ public class InterfazCupiSoundBox extends JFrame{
 	 * @param canal
 	 */
 	public void agregarCanal(String canal) {
-		reproductor.darProyectoActual().agregarCanal(new Canal(canal));
+		proyectoActual.agregarCanal(new Canal(canal));
 	}
 
-	public Sample[] darSonidos() {
-		//return reproductor.darSonidos();
-		return null;
+	/**
+	 * 
+	 * @return
+	 */
+	public Object[] darSonidos() {
+		return reproductor.darSonidos();
 	}
 
 	public void filtrarSonidos(String tipoFiltro, String filtro) {
@@ -262,13 +267,30 @@ public class InterfazCupiSoundBox extends JFrame{
 		
 	}
 
+	/**
+	 * 
+	 */
 	public void escogerArchivo() {
-		// TODO Auto-generated method stub
+		JFileChooser chooser = new JFileChooser();
+		int resultado = chooser.showOpenDialog(this);
+		if(resultado == JFileChooser.APPROVE_OPTION){
+			File[] f = {chooser.getSelectedFile()};
+			reproductor.agregarSonidosALibreria(f);
+		}
 	}
 
+	/**
+	 * 
+	 */
 	public void escogerCarpeta() {
-		// TODO Auto-generated method stub
-		
+		JFileChooser chooser = new JFileChooser();
+		//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		chooser.setMultiSelectionEnabled(true);
+		int resultado = chooser.showOpenDialog(this);
+		if(resultado == JFileChooser.APPROVE_OPTION){
+			File[] f = chooser.getSelectedFiles();
+			reproductor.agregarSonidosALibreria(f);
+		}
 	}
 
 	public void agregarSonidoACanal(String sonido) {

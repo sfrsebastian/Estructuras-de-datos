@@ -44,6 +44,7 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 					Canal canalAEliminar = (Canal) comboCanales.getSelectedItem();
 						padre.eliminarCanal(canalAEliminar);
 						inicializarComboBox(comboCanales);
+						salir();
 				} catch (Exception e2) {
 					mostrarError("No hay canal para eliminar");
 				}
@@ -91,8 +92,9 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 		
 		Object[] canales = padre.darCanales();
 		if(canales != null){
-			for (Object canal : canales) {
-				comboCanales.addItem(canal);
+			for (int i = 0; i < canales.length; i++) {
+				Canal canal = (Canal)canales[i];
+				caja.addItem(canal);
 			}
 		}else{
 			comboCanales.addItem("No hay canales");

@@ -101,10 +101,10 @@ public class PanelProyectosGuardados extends JPanel {
 	public void refrescarListaProyectos(Object[] entrantes){
 		DefaultListModel model = new DefaultListModel();
 		listaProyectos.removeAll();
-		if(entrantes != null){
-			Proyecto[] proyectos = (Proyecto[])entrantes;
-			for (Proyecto proyecto : proyectos) {
-				model.addElement(proyecto);
+		if(entrantes.length != 0){
+			for (int i = 0; i < entrantes.length; i++) {
+				Proyecto p = (Proyecto) entrantes[i];
+				model.addElement(p);
 			}
 			listaProyectos.setModel(model);
 		}

@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 import javafx.util.Duration;
 import Lista.Lista;
 
-public class Proyecto implements Comparable <Proyecto> {
+public class Proyecto implements Comparable <Proyecto>, Serializable {
 	private static final String RUTA_GUARDADO = "./data/Proyectos/";
 	private String autor;
 	private String nombre;
@@ -107,5 +108,12 @@ public class Proyecto implements Comparable <Proyecto> {
 		else{
 			return 0;
 		}
+	}
+	
+	public String toString(){
+		return nombre + " - " + autor;
+	}
+	public Object[] darCanales() {
+		return canales.darArreglo();
 	}
 }

@@ -2,6 +2,7 @@ package mundo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -14,7 +15,7 @@ import Lista.Lista;
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Canal implements ISonido, ActionListener,Comparable<Canal> {
+public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializable {
 	public static final String AUMENTAR_BPM = "+";
 	public static final String DISMINUIR_BPM = "-";
 	public static final String PLAY = "Play";
@@ -172,6 +173,10 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal> {
 		else{
 			return 0;
 		}	
+	}
+	
+	public String toString(){
+		return nombre;
 	}
 
 }

@@ -1,5 +1,7 @@
 package mundo;
 
+import java.io.Serializable;
+
 import ListaOrdenada.ListaOrdenada;
 
 
@@ -8,7 +10,7 @@ import ListaOrdenada.ListaOrdenada;
  * @version 1.0
  * @created 04-Feb-2014 11:09:59 PM
  */
-public class Categoria implements Comparable<Categoria> {
+public class Categoria implements Comparable<Categoria>,Serializable {
 
 	private static final String SIN_CATEGORIA = "Sin Categoria";
 	private String nombre;

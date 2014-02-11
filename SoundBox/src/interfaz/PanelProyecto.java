@@ -16,20 +16,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
 import mundo.Canal;
+import mundo.Proyecto;
 
 public class PanelProyecto extends JPanel {
 
 	private InterfazCupiSoundBox padre;
 	private JTextField textField;
+	private JLabel lblInformacion;
 	
 	public PanelProyecto(){
 		setBorder(new TitledBorder(null, "Proyecto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setSize(585,444);
 		setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Nombre, Autor, Pos Actual - 00:00");
-		lblNewLabel.setBounds(16, 37, 299, 16);
-		add(lblNewLabel);
+		lblInformacion = new JLabel("Nombre, Autor, Pos Actual - 00:00");
+		lblInformacion.setBounds(16, 37, 299, 16);
+		add(lblInformacion);
 		
 		JButton btnPausar = new JButton("Pausar");
 		btnPausar.setActionCommand(Canal.PAUSE);
@@ -113,6 +115,10 @@ public class PanelProyecto extends JPanel {
 	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
+	}
+	
+	public void refrescarPanel(Proyecto proyectoActual){
+		lblInformacion.setText(proyectoActual.toString());
 	}
 	
 	public void mostrarError(String error){

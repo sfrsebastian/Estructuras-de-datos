@@ -2,11 +2,12 @@ package mundo;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import ListaOrdenada.ListaOrdenada;
-
-
 
 /**
  * @author Sebastian
@@ -21,8 +22,12 @@ public class Reproductor implements ISoundBox {
 	private ListaOrdenada <Categoria> categorias;
 	private ListaOrdenada <Sample> sonidos;
 	private Proyecto proyectoActual;
+	
 	public Reproductor(){
 		proyectoActual = null;
+		proyectos = new ListaOrdenada <Proyecto>();
+		sonidos = new ListaOrdenada<Sample>();
+		categorias = new ListaOrdenada<Categoria>();
 		cargarPropiedades();
 		cargarProyectos();
 	}
@@ -37,18 +42,15 @@ public class Reproductor implements ISoundBox {
 				ois.close();
 			}
 			catch(Exception e){
-				
+				System.out.println("Error");
 			}
 		}
-		else{
-			sonidos = new ListaOrdenada <Sample>();
-			categorias = new ListaOrdenada<Categoria>();
-		}
-		
 	}
 	
 	private void cargarProyectos() {
 		File folder = new File(RUTA_PROYECTOS);
+		boolean agrego = false;
+		
 		if(folder.exists()){
 			File[] files = folder.listFiles();
 			for(int i = 0; i<files.length;i++){
@@ -57,20 +59,22 @@ public class Reproductor implements ISoundBox {
 					Proyecto actual = (Proyecto) ois.readObject( );
 					proyectos.agregar(actual);
 					ois.close();
+					agrego = true;
 				}
 				catch(Exception e){
-					
+					//System.out.println("Catched!");
 				}
 			}
 		}
-		else{
-			proyectos = new ListaOrdenada <Proyecto>();
+		if(!agrego){
 			folder.mkdirs();
 		}	
 	}
 	
 	public Proyecto agregarProyecto(String nombre, String autor, int numeroCanales){
-		return new Proyecto(autor, nombre, numeroCanales);
+		Proyecto p = new Proyecto(autor, nombre, numeroCanales);
+		proyectos.agregar(p);
+		return p;
 	}
 	@Override
 	public void abrirProyecto(Proyecto nProyecto){
@@ -82,8 +86,12 @@ public class Reproductor implements ISoundBox {
 		return proyectoActual;
 	}
 	
-	public Proyecto[] darProyectos(){
-		return (Proyecto[]) proyectos.darElementos();
+	public Object[] darCanales(){
+		return proyectoActual.darCanales();
+	}
+	
+	public Object[] darProyectos(){
+		return proyectos.darElementos();
 	}
 	/**
 	 * @param String
@@ -98,13 +106,32 @@ public class Reproductor implements ISoundBox {
 	@Override
 	public boolean agregarSonidosALibreria(File[] nSonidos){
 		Categoria vacia = new Categoria();
+
 		for(int i = 0; i< nSonidos.length; i++){
-			Sample nuevo = new Sample(nSonidos[i], vacia);
-			sonidos.agregar(nuevo);
+			try{
+				Sample nuevo = new Sample(nSonidos[i], vacia);
+				sonidos.agregar(nuevo);
+			}catch(Exception e){
+
+			}
 		}
+		guardarSonidos();
+
 		return true;
 	}
 
+	public void guardarSonidos(){
+		File f = new File(RUTA_PROPIEDADES);
+		try {
+			ObjectOutputStream out = new ObjectOutputStream (new FileOutputStream(f));
+			out.writeObject(sonidos);
+			out.writeObject(categorias);
+			out.close();
+		} 
+		catch (IOException e) {
+		}
+	}
+	
 	/**
 	 * 
 	 * @param nCategoria    s
@@ -159,5 +186,8 @@ public class Reproductor implements ISoundBox {
 			}
 		}
 		return null;
+	}
+	public Object[] darSonidos() {
+		return sonidos.darElementos();
 	}
 }
