@@ -69,6 +69,9 @@ public class Reproductor implements ISoundBox {
 		}	
 	}
 	
+	public Proyecto agregarProyecto(String nombre, String autor, int numeroCanales){
+		return new Proyecto(autor, nombre, numeroCanales);
+	}
 	@Override
 	public void abrirProyecto(Proyecto nProyecto){
 		proyectoActual = nProyecto;
