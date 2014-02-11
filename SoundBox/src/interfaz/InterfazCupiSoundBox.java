@@ -160,7 +160,8 @@ public class InterfazCupiSoundBox extends JFrame{
 	 * @param canales
 	 */
 	public void crearProyecto(String nombre, String autor, int canales){
-		//proyectoActual = reproductor.agregarProyecto(nombre,autor,canales);
+		proyectoActual = reproductor.agregarProyecto(nombre,autor,canales);
+		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
 	}
 	
 	/**
@@ -276,8 +277,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 	
 	public Object[] darProyectos() {
-		// TODO Auto-generated method stub
-		return null;
+		return reproductor.darProyectos();
 	}
 	
 	public void cargarProyecto(Proyecto proyectoCargado) {
