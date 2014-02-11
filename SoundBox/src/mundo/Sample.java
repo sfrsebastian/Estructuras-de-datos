@@ -47,11 +47,19 @@ public class Sample implements Comparable<Sample>,Serializable {//,ISonido{
 	}
 	
 	public Categoria agregarCategoria(Categoria nCategoria){
-		return categorias.agregar(nCategoria);
+		if(categorias.darLongitud()==1 && ((Categoria)categorias.darArreglo()[0]).darNombre() == Categoria.SIN_CATEGORIA){
+			categorias.eliminar((Categoria) categorias.darArreglo()[0]);
+			return categorias.agregar(nCategoria);
+		}
+		return categorias.agregar(nCategoria); 
 	}
 	
 	public Categoria eliminarCategoria(Categoria categoria) {
-		return categorias.eliminar(categoria);	
+		Categoria c = categorias.eliminar(categoria);	
+		if(categorias.darLongitud()==0){
+			categorias.agregar(new Categoria());
+		}
+		return c;
 	}
 	
 	@Override

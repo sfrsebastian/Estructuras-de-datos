@@ -12,7 +12,7 @@ import ListaOrdenada.ListaOrdenada;
  */
 public class Categoria implements Comparable<Categoria>,Serializable {
 
-	private static final String SIN_CATEGORIA = "Sin Categoria";
+	public static final String SIN_CATEGORIA = "Sin Categoria";
 	private String nombre;
 	private ListaOrdenada<Sample> sonidos;
 
