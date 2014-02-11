@@ -164,11 +164,11 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 	
 	/**
-	 * Guarda el proecto actual
+	 * Guarda el proyecto actual
 	 */
 	public void salvarProyecto(){
 		if(proyectoActual != null)
-		reproductor.darProyectoActual().guardarProyecto();
+			reproductor.darProyectoActual().guardarProyecto();
 		else
 			mostrarError("No hay proyecto cargado");
 	}
@@ -196,8 +196,13 @@ public class InterfazCupiSoundBox extends JFrame{
 		proyecto.cambiarNombre(nombre);
 	}
 
-	public void filtrarProyectos(String filtro, String combo) {
-		// TODO Auto-generated method stub
+	public Proyecto filtrarProyectos(String filtro, String combo) {
+		if(combo.equals("Nombre")){
+			return reproductor.buscarProyectoPorNombre(filtro);
+		}
+		else{
+			return reproductor.buscarProyectoPorAutor(filtro);
+		}
 	}
 
 	public void agregarCategoria(String categoria) {
@@ -222,7 +227,6 @@ public class InterfazCupiSoundBox extends JFrame{
 
 	public void filtrarCategorias(String filtro) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public Object[] darCanales() {
@@ -278,7 +282,6 @@ public class InterfazCupiSoundBox extends JFrame{
 	
 	public void cargarProyecto(Proyecto proyectoCargado) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	//------------------------------------

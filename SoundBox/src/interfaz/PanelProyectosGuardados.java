@@ -55,12 +55,19 @@ public class PanelProyectosGuardados extends JPanel {
 					String filtro = txtFiltro.getText();
 					String combo = (String) comboFiltro.getSelectedItem();
 					
-					if(filtro.equals("") || combo.equals(""))
+					if(combo.equals("Todos")){
+						refrescarListaProyectos(padre.darProyectos());
+					}
+					else if	(filtro.equals("") || combo.equals("") && !combo.equals("Todos")){
 						mostrarError("Debe llenar el campo");
-					padre.filtrarProyectos(filtro,combo);
-					
+					}
+					else{
+						Proyecto p = padre.filtrarProyectos(filtro,combo);
+						Object[] proyectos = {p}; 
+						refrescarListaProyectos(proyectos);
+					}
 				}catch(Exception e2){
-					
+
 				}
 			}
 		});
@@ -85,6 +92,7 @@ public class PanelProyectosGuardados extends JPanel {
 	}
 	
 	private void inicializarComboBox(JComboBox caja){
+		caja.addItem("Todos");
 		caja.addItem("Nombre");
 		caja.addItem("Autor");
 		caja.setSelectedIndex(-1);
