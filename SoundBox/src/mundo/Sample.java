@@ -17,23 +17,19 @@ public class Sample implements Comparable<Sample>,Serializable {//,ISonido{
 	private String nombre;
 	private File archivo;
 	private Lista <Categoria> categorias;
-	private Media media;
+	private String src;
 	
 	public Sample(File f, Categoria nCategoria){
 		categorias = new Lista <Categoria>();
 		categorias.agregar(nCategoria);
 		archivo = f;
 		nombre = archivo.getName();
-		media = new Media(archivo.toURI().toString());
+		src = archivo.toURI().toString();
 		verificarInvariante();
 	}
 
-	public Media darMedia(){
-		return media;
-	}
-	
-	public Duration darDuracion(){
-		return media.getDuration();
+	public String darSrc(){
+		return src;
 	}
 	
 	public String darNombre() {
@@ -75,6 +71,6 @@ public class Sample implements Comparable<Sample>,Serializable {//,ISonido{
 	}
 	
 	public String toString(){
-		return  nombre + " - " + media.getDuration().toString();
+		return  nombre;
 	}
 }
