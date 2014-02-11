@@ -129,11 +129,17 @@ public class DialogoManejarCategorias extends JDialog {
 	}
 	
 	public void refrescarLista(String[] categorias){
+		listaCategorias.removeAll();
 		DefaultListModel model = new DefaultListModel();
+		if(categorias != null){
 		for (String string : categorias) {
 			model.addElement(string);
 		}
 		listaCategorias.setModel(model);
+		}else{
+			model.addElement("No hay categorias");
+			listaCategorias.setModel(model);
+		}
 	}
 	
 	public void mostrarError(String error){

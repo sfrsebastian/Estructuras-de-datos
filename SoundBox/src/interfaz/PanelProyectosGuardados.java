@@ -2,12 +2,17 @@ package interfaz;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
+
+import mundo.Proyecto;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,6 +21,7 @@ public class PanelProyectosGuardados extends JPanel {
 	private JTextField txtFiltro;
 	private InterfazCupiSoundBox padre;
 	private JComboBox comboFiltro;
+	private JList listaProyectos;
 
 	/**
 	 * Create the panel.
@@ -35,7 +41,10 @@ public class PanelProyectosGuardados extends JPanel {
 		add(txtFiltro);
 		txtFiltro.setColumns(10);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		listaProyectos = new JList();
+		listaProyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		JScrollPane scrollPane = new JScrollPane(listaProyectos);
 		scrollPane.setBounds(6, 20, 179, 282);
 		add(scrollPane);
 		
@@ -59,6 +68,16 @@ public class PanelProyectosGuardados extends JPanel {
 		add(btnFiltrar);
 		
 		JButton btnCargar = new JButton("Cargar");
+		btnCargar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Proyecto proyectoCargado = (Proyecto)listaProyectos.getSelectedValue();
+					padre.cargarProyecto(proyectoCargado);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnCargar.setBounds(6, 409, 179, 29);
 		add(btnCargar);
 		
@@ -71,12 +90,29 @@ public class PanelProyectosGuardados extends JPanel {
 		caja.setSelectedIndex(-1);
 	}
 	
+	public void refrescarListaProyectos(Object[] entrantes){
+		DefaultListModel model = new DefaultListModel();
+		listaProyectos.removeAll();
+		if(entrantes != null){
+			Proyecto[] proyectos = (Proyecto[])entrantes;
+			for (Proyecto proyecto : proyectos) {
+				model.addElement(proyecto);
+			}
+			listaProyectos.setModel(model);
+		}
+		else{
+			model.addElement("No hay proyectos");
+			listaProyectos.setModel(model);
+		}
+	}
+	
 	public void mostrarError(String error){
 		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
+		refrescarListaProyectos(padre.darProyectos());		
 	}
 
 }

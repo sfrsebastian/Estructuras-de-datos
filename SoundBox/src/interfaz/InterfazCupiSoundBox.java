@@ -56,7 +56,7 @@ public class InterfazCupiSoundBox extends JFrame{
 		
 		JMenuBar menu = new JMenuBar();
 		
-		JMenu nuevoProyecto = new JMenu("Nuevo");
+		JMenu nuevoProyecto = new JMenu("Opciones");
 	
 		menu.add(nuevoProyecto);
 		
@@ -143,6 +143,10 @@ public class InterfazCupiSoundBox extends JFrame{
 		this.dispose();
 	}
 	
+	private void mostrarError(String error){
+		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	public boolean tieneProyecto(){
 		return (proyectoActual == null) ? false : true;
 	}
@@ -163,7 +167,10 @@ public class InterfazCupiSoundBox extends JFrame{
 	 * Guarda el proecto actual
 	 */
 	public void salvarProyecto(){
+		if(proyectoActual != null)
 		reproductor.darProyectoActual().guardarProyecto();
+		else
+			mostrarError("No hay proyecto cargado");
 	}
 
 	public void pausar() {
@@ -209,10 +216,8 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public String[] darCategorias() {
-			// TODO Auto-generated method stub
-			//return null;
-			String[] hola = {"cat1","cat2","cat3","cat4"};
-			return hola;
+		//return reproductor.darCategorias();
+		return null;
 	}
 
 	public void filtrarCategorias(String filtro) {
@@ -266,13 +271,24 @@ public class InterfazCupiSoundBox extends JFrame{
 		//Ni idea!!!!!!!!!!!!!!!!!!!
 	}
 	
+	public Object[] darProyectos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public void cargarProyecto(Proyecto proyectoCargado) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//------------------------------------
 	// Main
-	//------------------------------------
+	//------------------------------------	
 	
 	public static void main(String[] args) {
 		InterfazCupiSoundBox interfaz = new InterfazCupiSoundBox();
 		self = interfaz;
 		interfaz.setVisible(true);
 	}
+
 }

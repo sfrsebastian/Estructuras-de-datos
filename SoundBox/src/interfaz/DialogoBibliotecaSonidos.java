@@ -3,6 +3,8 @@ package interfaz;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 
 import java.awt.Dimension;
@@ -64,6 +66,21 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		
 		listaSonidos = new JList();
 		listaSonidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaSonidos.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				try{
+					Sample sample = (Sample) listaSonidos.getSelectedValue();
+					txtNombre.setText(sample.darNombre());
+					txtCategorias.setText(sample.darCategorias().toString());
+				}
+				catch(Exception e){
+					//En caso de que no hayan sonidos
+					System.out.println("Error");
+				}
+			}
+		});
 		
 		scrollPane = new JScrollPane(listaSonidos);
 		scrollPane.setBounds(6, 20, 163, 254);
