@@ -158,8 +158,10 @@ public class Reproductor implements ISoundBox {
 	@Override
 	public Categoria asignarCategoria(Categoria nCategoria, Sample nSonido){
 		nCategoria.agregarSonido(nSonido);
+		Categoria c = nSonido.agregarCategoria(nCategoria);
 		guardarSonidos();
-		return nSonido.agregarCategoria(nCategoria);
+		
+		return	c;
 	}
 
 	/**

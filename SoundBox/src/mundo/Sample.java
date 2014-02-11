@@ -42,8 +42,8 @@ public class Sample implements Comparable<Sample>,Serializable {//,ISonido{
 		return nNombre;
 	}
 	
-	public Categoria[] darCategorias(){
-		return (Categoria[]) categorias.darArreglo();
+	public Object[] darCategorias(){
+		return categorias.darArreglo();
 	}
 	
 	public Categoria agregarCategoria(Categoria nCategoria){

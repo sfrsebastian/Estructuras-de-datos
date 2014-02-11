@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import mundo.Categoria;
 import mundo.Sample;
 
 public class DialogoBibliotecaSonidos extends JDialog {
@@ -46,6 +47,9 @@ public class DialogoBibliotecaSonidos extends JDialog {
 	private JButton btnFiltrar;
 	
 	private JList listaSonidos;
+	private JComboBox comboCategorias;
+	private JButton btnAnadirCat;
+	private JButton btnEliminarCategoria;
 	
 	//------------------------------------
 	// Constructor
@@ -74,7 +78,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				try{
 					Sample sample = (Sample) listaSonidos.getSelectedValue();
 					txtNombre.setText(sample.darNombre());
-					txtCategorias.setText(sample.darCategorias().toString());
+					txtCategorias.setText(arregloATexto(sample.darCategorias()));
 				}
 				catch(Exception e){
 					//En caso de que no hayan sonidos
@@ -118,12 +122,12 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		
 		JPanel panelAgregarSonido = new JPanel();
 		panelAgregarSonido.setBorder(new TitledBorder(null, "A\u00F1adir Sonido a Canal", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelAgregarSonido.setBounds(193, 190, 401, 232);
+		panelAgregarSonido.setBounds(193, 317, 401, 105);
 		getContentPane().add(panelAgregarSonido);
 		panelAgregarSonido.setLayout(null);
 		
 		botonAceptar = new JButton("Aceptar");
-		botonAceptar.setBounds(278, 197, 117, 29);
+		botonAceptar.setBounds(282, 66, 117, 29);
 		panelAgregarSonido.add(botonAceptar);
 		
 		botonAgregarSonido = new JButton("A\u00F1adir Sonido Seleccionado a Canal");
@@ -137,7 +141,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				}
 			}
 		});
-		botonAgregarSonido.setBounds(6, 23, 389, 29);
+		botonAgregarSonido.setBounds(10, 26, 389, 29);
 		panelAgregarSonido.add(botonAgregarSonido);
 		if(botonAgregarVisible)
 			botonAgregarSonido.setEnabled(true);
@@ -165,7 +169,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		txtCategorias.setColumns(10);
 		
 		JLabel lblAadirSonidosA = new JLabel("A\u00F1adir sonidos a la Biblioteca");
-		lblAadirSonidosA.setBounds(193, 80, 241, 16);
+		lblAadirSonidosA.setBounds(191, 209, 241, 16);
 		getContentPane().add(lblAadirSonidosA);
 		
 		botonEscogerArchivo = new JButton("Escoger Archivo\n");
@@ -175,7 +179,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				refrescarLista(padre.darSonidos());
 			}
 		});
-		botonEscogerArchivo.setBounds(193, 107, 175, 29);
+		botonEscogerArchivo.setBounds(292, 236, 175, 29);
 		getContentPane().add(botonEscogerArchivo);
 		
 		botonEscogerCarpeta = new JButton("Escoger Carpeta");
@@ -185,8 +189,53 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				refrescarLista(padre.darSonidos());
 			}
 		});
-		botonEscogerCarpeta.setBounds(193, 148, 175, 29);
+		botonEscogerCarpeta.setBounds(292, 277, 175, 29);
 		getContentPane().add(botonEscogerCarpeta);
+		
+		comboCategorias = new JComboBox();
+		comboCategorias.setBounds(191, 150, 143, 20);
+		getContentPane().add(comboCategorias);
+		
+		btnAnadirCat = new JButton("A\u00F1adir categoria seleccionada al sonido");
+		btnAnadirCat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Categoria cat = (Categoria)comboCategorias.getSelectedItem();
+					Sample sonido = (Sample) listaSonidos.getSelectedValue();
+					padre.agregarCategoriaASonido(sonido, cat);
+					refrescar();
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+		});
+		btnAnadirCat.setBounds(343, 123, 241, 23);
+		getContentPane().add(btnAnadirCat);
+		
+		JLabel lblEditarCategoriasDel = new JLabel("Editar categorias del Sonido");
+		lblEditarCategoriasDel.setBounds(191, 99, 209, 14);
+		getContentPane().add(lblEditarCategoriasDel);
+		
+		btnEliminarCategoria = new JButton("Eliminar Categoria del Sonido Seleccionado");
+		btnEliminarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					Sample sonido = (Sample) listaSonidos.getSelectedValue();
+					Categoria cat = (Categoria) comboCategorias.getSelectedItem();	
+					padre.eliminarCategoriaDeSonido(sonido,cat);
+					refrescar();
+					
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}		
+			}
+		});
+		btnEliminarCategoria.setBounds(343, 175, 241, 23);
+		getContentPane().add(btnEliminarCategoria);
 		
 	}
 	
@@ -204,9 +253,43 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		listaSonidos.setModel(model);
 	}
 	
+	public void refrescar(){
+		Sample sample = (Sample) listaSonidos.getSelectedValue();
+		txtNombre.setText(sample.darNombre());
+		txtCategorias.setText(arregloATexto(sample.darCategorias()));
+	}
+	
+	public void inicializarComboCategorias(JComboBox caja){
+		caja.removeAll();
+		Object[] categorias = padre.darCategorias();
+		if(categorias.length != 0){
+			for (int i = 0; i < categorias.length; i++) {
+				Categoria cat = (Categoria)categorias[i];
+				comboCategorias.addItem(cat);
+			}
+		}else{
+			comboCategorias.addItem("No hay categorias");
+		}
+	}
+
+	public String arregloATexto(Object[] arreglo){
+		String ret = "";
+		
+		if(arreglo.length != 0){
+		for (int i = 0; i < arreglo.length; i++) {
+			Categoria cat = (Categoria)arreglo[i];
+			ret += cat.darNombre() + " - ";
+		}
+		}else{
+			ret = "No tiene categorias asignadas";
+		}
+		return ret;
+	}
+	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
 		refrescarLista(padre.darSonidos());
+		inicializarComboCategorias(comboCategorias);
 	}
 }
 

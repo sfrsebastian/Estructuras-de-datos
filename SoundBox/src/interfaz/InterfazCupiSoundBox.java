@@ -222,6 +222,10 @@ public class InterfazCupiSoundBox extends JFrame{
 	public void agregarCategoria(String categoria) {
 		reproductor.agregarCategoria(new Categoria(categoria));
 	}
+	
+	public void agregarCategoriaASonido(Sample sonido, Categoria cat){
+		reproductor.asignarCategoria(cat, sonido);
+	}
 
 	public void eliminarCategoria(Categoria categoriaEliminada) {
 		reproductor.eliminarCategoria(categoriaEliminada);
@@ -339,6 +343,10 @@ public class InterfazCupiSoundBox extends JFrame{
 		Sample[] sonidos = {sonido};
 		
 		proyectoActual.agregarSonidosACanal(sonidos, canal);
+	}
+
+	public void eliminarCategoriaDeSonido(Sample sonido, Categoria cat) {
+		sonido.eliminarCategoria(cat);
 	}
 
 }
