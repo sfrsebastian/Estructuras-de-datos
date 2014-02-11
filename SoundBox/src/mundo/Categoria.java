@@ -55,9 +55,9 @@ public class Categoria implements Comparable<Categoria>,Serializable {
 	}
 
 	public void eliminarDeSonidos() {
-		Sample[] lista = (Sample[]) sonidos.darElementos();
+		Object[] lista =  sonidos.darElementos();
 		for(int i = 0; i<lista.length;i++){
-			lista[i].eliminarCategoria(this);
+			((Sample) lista[i]).eliminarCategoria(this);
 		}
 	}
 	

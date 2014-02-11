@@ -16,7 +16,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	private String autor;
 	private String nombre;
 	private Lista <Canal> canales;
-	private Duration duracion;
+	private double duracion;
 	private Date fechaCreacion;
 
 	public Proyecto(String nAutor, String nNombre, int numCanales){
@@ -26,7 +26,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 		for(int i = 0; i<numCanales;i++){
 			canales.agregar(new Canal());
 		}
-		duracion = new Duration(0.0);
+		duracion = 0.0;
 		Calendar c = Calendar.getInstance();
     	fechaCreacion = c.getTime();
 	}
@@ -93,6 +93,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 			Canal actual = (Canal)lista[i];
 			segundos+=actual.darDuracionTotal();
 		}
+		duracion = segundos;
 		return segundos;
 	}
 	
