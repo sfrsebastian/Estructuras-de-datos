@@ -164,10 +164,10 @@ public class Reproductor implements ISoundBox {
 	 */
 	@Override
 	public Proyecto buscarProyectoPorAutor(String nAutor){
-		Proyecto[] lista = (Proyecto[]) proyectos.darElementos();
+		Object[] lista = proyectos.darElementos();
 		for(int i = 0; i<lista.length;i++){
-			if(lista[i].darAutor() == nAutor){
-				return lista[i];
+			if(((Proyecto) lista[i]).darAutor().equals(nAutor)){
+				return (Proyecto) lista[i];
 			}
 		}
 		return null;
@@ -179,10 +179,10 @@ public class Reproductor implements ISoundBox {
 	 */
 	@Override
 	public Proyecto buscarProyectoPorNombre(String nNombre){
-		Proyecto[] lista = (Proyecto[]) proyectos.darElementos();
+		Object[] lista = proyectos.darElementos();
 		for(int i = 0; i<lista.length;i++){
-			if(lista[i].darNombre() == nNombre){
-				return lista[i];
+			if(((Proyecto) lista[i]).darNombre().equals(nNombre)){
+				return (Proyecto) lista[i];
 			}
 		}
 		return null;
