@@ -55,6 +55,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		
 		setSize(600, 450);
 		setTitle("Biblioteca de Sonidos");
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		

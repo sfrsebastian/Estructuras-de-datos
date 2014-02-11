@@ -127,7 +127,6 @@ public class Reproductor implements ISoundBox {
 			out.writeObject(sonidos);
 			out.writeObject(categorias);
 			out.close();
-			guardarSonidos();
 		} 
 		catch (IOException e) {
 		}
@@ -147,8 +146,9 @@ public class Reproductor implements ISoundBox {
 	@Override
 	public Categoria eliminarCategoria(Categoria nCategoria){
 		nCategoria.eliminarDeSonidos();
+		Categoria c = categorias.eliminar(nCategoria);
 		guardarSonidos();
-		return categorias.eliminar(nCategoria);
+		return c;
 	}
 	/**
 	 * 

@@ -17,12 +17,14 @@ import javax.swing.JTextField;
 
 import mundo.Canal;
 import mundo.Proyecto;
+import mundo.Sample;
 
 public class PanelProyecto extends JPanel {
 
 	private InterfazCupiSoundBox padre;
 	private JTextField textField;
 	private JLabel lblInformacion;
+	private PanelDibujo panelDibujo;
 	
 	public PanelProyecto(){
 		setBorder(new TitledBorder(null, "Proyecto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -47,6 +49,24 @@ public class PanelProyecto extends JPanel {
 		btnParar.setActionCommand(Canal.STOP);
 		btnParar.setBounds(462, 387, 117, 29);
 		add(btnParar);
+		
+		//------------------------------------------------------------------
+		JButton btnPrueba = new JButton("Reproducir");
+		btnPrueba.setBounds(250, 40, 20, 20);
+		btnPrueba.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Sample sonido = (Sample) padre.darSonidos()[0];
+				Sample sonido1 = (Sample) padre.darSonidos()[1];
+								
+				padre.agregarSonidoACanal((Canal) padre.darCanales()[0], sonido);
+				padre.agregarSonidoACanal((Canal) padre.darCanales()[1], sonido1);
+			}
+		});
+		add(btnPrueba);
+		//------------------------------------------------------------------
 		
 		JButton btnOpciones = new JButton("Opciones");
 		btnOpciones.addActionListener(new ActionListener() {
@@ -80,7 +100,11 @@ public class PanelProyecto extends JPanel {
 		btnCanal.setBounds(462, 32, 117, 29);
 		add(btnCanal);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		panelDibujo = new PanelDibujo();
+		panelDibujo.setParent(padre);
+		
+		JScrollPane scrollPane = new JScrollPane(panelDibujo);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(16, 65, 563, 302);
 		add(scrollPane);
 		
@@ -122,6 +146,11 @@ public class PanelProyecto extends JPanel {
 	
 	public void setParent(InterfazCupiSoundBox interfaz){
 		padre = interfaz;
+		refrescarCanales(padre.darCanales());
+	}
+	
+	public void refrescarCanales(Object[] objects){
+		panelDibujo.setCanales(objects);
 	}
 	
 	public void refrescarPanel(Proyecto proyectoActual){

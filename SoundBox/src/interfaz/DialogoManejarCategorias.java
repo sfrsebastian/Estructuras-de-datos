@@ -33,6 +33,7 @@ public class DialogoManejarCategorias extends JDialog {
 	public DialogoManejarCategorias(){
 		setTitle("Manejar Categorias");
 		setSize(500, 400);
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
@@ -126,7 +127,7 @@ public class DialogoManejarCategorias extends JDialog {
 					refrescarLista(padre.darCategorias());
 					//May fail badly
 				}catch(Exception e1){
-					e1.printStackTrace();
+					//e1.printStackTrace();
 				}
 			}
 		});

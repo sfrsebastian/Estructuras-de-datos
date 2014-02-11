@@ -55,6 +55,7 @@ public class InterfazCupiSoundBox extends JFrame{
 		proyectoActual = reproductor.darProyectoActual();
 		
 		setSize(800, 500);
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		JMenuBar menu = new JMenuBar();
@@ -203,6 +204,12 @@ public class InterfazCupiSoundBox extends JFrame{
 		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
 	}
 
+	/**
+	 * 
+	 * @param filtro
+	 * @param combo
+	 * @return
+	 */
 	public Proyecto filtrarProyectos(String filtro, String combo) {
 		if(combo.equals("Nombre")){
 			return reproductor.buscarProyectoPorNombre(filtro);
@@ -238,8 +245,12 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public Object[] darCanales() {
+		if(tieneProyecto()){
 		Object[] canales = proyectoActual.darCanales();
 		return canales;
+		}else{
+			return null;
+		}
 	}
 
 	/**
@@ -320,6 +331,14 @@ public class InterfazCupiSoundBox extends JFrame{
 		InterfazCupiSoundBox interfaz = new InterfazCupiSoundBox();
 		self = interfaz;
 		interfaz.setVisible(true);
+	}
+
+	public void agregarSonidoACanal(Canal canal, Object object) {
+		// TODO Auto-generated method stub
+		Sample sonido = (Sample)object;
+		Sample[] sonidos = {sonido};
+		
+		proyectoActual.agregarSonidosACanal(sonidos, canal);
 	}
 
 }
