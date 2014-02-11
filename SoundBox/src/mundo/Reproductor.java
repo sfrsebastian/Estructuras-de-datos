@@ -81,6 +81,10 @@ public class Reproductor implements ISoundBox {
 	public Proyecto darProyectoActual(){
 		return proyectoActual;
 	}
+	
+	public Proyecto[] darProyectos(){
+		return (Proyecto[]) proyectos.darElementos();
+	}
 	/**
 	 * @param String
 	 * 
