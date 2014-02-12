@@ -83,7 +83,7 @@ public class InterfazCupiSoundBox extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				DialogoBibliotecaSonidos dialogoBibliotecaSonidos = new DialogoBibliotecaSonidos(false);
+				DialogoBibliotecaSonidos dialogoBibliotecaSonidos = new DialogoBibliotecaSonidos(false,null);
 				dialogoBibliotecaSonidos.setParent(self);
 				dialogoBibliotecaSonidos.setVisible(true);
 			}
@@ -101,6 +101,29 @@ public class InterfazCupiSoundBox extends JFrame{
 			}
 		});
 		nuevoProyecto.add(itmCategorias);
+		
+		JMenuItem itmEliminarProyecto = new JMenuItem("Eliminar proyecto");
+		itmEliminarProyecto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Proyecto proyecto = panelProyectosGuardados.darProyectoSeleccionado();
+				if(proyecto != null){
+					reproductor.eliminarProyecto(proyecto);
+					panelProyectosGuardados.refrescarListaProyectos(darProyectos());
+					if(!proyectoActual.equals(proyecto)){
+						panelProyecto.refrescarPanel(proyectoActual);
+						panelProyecto.refrescarPanelDibujo();
+						panelProyecto = null;
+					}else{
+						panelProyecto.limpiar();
+						panelProyecto.limpiarPanelDibujo();
+					}
+				}
+			}
+		});
+		
+		nuevoProyecto.add(itmEliminarProyecto);
 		
 		nuevoProyecto.addSeparator();
 		
@@ -167,6 +190,7 @@ public class InterfazCupiSoundBox extends JFrame{
 		proyectoActual = reproductor.agregarProyecto(nombre,autor,canales);
 		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
 		panelProyecto.refrescarPanel(proyectoActual);
+		panelProyecto.refrescarPanelDibujo();
 	}
 	
 	/**
@@ -180,15 +204,15 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	public void pausar() {
-		//TODO  pausar 
+		proyectoActual.pausar();
 	}
 	
 	public void reproducir(){
-		// TODO reproducir
+		proyectoActual.reproducir();
 	}
 	
 	public void parar(){
-		//TODO parar
+		proyectoActual.parar();
 	}
 
 	/**
@@ -263,6 +287,7 @@ public class InterfazCupiSoundBox extends JFrame{
 	 */
 	public void eliminarCanal(Canal canalAEliminar) {
 		proyectoActual.eliminarCanal(canalAEliminar);
+		panelProyecto.refrescarPanelDibujo();
 	}
 
 	/**
@@ -339,16 +364,24 @@ public class InterfazCupiSoundBox extends JFrame{
 		interfaz.setVisible(true);
 	}
 
-	public void agregarSonidoACanal(Canal canal, Object object) {
+	public void agregarSonidoACanal(Canal canal, Object[] objects) {
 		// TODO Auto-generated method stub
-		Sample sonido = (Sample)object;
-		Sample[] sonidos = {sonido};
-		
-		proyectoActual.agregarSonidosACanal(sonidos, canal);
+		canal.agregarSonido(objects);
 	}
 
 	public Categoria eliminarCategoriaDeSonido(Sample sonido, Categoria cat) {
 		return sonido.eliminarCategoria(cat);
+	}
+
+	public void editarCanal(Canal canalActual, String nombre) {
+		canalActual.cambiarNombre(nombre);
+		panelProyecto.refrescarPanelDibujo();
+	}
+
+	public void eliminarSonido(Sample sonido) {
+		reproductor.eliminarSonido(sonido);
+		if(proyectoActual != null)
+			proyectoActual.eliminarSonidosDeCanal(sonido);
 	}
 
 }

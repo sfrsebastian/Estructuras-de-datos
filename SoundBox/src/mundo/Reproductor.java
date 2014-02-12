@@ -200,4 +200,10 @@ public class Reproductor implements ISoundBox {
 	public Object[] darCategorias() {
 		return categorias.darElementos();
 	}
+	public void eliminarSonido(Sample sonido) {
+		sonidos.eliminar(sonido);
+	}
+	public void eliminarProyecto(Proyecto proyecto) {
+		proyectos.eliminar(proyecto);
+	}
 }

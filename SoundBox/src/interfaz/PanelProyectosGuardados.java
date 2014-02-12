@@ -123,4 +123,8 @@ public class PanelProyectosGuardados extends JPanel {
 		refrescarListaProyectos(padre.darProyectos());		
 	}
 
+	public Proyecto darProyectoSeleccionado() {
+		return (Proyecto) listaProyectos.getSelectedValue();
+	}
+
 }

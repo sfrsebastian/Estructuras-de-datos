@@ -52,17 +52,20 @@ public class DialogoBibliotecaSonidos extends JDialog {
 	private JButton btnAnadirCat;
 	private JButton btnEliminarCategoria;
 	
+	private DialogoEditarCanal dialogoEditar;
+	
 	//------------------------------------
 	// Constructor
 	//------------------------------------
 	
-	public DialogoBibliotecaSonidos(boolean botonAgregarVisible){
+	public DialogoBibliotecaSonidos(boolean botonAgregarVisible, DialogoEditarCanal dialogo){
 		
 		setSize(600, 450);
 		setTitle("Biblioteca de Sonidos");
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
+		dialogoEditar = dialogo;
 		
 		JPanel panelManejarSonidos = new JPanel();
 		panelManejarSonidos.setBorder(new TitledBorder(null, "Manejar Sonidos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -71,9 +74,13 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		panelManejarSonidos.setLayout(null);
 		
 		listaSonidos = new JList();
-		listaSonidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		if(!botonAgregarVisible){
+			listaSonidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		}else{
+			listaSonidos.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		}
 		listaSonidos.addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				try{
@@ -135,10 +142,13 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		botonAgregarSonido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String sonido = (String) listaSonidos.getSelectedValue();
-					padre.agregarSonidoACanal(sonido);
+					Object[] sonidos = listaSonidos.getSelectedValues();
+					dialogoEditar.agregarSonidosACanal(sonidos);
+					salir();
+					
 				} catch (Exception e2) {
 					// TODO: handle exception
+					e2.printStackTrace();
 				}
 			}
 		});
@@ -169,7 +179,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		getContentPane().add(txtCategorias);
 		txtCategorias.setColumns(10);
 		
-		JLabel lblAadirSonidosA = new JLabel("A\u00F1adir sonidos a la Biblioteca");
+		JLabel lblAadirSonidosA = new JLabel("Administrar Biblioteca");
 		lblAadirSonidosA.setBounds(191, 209, 241, 16);
 		getContentPane().add(lblAadirSonidosA);
 		
@@ -180,7 +190,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				refrescarLista(padre.darSonidos());
 			}
 		});
-		botonEscogerArchivo.setBounds(292, 236, 175, 29);
+		botonEscogerArchivo.setBounds(193, 237, 175, 29);
 		getContentPane().add(botonEscogerArchivo);
 		
 		botonEscogerCarpeta = new JButton("Escoger Carpeta");
@@ -190,11 +200,11 @@ public class DialogoBibliotecaSonidos extends JDialog {
 				refrescarLista(padre.darSonidos());
 			}
 		});
-		botonEscogerCarpeta.setBounds(292, 277, 175, 29);
+		botonEscogerCarpeta.setBounds(193, 276, 175, 29);
 		getContentPane().add(botonEscogerCarpeta);
 		
 		comboCategorias = new JComboBox();
-		comboCategorias.setBounds(191, 150, 143, 20);
+		comboCategorias.setBounds(193, 124, 143, 20);
 		getContentPane().add(comboCategorias);
 		
 		btnAnadirCat = new JButton("A\u00F1adir categoria seleccionada al sonido");
@@ -239,6 +249,26 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		btnEliminarCategoria.setBounds(343, 175, 241, 23);
 		getContentPane().add(btnEliminarCategoria);
 		
+		JButton btnEliminarSonidoSeleccionado = new JButton("Eliminar Sonido Seleccionado");
+		btnEliminarSonidoSeleccionado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Sample sonido = (Sample)listaSonidos.getSelectedValue();
+					padre.eliminarSonido(sonido);
+					refrescarLista(padre.darSonidos());
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		});
+		btnEliminarSonidoSeleccionado.setBounds(372, 237, 222, 29);
+		getContentPane().add(btnEliminarSonidoSeleccionado);
+		
+	}
+	
+	private void salir(){
+		this.dispose();
 	}
 	
 	public void mostrarError(String error){

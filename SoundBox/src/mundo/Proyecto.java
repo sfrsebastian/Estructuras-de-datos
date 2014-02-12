@@ -55,18 +55,6 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	public Canal eliminarCanal(Canal nCanal){
 		return canales.eliminar(nCanal);
 	}
-
-	/**
-	 * 
-	 * @param nSonidos
-	 * @param nCanal    c
-	 */
-	public Canal agregarSonidosACanal(Sample[] nSonidos, Canal nCanal){
-		for(int i = 0; i<nSonidos.length;i++){
-			nCanal.agregarSonido(nSonidos[i]);
-		}
-		return nCanal;
-	}
 	
 	public  String darNombre() {
 		return nombre;
@@ -110,10 +98,45 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 		}
 	}
 	
+	public void reproducir(){
+		Object[] nCanales = canales.darArreglo();
+		
+		for (int i = 0; i < nCanales.length; i++) {
+			Canal actual = (Canal)nCanales[i];
+			actual.reproducir();
+		}
+	}
+	
+	public void pausar(){
+		Object[] nCanales = canales.darArreglo();
+		
+		for (int i = 0; i < nCanales.length; i++) {
+			Canal actual = (Canal)nCanales[i];
+			actual.pausar();
+		}
+	}
+	
+	public void parar(){
+		Object[] nCanales = canales.darArreglo();
+		
+		for (int i = 0; i < nCanales.length; i++) {
+			Canal actual = (Canal)nCanales[i];
+			actual.stop();
+		}
+	}
+	
 	public String toString(){
 		return nombre + " - " + autor;
 	}
 	public Object[] darCanales() {
 		return canales.darArreglo();
+	}
+	public void eliminarSonidosDeCanal(Sample sonido) {
+		Object[] listaCanales = canales.darArreglo();
+		
+		for (int i = 0; i < listaCanales.length; i++) {
+			Canal canalActual = (Canal)listaCanales[i];
+			canalActual.eliminarSonido(sonido);
+		}
 	}
 }

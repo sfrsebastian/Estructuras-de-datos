@@ -50,9 +50,11 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 	 * 
 	 * @param Sample
 	 */
-	public Sample agregarSonido(Sample nSample){
-		sonidos.agregar(nSample);
-		return nSample;
+	public void agregarSonido(Object[] samples){
+		for (int i = 0; i < samples.length; i++) {
+			Sample s = (Sample)samples[i];
+			sonidos.agregar(s);
+		}
 	}
 
 	public void aumentarBpm(){
@@ -175,8 +177,14 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 		}	
 	}
 	
+	public void cambiarNombre(String nNombre){
+		nombre = nNombre;
+	}
+	
 	public String toString(){
 		return nombre;
 	}
+	
+	
 
 }
