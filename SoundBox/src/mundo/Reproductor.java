@@ -10,7 +10,8 @@ import java.io.ObjectOutputStream;
 import ListaOrdenada.ListaOrdenada;
 
 /**
- * @author Sebastian
+ * @author Sebastian Florez
+ * @author Felipe Otalora
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
@@ -86,10 +87,6 @@ public class Reproductor implements ISoundBox {
 		return proyectoActual;
 	}
 	
-	public Object[] darCanales(){
-		return proyectoActual.darCanales();
-	}
-	
 	public Object[] darProyectos(){
 		return proyectos.darElementos();
 	}
@@ -120,6 +117,7 @@ public class Reproductor implements ISoundBox {
 		return true;
 	}
 
+	@Override
 	public void guardarSonidos(){
 		File f = new File(RUTA_PROPIEDADES);
 		try {
@@ -193,16 +191,23 @@ public class Reproductor implements ISoundBox {
 		}
 		return null;
 	}
+	
+	@Override
 	public Object[] darSonidos() {
 		return sonidos.darElementos();
 	}
 	
+	@Override
 	public Object[] darCategorias() {
 		return categorias.darElementos();
 	}
+	
+	@Override
 	public void eliminarSonido(Sample sonido) {
 		sonidos.eliminar(sonido);
 	}
+	
+	@Override
 	public void eliminarProyecto(Proyecto proyecto) {
 		proyectos.eliminar(proyecto);
 	}

@@ -20,10 +20,24 @@ public interface ISoundBox {
 	 */
 	public void abrirProyecto(Proyecto nProyecto);
 
+	/**
+	 * Da el proyecto actualmente abierto
+	 * @return El proyecto abierto, null de lo contrario
+	 */
 	public Proyecto darProyectoActual();
-
+	
+	/**
+	 * Filtra los sonidos por la categoria dada por parametro
+	 * @param nCategoria La categoria para el filtro
+	 * @return Un arreglo con los sonidos que cumplen el criterio.
+	 */
 	public Sample[] filtrarSonidosPorCategoria(Categoria nCategoria);
 
+	/**
+	 * Agrega los sonidos dados por parametro a la libreria
+	 * @param nSonidos Los sonidos a agregar
+	 * @return true si se agregan correctamente, false de lo contrario.
+	 */
 	public boolean agregarSonidosALibreria(File[] nSonidos);
 
 	/**
@@ -34,6 +48,11 @@ public interface ISoundBox {
 	 */
 	public Categoria agregarCategoria(Categoria nCategoria);
 
+	/**
+	 * Elimina la categoria dada por parametro del reproductor.
+	 * @param nCategoria La categoria a eliminar
+	 * @return La categoria eliminada.
+	 */
 	public Categoria eliminarCategoria(Categoria nCategoria);
 
 	/**
@@ -58,98 +77,33 @@ public interface ISoundBox {
 	 */
 	public Proyecto buscarProyectoPorNombre(String nNombre);
 
+	/**
+	 * Retorna los sonidos del reproductor
+	 * @return Los sonidos de la biblioteca
+	 */
+	public Object[] darSonidos();
 
-//	/**
-//	 * Agrega un nuevo canal a la lista de canales del proyecto
-//	 * pre: La lista de canales ha sido inicializada
-//	 * @param nCanal El canal que se quiere agregar
-//	 * @return Canal: El canal que ha sido agregado
-//	 */
-//	public Canal agregarCanal(Canal nCanal);
+	/**
+	 * Retorna las categorias del reproductor
+	 * @return Las categorias del reproductor
+	 */
+	public Object[] darCategorias();
 
-//	/**
-//	 * pre: El proyecto ya esta cargado <br>
-//	 * Cambia el bpm/tempo de reproduccion del proyecto <br>
-//	 * @param nBpm El nuevo tempo de reproduccion <br>
-//	 * @return El bpm que se ha cambiado
-//	 */ 
-//	public void aumentarBpm();
-//
+	/**
+	 * Elimina el sonido dado por parametro
+	 * @param sonido EL sonido a eliminar
+	 */
+	public void eliminarSonido(Sample sonido);
 
+	/**
+	 * Elimina el proyecto dado por parametro
+	 * @param proyecto El proyecto a eliminar.
+	 */
+	public void eliminarProyecto(Proyecto proyecto);
 
-
-//	/**
-//	 * Crea un nuevo proyecto con un autor, nombre y numero inicial de canales 
-//	 * @param autor El autor del proyecto
-//	 * @param nombre El nombre del proyecto
-//	 * @param numCanales El numero inicial de canales que va a tener el proyecto
-//	 * @return Reproductor: Un nuevo proyecto inicializado
-//	 */
-//	public Reproductor crearProyecto(String autor, String nombre, int numCanales);
-//
-//	/**
-//	 * Edita un proyecto dado el reproductor y los cambios
-//	 * @param nReproductor El reproductor que se quiere editar
-//	 * @param nNombre El nuevo nombre del proyecto
-//	 * @param nAutor El nuevo autor del proyecto
-//	 */
-//	public void editarProyecto(String nNombre, String nAutor);
-//
-//	/**
-//	 * Elimina el canal dado por parametro
-//	 * pre: La lista de canales ha sido inicializada
-//	 * @param nCanal El canal que se quiere eliminar
-//	 * @return El canal eliminado, null en caso contrario
-//	 * post: Se ha eliminado un canal de la lista
-//	 */
-//	public Canal eliminarCanal(Canal nCanal);
-//
-//	/**
-//	 * Elimina la categoria dada por parametro
-//	 * pre: La lista de categorias ha sido inicializada
-//	 * @param nCategoria La categoria que se quiere eliminar
-//	 * @return La categoria eliminada, null en caso contrario
-//	 * post: Se ha eliminado una categoria de la lista
-//	 */
-//	public Categoria eliminarCategoria(Categoria nCategoria);
-//
-//	/**
-//	 * Guarda el proyecto
-//	 * @param nProyecto El proyecto que se quiere guadar
-//	 * @return Retorna el reproductor guardado
-//	 * post: Se ha generado un archivo serializado con los datos del proyecto
-//	 */
-//	public boolean guardarProyecto();
-//
-//	/**
-//	 * Pausa el proyecto en la duracion actual
-//	 * @return Duration: La duracion en la cual se pauso el proyecto
-//	 */
-//	public void pausar();
-//
-//	/**
-//	 * Reproduce el proyecto desde una duracion dada por parametro
-//	 * @param nDuracion La duracion desde la cual inicia la reproduccion
-//	 */
-//	public void reproducir(Duration nDuracion);
-//
-//	/**
-//	 * Frena la reproduccion totalmente del proyecto
-//	 */
-//	public void stop();
-//
-//	public Sample agregarSonidoACanal(Sample nSonido, Canal nCanal);
-//
-//	public Sample agregarSonidoALibreria(Sample nSonido);
-//
-//	public Canal agregarSonidosACanal(Sample[] nSonidos, Canal nCanal);
-//
-//	public Sample[] filtrarSonidosPorCategoria(Categoria nCategoria);
-//
-//	public Sample[] darSonidos();
-//
-//	boolean agregarSonidosALibreria(File[] nSonidos);
-//
-
+	/**
+	 * Guarda los sonidos y categorias en un archivo serializado.
+	 */
+	public void guardarSonidos();
 
 }

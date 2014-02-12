@@ -26,6 +26,10 @@ import mundo.Sample;
 
 public class PanelProyecto extends JPanel {
 
+	private static final String AUMENTAR_BPM = "+";
+	private static final String PLAY = "Reproducir";
+	private static final String PAUSE = "Pausar";
+	private static final String STOP = "Parar";
 	private InterfazCupiSoundBox padre;
 	private JTextField textField;
 	private JLabel lblInformacion;
@@ -41,7 +45,7 @@ public class PanelProyecto extends JPanel {
 		add(lblInformacion);
 		
 		JButton btnPausar = new JButton("Pausar");
-		btnPausar.setActionCommand(Canal.PAUSE);
+		btnPausar.setActionCommand(PAUSE);
 		btnPausar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -53,7 +57,7 @@ public class PanelProyecto extends JPanel {
 		add(btnPausar);
 		
 		JButton btnReproducir = new JButton("Reproducir");
-		btnReproducir.setActionCommand(Canal.PLAY);
+		btnReproducir.setActionCommand(PLAY);
 		btnReproducir.setBounds(333, 387, 117, 29);
 		btnReproducir.addActionListener(new ActionListener() {
 			
@@ -65,7 +69,7 @@ public class PanelProyecto extends JPanel {
 		add(btnReproducir);
 		
 		JButton btnParar = new JButton("Parar");
-		btnParar.setActionCommand(Canal.STOP);
+		btnParar.setActionCommand(STOP);
 		btnParar.setBounds(462, 387, 117, 29);
 		btnParar.addActionListener(new ActionListener() {
 			
@@ -138,7 +142,7 @@ public class PanelProyecto extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnAumentar = new JButton("+");
-		btnAumentar.setActionCommand(Canal.AUMENTAR_BPM);
+		btnAumentar.setActionCommand(AUMENTAR_BPM);
 		btnAumentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("" + padre.darBPM());

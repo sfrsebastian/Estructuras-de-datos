@@ -1,12 +1,9 @@
 package mundo;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 import Lista.Lista;
 
 
@@ -15,21 +12,48 @@ import Lista.Lista;
  * @version 1.0
  * @created 04-Feb-2014 11:09:35 PM
  */
-public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializable {
-	public static final String AUMENTAR_BPM = "+";
-	public static final String DISMINUIR_BPM = "-";
-	public static final String PLAY = "Play";
-	public static final String PAUSE = "Pause";
-	public static final String STOP = "Stop";
+public class Canal implements Comparable<Canal>,Serializable {
+	/**
+	 * COnstante para representar un canal sin nomrbe
+	 */
 	private static final String DEFAULT = "Sin Nombre";
 	
+	/**
+	 * La lista de sonidos del canal
+	 */
 	private Lista <Sample> sonidos;
+	
+	/**
+	 * EL nombre del canal
+	 */
 	private String nombre;
+	
+	/**
+	 * El bpm del canal
+	 */
 	private double bpm;
+	
+	/**
+	 * El sonido reproduciendose actualmente
+	 */
 	private int sonidoActual;
+	
+	/**
+	 * boolean que determina si se termino la reproduccion
+	 */
 	private boolean termino;
+	
+	/**
+	 * El reproductor del canal
+	 */
 	private MediaPlayer player;
 
+	
+	//Constructor
+	/**
+	 * Se crea un nuevo canal con el nombre dado por parametro
+	 * @param nNombre EL nombre del canal
+	 */
 	public Canal(String nNombre){
 		nombre = nNombre;
 		sonidos = new Lista<Sample>();
@@ -37,7 +61,9 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 		sonidoActual = 0;
 		termino = false;
 	}
-	
+	/**
+	 * Crea un nuevo canal con el nombre determinado
+	 */
 	public Canal(){
 		nombre = DEFAULT;
 		sonidos = new Lista<Sample>();
@@ -47,8 +73,8 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 	}
 
 	/**
-	 * 
-	 * @param Sample
+	 * Agrega el sonido dado por parametro al canal
+	 * @param Sample El sonido a agregar
 	 */
 	public void agregarSonido(Object[] samples){
 		for (int i = 0; i < samples.length; i++) {
@@ -57,39 +83,52 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 		}
 	}
 
+	/**
+	 * Aumenta el bpm de reproduccion en un cantidad de 0.1
+	 */
 	public void aumentarBpm(){
 		bpm+=0.1;
 		bpm = Math.floor(bpm * 10) / 10;
 		player.setRate(bpm);
 	}
 	
+	/**
+	 * Disminuye el bpm de reproduccion en una cantidad de 0.1
+	 */
 	public void disminuirBpm(){
 		bpm-=0.1;
 		bpm = Math.floor(bpm * 10) / 10;
 		player.setRate(bpm);
 	}
 	/**
-	 * 
-	 * @param Sample
+	 * Busca el sonido dado por parametro
+	 * @param Sample El sonido encontrado, null de lo contrario.
 	 */
 	public Sample buscarSonido(Sample nSample){
 		return sonidos.buscar(nSample);
 	}
 
+	/**
+	 * Retorna los sonidos del canal.
+	 * @return EL arreglo de sonidos.
+	 */
 	public Object[] darSonidos(){
 		return sonidos.darArreglo();
 	}
 
 	/**
-	 * 
-	 * @param Sample
+	 * Elimina el sonido dado por parametro
+	 * @param Sample El sonido eliminado.
 	 */
 	public Sample eliminarSonido(Sample nSample){
 		sonidos.eliminar(nSample);
 		return nSample;
 	}
 
-	@Override
+	/**
+	 * Retorna la duracion totoal del canal.
+	 * @return La duracion total del canal
+	 */
 	public double darDuracionTotal() {
 		Object[] recorrido = sonidos.darArreglo();
 		double duracion = 0;
@@ -100,22 +139,31 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 		return duracion;
 	}
 
-	@Override
+	/**
+	 * Retorna el nombre del canal
+	 */
 	public String darNombre() {
 		return nombre;
 	}
 
-	@Override
+	/**
+	 * Pausa el canal
+	 */
 	public void pausar() {
 		player.pause();
 	}
 
-	@Override
+	/**
+	 * Para el canal. El contado de sonido actual se reinicia.
+	 */
 	public void stop() {
 		player.stop();
 		sonidoActual = 0;
 	}
 
+	/**
+	 * Reproduce el canal. Se reprduce un sonido seguido del otro.
+	 */
 	public void reproducir() {
 		Object[] lista = sonidos.darArreglo();
 		if(sonidoActual>=lista.length){
@@ -139,31 +187,18 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 	}
 
 	
+	/**
+	 * Inicializa el reproductor
+	 * @param reproduciendo
+	 */
 	private void inicializarPlayer(Media reproduciendo) {
 		player = new MediaPlayer(reproduciendo);
 		player.setRate(bpm);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String comando  = e.getActionCommand();
-		if(comando.equals(AUMENTAR_BPM)){
-			aumentarBpm();
-		}
-		else if(comando.equals(DISMINUIR_BPM)){
-			disminuirBpm();
-		}
-		else if(comando.equals(PLAY)){
-			reproducir();
-		}
-		else if(comando.equals(PAUSE)){
-			pausar();
-		}
-		else{
-			stop();
-		}
-	}
-
+	/**
+	 * Metodo para comprar dos canales.
+	 */
 	@Override
 	public int compareTo(Canal aComparar) {
 		if(nombre.compareTo(aComparar.darNombre())<0){
@@ -177,10 +212,17 @@ public class Canal implements ISonido, ActionListener,Comparable<Canal>,Serializ
 		}	
 	}
 	
+	/**
+	 * Metodo para cambiar el nombre del canal
+	 * @param nNombre
+	 */
 	public void cambiarNombre(String nNombre){
 		nombre = nNombre;
 	}
 	
+	/**
+	 * Metodo to string. Retorna el nombre del canal.
+	 */
 	public String toString(){
 		return nombre;
 	}
