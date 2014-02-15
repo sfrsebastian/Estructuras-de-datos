@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.Serializable;
 
 import Lista.Lista;
-import javafx.scene.media.Media;
-import javafx.util.Duration;
 
 
 /**
@@ -112,7 +110,6 @@ public class Sample implements Comparable<Sample>,Serializable {
 	/**
 	 * Metodo que compara dos sonidos
 	 */
-	@Override
 	public int compareTo(Sample aComparar) {
 		if(nombre.compareTo(aComparar.darNombre())<0){
 			return -1;

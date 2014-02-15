@@ -56,7 +56,6 @@ public class Enfermera implements Comparable<Enfermera>{
 		this.cedula = cedula;
 	}
 
-	@Override
 	public int compareTo(Enfermera o) {
 		if(cedula.equals(o.getCedula())){
 			return 0;

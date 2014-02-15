@@ -2,6 +2,7 @@ package mundo;
 
 import java.io.Serializable;
 
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import Lista.Lista;
@@ -89,7 +90,9 @@ public class Canal implements Comparable<Canal>,Serializable {
 	public void aumentarBpm(){
 		bpm+=0.1;
 		bpm = Math.floor(bpm * 10) / 10;
-		player.setRate(bpm);
+		if(player != null)
+			player.setRate(bpm);
+		
 	}
 	
 	/**
@@ -98,7 +101,8 @@ public class Canal implements Comparable<Canal>,Serializable {
 	public void disminuirBpm(){
 		bpm-=0.1;
 		bpm = Math.floor(bpm * 10) / 10;
-		player.setRate(bpm);
+		if(player != null)
+			player.setRate(bpm);
 	}
 	/**
 	 * Busca el sonido dado por parametro
@@ -150,14 +154,16 @@ public class Canal implements Comparable<Canal>,Serializable {
 	 * Pausa el canal
 	 */
 	public void pausar() {
-		player.pause();
+		if(player != null)
+			player.pause();
 	}
 
 	/**
 	 * Para el canal. El contado de sonido actual se reinicia.
 	 */
 	public void stop() {
-		player.stop();
+		if(player != null)
+			player.stop();
 		sonidoActual = 0;
 	}
 
@@ -165,6 +171,7 @@ public class Canal implements Comparable<Canal>,Serializable {
 	 * Reproduce el canal. Se reprduce un sonido seguido del otro.
 	 */
 	public void reproducir() {
+		JFXPanel panel = new JFXPanel();
 		Object[] lista = sonidos.darArreglo();
 		if(sonidoActual>=lista.length){
 			termino = true;
@@ -199,7 +206,6 @@ public class Canal implements Comparable<Canal>,Serializable {
 	/**
 	 * Metodo para comprar dos canales.
 	 */
-	@Override
 	public int compareTo(Canal aComparar) {
 		if(nombre.compareTo(aComparar.darNombre())<0){
 			return -1;
@@ -225,6 +231,14 @@ public class Canal implements Comparable<Canal>,Serializable {
 	 */
 	public String toString(){
 		return nombre;
+	}
+	
+	/**
+	 * retorna el bpm del canal
+	 * @return
+	 */
+	public Double darBPM() {
+		return bpm;
 	}
 	
 	

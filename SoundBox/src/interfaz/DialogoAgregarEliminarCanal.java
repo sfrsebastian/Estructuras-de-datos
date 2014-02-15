@@ -26,6 +26,7 @@ public class DialogoAgregarEliminarCanal extends JDialog {
 	public DialogoAgregarEliminarCanal(){
 		setSize(300,200);
 		setTitle("Agregar Eliminar Canal");
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		

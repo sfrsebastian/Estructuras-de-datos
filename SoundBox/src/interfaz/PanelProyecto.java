@@ -25,11 +25,6 @@ import mundo.Proyecto;
 import mundo.Sample;
 
 public class PanelProyecto extends JPanel {
-
-	private static final String AUMENTAR_BPM = "+";
-	private static final String PLAY = "Reproducir";
-	private static final String PAUSE = "Pausar";
-	private static final String STOP = "Parar";
 	private InterfazCupiSoundBox padre;
 	private JTextField textField;
 	private JLabel lblInformacion;
@@ -45,10 +40,8 @@ public class PanelProyecto extends JPanel {
 		add(lblInformacion);
 		
 		JButton btnPausar = new JButton("Pausar");
-		btnPausar.setActionCommand(PAUSE);
 		btnPausar.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				padre.pausar();	
 			}
@@ -57,11 +50,9 @@ public class PanelProyecto extends JPanel {
 		add(btnPausar);
 		
 		JButton btnReproducir = new JButton("Reproducir");
-		btnReproducir.setActionCommand(PLAY);
 		btnReproducir.setBounds(333, 387, 117, 29);
 		btnReproducir.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				padre.reproducir();
 			}
@@ -69,11 +60,9 @@ public class PanelProyecto extends JPanel {
 		add(btnReproducir);
 		
 		JButton btnParar = new JButton("Parar");
-		btnParar.setActionCommand(STOP);
 		btnParar.setBounds(462, 387, 117, 29);
 		btnParar.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				padre.parar();
 			}
@@ -120,7 +109,6 @@ public class PanelProyecto extends JPanel {
 		scrollPane.setBounds(16, 65, 563, 302);
 		scrollPane.addMouseWheelListener(new MouseWheelListener() {
 			
-			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0) {
 				// TODO Auto-generated method stub
 				panelDibujo.repaint();
@@ -142,21 +130,27 @@ public class PanelProyecto extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnAumentar = new JButton("+");
-		btnAumentar.setActionCommand(AUMENTAR_BPM);
 		btnAumentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText("" + padre.darBPM());
-				
+				try{
+					textField.setText("" + padre.aumentarBPM());
+				}catch(Exception e1){
+					e1.printStackTrace();
+				}
 			}
 		});		
 		btnAumentar.setBounds(100, 389, 51, 29);
 		add(btnAumentar);
-		
+
 		JButton btnDisminuir = new JButton("-");
 		btnDisminuir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText("" + padre.darBPM());
-				
+				try{
+					textField.setText("" + padre.disminuiBPM());
+				}catch(Exception e1){
+					e1.printStackTrace();
+				}
+
 			}
 		});	
 		btnDisminuir.setBounds(146, 389, 51, 29);

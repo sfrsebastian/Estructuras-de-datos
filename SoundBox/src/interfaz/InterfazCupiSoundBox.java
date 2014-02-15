@@ -38,17 +38,38 @@ public class InterfazCupiSoundBox extends JFrame{
 	// Atributos
 	//------------------------------------
 	
+	/**
+	 * La referencia estatica de la interfaz para conectar a los dialogos
+	 */
 	private static InterfazCupiSoundBox self;
+	
+	/**
+	 * La clase principal de reproductor
+	 */
 	private Reproductor reproductor;
+	
+	/**
+	 * El panel de proyectos guardados
+	 */
 	private PanelProyectosGuardados panelProyectosGuardados;
+	
+	/**
+	 * El panel del proyecto
+	 */
 	private PanelProyecto panelProyecto;
 	
+	/**
+	 * El proyecto actual del reproductor
+	 */
 	private Proyecto proyectoActual;
 	
 	//------------------------------------
 	// Constructor
 	//------------------------------------
 	
+	/**
+	 * Inicializa la interfaz de CupiSoundBox
+	 */
 	public InterfazCupiSoundBox(){
 		
 		reproductor = new Reproductor();
@@ -69,7 +90,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		itmNuevoProyecto.setToolTipText("Hola");
 		itmNuevoProyecto.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				DialogoNuevoProyecto dialogoNuevoProyecto = new DialogoNuevoProyecto();
 				dialogoNuevoProyecto.setParent(self);
@@ -81,7 +101,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		JMenuItem itmBibliotecaSonidos = new JMenuItem("Biblioteca de Sonidos");
 		itmBibliotecaSonidos.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				DialogoBibliotecaSonidos dialogoBibliotecaSonidos = new DialogoBibliotecaSonidos(false,null);
 				dialogoBibliotecaSonidos.setParent(self);
@@ -93,7 +112,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		JMenuItem itmCategorias = new JMenuItem("Manejar Categorias");
 		itmCategorias.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				DialogoManejarCategorias dialogoManejarCategorias = new DialogoManejarCategorias();
 				dialogoManejarCategorias.setPadre(self);
@@ -105,7 +123,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		JMenuItem itmEliminarProyecto = new JMenuItem("Eliminar proyecto");
 		itmEliminarProyecto.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				Proyecto proyecto = panelProyectosGuardados.darProyectoSeleccionado();
 				if(proyecto != null){
@@ -130,7 +147,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		JMenuItem itmGuardarProyecto = new JMenuItem("Guardar Proyecto");
 		itmGuardarProyecto.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				salvarProyecto();
 			}
@@ -144,7 +160,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		JMenuItem itmSalir = new JMenuItem("Cerrar");
 		itmSalir.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				salir();
 			}
@@ -166,25 +181,89 @@ public class InterfazCupiSoundBox extends JFrame{
 	// Metodos
 	//------------------------------------
 	
+	/**
+	 * Hace que la interfaz termine la ejecucion
+	 */
 	private void salir(){
 		this.dispose();
 	}
 	
+	/**
+	 * Muestra un error dado por parametro en un JOptionPane
+	 * @param error El error que se quiere mostrar
+	 */
 	private void mostrarError(String error){
 		JOptionPane.showMessageDialog(this, error, "Hola", JOptionPane.ERROR_MESSAGE);
 	}
 	
-	public boolean tieneProyecto(){
-		return (proyectoActual == null) ? false : true;
+	/**
+	 * Agrega una nueva categoria al reproductor
+	 * @param categoria El nombre de la nueva categoria 
+	 * Post: Se ha agregado una nueva categoria al reproductor
+	 */
+	public void agregarCategoria(String categoria) {
+		reproductor.agregarCategoria(new Categoria(categoria));
+	}
+
+	/**
+	 * Agrega una categoria a un sonido dado por parametro
+	 * @param sonido El sonido que se quiere anadir
+	 * @param cat La categoria a la cual se le asigna el sonido
+	 */
+	public void agregarCategoriaASonido(Sample sonido, Categoria cat){
+		reproductor.asignarCategoria(cat, sonido);
+	}
+
+	/**
+	 * Agrega un nuevo canal al reproductor
+	 * @param canal El nombre del nuevo canal
+	 * Post: Se ha agregado una nueva categoria al reproductor
+	 */
+	public void agregarCanal(String canal) {
+		proyectoActual.agregarCanal(new Canal(canal));
+		panelProyecto.refrescarPanelDibujo();
+	}
+
+	/**
+	 * Agrega un arreglo de sonidos a un canal dados por parametro
+	 * @param canal El canal que al que se le agregan los sonidos
+	 * @param objects El arreglo de sonidos 
+	 * Post: Se ha agregado un arreglo de sonidos al canal
+	 */
+	public void agregarSonidoACanal(Canal canal, Object[] objects) {
+		canal.agregarSonido(objects);
+	}
+
+	/**
+	 * Aumenta el BPM del proyecto
+	 * @return Double: El BPM actual
+	 */
+	public Double aumentarBPM() {
+		if(proyectoActual != null)
+			return proyectoActual.aumentarBPM();
+			else
+				mostrarError("No hay proyecto actual");
+			return 0.0;
+	}
+
+	/**
+	 * Carga un proyecto
+	 * @param proyectoCargado El proyecto que se quiere cargar
+	 * Post: Se ha cargado el proyecto 
+	 */
+	public void cargarProyecto(Proyecto proyectoCargado) {
+		proyectoActual = proyectoCargado;
+		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
+		panelProyecto.refrescarPanel(proyectoActual);
+		panelProyecto.refrescarPanelDibujo();
 	}
 	
-	//------------------------------------
-	
 	/**
-	 * 
-	 * @param nombre
-	 * @param autor
-	 * @param canales
+	 * Crea un nuevo proyecto con la informacion dada
+	 * @param nombre El nombre del proyecto
+	 * @param autor El autor del proyecto
+	 * @param canales El numero inicial de canales
+	 * Post: Se ha creado y agregado un nuevo proyecto
 	 */
 	public void crearProyecto(String nombre, String autor, int canales){
 		proyectoActual = reproductor.agregarProyecto(nombre,autor,canales);
@@ -192,27 +271,54 @@ public class InterfazCupiSoundBox extends JFrame{
 		panelProyecto.refrescarPanel(proyectoActual);
 		panelProyecto.refrescarPanelDibujo();
 	}
-	
+
 	/**
-	 * Guarda el proyecto actual
+	 * Retorna las categorias que tiene el reproductor
+	 * @return Object[] Categorias
 	 */
-	public void salvarProyecto(){
-		if(proyectoActual != null)
-			 proyectoActual.guardarProyecto();
-		else
-			mostrarError("No hay proyecto cargado");
+	public Object[] darCategorias() {
+		return reproductor.darCategorias();
 	}
 
-	public void pausar() {
-		proyectoActual.pausar();
+	/**
+	 * Da el arreglo de canales que tiene el proyecto actual
+	 * @return Object[] Canales
+	 */
+	public Object[] darCanales() {
+		if(tieneProyecto()){
+		Object[] canales = proyectoActual.darCanales();
+		return canales;
+		}else{
+			return null;
+		}
 	}
-	
-	public void reproducir(){
-		proyectoActual.reproducir();
+
+	/**
+	 * Retorna la lista de lo sonidos del reproductor
+	 * @return Object[] Arreglo de sonidos
+	 */
+	public Object[] darSonidos() {
+		return reproductor.darSonidos();
 	}
-	
-	public void parar(){
-		proyectoActual.parar();
+
+	/**
+	 * Retorna el arreglo de proyectos del reproductor
+	 * @return Object[] Arreglo de proyectos
+	 */
+	public Object[] darProyectos() {
+		return reproductor.darProyectos();
+	}
+
+	/**
+	 * Disminuy el BPM del proyecto
+	 * @return El BPM del proyecto
+	 */
+	public Double disminuiBPM() {
+		if(proyectoActual != null)
+		return proyectoActual.disminuirBPM();
+		else
+			mostrarError("No hay proyecto actual");
+		return 0.0;
 	}
 
 	/**
@@ -229,61 +335,16 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	/**
-	 * 
-	 * @param filtro
-	 * @param combo
-	 * @return
+	 * Elimina una categoria dada por parametro
+	 * @param categoriaEliminada La categoria que se quiere eliminar
 	 */
-	public Proyecto filtrarProyectos(String filtro, String combo) {
-		if(combo.equals("Nombre")){
-			return reproductor.buscarProyectoPorNombre(filtro);
-		}
-		else{
-			return reproductor.buscarProyectoPorAutor(filtro);
-		}
-	}
-
-	public void agregarCategoria(String categoria) {
-		reproductor.agregarCategoria(new Categoria(categoria));
-	}
-	
-	public void agregarCategoriaASonido(Sample sonido, Categoria cat){
-		reproductor.asignarCategoria(cat, sonido);
-	}
-
 	public void eliminarCategoria(Categoria categoriaEliminada) {
 		reproductor.eliminarCategoria(categoriaEliminada);
 	}
-	
-	public double darBPM(){
-		//return reproductor.darProyectoActual().darBPM();
-		return 0;
-	}
-	
-	public void eliminarProyecto(){
-		//TODO eliminar proyecto!!
-	}
-
-	public Object[] darCategorias() {
-		return reproductor.darCategorias();
-	}
-
-	public void filtrarCategorias(String filtro) {
-		// TODO Auto-generated method stub
-	}
-
-	public Object[] darCanales() {
-		if(tieneProyecto()){
-		Object[] canales = proyectoActual.darCanales();
-		return canales;
-		}else{
-			return null;
-		}
-	}
 
 	/**
-	 * 
-	 * @param canalAEliminar
+	 * Elimina un canal del proyecto actual
+	 * @param canalAEliminar El canal a eliminar
 	 */
 	public void eliminarCanal(Canal canalAEliminar) {
 		proyectoActual.eliminarCanal(canalAEliminar);
@@ -291,29 +352,17 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	/**
-	 * 
-	 * @param canal
+	 * Elimina un sonido del reproductor
+	 * @param sonido El sonido que se quiere eliminar
 	 */
-	public void agregarCanal(String canal) {
-		proyectoActual.agregarCanal(new Canal(canal));
-		panelProyecto.refrescarPanelDibujo();
+	public void eliminarSonido(Sample sonido) {
+		reproductor.eliminarSonido(sonido);
+		if(proyectoActual != null)
+			proyectoActual.eliminarSonidosDeCanal(sonido);
 	}
 
 	/**
-	 * 
-	 * @return
-	 */
-	public Object[] darSonidos() {
-		return reproductor.darSonidos();
-	}
-
-	public void filtrarSonidos(String tipoFiltro, String filtro) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * 
+	 * Permite escoger un archivo unico de sonido para agregar al reproductor
 	 */
 	public void escogerArchivo() {
 		JFileChooser chooser = new JFileChooser();
@@ -325,11 +374,10 @@ public class InterfazCupiSoundBox extends JFrame{
 	}
 
 	/**
-	 * 
+	 * Permite escoger una carpeta llena de sonidos para agregar al reproductor 
 	 */
 	public void escogerCarpeta() {
 		JFileChooser chooser = new JFileChooser();
-		//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		chooser.setMultiSelectionEnabled(true);
 		int resultado = chooser.showOpenDialog(this);
 		if(resultado == JFileChooser.APPROVE_OPTION){
@@ -338,20 +386,121 @@ public class InterfazCupiSoundBox extends JFrame{
 		}
 	}
 
-	public void agregarSonidoACanal(String sonido) {
-		// TODO Auto-generated method stub
-		//Ni idea!!!!!!!!!!!!!!!!!!!
+	/**
+	 * Elimina una categoria del sonido dado por parametro
+	 * @param sonido El sonido que tiene las categorias
+	 * @param cat La categoria a eliminar
+	 * @return Categoria la categoria eliminada
+	 */
+	public Categoria eliminarCategoriaDeSonido(Sample sonido, Categoria cat) {
+		return sonido.eliminarCategoria(cat);
 	}
-	
-	public Object[] darProyectos() {
-		return reproductor.darProyectos();
-	}
-	
-	public void cargarProyecto(Proyecto proyectoCargado) {
-		proyectoActual = proyectoCargado;
-		panelProyectosGuardados.refrescarListaProyectos(reproductor.darProyectos());
-		panelProyecto.refrescarPanel(proyectoActual);
+
+	/**
+	 * Edita la informacion del canal
+	 * @param canalActual El canal que se quiere editar
+	 * @param nombre El nuevo nombre del canal
+	 */
+	public void editarCanal(Canal canalActual, String nombre) {
+		canalActual.cambiarNombre(nombre);
 		panelProyecto.refrescarPanelDibujo();
+	}
+	
+	/**
+	 * Refresca el panel dibujo
+	 */
+	public void refrescarPanelProyecto(){
+		panelProyecto.refrescarPanelDibujo();
+	}
+
+	/**
+	 * Filtra los proyectos del reproductor dado los parametros
+	 * @param filtro El tipo de filtro Nombre o Categoria
+	 * @param combo El filtro que se quiere comparar
+	 * @return El proyecto encontrado, null en caso contrario
+	 */
+	public Proyecto filtrarProyectos(String filtro, String combo) {
+		if(combo.equals("Nombre")){
+			return reproductor.buscarProyectoPorNombre(filtro);
+		}
+		else{
+			return reproductor.buscarProyectoPorAutor(filtro);
+		}
+	}
+
+	public void filtrarCategorias(String filtro) {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Filtra los sonidos dada la categoria
+	 * @param filtro String, con el tiepo de filtro para los sonidos
+	 * @return Un arreglo con los objetos relevantes, Arreglo vacio en caso
+	 * contrario
+	 */
+	public Object[] filtrarSonidosPorCategoria(String filtro) {
+		Categoria t = reproductor.darCategoriaPorNombre(filtro);
+		if(t != null)
+			return reproductor.filtrarSonidosPorCategoria(t);
+		else
+			return null;
+	}
+
+	/**
+	 * Filtra los sonidos 
+	 * @param filtro El tipo de filtro por el que se quiere buscar
+	 * @return Un arreglo de sonidos, arreglo vacio en caso contrario
+	 */
+	public Object[] filtrarSonidosPorNombre(String filtro) {
+		return reproductor.filtrarSonidosPorNombre(filtro);
+	}
+
+	/**
+	 * Reproduce el proyecto
+	 */
+	public void reproducir(){
+		if(proyectoActual != null)
+		proyectoActual.reproducir();
+		else
+			mostrarError("No hay proyecto actual");
+	}
+	
+	/**
+	 * Guarda el proyecto actual
+	 */
+	public void salvarProyecto(){
+		if(proyectoActual != null)
+			 proyectoActual.guardarProyecto();
+		else
+			mostrarError("No hay proyecto cargado");
+	}
+
+	/**
+	 * Comprueba si hay un proyecto cargado
+	 * @return TRUE si cierto, FALSE en caso contrario
+	 */
+	public boolean tieneProyecto(){
+		return (proyectoActual == null) ? false : true;
+	}
+	
+	/**
+	 * Pausa la reproduccion del proyecto
+	 */
+	public void pausar() {
+		if(proyectoActual != null)
+		proyectoActual.pausar();
+		else
+			mostrarError("No hay proyecto actual");
+	}
+	
+	/**
+	 * Para la reproduccion del proyecto
+	 */
+	public void parar(){
+		if(proyectoActual != null)
+		proyectoActual.parar();
+		else
+			mostrarError("No hay proyecto actual");
 	}
 
 	//------------------------------------
@@ -362,26 +511,6 @@ public class InterfazCupiSoundBox extends JFrame{
 		InterfazCupiSoundBox interfaz = new InterfazCupiSoundBox();
 		self = interfaz;
 		interfaz.setVisible(true);
-	}
-
-	public void agregarSonidoACanal(Canal canal, Object[] objects) {
-		// TODO Auto-generated method stub
-		canal.agregarSonido(objects);
-	}
-
-	public Categoria eliminarCategoriaDeSonido(Sample sonido, Categoria cat) {
-		return sonido.eliminarCategoria(cat);
-	}
-
-	public void editarCanal(Canal canalActual, String nombre) {
-		canalActual.cambiarNombre(nombre);
-		panelProyecto.refrescarPanelDibujo();
-	}
-
-	public void eliminarSonido(Sample sonido) {
-		reproductor.eliminarSonido(sonido);
-		if(proyectoActual != null)
-			proyectoActual.eliminarSonidosDeCanal(sonido);
 	}
 
 }

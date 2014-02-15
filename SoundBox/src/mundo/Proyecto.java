@@ -8,49 +8,21 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-import javafx.util.Duration;
 import Lista.Lista;
 
 public class Proyecto implements Comparable <Proyecto>, Serializable {
-	
-	//Atributos
-	/**
-	 * La ruta para almacenar el proyecto.
-	 */
 	private static final String RUTA_GUARDADO = "./data/Proyectos/";
-	
-	/**
-	 * El autor del proyecto
-	 */
 	private String autor;
-	
-	/**
-	 * El nombre del proyecto
-	 */
 	private String nombre;
-	
-	/**
-	 * Los canales del proyecto
-	 */
 	private Lista <Canal> canales;
-	
-	/**
-	 * La duracion del proyecto
-	 */
 	private double duracion;
-	
-	/**
-	 * La fecha de creacion del proyecto
-	 */
 	private Date fechaCreacion;
 
-	
-	//Constructor
 	/**
-	 * Crea un nuevo proyecto con los parametros dados por parametro.
-	 * @param nAutor
-	 * @param nNombre
-	 * @param numCanales
+	 * Crea un nuevo proyecto
+	 * @param nAutor El autor del proyecto
+	 * @param nNombre EL nombre del proyecto
+	 * @param numCanales El numero de canales para el proyecto
 	 */
 	public Proyecto(String nAutor, String nNombre, int numCanales){
 		autor = nAutor;
@@ -64,9 +36,8 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
     	fechaCreacion = c.getTime();
 	}
 	
-	//Metodos
 	/**
-	 * Guarda el proyecto en la ruta predeterminada
+	 * Guarda el proyecto en la ruta dada
 	 */
 	public void guardarProyecto(){
 		File f = new File(RUTA_GUARDADO + nombre + ".pr");
@@ -80,18 +51,18 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 	
 	/**
-	 * Agrega un canal al proyecto
+	 * Agrega un nuevo canal al proyecto
 	 * @param El canal a agregar
-	 * @return El canal agregado
+	 * @return El caal agregado, null de lo contrario
 	 */
 	public Canal agregarCanal(Canal nCanal){
 		return canales.agregar(nCanal);
 	}
 
 	/**
-	 * Elimina el canal dado por parametro
+	 * Elmina el canal dado por parametro
 	 * @param nCanal El canal a eliminar
-	 * @return El canal eliminado
+	 * @return El canal eliminado, null de lo contrario
 	 */
 	public Canal eliminarCanal(Canal nCanal){
 		return canales.eliminar(nCanal);
@@ -106,40 +77,40 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 
 	/**
-	 * Cambia el nombre del proyecto por el dado de parametro.
-	 * @param nNombre El nuevo nombre del proyecto.
+	 * Cambia el nombre del proyecto por le dado de parametro.
+	 * @param nNombre El nuevo nombre del proyecto
 	 */
 	public void cambiarNombre(String nNombre) {
 		nombre = nNombre;
 	}
 	
 	/**
-	 * Retorna el autor del Proyecto
-	 * @return El nuevo autor del proyecto
+	 * Retorna el autor del proyecto
+	 * @return El autor del proyecto
 	 */
 	public String darAutor() {
 		return autor;
 	}
 
 	/**
-	 * Cambia el nombre del autor del proyecto
-	 * @param nAutor El nuevo autor del proyecto
+	 * Cambia el autor del proyecto por el dado de parametro
+	 * @param nAutor El nuevo autor
 	 */
 	public void cambiarAutor(String nAutor){
 		autor = nAutor;
 	}
 	
 	/**
-	 * Retorna la fecha de creacion del proyecto
-	 * @return La fecha de creacion del proyecto
+	 * Retorna la fecha de creacion del pryecto
+	 * @return la fecha de creacion del pryeto
 	 */
 	public Date darFechaCreacion() {
 		return fechaCreacion;
 	}
 
 	/**
-	 * Retorna la duracion total del proyecto
-	 * @return La duracion del proyecto
+	 * Retorna la duracion del proyecto
+	 * @return La cantidad en seugundos de la duracion del proyecto
 	 */
 	public double darDuracion() {
 		Object[] lista  = canales.darArreglo();
@@ -153,9 +124,8 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 	
 	/**
-	 * Metodo de comparar Metodo para comparar un proyecto
+	 * Compara dos proyectos a partir de su nombre
 	 */
-	@Override
 	public int compareTo(Proyecto nProyecto) {
 		if(nombre.compareTo(nProyecto.darNombre())<0){
 			return -1;
@@ -169,7 +139,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 	
 	/**
-	 * Metodo que reproduce todos los canales del proyecto
+	 * Reproduce todos los samples del canal
 	 */
 	public void reproducir(){
 		Object[] nCanales = canales.darArreglo();
@@ -181,7 +151,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 	
 	/**
-	 * Metodo que pausa los canales del proyecto
+	 * Pausa el canal
 	 */
 	public void pausar(){
 		Object[] nCanales = canales.darArreglo();
@@ -193,7 +163,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 	
 	/**
-	 * Metodo que para todos los canales del proyecto
+	 * Para el canala. Reinicia la reproduccion al primer elemento
 	 */
 	public void parar(){
 		Object[] nCanales = canales.darArreglo();
@@ -205,22 +175,23 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	}
 	
 	/**
-	 * Metodo to string del proyecto
+	 * Retora el nombre + el autor del proyecto
 	 */
 	public String toString(){
 		return nombre + " - " + autor;
 	}
 	
 	/**
-	 * metodo que retorna los canales del proyecto
-	 * @return
+	 * Retorna los canales del proyecto
+	 * @return Los canales del proyecto
 	 */
 	public Object[] darCanales() {
 		return canales.darArreglo();
 	}
+	
 	/**
-	 * MEtodo que elimina un sonido de su respectivo canal
-	 * @param sonido EL sonido a elimianar.
+	 * Elimina el sonido dado de todos los canales
+	 * @param sonido
 	 */
 	public void eliminarSonidosDeCanal(Sample sonido) {
 		Object[] listaCanales = canales.darArreglo();
@@ -228,6 +199,44 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 		for (int i = 0; i < listaCanales.length; i++) {
 			Canal canalActual = (Canal)listaCanales[i];
 			canalActual.eliminarSonido(sonido);
+		}
+	}
+	
+	/**
+	 * Aumenta el bpm de todos los canales
+	 * @return EL bpm actual de todos los canales
+	 */
+	public Double aumentarBPM() {
+		Object[] nCanales = canales.darArreglo();
+		if(nCanales.length > 0){
+
+			for (int i = 0; i < nCanales.length; i++) {
+				Canal actual = (Canal)nCanales[i];
+				actual.aumentarBpm();
+			}
+
+			return ((Canal)nCanales[0]).darBPM();
+		}else{
+			return 0.0;
+		}
+	}
+
+	/**
+	 * Disminuye el bpm de todos los canales
+	 * @return EL bpm actual de todos los canales
+	 */
+	public Double disminuirBPM() {
+		Object[] nCanales = canales.darArreglo();
+		if(nCanales.length > 0){
+
+			for (int i = 0; i < nCanales.length; i++) {
+				Canal actual = (Canal)nCanales[i];
+				actual.disminuirBpm();
+			}
+
+			return ((Canal)nCanales[0]).darBPM();
+		}else{
+			return 0.0;
 		}
 	}
 }

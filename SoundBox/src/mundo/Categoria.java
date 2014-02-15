@@ -56,8 +56,8 @@ public class Categoria implements Comparable<Categoria>,Serializable {
 	 * Metodo que retorna los sonidos de la categoria.
 	 * @return Arreglo de sonidos
 	 */
-	public Sample[] darSonidos(){
-		return (Sample[]) sonidos.darElementos();
+	public Object[] darSonidos(){
+		return sonidos.darElementos();
 	}
 
 	/**
@@ -81,7 +81,6 @@ public class Categoria implements Comparable<Categoria>,Serializable {
 	/**
 	 * Metodo que compara dos categorias a partir de su nombre
 	 */
-	@Override
 	public int compareTo(Categoria nCategoria) {
 		if(nombre.compareTo(nCategoria.darNombre())<0){
 			return -1;

@@ -81,7 +81,6 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		}
 		listaSonidos.addListSelectionListener(new ListSelectionListener() {
 
-			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				try{
 					Sample sample = (Sample) listaSonidos.getSelectedValue();
@@ -99,7 +98,7 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		panelManejarSonidos.add(scrollPane);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nombre", "Categoria"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nombre", "Categoria", "Todos"}));
 		comboBox.setBounds(6, 309, 163, 27);
 		panelManejarSonidos.add(comboBox);
 		
@@ -116,10 +115,16 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String tipoFiltro = (String) comboBox.getSelectedItem();
 					String filtro = txtFiltro.getText();
-					padre.filtrarSonidos(tipoFiltro,filtro);
-					refrescarLista(padre.darSonidos());
+					
+					String tipoFiltro = (String) comboBox.getSelectedItem();
+					if(tipoFiltro.equals("Categoria")){
+						refrescarLista(padre.filtrarSonidosPorCategoria(filtro));
+					}else if(tipoFiltro.equals("Todos")){
+						refrescarLista(padre.darSonidos());
+					}else if(tipoFiltro.equals("Nombre")){
+						refrescarLista(padre.filtrarSonidosPorNombre(filtro));
+					}
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -135,10 +140,15 @@ public class DialogoBibliotecaSonidos extends JDialog {
 		panelAgregarSonido.setLayout(null);
 		
 		botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salir();
+			}
+		});
 		botonAceptar.setBounds(282, 66, 117, 29);
 		panelAgregarSonido.add(botonAceptar);
 		
-		botonAgregarSonido = new JButton("A\u00F1adir Sonido Seleccionado a Canal");
+		botonAgregarSonido = new JButton("A\u00F1adir Sonido(s) Seleccionado(s) a Canal");
 		botonAgregarSonido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -148,7 +158,6 @@ public class DialogoBibliotecaSonidos extends JDialog {
 					
 				} catch (Exception e2) {
 					// TODO: handle exception
-					e2.printStackTrace();
 				}
 			}
 		});

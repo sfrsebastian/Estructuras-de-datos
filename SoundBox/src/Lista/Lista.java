@@ -41,7 +41,6 @@ public class Lista<T extends Comparable<T>> implements ILista<T>, Serializable {
 	// Metodos
 	//------------------------------------------
 	 
-	@Override
 	public int darLongitud() {
 		return longitud;
 	}
@@ -65,7 +64,6 @@ public class Lista<T extends Comparable<T>> implements ILista<T>, Serializable {
 		return elemento;
 	}
 
-	@Override
 	public T buscar(T elemento) {	
 		NodoLista<T> actual = primero;
 		
@@ -80,7 +78,6 @@ public class Lista<T extends Comparable<T>> implements ILista<T>, Serializable {
 		return null;
 	}
 
-	@Override
 	public T eliminar(T elemento) {
 		NodoLista<T> actual = primero;
 		
@@ -107,7 +104,6 @@ public class Lista<T extends Comparable<T>> implements ILista<T>, Serializable {
 		return null;
 	}
 
-	@Override
 	public Object[] darArreglo() {
 		Object[] array = new Object[longitud];
 		NodoLista<T> actual = primero;

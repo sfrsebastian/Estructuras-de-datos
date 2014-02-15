@@ -28,7 +28,6 @@ public class DialogoManejarCategorias extends JDialog {
 	private JTextField txtNombreCat;
 	
 	private JList listaCategorias;
-	private JTextField txtFiltro;
 	
 	public DialogoManejarCategorias(){
 		setTitle("Manejar Categorias");
@@ -49,36 +48,6 @@ public class DialogoManejarCategorias extends JDialog {
 		JScrollPane scrollPane = new JScrollPane(listaCategorias);
 		scrollPane.setBounds(6, 23, 161, 337);
 		panel.add(scrollPane);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Filtrar Categorias", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(191, 174, 303, 198);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-		
-		JLabel lblFiltrarPor = new JLabel("Filtrar por:");
-		lblFiltrarPor.setBounds(16, 38, 96, 16);
-		panel_1.add(lblFiltrarPor);
-		
-		txtFiltro = new JTextField();
-		txtFiltro.setBounds(97, 32, 200, 28);
-		panel_1.add(txtFiltro);
-		txtFiltro.setColumns(10);
-		
-		JButton btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try{
-					String filtro = txtFiltro.getText();
-					padre.filtrarCategorias(filtro);
-					refrescarLista(padre.darCategorias());			
-				}catch(Exception e1){
-					
-				}
-			}
-		});
-		btnFiltrar.setBounds(180, 163, 117, 29);
-		panel_1.add(btnFiltrar);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Agregar/Eliminar Categorias", TitledBorder.LEADING, TitledBorder.TOP, null, null));

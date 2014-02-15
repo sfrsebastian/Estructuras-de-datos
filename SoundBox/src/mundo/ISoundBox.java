@@ -2,9 +2,6 @@ package mundo;
 
 import java.io.File;
 
-import javafx.util.Duration;
-import ListaOrdenada.ListaOrdenada;
-
 /**
  * @author Sebastian
  * @author Felipe Otalora
@@ -31,7 +28,7 @@ public interface ISoundBox {
 	 * @param nCategoria La categoria para el filtro
 	 * @return Un arreglo con los sonidos que cumplen el criterio.
 	 */
-	public Sample[] filtrarSonidosPorCategoria(Categoria nCategoria);
+	public Object[] filtrarSonidosPorCategoria(Categoria nCategoria);
 
 	/**
 	 * Agrega los sonidos dados por parametro a la libreria
@@ -105,5 +102,25 @@ public interface ISoundBox {
 	 * Guarda los sonidos y categorias en un archivo serializado.
 	 */
 	public void guardarSonidos();
+
+	/**
+	 * Retorna Los canales del reproductor
+	 * @return Arreglo de canales
+	 */
+	public Object[] darCanales();
+
+	/**
+	 * Retorna la categoria segun el nombre dado por parametro
+	 * @param nombre el nombre de la categoria
+	 * @return La categoria encontrada
+	 */
+	public Categoria darCategoriaPorNombre(String nombre);
+
+	/**
+	 * Filtra los sonidos segun el nombre dado por parametro
+	 * @param filtro El filtro de los sonidos
+	 * @return Un arreglo de sonidos que cumple con el filtro
+	 */
+	public Object[] filtrarSonidosPorNombre(String filtro);
 
 }

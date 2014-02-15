@@ -6,6 +6,8 @@ import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javafx.scene.media.Media;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +23,7 @@ public class PanelDibujo extends JPanel implements ActionListener {
 	
 	public PanelDibujo(){
 		setLayout(null);
-		setPreferredSize(new Dimension(2000, 2000));
+		setPreferredSize(new Dimension(1000, 800));
 	}
 	
 	public void setParent(InterfazCupiSoundBox interfaz) {
@@ -39,31 +41,33 @@ public class PanelDibujo extends JPanel implements ActionListener {
 			for (int i = 0; i < listaCanales.length; i++) {
 				Canal actual = (Canal)listaCanales[i];
 				Object[] samples = actual.darSonidos();
-				JButton boton = new JButton("editar: " + actual.darNombre());
-				boton.setBounds(0, i*52, 100, 50);
+				JButton boton = new JButton("" + actual.darNombre());
+				boton.setBounds(0, i*72, 100, 70);
 				boton.setActionCommand(""+i);
 				boton.addActionListener(this);
 				add(boton);
-
+				
 				if(samples != null){
 					for (int j = 0; j < samples.length; j++) {
 						Sample samplito = (Sample) samples[j];
+						
 						JLabel lblSonido = new JLabel(samplito.darNombre());
 						lblSonido.setOpaque(true);
-						lblSonido.setBackground(Color.cyan);
-						lblSonido.setBounds((j*103)+100, i*52, 100, 50);
+						Color color = new Color((int)(Math.random()*256), (int)(Math.random()*256), (int)(Math.random()*256));
+						lblSonido.setBackground(color);
+						lblSonido.setBounds((j*103)+100, i*72, 100, 70);
 						add(lblSonido);
 					}
 				}
 			}
 		}
+		repaint();
 	}
 	
 	public void agregarSonidosACanal(Canal nCanal, Object[] sonidos){
 		padre.agregarSonidoACanal(nCanal, sonidos);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
 		int c = Integer.parseInt(comando);

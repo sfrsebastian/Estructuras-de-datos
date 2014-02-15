@@ -22,6 +22,7 @@ public class DialogoNuevoProyecto extends JDialog {
 	public DialogoNuevoProyecto(){
 		setSize(250, 250);
 		setTitle("Nuevo Proyecto");
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
@@ -34,25 +35,21 @@ public class DialogoNuevoProyecto extends JDialog {
 		getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		JLabel lblBpm = new JLabel("BPM:");
-		lblBpm.setBounds(6, 55, 61, 16);
-		getContentPane().add(lblBpm);
-		
 		JLabel lblAutor = new JLabel("Autor:");
-		lblAutor.setBounds(6, 89, 61, 16);
+		lblAutor.setBounds(6, 55, 61, 16);
 		getContentPane().add(lblAutor);
 		
 		txtAutor = new JTextField();
-		txtAutor.setBounds(98, 83, 146, 28);
+		txtAutor.setBounds(98, 49, 146, 28);
 		getContentPane().add(txtAutor);
 		txtAutor.setColumns(10);
 		
 		JLabel lblCanales = new JLabel("Canales:");
-		lblCanales.setBounds(6, 125, 61, 16);
+		lblCanales.setBounds(6, 91, 61, 16);
 		getContentPane().add(lblCanales);
 		
 		txtCanales = new JTextField();
-		txtCanales.setBounds(98, 119, 146, 28);
+		txtCanales.setBounds(98, 85, 146, 28);
 		getContentPane().add(txtCanales);
 		txtCanales.setColumns(10);
 		
