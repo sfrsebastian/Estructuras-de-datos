@@ -1,6 +1,7 @@
 package ListaOrdenada;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  * @author Sebastian Florez
@@ -43,7 +44,7 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 	 */
 	public Object[] darElementos(){
 		NodoLista<T> actual = primerNodo;
-		Object[] respuesta = new Object[longitud];
+		Object[] respuesta = new Object[darLongitud()];
 		for(int i = 0; i<longitud;i++){
 			respuesta[i] = actual.darElemento();
 			actual = actual.darSiguiente();
@@ -110,7 +111,14 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 	 * @return La longitud de la lista.
 	 */
 	public int darLongitud() {
-		return longitud;
+		int valor = 0;
+		NodoLista<T> actual = primerNodo;
+		while(actual!=null){
+			valor++;
+			actual =actual.darSiguiente();
+		}
+		longitud = valor;
+		return valor;
 	}
 
 	/**
@@ -142,5 +150,10 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 			}
 			return null;
 		}
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new IteratorLista<T>(primerNodo); 
 	}
 }

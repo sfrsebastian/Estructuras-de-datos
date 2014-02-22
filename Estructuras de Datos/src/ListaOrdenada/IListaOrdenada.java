@@ -5,7 +5,7 @@ package ListaOrdenada;
  * @version 1.0
  * @created 01-Feb-2014 6:16:04 PM
  */
-public interface IListaOrdenada<T> {
+public interface IListaOrdenada<T> extends Iterable {
 
 	/**
 	 * 

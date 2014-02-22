@@ -1,4 +1,7 @@
-package testListaOrdenada;
+package src.testListaOrdenada;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import junit.framework.TestCase;
 import ListaOrdenada.ListaOrdenada;
@@ -170,4 +173,59 @@ public class testListaOrdenada extends TestCase {
 		assertEquals("No se retorno a la persona esperada", "Maria", listaPrueba.darElementos()[3]);
 		assertEquals("No se retorno a la persona esperada", "Pedro", listaPrueba.darElementos()[4]);
 	}
+	
+	public void testIterator(){
+		//Prueba con iterador vacio
+		setupScenario2();
+		Iterator<String> iterator = listaPrueba.iterator();
+		assertFalse(iterator.hasNext());
+		try{
+			iterator.next();
+			fail("no debe pasar por aca");
+		}
+		catch(NoSuchElementException e){
+			
+		}
+		try{
+			iterator.remove();
+			fail("no debe pasar por aca");
+		}
+		catch(NoSuchElementException e){
+			
+		}
+		
+		//Prueba iterador lleno
+		setupScenario1();
+		iterator = listaPrueba.iterator();
+		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),5);
+		
+		iterator = listaPrueba.iterator();
+		iterator.next();
+		try{
+			iterator.remove();//intenta eliminar el primero
+			fail("No debe pasar por aca");
+		}
+		catch(UnsupportedOperationException e){
+			
+		}
+		
+		iterator.next();//Elimina el segundo elemento de la lista
+		iterator.remove();
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Jose"));
+		assertFalse("Los elementos no deben ser el mismo", "Jose"==listaPrueba.darElementos()[1]);
+		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),4);
+		iterator = listaPrueba.iterator();
+		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),4);
+		
+		
+	}
+	private int iterarTamaño(Iterator iterator){
+		int contador = 0;
+		while(iterator.hasNext()){
+			iterator.next();
+			contador++;
+		}
+		return contador;
+	}
+	
 }
