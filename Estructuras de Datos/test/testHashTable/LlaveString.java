@@ -7,6 +7,6 @@ public class LlaveString {
 	}
 	
 	public int hashCode(){
-		return valor.hashCode();
+		return Math.abs(valor.hashCode());
 	}
 }

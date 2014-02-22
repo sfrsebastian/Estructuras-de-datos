@@ -34,10 +34,17 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 	}
 
 	public void reHash() {
-		double factor = tamano/capacidad;
+		System.out.println("Tamano " + tamano);
+		System.out.println("Capacidad: "+ capacidad);
+		double factor = (double)tamano/capacidad;
+		System.out.println("factor: "+ factor);
 		if(factor>factorCarga){
+			System.out.println("rehash-----");
 			capacidad =capacidad*2;
 			ListaOrdenada<NodoTabla<K,V>>[] nueva = new ListaOrdenada[areaPrimaria.length*2];
+			for(int i = 0; i<nueva.length;i++){
+				nueva[i] = new ListaOrdenada<NodoTabla<K,V>>();
+			}
 			for(int i = 0; i<areaPrimaria.length;i++){
 				IListaOrdenada<NodoTabla<K,V>> lista = areaPrimaria[i];
 				Iterator<NodoTabla<K,V>> iterador = lista.iterator();
@@ -60,6 +67,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		reHash();
 		NodoTabla<K,V> nuevo = new NodoTabla<K,V>(nLlave, nElemento);
 		int ubicacion = hash(nLlave);
+		System.out.println(ubicacion);
 		areaPrimaria[ubicacion].agregar(nuevo);
 		tamano++;
 		return true;
