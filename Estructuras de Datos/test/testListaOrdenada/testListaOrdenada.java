@@ -1,4 +1,4 @@
-package src.testListaOrdenada;
+package testListaOrdenada;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

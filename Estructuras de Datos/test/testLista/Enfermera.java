@@ -1,4 +1,4 @@
-package src.testLista;
+package testLista;
 
 public class Enfermera implements Comparable<Enfermera>{
 	

@@ -2,7 +2,9 @@ package HashTable;
 
 import java.util.Iterator;
 
+import Lista.Lista;
 import ListaOrdenada.IListaOrdenada;
+import ListaOrdenada.ListaOrdenada;
 
 public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V> {
 
@@ -12,42 +14,88 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 
 	private double factorCarga;
 
-	private int crecimento;// se llamaba incremento no se si es lo mismo.
+	private ListaOrdenada<NodoTabla<K,V>>[] areaPrimaria;
+	
+	private int crecimiento;
 
-	private IListaOrdenada<V>[] areaPrimaria;
-
-	public TablaHashing(int nTamano, double nCrecimiento) {
+	public TablaHashing(int nTamano, int nCrecimiento) {
+		capacidad = nTamano;
+		areaPrimaria = new ListaOrdenada[capacidad];
+		for(int i = 0; i<areaPrimaria.length;i++){
+			areaPrimaria[i] = new ListaOrdenada<NodoTabla<K,V>>();
+		}
+		tamano = 0;
+		crecimiento = nCrecimiento;
+		factorCarga = 0.75;
 	}
 
-	public int hash(K k) {
-		return 0;
+	public int hash(K nLlave) {
+		return nLlave.hashCode() % capacidad;
 	}
 
 	public void reHash() {
-
+		double factor = tamano/capacidad;
+		if(factor>factorCarga){
+			capacidad =capacidad*2;
+			ListaOrdenada<NodoTabla<K,V>>[] nueva = new ListaOrdenada[areaPrimaria.length*2];
+			for(int i = 0; i<areaPrimaria.length;i++){
+				IListaOrdenada<NodoTabla<K,V>> lista = areaPrimaria[i];
+				Iterator<NodoTabla<K,V>> iterador = lista.iterator();
+				while(iterador.hasNext()){
+					NodoTabla<K,V> actual = iterador.next();
+					nueva[hash((K) actual.darLlave())].agregar(actual);
+				}
+			}
+			areaPrimaria = nueva;
+		}
 	}
 
 	
-	public Iterator<V> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator iterator(){
+		return new IteratorTabla(areaPrimaria);
 	}
 
 	
 	public boolean agregar(K nLlave, V nElemento) {
-		// TODO Auto-generated method stub
-		return false;
+		reHash();
+		NodoTabla<K,V> nuevo = new NodoTabla<K,V>(nLlave, nElemento);
+		int ubicacion = hash(nLlave);
+		areaPrimaria[ubicacion].agregar(nuevo);
+		tamano++;
+		return true;
 	}
 
 	public V eliminar(K nLlave){
-		// TODO Auto-generated method stub
+		Iterator<NodoTabla<K,V>> iterador = areaPrimaria[hash(nLlave)].iterator();
+		while(iterador.hasNext()){
+			NodoTabla<K,V>elemento = iterador.next();
+			if(elemento.darLlave() == nLlave){
+				iterador.remove();
+				tamano--;
+				return elemento.darElemento();
+			}
+		}
 		return null;
 	}
 
 	public V buscar(K nLlave) {
-		// TODO Auto-generated method stub
+		Iterator<NodoTabla<K,V>> iterador = areaPrimaria[hash(nLlave)].iterator();
+		while(iterador.hasNext()){
+			NodoTabla<K,V>elemento = iterador.next();
+			if(elemento.darLlave() == nLlave){
+				return elemento.darElemento();
+			}
+		}
 		return null;
 	}
-
-
+	
+	public int darLongitud(){
+		int tamaño = 0;
+		for(int i = 0;i<areaPrimaria.length;i++){
+			ListaOrdenada<NodoTabla<K,V>> actual = areaPrimaria[i];
+			tamaño += actual.darLongitud(); 
+		}
+		tamano = tamaño;
+		return tamano;
+	}
 }

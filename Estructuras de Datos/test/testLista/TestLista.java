@@ -1,4 +1,4 @@
-package src.testLista;
+package testLista;
 
 import Lista.Lista;
 import junit.framework.TestCase;

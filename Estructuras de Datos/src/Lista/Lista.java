@@ -3,7 +3,7 @@ package Lista;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-public class Lista<T extends Comparable<T>> implements ILista<T>, Serializable {
+public class Lista<T extends Comparable<?super T>> implements ILista<T>, Serializable {
 
 	//------------------------------------------
 	// Atributos
