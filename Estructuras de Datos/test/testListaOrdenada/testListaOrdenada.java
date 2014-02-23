@@ -15,6 +15,15 @@ public class testListaOrdenada extends TestCase {
 	 */
 	private ListaOrdenada<String> listaPrueba;
 	
+	private int iterarTamaño(Iterator iterator){
+		int contador = 0;
+		while(iterator.hasNext()){
+			iterator.next();
+			contador++;
+		}
+		return contador;
+	}
+	
 	//------------------------------------------
 	// Setup Scenarios
 	//------------------------------------------
@@ -97,6 +106,16 @@ public class testListaOrdenada extends TestCase {
 		assertNull("Se espera null", listaPrueba.buscar("Daniel"));
 	}
 	
+	public void testDarElementos(){
+		setupScenario1();
+		assertEquals("El tamano de la lista no fue el mismo", 5, listaPrueba.darElementos().length);
+		assertEquals("No se retorno a la persona esperada", "Carmen", listaPrueba.darElementos()[0]);
+		assertEquals("No se retorno a la persona esperada", "Jose", listaPrueba.darElementos()[1]);
+		assertEquals("No se retorno a la persona esperada", "Laura", listaPrueba.darElementos()[2]);
+		assertEquals("No se retorno a la persona esperada", "Maria", listaPrueba.darElementos()[3]);
+		assertEquals("No se retorno a la persona esperada", "Pedro", listaPrueba.darElementos()[4]);
+	}
+	
 	public void testDarLongitud(){
 		//Prueba lista vacia
 		setupScenario2();
@@ -163,17 +182,6 @@ public class testListaOrdenada extends TestCase {
 			
 		}
 	}
-	
-	public void testDarElementos(){
-		setupScenario1();
-		assertEquals("El tamano de la lista no fue el mismo", 5, listaPrueba.darElementos().length);
-		assertEquals("No se retorno a la persona esperada", "Carmen", listaPrueba.darElementos()[0]);
-		assertEquals("No se retorno a la persona esperada", "Jose", listaPrueba.darElementos()[1]);
-		assertEquals("No se retorno a la persona esperada", "Laura", listaPrueba.darElementos()[2]);
-		assertEquals("No se retorno a la persona esperada", "Maria", listaPrueba.darElementos()[3]);
-		assertEquals("No se retorno a la persona esperada", "Pedro", listaPrueba.darElementos()[4]);
-	}
-	
 	public void testIterator(){
 		//Prueba con iterador vacio
 		setupScenario2();
@@ -218,14 +226,6 @@ public class testListaOrdenada extends TestCase {
 		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),4);
 		
 		
-	}
-	private int iterarTamaño(Iterator iterator){
-		int contador = 0;
-		while(iterator.hasNext()){
-			iterator.next();
-			contador++;
-		}
-		return contador;
 	}
 	
 }

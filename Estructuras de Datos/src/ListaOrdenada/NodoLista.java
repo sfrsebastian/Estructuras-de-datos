@@ -26,6 +26,15 @@ public class NodoLista<T> implements Serializable {
 		siguiente = null;
 	}
 
+	/**
+	 * Cambia el siguiente nodo del nodo actual al dado por parametro
+	 * @param nodo El nodo a reemplazar
+	 */
+	public NodoLista<T> cambiarSiguiente(NodoLista<T> nodo) {
+		siguiente = nodo;
+		return nodo;
+	}
+
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
@@ -36,22 +45,13 @@ public class NodoLista<T> implements Serializable {
 	public T darElemento() {
 		return elemento;
 	}
-
+	
 	/**
 	 * Da el siguiente nodo correspondiente a la posicion actual
 	 * @return
 	 */
 	public NodoLista<T> darSiguiente() {
 		return siguiente;
-	}
-	
-	/**
-	 * Cambia el siguiente nodo del nodo actual al dado por parametro
-	 * @param nodo El nodo a reemplazar
-	 */
-	public NodoLista<T> cambiarSiguiente(NodoLista<T> nodo) {
-		siguiente = nodo;
-		return nodo;
 	}
 	/**
 	 * Desconecta el siguiente nodo

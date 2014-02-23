@@ -32,36 +32,36 @@ public class Enfermera implements Comparable<Enfermera>{
 	// Metodos
 	//------------------------------------------
 	
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public int getEdad() {
-		return edad;
-	}
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-
-	public String getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-
 	public int compareTo(Enfermera o) {
 		if(cedula.equals(o.getCedula())){
 			return 0;
 		}else{
 			return -1;
 		}
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 }

@@ -115,6 +115,29 @@ public class TestLista extends TestCase{
 		assertNull("No se debio encontrar elemento", listaPrueba.buscar(new Enfermera("a", 1, "cedulaFalsa")));
 	}
 	
+	public void testDarArreglo(){
+		setupScenario1();
+		
+		Object[] arreglo = listaPrueba.darArreglo();
+		Enfermera e1 = (Enfermera)arreglo[0];
+		Enfermera e2 = (Enfermera)arreglo[2];
+		
+		//Primera posicion del arreglo
+		assertEquals("El arreglo no esta correctamente configurado", "Laura", e1.getNombre());
+		
+		//Mitad
+		assertEquals("El arreglo no esta correctamente configurado", "Maria", e2.getNombre());
+		
+		listaPrueba.agregar(new Enfermera("b", 1, "a"));
+		listaPrueba.agregar(new Enfermera("b", 2, "c"));
+		
+		Object[] enfermeras = listaPrueba.darArreglo();
+		
+		Enfermera e3 = (Enfermera)enfermeras[5];
+		//Final del arreglo
+		assertEquals("El arreglo no esta correctamente configurado", "b", e3.getNombre());		
+	}
+	
 	public void testDarLongitud(){
 		setupScenario1();
 		
@@ -184,29 +207,6 @@ public class TestLista extends TestCase{
 		//Eliminar cuando no hay elemento
 		assertNull("No se debio eliminar ningun elemento", listaPrueba.eliminar(t1));
 		
-	}
-	
-	public void testDarArreglo(){
-		setupScenario1();
-		
-		Object[] arreglo = listaPrueba.darArreglo();
-		Enfermera e1 = (Enfermera)arreglo[0];
-		Enfermera e2 = (Enfermera)arreglo[2];
-		
-		//Primera posicion del arreglo
-		assertEquals("El arreglo no esta correctamente configurado", "Laura", e1.getNombre());
-		
-		//Mitad
-		assertEquals("El arreglo no esta correctamente configurado", "Maria", e2.getNombre());
-		
-		listaPrueba.agregar(new Enfermera("b", 1, "a"));
-		listaPrueba.agregar(new Enfermera("b", 2, "c"));
-		
-		Object[] enfermeras = listaPrueba.darArreglo();
-		
-		Enfermera e3 = (Enfermera)enfermeras[5];
-		//Final del arreglo
-		assertEquals("El arreglo no esta correctamente configurado", "b", e3.getNombre());		
 	}
 	
 }

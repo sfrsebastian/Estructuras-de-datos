@@ -35,23 +35,6 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 		longitud = 0;
 	}
 
-	//------------------------------------------
-	// Metodos
-	//------------------------------------------
-	/**
-	 * Retorna los objetos de la lista ordenada
-	 * @return El arreglo con todos los elementos en la lista.
-	 */
-	public Object[] darElementos(){
-		NodoLista<T> actual = primerNodo;
-		Object[] respuesta = new Object[darLongitud()];
-		for(int i = 0; i<longitud;i++){
-			respuesta[i] = actual.darElemento();
-			actual = actual.darSiguiente();
-		}
-		return respuesta;
-	}
-
 	/**
 	 * Agrega el elemento dado por parametro <br>
 	 * @param El objeto a agregar
@@ -104,6 +87,23 @@ public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T
 			}
 			return null;
 		}
+	}
+
+	//------------------------------------------
+	// Metodos
+	//------------------------------------------
+	/**
+	 * Retorna los objetos de la lista ordenada
+	 * @return El arreglo con todos los elementos en la lista.
+	 */
+	public Object[] darElementos(){
+		NodoLista<T> actual = primerNodo;
+		Object[] respuesta = new Object[darLongitud()];
+		for(int i = 0; i<longitud;i++){
+			respuesta[i] = actual.darElemento();
+			actual = actual.darSiguiente();
+		}
+		return respuesta;
 	}
 
 	/**

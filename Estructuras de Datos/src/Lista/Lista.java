@@ -41,11 +41,6 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 	// Metodos
 	//------------------------------------------
 	 
-	public int darLongitud() {
-		return longitud;
-	}
-
-
 	public T agregar(T elemento) {
 		if(elemento == null)
 			return null;
@@ -64,6 +59,7 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 		return elemento;
 	}
 
+
 	public T buscar(T elemento) {	
 		NodoLista<T> actual = primero;
 		
@@ -78,6 +74,28 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 		return null;
 	}
 
+	public Object[] darArreglo() {
+		Object[] array = new Object[longitud];
+		NodoLista<T> actual = primero;
+		
+		int i = 0;
+		while(actual != null){
+			array[i] = actual.darElemento();
+			i++;
+			actual = actual.darSiguiente();
+		}
+		
+		return array;
+	}
+
+	public int darLongitud() {
+		return longitud;
+	}
+
+	public T darUltimo(){
+		return ultimo.darElemento();
+	}
+	
 	public T eliminar(T elemento) {
 		NodoLista<T> actual = primero;
 		
@@ -102,24 +120,6 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 			}
 		}
 		return null;
-	}
-
-	public Object[] darArreglo() {
-		Object[] array = new Object[longitud];
-		NodoLista<T> actual = primero;
-		
-		int i = 0;
-		while(actual != null){
-			array[i] = actual.darElemento();
-			i++;
-			actual = actual.darSiguiente();
-		}
-		
-		return array;
-	}
-	
-	public T darUltimo(){
-		return ultimo.darElemento();
 	}
 
 }

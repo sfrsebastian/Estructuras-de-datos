@@ -7,9 +7,18 @@ import junit.framework.TestCase;
 
 public class testHashTable extends TestCase {
 	TablaHashing<LlaveString,String> tabla;
+	private int iterarTamaño(Iterator iterator){
+		int contador = 0;
+		while(iterator.hasNext()){
+			System.out.println(iterator.next());
+			contador++;
+		}
+		return contador;
+	}
 	private void setupScenario1(){
 		tabla = new TablaHashing(7,2);
 	}
+
 	private void setupScenario2(){
 		tabla = new TablaHashing(7,2);
 		String e1 = "Laura";
@@ -28,7 +37,7 @@ public class testHashTable extends TestCase {
 		tabla.agregar(new LlaveString(e6),e6);
 		tabla.agregar(new LlaveString(e7),e7);//requiere rehash
 	}
-
+	
 	public void testAgregar(){
 		//Tabla vacia
 		setupScenario1();
@@ -59,26 +68,6 @@ public class testHashTable extends TestCase {
 		assertEquals("La longitud debe ser de 8",tabla.darLongitud(),8);
 		iterador = tabla.iterator();
 		assertEquals("Se debe iterar 8 veces", iterarTamaño(iterador),8);
-	}
-	
-	public void testEliminar(){
-		//Borrar en tabla vacia
-		setupScenario1();
-		LlaveString llave = new LlaveString("Carlos");
-		assertNull("No existe ningun elemento a eliminar",tabla.eliminar(llave));
-		
-		tabla.agregar(llave, "Carlos");
-		
-		//Borrar tabla unico elemento
-		assertEquals("Debe retornarse el elemento eliminado","Carlos", tabla.eliminar(llave));
-		assertEquals("La longitud debe ser de 0",tabla.darLongitud(),0);
-		
-		//Tabla eliminar en tabla con multiples valores.
-		setupScenario2();
-		assertEquals("Debe retornarse el elemento eliminado","Sebastian", tabla.eliminar(new LlaveString("Sebastian")));
-		assertEquals("La longitud debe ser de 6",tabla.darLongitud(),6);
-		Iterator iterador = tabla.iterator();
-		assertEquals("Se debe iterar 6 veces", iterarTamaño(iterador),6);
 	}
 	
 	public void testBuscar(){
@@ -113,12 +102,23 @@ public class testHashTable extends TestCase {
 		setupScenario2();
 		assertEquals("El arreglo debe ser de longitud 7", tabla.darArreglo().length,7);
 }
-	private int iterarTamaño(Iterator iterator){
-		int contador = 0;
-		while(iterator.hasNext()){
-			System.out.println(iterator.next());
-			contador++;
-		}
-		return contador;
+	public void testEliminar(){
+		//Borrar en tabla vacia
+		setupScenario1();
+		LlaveString llave = new LlaveString("Carlos");
+		assertNull("No existe ningun elemento a eliminar",tabla.eliminar(llave));
+		
+		tabla.agregar(llave, "Carlos");
+		
+		//Borrar tabla unico elemento
+		assertEquals("Debe retornarse el elemento eliminado","Carlos", tabla.eliminar(llave));
+		assertEquals("La longitud debe ser de 0",tabla.darLongitud(),0);
+		
+		//Tabla eliminar en tabla con multiples valores.
+		setupScenario2();
+		assertEquals("Debe retornarse el elemento eliminado","Sebastian", tabla.eliminar(new LlaveString("Sebastian")));
+		assertEquals("La longitud debe ser de 6",tabla.darLongitud(),6);
+		Iterator iterador = tabla.iterator();
+		assertEquals("Se debe iterar 6 veces", iterarTamaño(iterador),6);
 	}
 }
