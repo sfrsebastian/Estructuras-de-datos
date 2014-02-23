@@ -52,7 +52,7 @@ public class testHashTable extends TestCase {
 		iterador = tabla.iterator();
 		assertEquals("El primer elemento debe ser el ultimo agregado", iterador.next(),"Sebastian");
 		
-		//Tabla agregar en tabla con valores.
+		//Tabla agregar en tabla con multiples valores.
 		setupScenario2();
 		assertEquals("La longitud debe ser de 7",tabla.darLongitud(),7);
 		tabla.agregar(new LlaveString("Camilo"), "Camilo");
@@ -62,8 +62,57 @@ public class testHashTable extends TestCase {
 	}
 	
 	public void testEliminar(){
+		//Borrar en tabla vacia
+		setupScenario1();
+		LlaveString llave = new LlaveString("Carlos");
+		assertNull("No existe ningun elemento a eliminar",tabla.eliminar(llave));
 		
+		tabla.agregar(llave, "Carlos");
+		
+		//Borrar tabla unico elemento
+		assertEquals("Debe retornarse el elemento eliminado","Carlos", tabla.eliminar(llave));
+		assertEquals("La longitud debe ser de 0",tabla.darLongitud(),0);
+		
+		//Tabla eliminar en tabla con multiples valores.
+		setupScenario2();
+		assertEquals("Debe retornarse el elemento eliminado","Sebastian", tabla.eliminar(new LlaveString("Sebastian")));
+		assertEquals("La longitud debe ser de 6",tabla.darLongitud(),6);
+		Iterator iterador = tabla.iterator();
+		assertEquals("Se debe iterar 6 veces", iterarTamaño(iterador),6);
 	}
+	
+	public void testBuscar(){
+		//Buscar en tabla vacia
+		setupScenario1();
+		LlaveString llave = new LlaveString("Carlos");
+		assertNull("No existe ningun elemento a buscar",tabla.eliminar(llave));
+		
+		tabla.agregar(llave, "Carlos");
+		
+		//Busca en la tabla el unico elemento
+		assertEquals("Debe retornarse el elemento","Carlos", tabla.buscar(llave));
+		
+		//Tabla eliminar en tabla con multiples valores.
+		setupScenario2();
+		assertEquals("Debe retornarse el elemento por buscar","Sebastian", tabla.buscar(new LlaveString("Sebastian")));
+
+	}
+	
+	public void testDarArreglo(){
+		//Arreglo de lista vacia
+		setupScenario1();
+		assertEquals("El arreglo debe ser de longitud 0",tabla.darArreglo().length,0);
+		
+		LlaveString llave = new LlaveString("Carlos");
+		tabla.agregar(llave, "Carlos");
+		
+		//Arreglo de lista 1 elemento
+		assertEquals("El arreglo debe ser de longitud 1",tabla.darArreglo().length,1);
+		
+		//Tabla arreglo multiples elementos.
+		setupScenario2();
+		assertEquals("El arreglo debe ser de longitud 7", tabla.darArreglo().length,7);
+}
 	private int iterarTamaño(Iterator iterator){
 		int contador = 0;
 		while(iterator.hasNext()){

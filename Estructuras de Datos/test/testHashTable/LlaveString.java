@@ -9,4 +9,9 @@ public class LlaveString {
 	public int hashCode(){
 		return Math.abs(valor.hashCode());
 	}
+	
+	@Override
+	public String toString() {
+		return valor;
+	}
 }

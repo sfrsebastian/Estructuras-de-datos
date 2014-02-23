@@ -8,12 +8,6 @@ import ListaOrdenada.ListaOrdenada;
 
 public class IteratorTabla<V extends Comparable<V>> implements Iterator<V> {
 
-	private NodoTabla<?,V> anteriorAnterior;
-
-	private NodoTabla<?,V> anteriorProximo;
-
-	private NodoTabla<?,V> proximo;
-	
 	private IListaOrdenada<NodoTabla<?,V>> listaActual;
 	
 	private IListaOrdenada<NodoTabla<?,V>>[] listas;
