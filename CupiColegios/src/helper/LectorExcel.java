@@ -28,6 +28,8 @@ public class LectorExcel{
 	private int xcoord;
 	
 	private int ycoord;
+	
+	private String[] headers;
 
 	/**
 	 * Crea un nuevo lector de excel
@@ -40,12 +42,43 @@ public class LectorExcel{
 	public LectorExcel(String ruta, int rs, int col, int x, int y){
 		archivoExcel = new File(ruta);
 		data = new String[rs][col];
+		headers = new String[col];
 		columns = col;
 		rows = rs;	
 		xcoord = x;
 		ycoord = y;
 	}
-	
+
+	public String[] leerTitulos(){
+		try{
+			FileInputStream file = new FileInputStream(archivoExcel);
+			//Get the workbook instance for XLS file 
+			Workbook wb = WorkbookFactory.create(file);		 
+			//Get first sheet from the workbook
+			Sheet sheet = wb.getSheetAt(0);
+
+			//Iterate through each rows from first sheet
+			Row row = sheet.getRow(0);
+			int auxRows = 0;
+			int i = 0;
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while(cellIterator.hasNext()){
+				if(i < columns){
+					Cell cell = cellIterator.next();
+					headers[auxRows] = cell.toString();
+					auxRows++;
+				}else{
+					i++;
+				}
+			}
+
+		}catch(Exception e){
+
+		}
+
+		return headers;
+	}
+
 	public String[][] leer(){
 		try {
 			FileInputStream file = new FileInputStream(archivoExcel);
