@@ -1,4 +1,4 @@
-package interfaz;
+package Interfaz;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;

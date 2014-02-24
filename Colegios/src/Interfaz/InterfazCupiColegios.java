@@ -1,4 +1,4 @@
-package interfaz;
+package Interfaz;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
