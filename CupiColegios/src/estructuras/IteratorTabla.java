@@ -2,9 +2,15 @@ package estructuras;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+<<<<<<< HEAD
 import estructuras.NodoTabla;
 import estructuras.IListaOrdenada;
 import estructuras.ListaOrdenada;
+=======
+import HashTable.NodoTabla;
+import ListaOrdenada.IListaOrdenada;
+import ListaOrdenada.ListaOrdenada;
+>>>>>>> refs/heads/Sebastian
 
 public class IteratorTabla<V extends Comparable<V>> implements Iterator<V> {
 

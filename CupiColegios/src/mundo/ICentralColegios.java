@@ -30,7 +30,7 @@ public interface ICentralColegios {
 	 * Busca dado el criterio o criterios que se mandan por parametro
 	 * @param criterios Los criterios que se quieren buscar
 	 */
-	public Object[] buscarPorCriterio(String[] criterios);
+	public Object[] buscarPorCriterio(Criterio[] criterios, Colegio[] colegios);
 	
 	/**
 	 * Busca los colegios dada una area, un anio academico y un rango de puntajes

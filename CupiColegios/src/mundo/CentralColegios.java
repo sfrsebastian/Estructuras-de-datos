@@ -12,6 +12,7 @@ public class CentralColegios implements ICentralColegios {
 	 * El usuario actual de la central
 	 */
 	private Usuario usuarioActual;
+	private TablaHashing<Llave,Colegio> colegios;
 	
 	/**
 	 * 
@@ -49,11 +50,14 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public Object[] buscarPorCriterio(Criterio[] criterios) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	public Colegio[] buscarPorCriterio(Criterio[] criterios){	
+		if(criterios.length == 0){
+			return colegios;
+		}
+		else{
+			
+		}
+	}	
 	@Override
 	public Colegio[] buscarPorArea(Area area, AnioAcademico anio, int puntaje)
 			throws RangoInvalidoException {

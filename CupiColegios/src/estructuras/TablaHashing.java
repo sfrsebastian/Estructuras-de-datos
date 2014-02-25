@@ -2,9 +2,15 @@ package estructuras;
 
 import java.util.Iterator;
 
+<<<<<<< HEAD
 import estructuras.Lista;
 import estructuras.IListaOrdenada;
 import estructuras.ListaOrdenada;
+=======
+import Lista.Lista;
+import ListaOrdenada.IListaOrdenada;
+import ListaOrdenada.ListaOrdenada;
+>>>>>>> refs/heads/Sebastian
 
 public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V> {
 
