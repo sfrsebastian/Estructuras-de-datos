@@ -217,4 +217,9 @@ public class PanelColegios extends JPanel {
 			caja.repaint();
 		}
 	}
+
+	public void refrescarTabla(Object[] resultados) {
+		// TODO Auto-generated method stub
+		
+	}
 }

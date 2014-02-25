@@ -57,6 +57,7 @@ public class DialogoRegistrarUsuario extends JDialog {
 					String c2 = psw2.getText();
 					
 					if(c1.equals(c2)){
+						if(padre == null){System.out.println("error");}
 						padre.registrarUsuario(usuario,c1);
 						salir();
 					}else{
@@ -65,6 +66,7 @@ public class DialogoRegistrarUsuario extends JDialog {
 					
 				} catch (Exception e2) {
 					mostrarError("Debe llenar los campos correctamente");
+					e2.printStackTrace();
 				}
 			}
 		});

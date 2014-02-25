@@ -1,5 +1,7 @@
 package mundo;
 
+import estructuras.TablaHashing;
+
 public class CentralColegios implements ICentralColegios {
 	
 	//------------------------------------------
@@ -11,18 +13,26 @@ public class CentralColegios implements ICentralColegios {
 	 */
 	private Usuario usuarioActual;
 	
+	/**
+	 * 
+	 */
+	private TablaHashing<Llave, Colegio> colegios;
+	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
 	
 	public CentralColegios(){
 		usuarioActual = null;
+		colegios = new TablaHashing<>(10000, 5000); 
 	}
 
 	@Override
-	public void agregarNuevoUsuario(String usuario, String contrasena) {
-		// TODO Auto-generated method stub
-
+	public Usuario agregarNuevoUsuario(String usuario, String contrasena) {
+		Usuario usu = new Usuario(usuario, contrasena);
+		//colegios.agregar(, usu);
+		usuarioActual = usu;
+		return usu;
 	}
 
 	@Override
@@ -39,7 +49,7 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public Object[] buscarPorCriterio(String[] criterios) {
+	public Object[] buscarPorCriterio(Criterio[] criterios) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -80,6 +90,10 @@ public class CentralColegios implements ICentralColegios {
 			boolean esDepto) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Usuario darUsuarioActual() {
+		return usuarioActual;
 	}
 
 }

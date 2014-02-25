@@ -34,7 +34,7 @@ public class InterfazCupiColegios extends JFrame {
 	/**
 	 * El usuario actual
 	 */
-	private Usuario usuaroActual;
+	private Usuario usuarioActual;
 	
 	/**
 	 * El panel que contiene la informacion de las busquedas
@@ -59,17 +59,17 @@ public class InterfazCupiColegios extends JFrame {
 	 * Construye la interfaz principal de la aplicacion
 	 */
 	public InterfazCupiColegios(){
-		setSize(new Dimension(863, 652));
+		setSize(new Dimension(916, 652));
 		getContentPane().setLayout(null);
 		setTitle("CupiColegios");
 		setResizable(false);
 		
 		panelColegios = new PanelColegios(self);
-		panelColegios.setBounds(248, 6, 609, 600);
+		panelColegios.setBounds(303, 6, 609, 600);
 		getContentPane().add(panelColegios);
 		
 		panelBusqueda = new PanelBusqueda(self);
-		panelBusqueda.setBounds(6, 6, 230, 600);
+		panelBusqueda.setBounds(6, 6, 287, 600);
 		getContentPane().add(panelBusqueda);
 		
 		//JMenu---------------------
@@ -199,10 +199,10 @@ public class InterfazCupiColegios extends JFrame {
 	}
 	
 	public boolean tieneUsuario(){
-//		if(usuarioActual != null)
+		if(usuarioActual != null)
 			return true;
-//		else
-//			return false;	
+		else
+			return false;	
 	}
 
 	public Object[] darHijos() {
@@ -220,6 +220,11 @@ public class InterfazCupiColegios extends JFrame {
 		return null;
 	}
 	
+	public void buscarPorCriterio(Criterio[] criterios){
+		Object[] resultados = central.buscarPorCriterio(criterios);
+		panelColegios.refrescarTabla(resultados);
+	}
+	
 	/**
 	 * Crea un nuevo hijo y lo agrega al usuario actual de la central de colegios
 	 * @param nombre
@@ -231,11 +236,10 @@ public class InterfazCupiColegios extends JFrame {
 	 */
 	public void registrarHijo(String nombre, int genero, int edad, int telefono, String encargado, String ciudad) {
 		Hijo hijo = new Hijo(nombre, edad, genero, ciudad, telefono, encargado);
-		central.registrarHijoUsuario(usuaroActual, hijo);
+		central.registrarHijoUsuario(usuarioActual, hijo);
 	}
 
 	public void registrarUsuario(String usuario, String c1) {
-		// TODO Auto-generated method stub
-		
+		usuarioActual = central.agregarNuevoUsuario(usuario, c1);
 	}
 }

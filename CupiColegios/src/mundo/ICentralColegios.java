@@ -7,7 +7,7 @@ public interface ICentralColegios {
 	 * @param usuario El usuario que se quiere agregar
 	 * @param contrasena La constrasena del nuevo usuario
 	 */
-	public void agregarNuevoUsuario(String usuario, String contrasena);
+	public Usuario agregarNuevoUsuario(String usuario, String contrasena);
 	
 	/**
 	 * Registra un hijo dado un usuario

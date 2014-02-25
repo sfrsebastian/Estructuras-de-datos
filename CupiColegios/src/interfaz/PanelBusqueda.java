@@ -16,6 +16,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelBusqueda extends JPanel {
 
@@ -24,15 +27,27 @@ public class PanelBusqueda extends JPanel {
 	//------------------------------------------
 	
 	private InterfazCupiColegios padre;
-	private JComboBox comboJornada;
-	private JComboBox comboGenero;
-	private JComboBox comboIcfes;
-	private JComboBox comboCal;
-	private JComboBox comboTipo;
 	private JSpinner spinnerAnio;
 	private JSpinner spinnerPuntaje;
 	private JComboBox comboDepto;
 	private JComboBox comboMunicipio;
+	private JCheckBox chckbxDiurn;
+	private JCheckBox chckbxNocturna;
+	private JCheckBox chckbxSuperior;
+	private JCheckBox chckbxSuperior_1;
+	private JCheckBox chckbxAlto;
+	private JCheckBox chckbxMedio;
+	private JCheckBox chckbxBajo;
+	private JCheckBox chckbxInferior;
+	private JCheckBox chckbxMuyInferior;
+	private JCheckBox chckbxMasculino;
+	private JCheckBox chckbxFemenino;
+	private JCheckBox chckbxMixto;
+	private JCheckBox chckbxA;
+	private JCheckBox chckbxB;
+	private JCheckBox chckbxF;
+	private JCheckBox chckbxPublico;
+	private JCheckBox chckbxPrivado;
 	
 	//------------------------------------------
 	// Constructor
@@ -41,142 +56,202 @@ public class PanelBusqueda extends JPanel {
 	public PanelBusqueda(InterfazCupiColegios interfazCupiColegios) {
 		setBorder(new TitledBorder(null, "Busqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setSize(200, 570);
-		setPreferredSize(new Dimension(230, 596));
+		setPreferredSize(new Dimension(287, 596));
 		setLayout(null);
 		
+		chckbxPrivado = new JCheckBox("Privado");
+		chckbxPrivado.setBounds(144, 230, 97, 23);
+		add(chckbxPrivado);
+		
+		chckbxF = new JCheckBox("F");
+		chckbxF.setBounds(227, 202, 54, 23);
+		add(chckbxF);
+		
+		chckbxB = new JCheckBox("B");
+		chckbxB.setBounds(144, 202, 97, 23);
+		add(chckbxB);
+		
+		chckbxMixto = new JCheckBox("Mixto");
+		chckbxMixto.setBounds(227, 176, 54, 23);
+		add(chckbxMixto);
+		
+		chckbxFemenino = new JCheckBox("Femenino");
+		chckbxFemenino.setBounds(144, 176, 97, 23);
+		add(chckbxFemenino);
+		
+		chckbxNocturna = new JCheckBox("Nocturna");
+		chckbxNocturna.setBounds(178, 50, 97, 23);
+		add(chckbxNocturna);
+		
 		JLabel lblCriterio = new JLabel("Criterio");
-		lblCriterio.setBounds(85, 21, 47, 16);
+		lblCriterio.setBounds(132, 27, 47, 16);
 		add(lblCriterio);
 		
 		JLabel lblJornada = new JLabel("Jornada:");
 		lblJornada.setBounds(6, 53, 61, 16);
 		add(lblJornada);
 		
-		comboJornada = new JComboBox();
-		comboJornada.setModel(new DefaultComboBoxModel(new String[] {"Diurna", "Nocturna"}));
-		comboJornada.setBounds(66, 49, 158, 27);
-		add(comboJornada);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(85, 32, 47, 12);
-		add(separator);
-		
 		JLabel lblIcfes = new JLabel("Icfes:");
 		lblIcfes.setBounds(6, 81, 61, 16);
 		add(lblIcfes);
 		
-		comboIcfes = new JComboBox();
-		comboIcfes.setModel(new DefaultComboBoxModel(new String[] {"Alto", "Bajo"}));
-		comboIcfes.setBounds(66, 77, 158, 27);
-		add(comboIcfes);
-		
 		JLabel lblGenero = new JLabel("Genero:");
-		lblGenero.setBounds(6, 109, 61, 16);
+		lblGenero.setBounds(6, 179, 61, 16);
 		add(lblGenero);
 		
-		comboGenero = new JComboBox();
-		comboGenero.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
-		comboGenero.setBounds(66, 105, 158, 27);
-		add(comboGenero);
-		
 		JLabel lblCalendario = new JLabel("Cal:");
-		lblCalendario.setBounds(6, 137, 75, 16);
+		lblCalendario.setBounds(6, 207, 75, 16);
 		add(lblCalendario);
 		
-		comboCal = new JComboBox();
-		comboCal.setModel(new DefaultComboBoxModel(new String[] {"A", "B", "F"}));
-		comboCal.setBounds(66, 133, 158, 27);
-		add(comboCal);
-		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(6, 165, 61, 16);
+		lblTipo.setBounds(6, 235, 61, 16);
 		add(lblTipo);
 		
-		comboTipo = new JComboBox();
-		comboTipo.setModel(new DefaultComboBoxModel(new String[] {"Diurno", "Nocturno"}));
-		comboTipo.setBounds(66, 161, 158, 27);
-		add(comboTipo);
-		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(6, 223, 218, 12);
+		separator_1.setBounds(6, 293, 274, 12);
 		add(separator_1);
 		
 		JButton btnBuscarCrit = new JButton("Buscar");
-		btnBuscarCrit.setBounds(6, 193, 218, 29);
+		btnBuscarCrit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Criterio jornada = new Criterio();
+					if(chckbxDiurn.isSelected()) jornada.agregarSubcriterio(Criterio.);
+					if(chckbxNocturna.isSelected()) jornada.agregarSubcriterio(Criterio.);
+				Criterio icfes = new Criterio();
+					if(chckbxSuperior.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxSuperior_1.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxAlto.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxBajo.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxMedio.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.);
+				Criterio genero = new Criterio();
+					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxMixto.isSelected()) icfes.agregarSubcriterio(Criterio.);
+				Criterio calendario = new Criterio();
+					if(chckbxA.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxB.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxF.isSelected()) icfes.agregarSubcriterio(Criterio.);
+				Criterio tipo = new Criterio()
+					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					
+				Criterio[] criterios = {jornada,icfes,genero,calendario,tipo};
+				padre.buscarPorCriterio(criterios);
+			}
+		});
+		btnBuscarCrit.setBounds(54, 263, 180, 29);
 		add(btnBuscarCrit);
 		
 		JLabel lblAreaao = new JLabel("Area/A\u00F1o");
-		lblAreaao.setBounds(71, 234, 61, 16);
+		lblAreaao.setBounds(118, 303, 61, 16);
 		add(lblAreaao);
 		
-		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(71, 247, 61, 12);
-		add(separator_2);
-		
 		JLabel lblArea = new JLabel("Area:");
-		lblArea.setBounds(6, 265, 61, 16);
+		lblArea.setBounds(6, 335, 61, 16);
 		add(lblArea);
 		
 		JComboBox comboArea = new JComboBox();
 		comboArea.setModel(new DefaultComboBoxModel(new String[] {"Sociales", "Matematicas", "Espa\u00F1ol"}));
-		comboArea.setBounds(66, 261, 158, 27);
+		comboArea.setBounds(117, 331, 158, 27);
 		add(comboArea);
 		
 		JLabel lblAo = new JLabel("A\u00F1o:");
-		lblAo.setBounds(6, 293, 61, 16);
+		lblAo.setBounds(6, 363, 61, 16);
 		add(lblAo);
 		
 		spinnerAnio = new JSpinner();
 		SpinnerModel sm = new SpinnerNumberModel(2001,2001,2011,1);
-		spinnerAnio.setBounds(71, 287, 153, 28);
+		spinnerAnio.setBounds(122, 357, 153, 28);
 		spinnerAnio.setModel(sm);
 		add(spinnerAnio);
 		
 		JLabel lblPuntaje = new JLabel("Puntaje:");
-		lblPuntaje.setBounds(6, 321, 61, 16);
+		lblPuntaje.setBounds(6, 391, 61, 16);
 		add(lblPuntaje);
 		
 		spinnerPuntaje = new JSpinner();
-		spinnerPuntaje.setBounds(71, 315, 153, 28);
+		spinnerPuntaje.setBounds(122, 385, 153, 28);
 		add(spinnerPuntaje);
 		
 		JButton btnNewButton = new JButton("Buscar");
-		btnNewButton.setBounds(6, 349, 218, 29);
+		btnNewButton.setBounds(54, 418, 180, 29);
 		add(btnNewButton);
 		
 		JSeparator separator_3 = new JSeparator();
-		separator_3.setBounds(6, 382, 218, 12);
+		separator_3.setBounds(6, 452, 274, 12);
 		add(separator_3);
 		
 		JLabel lblUbicacin = new JLabel("Ubicaci\u00F3n");
-		lblUbicacin.setBounds(71, 398, 75, 16);
+		lblUbicacin.setBounds(118, 458, 75, 16);
 		add(lblUbicacin);
 		
-		JSeparator separator_4 = new JSeparator();
-		separator_4.setBounds(71, 415, 61, 12);
-		add(separator_4);
-		
 		JLabel lblDepto = new JLabel("Depto:");
-		lblDepto.setBounds(6, 430, 61, 16);
+		lblDepto.setBounds(6, 490, 61, 16);
 		add(lblDepto);
 		
 		comboDepto = new JComboBox();
 		comboDepto.setModel(new DefaultComboBoxModel(new String[] {"Antioquia", "Otro"}));
-		comboDepto.setBounds(71, 426, 153, 27);
+		comboDepto.setBounds(122, 485, 153, 27);
 		add(comboDepto);
 		
 		JLabel lblMunicipio = new JLabel("Municipio:");
-		lblMunicipio.setBounds(6, 458, 75, 16);
+		lblMunicipio.setBounds(6, 518, 75, 16);
 		add(lblMunicipio);
 		
 		comboMunicipio = new JComboBox();
 		comboMunicipio.setModel(new DefaultComboBoxModel(new String[] {"Bogota DC", "n1", "n2"}));
-		comboMunicipio.setBounds(71, 454, 153, 27);
+		comboMunicipio.setBounds(122, 513, 153, 27);
 		add(comboMunicipio);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(6, 486, 218, 29);
+		btnBuscar.setBounds(54, 556, 180, 29);
 		add(btnBuscar);
+		
+		chckbxDiurn = new JCheckBox("Diurna");
+		chckbxDiurn.setBounds(66, 50, 97, 23);
+		add(chckbxDiurn);
+		
+		chckbxSuperior = new JCheckBox("Muy superior");
+		chckbxSuperior.setBounds(66, 81, 97, 23);
+		add(chckbxSuperior);
+		
+		chckbxSuperior_1 = new JCheckBox("Superior");
+		chckbxSuperior_1.setBounds(178, 81, 97, 23);
+		add(chckbxSuperior_1);
+		
+		chckbxMedio = new JCheckBox("Medio");
+		chckbxMedio.setBounds(178, 104, 97, 23);
+		add(chckbxMedio);
+		
+		chckbxAlto = new JCheckBox("Alto");
+		chckbxAlto.setBounds(66, 104, 97, 23);
+		add(chckbxAlto);
+		
+		chckbxBajo = new JCheckBox("Bajo");
+		chckbxBajo.setBounds(66, 126, 97, 23);
+		add(chckbxBajo);
+		
+		chckbxInferior = new JCheckBox("Inferior");
+		chckbxInferior.setBounds(178, 126, 97, 23);
+		add(chckbxInferior);
+		
+		chckbxMuyInferior = new JCheckBox("Muy Inferior");
+		chckbxMuyInferior.setBounds(66, 149, 97, 23);
+		add(chckbxMuyInferior);
+		
+		chckbxMasculino = new JCheckBox("Masculino");
+		chckbxMasculino.setBounds(66, 176, 97, 23);
+		add(chckbxMasculino);
+		
+		chckbxA = new JCheckBox("A");
+		chckbxA.setBounds(66, 202, 97, 23);
+		add(chckbxA);
+		
+		chckbxPublico = new JCheckBox("Publico");
+		chckbxPublico.setBounds(66, 230, 97, 23);
+		add(chckbxPublico);
 		padre = interfazCupiColegios;
 	}
 }
