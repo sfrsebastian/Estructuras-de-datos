@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import mundo.CentralColegios;
+import mundo.Criterio;
 import mundo.Hijo;
 import mundo.Usuario;
 

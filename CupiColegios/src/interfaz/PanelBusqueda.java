@@ -17,6 +17,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JCheckBox;
+
+import mundo.Criterio;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -115,27 +118,27 @@ public class PanelBusqueda extends JPanel {
 		btnBuscarCrit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Criterio jornada = new Criterio();
-					if(chckbxDiurn.isSelected()) jornada.agregarSubcriterio(Criterio.);
-					if(chckbxNocturna.isSelected()) jornada.agregarSubcriterio(Criterio.);
+					if(chckbxDiurn.isSelected()) jornada.agregarSubcriterio(Criterio.DIURNA);
+					if(chckbxNocturna.isSelected()) jornada.agregarSubcriterio(Criterio.NOCTURNA);
 				Criterio icfes = new Criterio();
-					if(chckbxSuperior.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxSuperior_1.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxAlto.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxBajo.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxMedio.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxSuperior.isSelected()) icfes.agregarSubcriterio(Criterio.MUY_SUPERIOR);
+					if(chckbxSuperior_1.isSelected()) icfes.agregarSubcriterio(Criterio.SUPERIOR);
+					if(chckbxAlto.isSelected()) icfes.agregarSubcriterio(Criterio.ALTO);
+					if(chckbxBajo.isSelected()) icfes.agregarSubcriterio(Criterio.BAJO);
+					if(chckbxMedio.isSelected()) icfes.agregarSubcriterio(Criterio.MEDIO);
+					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.INFERIOR);
+					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.MUY_INFERIOR);
 				Criterio genero = new Criterio();
-					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxMixto.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.MASCULINO);
+					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.FEMENINO);
+					if(chckbxMixto.isSelected()) icfes.agregarSubcriterio(Criterio.MIXTO);
 				Criterio calendario = new Criterio();
-					if(chckbxA.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxB.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxF.isSelected()) icfes.agregarSubcriterio(Criterio.);
-				Criterio tipo = new Criterio()
-					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.);
-					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.);
+					if(chckbxA.isSelected()) icfes.agregarSubcriterio(Criterio.CA);
+					if(chckbxB.isSelected()) icfes.agregarSubcriterio(Criterio.CB);
+					if(chckbxF.isSelected()) icfes.agregarSubcriterio(Criterio.CF);
+				Criterio tipo = new Criterio();
+					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.PRIVADO);
+					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.PUBLICO);
 					
 				Criterio[] criterios = {jornada,icfes,genero,calendario,tipo};
 				padre.buscarPorCriterio(criterios);

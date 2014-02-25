@@ -1,5 +1,6 @@
 package mundo;
 
+import estructuras.Lista;
 import estructuras.TablaHashing;
 
 public class CentralColegios implements ICentralColegios {
@@ -51,13 +52,17 @@ public class CentralColegios implements ICentralColegios {
 
 	@Override
 	public Colegio[] buscarPorCriterio(Criterio[] criterios){	
+		return auxiliar(criterios,colegios.darLista());
+	}	
+	
+	private Colegio[] auxiliar(Criterio[] criterios, Lista colegios){
 		if(criterios.length == 0){
 			return colegios;
 		}
 		else{
 			
 		}
-	}	
+	}
 	@Override
 	public Colegio[] buscarPorArea(Area area, AnioAcademico anio, int puntaje)
 			throws RangoInvalidoException {
