@@ -1,4 +1,4 @@
-package Interfaz;
+package interfaz;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -7,6 +7,8 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+
+import mundo.Hijo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,11 +21,16 @@ public class DialogoAgregarHijo extends JDialog {
 	private JComboBox comboGenero;
 	private JTextField txtTelefono;
 	private JTextField txtEncargado;
+	private JTextField txtCiudad;
 	
-	public DialogoAgregarHijo(){
+	private DialogoManejarHijos dialogoManejarHijos;
+	
+	public DialogoAgregarHijo(DialogoManejarHijos nDialogoManejarHijos){
+		dialogoManejarHijos = nDialogoManejarHijos;
+		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
-		setSize(300, 295);
+		setSize(300, 320);
 		setTitle("Registrar Hijo");
 		getContentPane().setLayout(null);
 		
@@ -88,9 +95,9 @@ public class DialogoAgregarHijo extends JDialog {
 					int genero = -1;
 
 					if(generoTxt.equals("Masculino"))
-						genero = 1;
+						genero = Hijo.MASCULINO;
 					else
-						genero = 2;
+						genero = Hijo.FEMENINO;
 
 					int edad = Integer.parseInt(txtEdad.getText());
 					if(edad < 0 || edad > 18){
@@ -106,8 +113,17 @@ public class DialogoAgregarHijo extends JDialog {
 						errorTxt = "Debe llenar el encargado";
 					}
 					
+					String ciudad = txtCiudad.getText();
+					if(ciudad.equals("")){
+						error = true;
+						errorTxt = "Escoga una ciudad";
+					}
+					
 					if(!error){
-						padre.registrarHijo(nombre,genero,edad,telefono,encargado);
+						padre.registrarHijo(nombre,genero,edad,telefono,encargado, ciudad);
+						dialogoManejarHijos.refrescarTodasListas(padre.darHijos());
+						//TODO ojo!!!
+						salir();
 					}else{
 						mostrarError(errorTxt);
 					}
@@ -118,8 +134,17 @@ public class DialogoAgregarHijo extends JDialog {
 
 			}
 		});
-		btnNewButton.setBounds(6, 235, 288, 29);
+		btnNewButton.setBounds(6, 263, 288, 29);
 		getContentPane().add(btnNewButton);
+		
+		JLabel lblCiudad = new JLabel("Ciudad:");
+		lblCiudad.setBounds(6, 235, 124, 16);
+		getContentPane().add(lblCiudad);
+		
+		txtCiudad = new JTextField();
+		txtCiudad.setColumns(10);
+		txtCiudad.setBounds(142, 229, 152, 28);
+		getContentPane().add(txtCiudad);
 	}
 	
 	/**
@@ -130,7 +155,12 @@ public class DialogoAgregarHijo extends JDialog {
 		JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 	
+	private void salir(){
+		this.dispose();
+	}
+	
 	public void setParent(InterfazCupiColegios interfaz){
 		padre = interfaz;
 	}
+
 }

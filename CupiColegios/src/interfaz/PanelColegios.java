@@ -1,4 +1,4 @@
-package Interfaz;
+package interfaz;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;

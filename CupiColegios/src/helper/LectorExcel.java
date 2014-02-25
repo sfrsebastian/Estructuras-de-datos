@@ -105,7 +105,11 @@ public class LectorExcel{
 						if(j <= columns && j >= xcoord)
 						{
 							Cell cell = cellIterator.next();
-							data[auxRows][auxCols] = cell.toString();
+							String cellData = cell.toString();
+							if(cellData.equals(""))
+								cellData = "(vacio)";
+							
+							data[auxRows][auxCols] = cellData;
 							auxCols++;
 						}
 						else

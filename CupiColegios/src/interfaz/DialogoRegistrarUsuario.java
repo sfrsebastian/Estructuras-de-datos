@@ -1,4 +1,4 @@
-package Interfaz;
+package interfaz;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;

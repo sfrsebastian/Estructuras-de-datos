@@ -1,4 +1,4 @@
-package Interfaz;
+package interfaz;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
@@ -24,6 +24,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
 
+import mundo.Colegio;
+import mundo.Hijo;
+
 public class DialogoManejarHijos extends JDialog {
 
 	//------------------------------------------
@@ -44,11 +47,15 @@ public class DialogoManejarHijos extends JDialog {
 	private JList listaColegiosFav;
 	private JList listaColegiosRec;
 	
+	private DialogoManejarHijos self;
+	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
 	
 	public DialogoManejarHijos(){
+		self = this;
+		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("Manejar Hijos");
@@ -69,18 +76,18 @@ public class DialogoManejarHijos extends JDialog {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				try {
-					//Hijo hijo = (Hijo)listaHijos.getSelectedValue();
-					//refrescarListasColegios(hijo);
-					//refrescarListasColegios(null);
+					Hijo hijo = (Hijo)listaHijos.getSelectedValue();
+					refrescarListasColegios(hijo);
+					refrescarListasColegios(null);
 					
-					/*
+					
 					limpiarTextos();
-					txtEdad.setText(hijo.darNombre());
-					txtEncargado.setText(hijo.darEncargado());
-					txtGenero.setText(hijo.darGenero());
-					txtNombre.setText(hijo.darNombre());
-					txtTel.setText(hijo.darTelefono());
-					*/
+					txtEdad.setText(hijo.getNombre());
+					txtEncargado.setText(hijo.getAcudiente());
+					txtGenero.setText("" + hijo.getGenero());
+					txtNombre.setText(hijo.getNombre());
+					txtTel.setText("" + hijo.getTelefono());
+					
 					
 				} catch (Exception e2) {
 					// TODO: handle exception
@@ -116,7 +123,7 @@ public class DialogoManejarHijos extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DialogoAgregarHijo dialogoAgregarHijo = new DialogoAgregarHijo();
+				DialogoAgregarHijo dialogoAgregarHijo = new DialogoAgregarHijo(self);
 				dialogoAgregarHijo.setParent(padre);
 				dialogoAgregarHijo.setVisible(true);
 			}
@@ -219,8 +226,8 @@ public class DialogoManejarHijos extends JDialog {
 
 		if(colegiosFav != null && colegiosFav.length != 0){
 			for (int i = 0; i < colegiosFav.length; i++) {
-				//Colegio col = colegiosFav[i];
-				//mode1.addElement(col);
+				Colegio col = (Colegio) colegiosFav[i];
+				mode1.addElement(col);
 			}
 		}else{
 			mode1.addElement("No hay colegios favoritos");
@@ -232,8 +239,8 @@ public class DialogoManejarHijos extends JDialog {
 
 		if(colegiosRec != null && colegiosRec.length != 0){
 			for (int i = 0; i < colegiosRec.length; i++) {
-				//Colegio col = (Colegio)colegiosRec[i];
-				//mode2.addElement(col);
+				Colegio col = (Colegio)colegiosRec[i];
+				mode2.addElement(col);
 			}
 		}else{
 			mode2.addElement("No hay colegios recomendados");
@@ -248,8 +255,8 @@ public class DialogoManejarHijos extends JDialog {
 		DefaultListModel model = new DefaultListModel();
 		if(listaColegios != null && listaColegios.length != 0){
 			for (int i = 0; i < listaColegios.length; i++) {
-				//Hijo hijo = (Hijo)listaColegios[i];
-				//model.addElement(hijo);
+				Hijo hijo = (Hijo)listaColegios[i];
+				model.addElement(hijo);
 			}
 		}else{
 			model.addElement("No hay hijos registrados");
