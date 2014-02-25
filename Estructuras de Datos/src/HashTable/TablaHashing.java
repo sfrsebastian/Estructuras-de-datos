@@ -76,6 +76,16 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		return tamano;
 	}
 
+	public Lista<V> darLista(){
+		Lista<V> lista = new Lista();
+		
+		Iterator i = iterator();
+		while(i.hasNext()){
+			lista.agregar((V) i.next());
+		}
+		return lista;
+	}
+	
 	public V eliminar(K nLlave){
 		Iterator<NodoTabla<K,V>> iterador = areaPrimaria[hash(nLlave)].iterator();
 		while(iterador.hasNext()){
