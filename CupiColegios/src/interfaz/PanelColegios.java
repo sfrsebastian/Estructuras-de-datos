@@ -1,4 +1,4 @@
-package Interfaz;
+package interfaz;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -54,10 +54,10 @@ public class PanelColegios extends JPanel {
 		setSize(600, 600);
 		setLayout(null);
 		
-		LectorExcel lector = new LectorExcel("./data/MUN_DEPTO_COD.xls", 1120, 4, 0, 1);
+		LectorExcel lector = new LectorExcel("./data/SB11-CLASIFI-PLANTELES-2004.xls", 8860, 19, 0, 1);
 		
 		String[][] datos = lector.leer();
-		String[] columnas = {"Codigo Depto","Numero Depto","Codigo Municipio","Numero Municipio"};
+		String[] columnas = lector.leerTitulos();
 		
 		DefaultTableModel tableModel = new DefaultTableModel(datos,columnas){
 			
@@ -81,7 +81,7 @@ public class PanelColegios extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(6, 21, 588, 340);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		add(scrollPane);
 		
 		JLabel lblCertificados = new JLabel("Certificados:");

@@ -1,4 +1,4 @@
-package Interfaz;
+package interfaz;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,10 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import mundo.CentralColegios;
+import mundo.Hijo;
+import mundo.Usuario;
+
 public class InterfazCupiColegios extends JFrame {
 	
 	//------------------------------------------
@@ -25,12 +29,12 @@ public class InterfazCupiColegios extends JFrame {
 	/**
 	 * La clase principal del mundo
 	 */
-	//private CentralColegios central;
+	private CentralColegios central;
 	
 	/**
 	 * El usuario actual
 	 */
-	//private Usuario usuaroActual;
+	private Usuario usuaroActual;
 	
 	/**
 	 * El panel que contiene la informacion de las busquedas
@@ -215,11 +219,19 @@ public class InterfazCupiColegios extends JFrame {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public void registrarHijo(String nombre, int genero, int edad,
-			int telefono, String encargado) {
-		// TODO Auto-generated method stub
-		
+	
+	/**
+	 * Crea un nuevo hijo y lo agrega al usuario actual de la central de colegios
+	 * @param nombre
+	 * @param genero
+	 * @param edad
+	 * @param telefono
+	 * @param encargado
+	 * @param ciudad
+	 */
+	public void registrarHijo(String nombre, int genero, int edad, int telefono, String encargado, String ciudad) {
+		Hijo hijo = new Hijo(nombre, edad, genero, ciudad, telefono, encargado);
+		central.registrarHijoUsuario(usuaroActual, hijo);
 	}
 
 	public void registrarUsuario(String usuario, String c1) {
