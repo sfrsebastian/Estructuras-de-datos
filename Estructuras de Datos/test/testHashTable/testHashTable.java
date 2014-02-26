@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class testHashTable extends TestCase {
 	TablaHashing<LlaveString,String> tabla;
-	private int iterarTamaño(Iterator iterator){
+	private int iterarTamano(Iterator iterator){
 		int contador = 0;
 		while(iterator.hasNext()){
 			System.out.println(iterator.next());
@@ -48,16 +48,16 @@ public class testHashTable extends TestCase {
 		
 		//agregar colision intencional
 		tabla.agregar(new LlaveString("Hola"), "Chao");
-		assertEquals("El tamaño debe ser 2", tabla.darLongitud(),2);
+		assertEquals("El tamano debe ser 2", tabla.darLongitud(),2);
 		iterador = tabla.iterator();
 		assertEquals("El elemento debe ser el segundo agregado", iterador.next(),"Chao");
 		assertEquals("El elemento debe ser el primer agregado", iterador.next(),"Hola");
 		
 		//agregar sin colision
 		tabla.agregar(new LlaveString("Sebastian"), "Sebastian");
-		assertEquals("El tamaño debe ser 3", tabla.darLongitud(),3);
+		assertEquals("El tamano debe ser 3", tabla.darLongitud(),3);
 		iterador = tabla.iterator();
-		assertEquals("Se debe iterar por tres elementos", iterarTamaño(iterador),3);
+		assertEquals("Se debe iterar por tres elementos", iterarTamano(iterador),3);
 		iterador = tabla.iterator();
 		assertEquals("El primer elemento debe ser el ultimo agregado", iterador.next(),"Sebastian");
 		
@@ -67,7 +67,7 @@ public class testHashTable extends TestCase {
 		tabla.agregar(new LlaveString("Camilo"), "Camilo");
 		assertEquals("La longitud debe ser de 8",tabla.darLongitud(),8);
 		iterador = tabla.iterator();
-		assertEquals("Se debe iterar 8 veces", iterarTamaño(iterador),8);
+		assertEquals("Se debe iterar 8 veces", iterarTamano(iterador),8);
 	}
 	
 	public void testBuscar(){
@@ -119,6 +119,6 @@ public class testHashTable extends TestCase {
 		assertEquals("Debe retornarse el elemento eliminado","Sebastian", tabla.eliminar(new LlaveString("Sebastian")));
 		assertEquals("La longitud debe ser de 6",tabla.darLongitud(),6);
 		Iterator iterador = tabla.iterator();
-		assertEquals("Se debe iterar 6 veces", iterarTamaño(iterador),6);
+		assertEquals("Se debe iterar 6 veces", iterarTamano(iterador),6);
 	}
 }
