@@ -1,20 +1,22 @@
 package ListaOrdenada;
 
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import ListaOrdenada.NodoLista;
 
-public class IteratorLista <T extends Comparable<T>> implements Iterator<T>{
+public class IteratorLista <T extends Comparable<?super T>> implements Iterator<T>{
 
 	NodoLista<T> proximo;
 	NodoLista<T> anteriorProximo; 
 	NodoLista<T> anteriorAnterior;
 	
-	public IteratorLista(NodoLista<T> nProximo){
-		proximo = nProximo;
+	public IteratorLista(NodoLista<T> primerNodo){
+		proximo = primerNodo;
 		anteriorProximo = null;
 		anteriorAnterior = null;
 	}
-	
+
 	@Override
 	public boolean hasNext() {
 		return proximo != null;

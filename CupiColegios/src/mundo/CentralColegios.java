@@ -1,7 +1,9 @@
 package mundo;
 
-import estructuras.Lista;
-import estructuras.TablaHashing;
+import java.util.Iterator;
+
+import HashTable.TablaHashing;
+import Lista.Lista;
 
 public class CentralColegios implements ICentralColegios {
 	
@@ -14,11 +16,6 @@ public class CentralColegios implements ICentralColegios {
 	 */
 	private Usuario usuarioActual;
 	private TablaHashing<Llave,Colegio> colegios;
-	
-	/**
-	 * 
-	 */
-	private TablaHashing<Llave, Colegio> colegios;
 	
 	//------------------------------------------
 	// Constructor
@@ -51,18 +48,35 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public Colegio[] buscarPorCriterio(Criterio[] criterios){	
-		return auxiliar(criterios,colegios.darLista());
+	public Object[] buscarPorCriterio(Criterio[] criterios){	
+		return auxiliar(criterios, colegios.darLista());
 	}	
 	
-	private Colegio[] auxiliar(Criterio[] criterios, Lista colegios){
+	private Object[] auxiliar(Criterio[] criterios, Lista nColegios){
 		if(criterios.length == 0){
-			return colegios;
+			return colegios.darArreglo();
 		}
 		else{
-			
+			Criterio criterio = criterios[0];
+			Lista<Colegio> nueva = new Lista<Colegio>();
+			Iterator<Colegio> iterador = nColegios.iterator();
+			while(iterador.hasNext()){
+				Colegio actual = iterador.next();
+				if(actual.cumpleCriterio(criterio)){
+					nueva.agregar(actual);
+				}
+			}
+			return auxiliar(nuevosCriterios(criterios),nueva);
 		}
 	}
+	private Criterio[] nuevosCriterios(Criterio[] criterios) {
+		Criterio[] nueva = new Criterio[criterios.length-1];
+		for(int i = 1; i<criterios.length;i++){
+			nueva[i-1] = criterios[i];
+		}
+		return nueva;
+	}
+
 	@Override
 	public Colegio[] buscarPorArea(Area area, AnioAcademico anio, int puntaje)
 			throws RangoInvalidoException {

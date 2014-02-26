@@ -16,7 +16,7 @@ public class IteratorTabla<V extends Comparable<V>> implements Iterator<V> {
 	
 	private int posicion;
 
-	public IteratorTabla(ListaOrdenada<NodoTabla<?,V>>[] lista){
+	public IteratorTabla(ListaOrdenada[] lista){
 		posicion = 0;
 		listas = lista;
 		listaActual = listas[0];

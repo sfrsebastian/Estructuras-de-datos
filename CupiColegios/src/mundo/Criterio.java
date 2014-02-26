@@ -1,6 +1,6 @@
 package mundo;
 
-import estructuras.Lista;
+import Lista.Lista;
 
 public class Criterio {
 	public final static String DIURNA = "Diurna";

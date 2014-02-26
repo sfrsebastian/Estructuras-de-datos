@@ -1,6 +1,7 @@
 package mundo;
 
-import estructuras.ListaOrdenada;
+import ListaOrdenada.ListaOrdenada;
+
 
 public class Usuario {
 	

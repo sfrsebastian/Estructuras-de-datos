@@ -1,7 +1,7 @@
 package Lista;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
+import java.util.Iterator;
 
 public class Lista<T extends Comparable<?super T>> implements ILista<T>, Serializable {
 
@@ -75,7 +75,7 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 	}
 
 	public Object[] darArreglo() {
-		Object[] array = new Object[longitud];
+		Object[] array = new Object[darLongitud()];
 		NodoLista<T> actual = primero;
 		
 		int i = 0;
@@ -89,7 +89,14 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 	}
 
 	public int darLongitud() {
-		return longitud;
+		int valor = 0;
+		NodoLista<T> actual = primero;
+		while(actual!=null){
+			valor++;
+			actual =actual.darSiguiente();
+		}
+		longitud = valor;
+		return valor;
 	}
 
 	public T darUltimo(){
@@ -120,6 +127,11 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new IteratorLista<T>(primero);
 	}
 
 }

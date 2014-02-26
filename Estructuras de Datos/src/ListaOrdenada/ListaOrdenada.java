@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @version 1.0
  * @created 01-Feb-2014 6:19:56 PM
  */
-public class ListaOrdenada<T extends Comparable <T>> implements IListaOrdenada<T>, Serializable {
+public class ListaOrdenada<T extends Comparable <?super T>> implements IListaOrdenada<T>, Serializable {
 	
 	//------------------------------------------
 	// Atributos

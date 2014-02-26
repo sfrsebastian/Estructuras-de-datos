@@ -1,5 +1,8 @@
 package testLista;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import Lista.Lista;
 import junit.framework.TestCase;
 
@@ -13,6 +16,7 @@ public class TestLista extends TestCase{
 	 * Es la lista que hace las pruebas
 	 */
 	private Lista listaPrueba;
+	Enfermera e2;
 	
 	//------------------------------------------
 	// Setup Scenarios
@@ -22,7 +26,7 @@ public class TestLista extends TestCase{
 		listaPrueba = new Lista<Enfermera>();
 		
 		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
-		Enfermera e2 = new Enfermera("Carmen", 42, "7.8");
+		e2 = new Enfermera("Carmen", 42, "7.8");
 		Enfermera e3 = new Enfermera("Maria", 40, "3.5");
 		Enfermera e4 = new Enfermera("Pedro", 45, "7.6");
 		Enfermera e5 = new Enfermera("Jose", 32, "1.0");
@@ -207,6 +211,59 @@ public class TestLista extends TestCase{
 		//Eliminar cuando no hay elemento
 		assertNull("No se debio eliminar ningun elemento", listaPrueba.eliminar(t1));
 		
+	}
+	public void testIterator(){
+		//Prueba con iterador vacio
+		setupScenario3();
+		Iterator<String> iterator = listaPrueba.iterator();
+		assertFalse(iterator.hasNext());
+		try{
+			iterator.next();
+			fail("no debe pasar por aca");
+		}
+		catch(NoSuchElementException e){
+			
+		}
+		try{
+			iterator.remove();
+			fail("no debe pasar por aca");
+		}
+		catch(NoSuchElementException e){
+			
+		}
+		
+		//Prueba iterador lleno
+		setupScenario1();
+		iterator = listaPrueba.iterator();
+		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),5);
+		
+		iterator = listaPrueba.iterator();
+		iterator.next();
+		try{
+			iterator.remove();//intenta eliminar el primero
+			fail("No debe pasar por aca");
+		}
+		catch(UnsupportedOperationException e){
+			
+		}
+		
+		iterator.next();//Elimina el segundo elemento de la lista
+		iterator.remove();
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar(e2));
+		assertFalse("Los elementos no deben ser el mismo", e2==listaPrueba.darArreglo()[1]);
+		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),4);
+		iterator = listaPrueba.iterator();
+		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),4);
+		
+		
+	}
+	private int iterarTamaño(Iterator iterator){
+		int contador = 0;
+		while(iterator.hasNext()){
+			iterator.next();
+			contador++;
+		}
+		return contador;
 	}
 	
 }
