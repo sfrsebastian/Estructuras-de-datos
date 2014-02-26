@@ -106,7 +106,7 @@
 	</target>
 
 	<!-- Generación del javadoc -->
-	<target name="javaDoc" depends="compile" description="Genera el java doc de la aplicación">
+	<target name="javaDoc" depends="build" description="Genera el java doc de la aplicación">
 		<javadoc destdir="${javadoc}">
 			<fileset dir="${source}" />
 		</javadoc>
