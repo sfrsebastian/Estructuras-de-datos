@@ -18,8 +18,6 @@ import javax.swing.JButton;
 import mundo.Colegio;
 import mundo.Hijo;
 
-import com.sun.javafx.scene.layout.region.Margins;
-
 import helper.LectorExcel;
 
 import java.awt.Dimension;
