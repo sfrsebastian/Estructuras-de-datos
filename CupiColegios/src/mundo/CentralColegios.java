@@ -1,5 +1,9 @@
 package mundo;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Iterator;
 
 import HashTable.TablaHashing;
@@ -15,22 +19,34 @@ public class CentralColegios implements ICentralColegios {
 	 * El usuario actual de la central
 	 */
 	private Usuario usuarioActual;
+	
+	/**
+	 * 
+	 */
 	private TablaHashing<Llave,Colegio> colegios;
+	
+	/**
+	 * 
+	 */
+	private TablaHashing<Llave, Usuario> usuarios;
 	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
 	
-	public CentralColegios(){
+	public CentralColegios() throws FileNotFoundException, IOException, ClassNotFoundException{
 		usuarioActual = null;
-		colegios = new TablaHashing<>(10000, 5000); 
+		ObjectInputStream ois =  new ObjectInputStream(new FileInputStream("./data/colegiosSerializados.col"));
+		colegios = (TablaHashing<Llave, Colegio>) ois.readObject();
+		usuarios = new TablaHashing<Llave, Usuario>(7,2);
 	}
 
 	@Override
 	public Usuario agregarNuevoUsuario(String usuario, String contrasena) {
 		Usuario usu = new Usuario(usuario, contrasena);
-		//colegios.agregar(, usu);
+		usuarios.agregar(new Llave(usu.getContrasena()), usu);
 		usuarioActual = usu;
+		System.out.println("Usuario: " + usu.getUsuairo() + " conectado!");
 		return usu;
 	}
 
@@ -54,10 +70,13 @@ public class CentralColegios implements ICentralColegios {
 	
 	private Object[] auxiliar(Criterio[] criterios, Lista nColegios){
 		if(criterios.length == 0){
-			return colegios.darArreglo();
+			return nColegios.darArreglo();
 		}
 		else{
 			Criterio criterio = criterios[0];
+			if(criterio.darSubcriterios().length == 0){
+				return auxiliar(nuevosCriterios(criterios),nColegios);
+			}
 			Lista<Colegio> nueva = new Lista<Colegio>();
 			Iterator<Colegio> iterador = nColegios.iterator();
 			while(iterador.hasNext()){
@@ -117,6 +136,10 @@ public class CentralColegios implements ICentralColegios {
 
 	public Usuario darUsuarioActual() {
 		return usuarioActual;
+	}
+	
+	public Object[] darColegios(){
+		return colegios.darArreglo();
 	}
 
 }

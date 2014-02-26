@@ -3,7 +3,7 @@ package mundo;
 import ListaOrdenada.ListaOrdenada;
 
 
-public class Usuario {
+public class Usuario implements Comparable<Usuario>{
 	
 	//------------------------------------------
 	// Atributos
@@ -12,7 +12,7 @@ public class Usuario {
 	/**
 	 * El nombre del usuario, es unico
 	 */
-	private String usuairo;
+	private String usuario;
 	
 	/**
 	 * La contrasena que tiene el usuario
@@ -31,7 +31,7 @@ public class Usuario {
 	 * @param nContrasena La contrasena del nuevo usuairo
 	 */
 	public Usuario(String nUsuario, String nContrasena){
-		usuairo = nUsuario;
+		usuario = nUsuario;
 		contrasena = nContrasena;
 		listaHijos = new ListaOrdenada<Hijo>();
 	}
@@ -53,11 +53,11 @@ public class Usuario {
 	}
 
 	public String getUsuairo() {
-		return usuairo;
+		return usuario;
 	}
 
 	public void setUsuairo(String usuairo) {
-		this.usuairo = usuairo;
+		this.usuario = usuairo;
 	}
 
 	public String getContrasena() {
@@ -66,5 +66,15 @@ public class Usuario {
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
+	}
+
+	@Override
+	public int compareTo(Usuario o) {
+		if(usuario.compareTo(o.getUsuairo()) > 0)
+			return 1;
+		else if(usuario.compareTo(o.getUsuairo()) < 0)
+			return -1;
+		else
+			return 0;
 	}
 }

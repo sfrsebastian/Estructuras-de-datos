@@ -1,23 +1,52 @@
 package HashTable;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import Lista.Lista;
 import ListaOrdenada.IListaOrdenada;
 import ListaOrdenada.ListaOrdenada;
 
-public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V> {
+public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V>,Serializable {
 
+	//------------------------------------------
+	// Atributos
+	//------------------------------------------
+	
+	/**
+	 * El tamano de la table de hashing
+	 */
 	private int tamano;
 
+	/**
+	 * La capacidad de almacenamiento de la tabla
+	 */
 	private int capacidad;
 
+	/**
+	 * El factor de carga que mide el rango para el crecimiento del hash
+	 */
 	private double factorCarga;
 
+	/**
+	 * Es el area primaria de la tabla de hashing
+	 */
 	private ListaOrdenada<NodoTabla<K,V>>[] areaPrimaria;
 	
+	/**
+	 * El factor de crecimiento de la tabla de hashing
+	 */
 	private int crecimiento;
+	
+	//------------------------------------------
+	// Constructor
+	//------------------------------------------
 
+	/**
+	 * Contruye una nueva tabla de hashing dado un tamano y un factor de crecimiento
+	 * @param nTamano 
+	 * @param nCrecimiento
+	 */
 	public TablaHashing(int nTamano, int nCrecimiento) {
 		capacidad = nTamano;
 		areaPrimaria = new ListaOrdenada[capacidad];
@@ -28,6 +57,10 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		crecimiento = nCrecimiento;
 		factorCarga = 0.75;
 	}
+	
+	//------------------------------------------
+	// Metodos
+	//------------------------------------------
 
 	public boolean agregar(K nLlave, V nElemento) {
 		reHash();
@@ -50,7 +83,10 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		return null;
 	}
 
-	
+	/**
+	 * Da un arreglo de todos los elementos de la tabla de hashing
+	 * @return Object[] Arreglo con los elementos de la tabla
+	 */
 	public Object[] darArreglo(){
 		Object[] arreglo = new Object[darLongitud()];
 		int posicion = 0;
@@ -58,24 +94,31 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 			ListaOrdenada<NodoTabla<K,V>> lista = areaPrimaria[i];
 			Object[] arregloLista = lista.darElementos();
 			for(int j = 0;j<arregloLista.length;j++){
-				arreglo[posicion] = arregloLista[j];
+				arreglo[posicion] = (V)((NodoTabla<K, V>)arregloLista[j]).darElemento();
 				posicion++;
 			}
 		}
 		return arreglo;
 	}
 
-	
+	/**
+	 * Da la longitud de la tabla de hashing contando todos los elementos 
+	 * @return int La cantidad de elementos en la tabla
+	 */
 	public int darLongitud(){
-		int tamaño = 0;
+		int tamano = 0;
 		for(int i = 0;i<areaPrimaria.length;i++){
 			ListaOrdenada<NodoTabla<K,V>> actual = areaPrimaria[i];
-			tamaño += actual.darLongitud(); 
+			tamano += actual.darLongitud(); 
 		}
-		tamano = tamaño;
+		tamano = tamano;
 		return tamano;
 	}
 
+	/**
+	 * Retorna una lista simple encadenada de todos los elementos de la tabla
+	 * @return Lista La lista con todos los elementos
+	 */
 	public Lista<V> darLista(){
 		Lista<V> lista = new Lista();
 		
@@ -99,14 +142,27 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		return null;
 	}
 
+	/**
+	 * Permite realizar la funcion de hash para la llave dada
+	 * @param nLlave La llave a la que se aplica el hash
+	 * @return El numero resultado de la operacion
+	 */
 	public int hash(K nLlave) {
 		return nLlave.hashCode() % capacidad;
 	}
 	
+	/**
+	 * Retorna el iterador de la tabla del area primaria
+	 */
 	public Iterator iterator(){
 		return new IteratorTabla(areaPrimaria);
 	}
 	
+	/**
+	 * Crece el tamano de la tabla de hashing al contruir una nueva segun
+	 * el factor de crecimiento para manejar colisiones y agregar mas
+	 * elementos
+	 */
 	public void reHash() {
 		System.out.println("Tamano " + tamano);
 		System.out.println("Capacidad: "+ capacidad);

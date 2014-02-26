@@ -2,9 +2,15 @@ package helper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import mundo.Colegio;
+import mundo.Llave;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,7 +19,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-
+import HashTable.TablaHashing;
 
 public class LectorExcel{
 	
@@ -30,6 +36,7 @@ public class LectorExcel{
 	private int ycoord;
 	
 	private String[] headers;
+	
 
 	/**
 	 * Crea un nuevo lector de excel
@@ -137,6 +144,22 @@ public class LectorExcel{
 		return data;
 	}
 	
+	public TablaHashing<Llave, Colegio> construirTablaHashing() throws FileNotFoundException, IOException{
+		
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File("./data/colegiosSerializados.col")));
+		TablaHashing<Llave, Colegio> tablaColegios = new TablaHashing(7, 2);
+		
+		for (int i = 1; i < rows; i++){
+			Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6]);
+			tablaColegios.agregar(new Llave(col.getCodigo()), col);
+		}
+		
+		os.writeObject(tablaColegios);
+		
+		return tablaColegios;
+		
+	}
+	
 
 	//int id = Integer.parseInt(row.getCell(0).getStringCellValue());
 	//String nombre = row.getCell(1).getStringCellValue();
@@ -151,10 +174,18 @@ public class LectorExcel{
 		//	}
 		return data;
 	}
-
+	
 	public static void main(String[] args) {
-		LectorExcel lector = new LectorExcel("./data/text.xls",6,3,1,1);
-		String[][] datos = lector.leer();
+		LectorExcel lector = new LectorExcel("./data/2004.xls", 8860, 19, 0, 1);
+		try {
+			lector.construirTablaHashing();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

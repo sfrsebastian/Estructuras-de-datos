@@ -15,7 +15,7 @@ public class testListaOrdenada extends TestCase {
 	 */
 	private ListaOrdenada<String> listaPrueba;
 	
-	private int iterarTamaño(Iterator iterator){
+	private int iterarTamano(Iterator iterator){
 		int contador = 0;
 		while(iterator.hasNext()){
 			iterator.next();
@@ -205,7 +205,7 @@ public class testListaOrdenada extends TestCase {
 		//Prueba iterador lleno
 		setupScenario1();
 		iterator = listaPrueba.iterator();
-		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),5);
+		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamano(iterator),5);
 		
 		iterator = listaPrueba.iterator();
 		iterator.next();
@@ -223,7 +223,7 @@ public class testListaOrdenada extends TestCase {
 		assertFalse("Los elementos no deben ser el mismo", "Jose"==listaPrueba.darElementos()[1]);
 		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),4);
 		iterator = listaPrueba.iterator();
-		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamaño(iterator),4);
+		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamano(iterator),4);
 		
 		
 	}

@@ -1,6 +1,8 @@
 package mundo;
 
-public class Llave {
+import java.io.Serializable;
+
+public class Llave implements Serializable {
 	String string;
 	int numero;
 	public Llave(String nString){

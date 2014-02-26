@@ -1,6 +1,8 @@
 package HashTable;
 
-public class NodoTabla<K,V extends Comparable <?super V>> implements Comparable<NodoTabla<K,V>> {
+import java.io.Serializable;
+
+public class NodoTabla<K,V extends Comparable <?super V>> implements Comparable<NodoTabla<K,V>>,Serializable {
 
 	private K llave;
 

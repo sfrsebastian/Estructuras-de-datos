@@ -3,6 +3,8 @@ package interfaz;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javafx.scene.control.Accordion;
 
@@ -64,6 +66,8 @@ public class InterfazCupiColegios extends JFrame {
 		getContentPane().setLayout(null);
 		setTitle("CupiColegios");
 		setResizable(false);
+		
+		self = this;
 		
 		panelColegios = new PanelColegios(self);
 		panelColegios.setBounds(303, 6, 609, 600);
@@ -170,6 +174,20 @@ public class InterfazCupiColegios extends JFrame {
 		
 		//JMenu end-----------------------
 		
+		try {
+			central = new CentralColegios();
+			Object[] colegios = central.darColegios();
+			panelColegios.refrescarTabla(colegios);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	//------------------------------------------

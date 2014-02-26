@@ -15,10 +15,18 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
+import mundo.Colegio;
+import mundo.Hijo;
+
+import com.sun.javafx.scene.layout.region.Margins;
+
 import helper.LectorExcel;
 
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class PanelColegios extends JPanel {
 
@@ -54,12 +62,32 @@ public class PanelColegios extends JPanel {
 		setSize(600, 600);
 		setLayout(null);
 		
-		LectorExcel lector = new LectorExcel("./data/SB11-CLASIFI-PLANTELES-2004.xls", 8860, 19, 0, 1);
+//		LectorExcel lector = new LectorExcel("./data/2004.xls", 8860, 19, 0, 1);
+//		
+//		String[][] datos = lector.leer();
+//		String[] columnas = lector.leerTitulos();
+//		
+//		try {
+//			lector.construirTablaHashing();
+//		} catch (FileNotFoundException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		
-		String[][] datos = lector.leer();
-		String[] columnas = lector.leerTitulos();
+//		DefaultTableModel tableModel = new DefaultTableModel(datos,columnas){
+//			
+//		    @Override
+//		    public boolean isCellEditable(int row, int column) {
+//		        return false;
+//		    }
+//		};
 		
-		DefaultTableModel tableModel = new DefaultTableModel(datos,columnas){
+		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo"};
+		
+		DefaultTableModel tableModel = new DefaultTableModel(arre,4){
 			
 		    @Override
 		    public boolean isCellEditable(int row, int column) {
@@ -69,13 +97,25 @@ public class PanelColegios extends JPanel {
 		
 		table = new JTable();
 		table.setModel(tableModel);
+		table.getColumnModel().getColumn(0).setPreferredWidth(200);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println(table.getValueAt(table.getSelectedRow(), 0));
+				try {
+					txtDireccion.setText((String) table.getValueAt(table.getSelectedRow(), 0));
+					txtMunicipio.setText("");
+					txtNombre.setText((String) table.getValueAt(table.getSelectedRow(), 1));
+					txtGenero.setText((String) table.getValueAt(table.getSelectedRow(), 3));
+					txtTipo.setText((String) table.getValueAt(table.getSelectedRow(), 4));
+					txtIcfes.setText("");
+					txtCal.setText((String) table.getValueAt(table.getSelectedRow(), 2));
+					//System.out.println(table.getValueAt(table.getSelectedRow(), 0));
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 			}
 		});
 		
@@ -162,7 +202,7 @@ public class PanelColegios extends JPanel {
 		txtDireccion.setBounds(447, 373, 134, 28);
 		add(txtDireccion);
 		
-		JLabel lblDireccion = new JLabel("Dir:");
+		JLabel lblDireccion = new JLabel("Codigo:");
 		lblDireccion.setBounds(386, 379, 61, 16);
 		add(lblDireccion);
 		
@@ -209,8 +249,8 @@ public class PanelColegios extends JPanel {
 		
 		if(hijos != null && hijos.length != 0){
 			for (int i = 0; i < hijos.length; i++) {
-				//Hijo hijoActual = hijos[i];
-				//caja.addItem(hijoActual);
+				Hijo hijoActual = (Hijo) hijos[i];
+				caja.addItem(hijoActual);
 			}
 		}else{
 			caja.addItem("No tiene hijos");
@@ -219,7 +259,43 @@ public class PanelColegios extends JPanel {
 	}
 
 	public void refrescarTabla(Object[] resultados) {
-		// TODO Auto-generated method stub
+		table.removeAll();
 		
+		String[][] datos = darDatosTabla(resultados);
+		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo"};
+		
+		DefaultTableModel model = new DefaultTableModel(datos,arre) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false;
+		    }
+		};		
+		
+		table.setModel(model);
+	}
+	
+	private void limpiarTextos(){
+		txtDireccion.setText("");
+		txtMunicipio.setText("");
+		txtNombre.setText("");
+		txtGenero.setText("");
+		txtTipo.setText("");
+		txtIcfes.setText("");
+		txtCal.setText("");
+	}
+	
+	private String[][] darDatosTabla(Object[] arreglo){
+		String[][] data = new String[arreglo.length][5];
+		
+		for (int i = 0; i < arreglo.length; i++) {
+			Colegio col = (Colegio)arreglo[i];
+			data[i][0] = col.getCodigo();
+			data[i][1] = col.getNombre();
+			data[i][2] = col.getCalendario();
+			data[i][3] = col.getGenero();
+			data[i][4] = col.getTipo();
+		}
+		
+		return data;
 	}
 }
