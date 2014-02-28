@@ -64,7 +64,7 @@ public class DialogoIniciarSesion extends JDialog {
 							mostrarAlerta("Usuario autenticado");
 							salir();
 						}else{
-							mostrarError("Contrasena incorrecta");
+							mostrarError("Usuario o contrasena incorrectos");
 						}
 					}else{
 						mostrarError(errorTxt);

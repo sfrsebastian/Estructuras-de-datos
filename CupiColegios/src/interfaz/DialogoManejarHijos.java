@@ -78,11 +78,11 @@ public class DialogoManejarHijos extends JDialog {
 				try {
 					Hijo hijo = (Hijo)listaHijos.getSelectedValue();
 					refrescarListasColegios(hijo);
-					refrescarListasColegios(null);
+					//refrescarListasColegios(null);
 					
 					
 					limpiarTextos();
-					txtEdad.setText(hijo.getNombre());
+					txtEdad.setText("" + hijo.getEdad());
 					txtEncargado.setText(hijo.getAcudiente());
 					txtGenero.setText("" + hijo.getGenero());
 					txtNombre.setText(hijo.getNombre());

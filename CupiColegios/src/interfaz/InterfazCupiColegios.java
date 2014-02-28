@@ -161,6 +161,7 @@ public class InterfazCupiColegios extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(tieneUsuario()){
 					usuarioActual = null;
+					central.cerrarSesion();
 					panelColegios.refrescar();
 				}else
 					mostrarError("No hay sesion iniciada");

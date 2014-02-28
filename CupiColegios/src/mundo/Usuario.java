@@ -21,6 +21,9 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 	 */
 	private String contrasena;
 	
+	/**
+	 * 
+	 */
 	private ListaOrdenada<Hijo> listaHijos;
 	
 	//------------------------------------------
@@ -54,7 +57,7 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 		hijo.agregarFavorito(colegio);
 	}
 
-	public String getUsuairo() {
+	public String getUsuario() {
 		return usuario;
 	}
 
@@ -73,12 +76,16 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 	public Object[] darHijos(){
 		return listaHijos.darElementos();
 	}
+	
+	public boolean validarContrasena(String con){
+		return (contrasena.equals(con));
+	}
 
 	@Override
 	public int compareTo(Usuario o) {
-		if(usuario.compareTo(o.getUsuairo()) > 0)
+		if(usuario.compareTo(o.getUsuario()) > 0)
 			return 1;
-		else if(usuario.compareTo(o.getUsuairo()) < 0)
+		else if(usuario.compareTo(o.getUsuario()) < 0)
 			return -1;
 		else
 			return 0;

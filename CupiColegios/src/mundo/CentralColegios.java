@@ -62,9 +62,9 @@ public class CentralColegios implements ICentralColegios {
 	@Override
 	public Usuario agregarNuevoUsuario(String usuario, String contrasena) {
 		Usuario usu = new Usuario(usuario, contrasena);
-		usuarios.agregar(new Llave(usu.getContrasena()), usu);
+		usuarios.agregar(new Llave(usu.getUsuario()), usu);
 		usuarioActual = usu;
-		System.out.println("Usuario: " + usu.getUsuairo() + " conectado!");
+		System.out.println("Usuario: " + usu.getUsuario() + " conectado!");
 		return usu;
 	}
 
@@ -174,21 +174,33 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	public boolean buscarUsuario(String usuario, String pass) {
-	
+
 		Usuario encontrado = usuarios.buscar(new Llave(usuario));
 		if(encontrado != null){
-			usuarioActual = encontrado;
-			return true;
+			if(encontrado.validarContrasena(pass)){
+				usuarioActual = encontrado;
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 		return false;
 	}
 
 	public Object[] darHijosUsuarioActual() {
-		return usuarioActual.darHijos();
+		if(usuarioActual != null)
+			return usuarioActual.darHijos();
+		else
+			return new Object[0];
 	}
 
 	public void eliminarHijo(Hijo elim) {
 		usuarioActual.eliminarHijo(elim);
+	}
+
+	public void cerrarSesion() {
+		usuarioActual = null;
 	}
 
 }
