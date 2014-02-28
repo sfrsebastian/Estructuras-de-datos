@@ -6,6 +6,8 @@ import Lista.Lista;
 
 public class Colegio implements Comparable<Colegio>, Serializable{
 	
+	private static final long serialVersionUID = 1921796038531766464L;
+	
 	private String jornada;
 	
 	private String icfes;
@@ -19,6 +21,8 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	private String nombre;
 	
 	private String codigo;
+	
+	private Certificado[] certificados;
 	
 	/**
 	 * 

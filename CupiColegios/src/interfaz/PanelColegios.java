@@ -45,6 +45,7 @@ public class PanelColegios extends JPanel {
 	private JTextField txtJornada;
 	private JTextField txtIcfes;
 	private JTextField txtCal;
+	private JComboBox comboHijos;
 	
 	//------------------------------------------
 	// Constructor
@@ -232,7 +233,7 @@ public class PanelColegios extends JPanel {
 		btnResultados.setBounds(477, 445, 117, 29);
 		add(btnResultados);
 		
-		JComboBox comboHijos = new JComboBox();
+		comboHijos = new JComboBox();
 		comboHijos.setBounds(422, 508, 159, 27);
 		add(comboHijos);
 		
@@ -243,17 +244,21 @@ public class PanelColegios extends JPanel {
 	
 	public void refrescarComboHijos(JComboBox caja){
 		caja.removeAll();
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		
 		Object[] hijos = padre.darHijos();
 		
 		if(hijos != null && hijos.length != 0){
 			for (int i = 0; i < hijos.length; i++) {
 				Hijo hijoActual = (Hijo) hijos[i];
-				caja.addItem(hijoActual);
+				model.addElement(hijoActual);
 			}
 		}else{
-			caja.addItem("No tiene hijos");
-			caja.repaint();
+			model.addElement("No tiene hijos");
 		}
+		
+		caja.setModel(model);
+		caja.repaint();
 	}
 
 	public void refrescarTabla(Object[] resultados) {
@@ -295,5 +300,9 @@ public class PanelColegios extends JPanel {
 		}
 		
 		return data;
+	}
+
+	public void refrescar() {
+		refrescarComboHijos(comboHijos);
 	}
 }

@@ -10,6 +10,8 @@ public class Llave implements Serializable {
 		numero = -1000;
 	}
 	
+	//public Llave(String nom, String )
+	
 	public Llave(int nNumero){
 		numero = nNumero;
 		string = null;

@@ -155,6 +155,7 @@ public class LectorExcel{
 		}
 		
 		os.writeObject(tablaColegios);
+		os.close();
 		
 		return tablaColegios;
 		
@@ -164,16 +165,6 @@ public class LectorExcel{
 	//int id = Integer.parseInt(row.getCell(0).getStringCellValue());
 	//String nombre = row.getCell(1).getStringCellValue();
 	//					System.out.println("Row "+ contador + ": "+ row.getCell(1).getStringCellValue());
-	
-	public String[][] darDataColegios(){
-		String[][] data = new String[50][50];
-		//	for(int i = 0; i < colegios.size(); i++){
-		//		Colegio actual = colegios.get(i);
-		//		data[i][0] = actual.darCodigo()+"";
-		//		data[i][1] = actual.darNombre();
-		//	}
-		return data;
-	}
 	
 	public static void main(String[] args) {
 		LectorExcel lector = new LectorExcel("./data/2004.xls", 8860, 19, 0, 1);
