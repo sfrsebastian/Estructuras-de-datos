@@ -1,9 +1,12 @@
 package mundo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
 import HashTable.TablaHashing;
@@ -34,11 +37,26 @@ public class CentralColegios implements ICentralColegios {
 	// Constructor
 	//------------------------------------------
 	
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public CentralColegios() throws FileNotFoundException, IOException, ClassNotFoundException{
 		usuarioActual = null;
 		ObjectInputStream ois =  new ObjectInputStream(new FileInputStream("./data/colegiosSerializados.col"));
 		colegios = (TablaHashing<Llave, Colegio>) ois.readObject();
-		usuarios = new TablaHashing<Llave, Usuario>(7,2);
+		ois.close();
+		
+		try {
+			ObjectInputStream ois1 = new ObjectInputStream(new FileInputStream("./data/usuarios.us"));
+			usuarios = (TablaHashing<Llave, Usuario>)ois1.readObject();
+			ois1.close();
+		} catch (Exception e) {
+			usuarios = new TablaHashing<Llave, Usuario>(7,2);
+			System.out.println("users not created");
+		}
 	}
 
 	@Override
@@ -54,6 +72,19 @@ public class CentralColegios implements ICentralColegios {
 	public boolean registrarHijoUsuario(Usuario usuario, Hijo hijo) {
 		usuario.agregarHijo(hijo);
 		return true;
+	}
+	
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public void salvarUsuarios() throws FileNotFoundException, IOException{
+		File archivo = new File("./data/usuarios.us");
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(archivo));
+		
+		os.writeObject(usuarios);
+		os.close();
 	}
 
 	@Override
@@ -140,6 +171,24 @@ public class CentralColegios implements ICentralColegios {
 	
 	public Object[] darColegios(){
 		return colegios.darArreglo();
+	}
+
+	public boolean buscarUsuario(String usuario, String pass) {
+	
+		Usuario encontrado = usuarios.buscar(new Llave(usuario));
+		if(encontrado != null){
+			usuarioActual = encontrado;
+			return true;
+		}
+		return false;
+	}
+
+	public Object[] darHijosUsuarioActual() {
+		return usuarioActual.darHijos();
+	}
+
+	public void eliminarHijo(Hijo elim) {
+		usuarioActual.eliminarHijo(elim);
 	}
 
 }

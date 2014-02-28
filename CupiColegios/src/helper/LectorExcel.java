@@ -155,6 +155,7 @@ public class LectorExcel{
 		}
 		
 		os.writeObject(tablaColegios);
+		os.close();
 		
 		return tablaColegios;
 		

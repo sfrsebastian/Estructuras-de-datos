@@ -99,15 +99,14 @@ public class DialogoManejarHijos extends JDialog {
 		        JList list = (JList)evt.getSource();
 		        if (evt.getClickCount() == 2) {
 		        	System.out.println("Double cliked!");
-//		        	Object elim = list.getSelectedValue();
-//		           // list.remove(index);
-//		        	DefaultListModel m = (DefaultListModel) list.getModel();
-//		        	m.removeElement(elim);
-//		           list.setModel(m);
+		        	Hijo elim = (Hijo)list.getSelectedValue();
+		           // list.remove(index);
+		        	padre.eliminarHijo(elim);
+		        	padre.refrescarHijos();
+		        	
 		        	refrescarTodasListas(padre.darHijos());
 		        } else if (evt.getClickCount() == 3) {   // Triple-click
 		            int index = list.locationToIndex(evt.getPoint());
-		            
 		        }
 		    }
 		});

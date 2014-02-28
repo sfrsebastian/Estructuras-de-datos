@@ -124,6 +124,19 @@ public class InterfazCupiColegios extends JFrame {
 			}
 		});
 		menuCuenta.add(itmCrearUsuario);
+		
+		JMenuItem itmIngresar = new JMenuItem("Iniciar sesion");
+		itmIngresar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DialogoIniciarSesion dialogoIniciarSesion = new DialogoIniciarSesion();
+				dialogoIniciarSesion.setParent(self);
+				dialogoIniciarSesion.setVisible(true);
+			}
+		});
+		menuCuenta.add(itmIngresar);
+		
 		menuCuenta.addSeparator();
 		
 		JMenuItem itmPreferencias = new JMenuItem("Preferencias");
@@ -147,7 +160,8 @@ public class InterfazCupiColegios extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(tieneUsuario()){
-					//usuarioActual = null;
+					usuarioActual = null;
+					panelColegios.refrescar();
 				}else
 					mostrarError("No hay sesion iniciada");
 			}
@@ -160,7 +174,12 @@ public class InterfazCupiColegios extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(tieneUsuario()){
-					
+					try {
+						central.salvarUsuarios();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}else
 					mostrarError("No hay sesion iniciada");
 			}
@@ -225,18 +244,18 @@ public class InterfazCupiColegios extends JFrame {
 	}
 
 	public Object[] darHijos() {
-		// TODO Auto-generated method stub
-		return null;
+		return central.darHijosUsuarioActual();
 	}
 
 	public Object[] darColegiosFavoritosHijo(Object hijo) {
-		// TODO Auto-generated method stub
-		return null;
+		Hijo hijito = (Hijo)hijo;
+		return hijito.darColegiosFavoritos();
 	}
 
 	public Object[] darColegiosRecomendados(Object hijo) {
-		// TODO Auto-generated method stub
+		Hijo hijito = (Hijo)hijo;
 		return null;
+		//TODO termina
 	}
 	
 	public void buscarPorCriterio(Criterio[] criterios){
@@ -260,5 +279,25 @@ public class InterfazCupiColegios extends JFrame {
 
 	public void registrarUsuario(String usuario, String c1) {
 		usuarioActual = central.agregarNuevoUsuario(usuario, c1);
+	}
+
+	public boolean buscarUsuario(String usuario, String pass) {
+		boolean encontro = central.buscarUsuario(usuario,pass);
+		
+		if(encontro){
+			usuarioActual = central.darUsuarioActual();
+			panelColegios.refrescar();
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public void refrescarHijos() {
+		panelColegios.refrescar();
+	}
+
+	public void eliminarHijo(Hijo elim) {
+		central.eliminarHijo(elim);
 	}
 }

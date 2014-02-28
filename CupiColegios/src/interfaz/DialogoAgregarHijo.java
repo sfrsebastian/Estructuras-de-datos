@@ -122,6 +122,7 @@ public class DialogoAgregarHijo extends JDialog {
 					if(!error){
 						padre.registrarHijo(nombre,genero,edad,telefono,encargado, ciudad);
 						dialogoManejarHijos.refrescarTodasListas(padre.darHijos());
+						padre.refrescarHijos();
 						//TODO ojo!!!
 						salir();
 					}else{

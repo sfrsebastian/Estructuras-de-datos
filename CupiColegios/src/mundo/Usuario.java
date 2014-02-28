@@ -1,9 +1,11 @@
 package mundo;
 
+import java.io.Serializable;
+
 import ListaOrdenada.ListaOrdenada;
 
 
-public class Usuario implements Comparable<Usuario>{
+public class Usuario implements Comparable<Usuario>,Serializable{
 	
 	//------------------------------------------
 	// Atributos
@@ -66,6 +68,10 @@ public class Usuario implements Comparable<Usuario>{
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
+	}
+	
+	public Object[] darHijos(){
+		return listaHijos.darElementos();
 	}
 
 	@Override
