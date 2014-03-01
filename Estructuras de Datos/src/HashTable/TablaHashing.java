@@ -58,7 +58,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 			ListaOrdenada<NodoTabla<K,V>> lista = areaPrimaria[i];
 			Object[] arregloLista = lista.darArreglo();
 			for(int j = 0;j<arregloLista.length;j++){
-				arreglo[posicion] = arregloLista[j];
+				arreglo[posicion] = ((NodoTabla<K,V>)arregloLista[j]).darElemento();
 				posicion++;
 			}
 		}
