@@ -16,6 +16,7 @@ public class Llave implements Serializable {
 		numero = nNumero;
 		string = null;
 	}
+	@Override
 	public String toString(){
 		if(string == null){
 			return numero+"";
@@ -25,6 +26,7 @@ public class Llave implements Serializable {
 		}
 	}
 	
+	@Override
 	public int hashCode(){
 		if(string == null){
 			return Math.abs(numero);

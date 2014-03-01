@@ -42,6 +42,7 @@ public class DialogoIniciarSesion extends JDialog {
 		
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					boolean error = false;

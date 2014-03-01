@@ -114,6 +114,7 @@ public class PanelBusqueda extends JPanel {
 		
 		JButton btnBuscarCrit = new JButton("Buscar");
 		btnBuscarCrit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Criterio jornada = new Criterio();
 					if(chckbxDiurn.isSelected()) jornada.agregarSubcriterio(Criterio.DIURNA);

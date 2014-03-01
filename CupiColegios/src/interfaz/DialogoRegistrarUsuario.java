@@ -50,6 +50,7 @@ public class DialogoRegistrarUsuario extends JDialog {
 		
 		JButton btnAceptar = new JButton("Registrar");
 		btnAceptar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String usuario = txtNombre.getText();

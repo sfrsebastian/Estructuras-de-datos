@@ -12,10 +12,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.border.TitledBorder;
-
 import mundo.CentralColegios;
 import mundo.Criterio;
 import mundo.Hijo;

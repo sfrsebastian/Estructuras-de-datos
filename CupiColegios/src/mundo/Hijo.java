@@ -170,6 +170,7 @@ public class Hijo implements Comparable<Hijo>,Serializable{
 		this.acudiente = acudiente;
 	}
 	
+	@Override
 	public String toString(){
 		return nombre + " - " + edad;
 	}

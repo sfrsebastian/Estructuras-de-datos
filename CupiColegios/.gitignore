@@ -1,2 +1,4 @@
-/bin
 /classes
+.settings
+/dist
+/docs/api

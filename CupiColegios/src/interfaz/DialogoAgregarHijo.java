@@ -81,6 +81,7 @@ public class DialogoAgregarHijo extends JDialog {
 
 		JButton btnNewButton = new JButton("Registrar");
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
 					boolean error = false;

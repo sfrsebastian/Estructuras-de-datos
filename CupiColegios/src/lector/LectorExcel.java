@@ -53,43 +53,13 @@ public class LectorExcel{
 		xcoord = x;
 		ycoord = y;
 	}
-
-//	public String[] leerTitulos(){
-//		try{
-//			FileInputStream file = new FileInputStream(archivoExcel);
-//			Workbook wb = WorkbookFactory.create(file);
-//			Sheet sheet = wb.getSheetAt(0);
-//
-//			//Itera sobre cada fila
-//			Row row = sheet.getRow(0);
-//			int auxRows = 0;
-//			int i = 0;
-//			Iterator<Cell> cellIterator = row.cellIterator();
-//			while(cellIterator.hasNext() && i<columns){
-//				if(i < columns){
-//					Cell cell = cellIterator.next();
-//					headers[auxRows] = cell.toString();
-//					auxRows++;
-//				}else{
-//					i++;
-//				}
-//			}
-//
-//		}catch(Exception e){
-//
-//		}
-//
-//		return headers;
-//	}
-
 	public void leer(){
 		try {
-			FileInputStream file = new FileInputStream(archivoExcel);
-			Workbook wb = WorkbookFactory.create(file);
+			FileInputStream fis = new FileInputStream(archivoExcel);
+			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet = wb.getSheetAt(0);
 			
 			Iterator<Row> rowIterator = sheet.iterator();
-			rowIterator.next();
 			int i = 0;
 			while(rowIterator.hasNext() && i <rows){
 				Row row = rowIterator.next();
@@ -106,16 +76,16 @@ public class LectorExcel{
 				}
 				i++;
 			}
-			file.close();
+			fis.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 	}	
 	
-	public TablaHashing<Llave, Colegio> construirTablaHashing() throws FileNotFoundException, IOException{
+	public void construirTablaHashing() throws FileNotFoundException, IOException{
 		
-		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File("./data/colegiosSerializados.col")));
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("./data/colegiosSerializados.col")));
 		TablaHashing<Llave, Colegio> tablaColegios = new TablaHashing(7, 2);
 		
 		for (int i = 1; i < rows; i++){
@@ -123,17 +93,9 @@ public class LectorExcel{
 			tablaColegios.agregar(new Llave(col.getCodigo()), col);
 		}
 		
-		//os.writeObject(tablaColegios);
-		os.close();
-		
-		return tablaColegios;
-		
+		oos.writeObject(tablaColegios);
+		oos.close();		
 	}
-	
-
-	//int id = Integer.parseInt(row.getCell(0).getStringCellValue());
-	//String nombre = row.getCell(1).getStringCellValue();
-	//					System.out.println("Row "+ contador + ": "+ row.getCell(1).getStringCellValue());
 	
 	public static void main(String[] args) {
 		LectorExcel lector = new LectorExcel("./data/2004.xls", 8860, 19, 0, 1);
@@ -141,17 +103,11 @@ public class LectorExcel{
 			lector.construirTablaHashing();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			System.out.println("error");
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			System.out.println("error 2");
+			e.printStackTrace();
 		}
-		catch(Exception e){
-			System.out.println("error 3");
-		}
-		
 	}
 
 }

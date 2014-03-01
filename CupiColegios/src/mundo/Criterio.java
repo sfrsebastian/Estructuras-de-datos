@@ -2,7 +2,7 @@ package mundo;
 
 import Lista.Lista;
 
-public class Criterio {
+public class Criterio{
 	public final static String DIURNA = "Diurna";
 	public static final String NOCTURNA = "Nocturna";
 	public static final String MUY_SUPERIOR = "Muy Superior";

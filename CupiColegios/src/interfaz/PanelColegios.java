@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.ScrollPaneConstants;
 
 import mundo.Colegio;
 import mundo.Hijo;
@@ -91,7 +92,7 @@ public class PanelColegios extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(6, 21, 588, 340);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		add(scrollPane);
 		
 		JLabel lblCertificados = new JLabel("Certificados:");
@@ -197,6 +198,7 @@ public class PanelColegios extends JPanel {
 		
 		JButton btnResultados = new JButton("Resultados");
 		btnResultados.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 			}
