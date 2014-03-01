@@ -1,4 +1,4 @@
-package helper;
+package lector;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import mundo.Colegio;

@@ -5,7 +5,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -18,13 +17,8 @@ import javax.swing.JButton;
 import mundo.Colegio;
 import mundo.Hijo;
 
-import helper.LectorExcel;
-
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class PanelColegios extends JPanel {
 
@@ -60,30 +54,7 @@ public class PanelColegios extends JPanel {
 		padre = interfazCupiColegios;
 		setSize(600, 600);
 		setLayout(null);
-		
-//		LectorExcel lector = new LectorExcel("./data/2004.xls", 8860, 19, 0, 1);
-//		
-//		String[][] datos = lector.leer();
-//		String[] columnas = lector.leerTitulos();
-//		
-//		try {
-//			lector.construirTablaHashing();
-//		} catch (FileNotFoundException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		
-//		DefaultTableModel tableModel = new DefaultTableModel(datos,columnas){
-//			
-//		    @Override
-//		    public boolean isCellEditable(int row, int column) {
-//		        return false;
-//		    }
-//		};
-		
+				
 		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo"};
 		
 		DefaultTableModel tableModel = new DefaultTableModel(arre,4){
