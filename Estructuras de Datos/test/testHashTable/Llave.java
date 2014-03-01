@@ -1,8 +1,8 @@
 package testHashTable;
 
-public class LlaveString {
+public class Llave {
 	String valor;
-	public LlaveString(String nValor){
+	public Llave(String nValor){
 		valor = nValor;
 	}
 	
