@@ -1,11 +1,9 @@
 package mundo;
 
-import java.io.Serializable;
-
 import ListaOrdenada.ListaOrdenada;
 
 
-public class Usuario implements Comparable<Usuario>,Serializable{
+public class Usuario {
 	
 	//------------------------------------------
 	// Atributos
@@ -14,16 +12,13 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 	/**
 	 * El nombre del usuario, es unico
 	 */
-	private String usuario;
+	private String usuairo;
 	
 	/**
 	 * La contrasena que tiene el usuario
 	 */
 	private String contrasena;
 	
-	/**
-	 * 
-	 */
 	private ListaOrdenada<Hijo> listaHijos;
 	
 	//------------------------------------------
@@ -36,7 +31,7 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 	 * @param nContrasena La contrasena del nuevo usuairo
 	 */
 	public Usuario(String nUsuario, String nContrasena){
-		usuario = nUsuario;
+		usuairo = nUsuario;
 		contrasena = nContrasena;
 		listaHijos = new ListaOrdenada<Hijo>();
 	}
@@ -57,12 +52,12 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 		hijo.agregarFavorito(colegio);
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getUsuairo() {
+		return usuairo;
 	}
 
 	public void setUsuairo(String usuairo) {
-		this.usuario = usuairo;
+		this.usuairo = usuairo;
 	}
 
 	public String getContrasena() {
@@ -71,23 +66,5 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
-	}
-	
-	public Object[] darHijos(){
-		return listaHijos.darElementos();
-	}
-	
-	public boolean validarContrasena(String con){
-		return (contrasena.equals(con));
-	}
-
-	@Override
-	public int compareTo(Usuario o) {
-		if(usuario.compareTo(o.getUsuario()) > 0)
-			return 1;
-		else if(usuario.compareTo(o.getUsuario()) < 0)
-			return -1;
-		else
-			return 0;
 	}
 }

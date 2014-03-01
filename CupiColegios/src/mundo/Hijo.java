@@ -1,11 +1,9 @@
 package mundo;
 
-import java.io.Serializable;
-
 import ListaOrdenada.ListaOrdenada;
 
 
-public class Hijo implements Comparable<Hijo>,Serializable{
+public class Hijo implements Comparable<Hijo>{
 
 	public final static int MASCULINO = 1;
 	
@@ -113,10 +111,6 @@ public class Hijo implements Comparable<Hijo>,Serializable{
 	public ListaOrdenada<Colegio> getListaColegioFav() {
 		return listaColegioFav;
 	}
-	
-	public Object[] darColegiosFavoritos(){
-		return listaColegioFav.darElementos();
-	}
 
 	public void setListaColegioFav(ListaOrdenada<Colegio> listaColegioFav) {
 		this.listaColegioFav = listaColegioFav;
@@ -168,10 +162,6 @@ public class Hijo implements Comparable<Hijo>,Serializable{
 
 	public void setAcudiente(String acudiente) {
 		this.acudiente = acudiente;
-	}
-	
-	public String toString(){
-		return nombre + " - " + edad;
 	}
 
 }
