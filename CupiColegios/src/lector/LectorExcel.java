@@ -11,7 +11,6 @@ import java.util.Iterator;
 import mundo.Colegio;
 import mundo.Llave;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -55,93 +54,64 @@ public class LectorExcel{
 		ycoord = y;
 	}
 
-	public String[] leerTitulos(){
-		try{
-			FileInputStream file = new FileInputStream(archivoExcel);
-			//Get the workbook instance for XLS file 
-			Workbook wb = WorkbookFactory.create(file);		 
-			//Get first sheet from the workbook
-			Sheet sheet = wb.getSheetAt(0);
+//	public String[] leerTitulos(){
+//		try{
+//			FileInputStream file = new FileInputStream(archivoExcel);
+//			Workbook wb = WorkbookFactory.create(file);
+//			Sheet sheet = wb.getSheetAt(0);
+//
+//			//Itera sobre cada fila
+//			Row row = sheet.getRow(0);
+//			int auxRows = 0;
+//			int i = 0;
+//			Iterator<Cell> cellIterator = row.cellIterator();
+//			while(cellIterator.hasNext() && i<columns){
+//				if(i < columns){
+//					Cell cell = cellIterator.next();
+//					headers[auxRows] = cell.toString();
+//					auxRows++;
+//				}else{
+//					i++;
+//				}
+//			}
+//
+//		}catch(Exception e){
+//
+//		}
+//
+//		return headers;
+//	}
 
-			//Iterate through each rows from first sheet
-			Row row = sheet.getRow(0);
-			int auxRows = 0;
-			int i = 0;
-			Iterator<Cell> cellIterator = row.cellIterator();
-			while(cellIterator.hasNext()){
-				if(i < columns){
-					Cell cell = cellIterator.next();
-					headers[auxRows] = cell.toString();
-					auxRows++;
-				}else{
-					i++;
-				}
-			}
-
-		}catch(Exception e){
-
-		}
-
-		return headers;
-	}
-
-	public String[][] leer(){
+	public void leer(){
 		try {
 			FileInputStream file = new FileInputStream(archivoExcel);
-
-			//Get the workbook instance for XLS file 
-			Workbook wb = WorkbookFactory.create(file);		 
-			//Get first sheet from the workbook
+			Workbook wb = WorkbookFactory.create(file);
 			Sheet sheet = wb.getSheetAt(0);
-
-			//Iterate through each rows from first sheet
+			
 			Iterator<Row> rowIterator = sheet.iterator();
+			rowIterator.next();
 			int i = 0;
-			int auxRows = 0;
-			while(rowIterator.hasNext()) 
-			{
-				if(i <= rows && i >= ycoord)
-				{
-					Row row = rowIterator.next();
-					Iterator<Cell> cellIterator = row.cellIterator();
-					int j = 0;
-					int auxCols = 0;
-					while(cellIterator.hasNext())
-					{
-						if(j <= columns && j >= xcoord)
-						{
-							Cell cell = cellIterator.next();
-							String cellData = cell.toString();
-							if(cellData.equals(""))
-								cellData = "(vacio)";
-							
-							data[auxRows][auxCols] = cellData;
-							auxCols++;
-						}
-						else
-						{
-							cellIterator.next();
-						}
-						j++;
+			while(rowIterator.hasNext() && i <rows){
+				Row row = rowIterator.next();
+				Iterator<Cell> cellIterator = row.cellIterator();
+				int j = 0;
+				while(cellIterator.hasNext() && j<columns){
+					Cell cell = cellIterator.next();
+					String cellData = cell.toString();
+					if(cellData.equals("")){
+						cellData = "(vacio)";
 					}
-					auxRows++;
-				}
-				else{
-					rowIterator.next();
+					data[i][j] = cellData;
+					j++;
 				}
 				i++;
 			}
 			file.close();
 		}
-		catch (IOException e) {
+		catch(Exception e){
 			e.printStackTrace();
-		} catch (InvalidFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}			
-		
-		return data;
-	}
+		}
+	}	
 	
 	public TablaHashing<Llave, Colegio> construirTablaHashing() throws FileNotFoundException, IOException{
 		
@@ -153,7 +123,7 @@ public class LectorExcel{
 			tablaColegios.agregar(new Llave(col.getCodigo()), col);
 		}
 		
-		os.writeObject(tablaColegios);
+		//os.writeObject(tablaColegios);
 		os.close();
 		
 		return tablaColegios;
@@ -171,11 +141,17 @@ public class LectorExcel{
 			lector.construirTablaHashing();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("error");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("error 2");
 		}
+		catch(Exception e){
+			System.out.println("error 3");
+		}
+		
 	}
 
 }
