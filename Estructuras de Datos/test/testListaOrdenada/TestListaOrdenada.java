@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import junit.framework.TestCase;
 import ListaOrdenada.ListaOrdenada;
 
-public class testListaOrdenada extends TestCase {
+public class TestListaOrdenada extends TestCase {
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------

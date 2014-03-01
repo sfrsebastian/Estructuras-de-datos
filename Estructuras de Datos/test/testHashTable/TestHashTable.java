@@ -5,7 +5,7 @@ import java.util.Iterator;
 import HashTable.TablaHashing;
 import junit.framework.TestCase;
 
-public class testHashTable extends TestCase {
+public class TestHashTable extends TestCase {
 	TablaHashing<LlaveString,String> tabla;
 	private int iterarTamano(Iterator iterator){
 		int contador = 0;

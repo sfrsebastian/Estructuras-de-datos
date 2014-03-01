@@ -6,16 +6,9 @@
 		Generales
 	*******************************************************
 	-->
-	<!-- Classpath para compilación -->
-	<path id="classpath">
-		<fileset dir="./lib">
-			<include name="*.jar" />
-		</fileset>
-	</path>
-
 	<!-- Classpath para compilación de pruebas -->
 	<path id="classpathTests">
-		<fileset dir="./test/lib">
+		<fileset dir="./lib">
 			<include name="**/*.jar" />
 		</fileset>
 		<pathelement location="classes" />
@@ -36,19 +29,16 @@
 		<mkdir dir="${classes}" />
 		<delete dir="${dist}" />
 		<mkdir dir="${dist}"/>
-		<delete dir="${classes}/${test}" />
-		<mkdir dir="${classes}/${test}"/>
 		<delete dir="${javadoc}" />
 		<mkdir dir="${javadoc}"/>
 	</target>
 
 	<!--
 	*******************************************************
-		Ejercicio
+		Estructuras
 	*******************************************************
 	-->
-
-	<!-- Compilación -->
+	<!-- Compilación clases src -->
 	<target name="compile" description="Compilación" depends="init">
 		<!-- Compila -->
 		<javac destdir="${classes}" debug="on" deprecation="on" optimize="on">
@@ -57,7 +47,7 @@
 	</target>
 
 	<!-- Creación de JAR -->
-	<target name="build" depends="compile" description="Crea el JAR de la aplicación">
+	<target name="build" depends="compile,compileTest,javaDoc" description="Crea el JAR de la aplicación">
 		<!-- Empaqueta las clases en un JAR -->
 		<jar jarfile="${dist}/${jar}">
 			<fileset dir="${classes}" />
@@ -69,7 +59,7 @@
 
 	<!-- Compila las pruebas -->
 	<target name="compileTest" description="Compilación de las pruebas" depends="compile">
-		<javac destdir="${classes}/${test}" debug="on" deprecation="on" optimize="on" classpathref="classpathTests">
+		<javac destdir="${classes}" debug="on" deprecation="on" optimize="on" classpathref="classpathTests">
 			<src path="${test}" />
 		</javac>
 	</target>
@@ -82,7 +72,7 @@
 				<path refid="classpathTests" />
 				<pathelement location="${test}" />
 			</classpath>
-			<arg value="testHashTable.testHashTable" />
+			<arg value="testHashTable.TestHashTable" />
 			<jvmarg value="-ea" />
 		</java>
 	
@@ -91,22 +81,22 @@
 				<path refid="classpathTests" />
 				<pathelement location="${test}" />
 			</classpath>
-			<arg value="testLista.testLista" />
+			<arg value="testLista.TestLista" />
 			<jvmarg value="-ea" />
 		</java>
 		
 		<java classname="junit.swingui.TestRunner" fork="yes">
-					<classpath>
-						<path refid="classpathTests" />
-						<pathelement location="${test}" />
-					</classpath>
-					<arg value="testListaOrdenada.testListaOrdenada" />
-					<jvmarg value="-ea" />
-				</java>
+			<classpath>
+				<path refid="classpathTests" />
+				<pathelement location="${test}" />
+			</classpath>
+			<arg value="testListaOrdenada.TestListaOrdenada" />
+			<jvmarg value="-ea" />
+		</java>
 	</target>
 
 	<!-- Generación del javadoc -->
-	<target name="javaDoc" depends="build" description="Genera el java doc de la aplicación">
+	<target name="javaDoc" depends = "compile,compileTest" description="Genera el java doc de la aplicación">
 		<javadoc destdir="${javadoc}">
 			<fileset dir="${source}" />
 		</javadoc>
