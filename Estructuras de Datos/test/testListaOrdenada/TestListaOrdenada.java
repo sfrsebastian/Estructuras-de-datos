@@ -67,17 +67,17 @@ public class TestListaOrdenada extends TestCase {
 		setupScenario1();
 		//Prueba agregar de primeras
 		listaPrueba.agregar(t1);
-		assertEquals("No se agrego correctamente", t1, listaPrueba.darElementos()[0]);
+		assertEquals("No se agrego correctamente", t1, listaPrueba.darArreglo()[0]);
 		
 		//Prueba agregar mitad
 		listaPrueba.agregar(t3);
-		assertEquals("No se agrego correctamente", t3, listaPrueba.darElementos()[3]);
+		assertEquals("No se agrego correctamente", t3, listaPrueba.darArreglo()[3]);
 		
 		//Prueba agregar final
 		listaPrueba.agregar(t2);
-		assertEquals("No se agrego correctamente", t2, listaPrueba.darElementos()[7]);
+		assertEquals("No se agrego correctamente", t2, listaPrueba.darArreglo()[7]);
 		try{
-			String bla = (String) listaPrueba.darElementos()[8];
+			String bla = (String) listaPrueba.darArreglo()[8];
 			fail("No debe pasar por aca");
 		}
 		catch(Exception e){
@@ -86,8 +86,8 @@ public class TestListaOrdenada extends TestCase {
 		
 		//Prueba agregar repetido
 		listaPrueba.agregar(t3);
-		assertEquals("No se agrego correctamente", t3, listaPrueba.darElementos()[3]);
-		assertEquals("No se agrego correctamente", t3, listaPrueba.darElementos()[4]);
+		assertEquals("No se agrego correctamente", t3, listaPrueba.darArreglo()[3]);
+		assertEquals("No se agrego correctamente", t3, listaPrueba.darArreglo()[4]);
 	}
 	
 	public void testBuscarElemento(){		
@@ -108,12 +108,12 @@ public class TestListaOrdenada extends TestCase {
 	
 	public void testDarElementos(){
 		setupScenario1();
-		assertEquals("El tamano de la lista no fue el mismo", 5, listaPrueba.darElementos().length);
-		assertEquals("No se retorno a la persona esperada", "Carmen", listaPrueba.darElementos()[0]);
-		assertEquals("No se retorno a la persona esperada", "Jose", listaPrueba.darElementos()[1]);
-		assertEquals("No se retorno a la persona esperada", "Laura", listaPrueba.darElementos()[2]);
-		assertEquals("No se retorno a la persona esperada", "Maria", listaPrueba.darElementos()[3]);
-		assertEquals("No se retorno a la persona esperada", "Pedro", listaPrueba.darElementos()[4]);
+		assertEquals("El tamano de la lista no fue el mismo", 5, listaPrueba.darArreglo().length);
+		assertEquals("No se retorno a la persona esperada", "Carmen", listaPrueba.darArreglo()[0]);
+		assertEquals("No se retorno a la persona esperada", "Jose", listaPrueba.darArreglo()[1]);
+		assertEquals("No se retorno a la persona esperada", "Laura", listaPrueba.darArreglo()[2]);
+		assertEquals("No se retorno a la persona esperada", "Maria", listaPrueba.darArreglo()[3]);
+		assertEquals("No se retorno a la persona esperada", "Pedro", listaPrueba.darArreglo()[4]);
 	}
 	
 	public void testDarLongitud(){
@@ -152,19 +152,19 @@ public class TestListaOrdenada extends TestCase {
 		assertNull("No se elimino correctamente el elemento", listaPrueba.eliminar("t1"));
 		
 		//Prueba eliminar primer elemento de la lista
-		String primero = (String) listaPrueba.darElementos()[0];
+		String primero = (String) listaPrueba.darArreglo()[0];
 		listaPrueba.eliminar("Carmen");
-		assertFalse("No deben ser iguales los primeros elementos", primero==listaPrueba.darElementos()[0]);
+		assertFalse("No deben ser iguales los primeros elementos", primero==listaPrueba.darArreglo()[0]);
 		assertNull("No debe encontrar al elemento eliminado", listaPrueba.buscar("Carmen"));
-		assertEquals("El primer elemento debe ser Jose", "Jose", listaPrueba.darElementos()[0]);
+		assertEquals("El primer elemento debe ser Jose", "Jose", listaPrueba.darArreglo()[0]);
 		assertEquals("La longitud de la lista debe disminuir", 4, listaPrueba.darLongitud());
 
 		//Eliminar en la mitad
 		listaPrueba.eliminar("Maria");
-		assertTrue("El ultimo elemento debe ser diferente debe ser pedro", listaPrueba.darElementos()[2] == "Pedro");
+		assertTrue("El ultimo elemento debe ser diferente debe ser pedro", listaPrueba.darArreglo()[2] == "Pedro");
 		assertNull("La persona no debio haber sido encontrada", listaPrueba.buscar("Maria"));
 		try{
-			String bla = (String) listaPrueba.darElementos()[3];
+			String bla = (String) listaPrueba.darArreglo()[3];
 			fail("No debe pasar por aca");
 		}
 		catch(Exception e){
@@ -175,7 +175,7 @@ public class TestListaOrdenada extends TestCase {
 		assertEquals("El tamano de la lista debe ser de 2", 2, listaPrueba.darLongitud());
 		assertNull("La persona eliminada no debio haber sido encontrada", listaPrueba.buscar("Pedro"));
 		try{
-			String bla = (String) listaPrueba.darElementos()[3];
+			String bla = (String) listaPrueba.darArreglo()[3];
 			fail("No debe pasar por aca");
 		}
 		catch(Exception e){
@@ -209,21 +209,23 @@ public class TestListaOrdenada extends TestCase {
 		
 		iterator = listaPrueba.iterator();
 		iterator.next();
-		try{
-			iterator.remove();//intenta eliminar el primero
-			fail("No debe pasar por aca");
-		}
-		catch(UnsupportedOperationException e){
-			
-		}
-		
-		iterator.next();//Elimina el segundo elemento de la lista
-		iterator.remove();
-		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Jose"));
-		assertFalse("Los elementos no deben ser el mismo", "Jose"==listaPrueba.darElementos()[1]);
+		iterator.remove();//Elimina el primer elemento de la lista
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Carmen"));
+		assertFalse("Los elementos no deben ser el mismo", "Carmen"==listaPrueba.darArreglo()[0]);
 		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),4);
-		iterator = listaPrueba.iterator();
-		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamano(iterator),4);
+		iterator.next();
+		iterator.next();
+		iterator.remove();//Elimina el tercer elemento de la lista
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Laura"));
+		assertFalse("Los elementos no deben ser el mismo", "Laura"==listaPrueba.darArreglo()[1]);
+		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),3);
+		iterator.next();
+		iterator.next();
+		iterator.remove();//Elimina el ultimo elemento de la lista
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Pedro"));
+		assertFalse("Los elementos no deben ser el mismo", "Pedro"==listaPrueba.darArreglo()[1]);
+		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),2);
+		
 		
 		
 	}

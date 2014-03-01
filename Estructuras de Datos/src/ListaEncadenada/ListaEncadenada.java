@@ -1,0 +1,70 @@
+package ListaEncadenada;
+
+import java.io.Serializable;
+import Lista.Lista;
+import Lista.NodoLista;
+
+public class ListaEncadenada<T extends Comparable<?super T>> extends Lista<T> implements Serializable {
+
+	//------------------------------------------
+	// Atributos
+	//------------------------------------------
+	/**
+	 * El ultimo nodo de la lista
+	 */
+	private NodoLista<T> ultimo;
+	
+	//------------------------------------------
+	// Constructor
+	//------------------------------------------	
+	
+	/**
+	 * Construye una nueva Lista de tipo T 
+	 */
+	public ListaEncadenada() {
+		super();
+		ultimo = null;
+	}
+
+	//------------------------------------------
+	// Metodos
+	//------------------------------------------
+	 
+	public T agregar(T elemento) {
+		if(elemento == null){
+			return null;
+		}		
+		else if(primero == null){
+			NodoLista<T> aAgregar = new NodoLista<T>(elemento);
+			primero = aAgregar;
+			ultimo = primero;
+			longitud++;
+		}
+		else{
+			NodoLista<T> nuevo = new NodoLista<T>(elemento);
+			ultimo.cambiarSiguiente(nuevo);
+			nuevo.cambiarAnterior(nuevo);
+			ultimo = nuevo;
+			longitud++;
+		}
+		return elemento;
+	}
+	
+	@Override
+	public T eliminar(T elemento) {
+		if(ultimo!=null && ultimo.darElemento() == elemento){
+			NodoLista<T> anterior = ultimo.darAnterior();
+			anterior.cambiarSiguiente(null);
+			ultimo = anterior;
+			return elemento;
+		}
+		else{
+			return super.eliminar(elemento);
+		}
+		
+	}
+	
+	public T darUltimo(){
+		return ultimo.darElemento();
+	}
+}

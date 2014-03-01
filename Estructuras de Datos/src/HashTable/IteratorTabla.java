@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import HashTable.NodoTabla;
-import ListaOrdenada.IListaOrdenada;
+import Lista.ILista;
 import ListaOrdenada.ListaOrdenada;
 
 public class IteratorTabla<V extends Comparable<V>> implements Iterator<V>,Serializable {
 
-	private IListaOrdenada<NodoTabla<?,V>> listaActual;
+	private ILista<NodoTabla<?,V>> listaActual;
 	
-	private IListaOrdenada<NodoTabla<?,V>>[] listas;
+	private ILista<NodoTabla<?,V>>[] listas;
 	
 	private Iterator<NodoTabla<?,V>> iteradorActual;
 	

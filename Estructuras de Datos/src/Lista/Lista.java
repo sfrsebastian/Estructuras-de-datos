@@ -3,7 +3,7 @@ package Lista;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class Lista<T extends Comparable<?super T>> implements ILista<T>, Serializable {
+public abstract class Lista<T extends Comparable<?super T>> implements ILista<T>, Serializable {
 
 	//------------------------------------------
 	// Atributos
@@ -12,17 +12,12 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 	/**
 	 * La longitud total de la lista, la cuenta de todos sus elementos
 	 */
-	private int longitud;
+	protected int longitud;
 	
 	/**
 	 * El primero nodo de la lista
 	 */
-	private NodoLista<T> primero;
-	
-	/**
-	 * El ultimo nodo de la lista
-	 */
-	private NodoLista<T> ultimo;
+	protected NodoLista<T> primero;
 	
 	//------------------------------------------
 	// Constructor
@@ -34,94 +29,49 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 	public Lista() {
 		longitud = 0;
 		primero = null;
-		ultimo = null;
 	}
 
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	 
-	public T agregar(T elemento) {
-		if(elemento == null)
-			return null;
-		
-		if(primero == null){
-			NodoLista<T> aAgregar = new NodoLista<T>(elemento);
-			primero = aAgregar;
-			ultimo = primero;
-			longitud++;
-		}else{
-			NodoLista<T> nuevo = new NodoLista<T>(elemento);
-			ultimo.cambiarSiguiente(nuevo);
-			ultimo = nuevo;
-			longitud++;
-		}
-		return elemento;
-	}
-
-
 	public T buscar(T elemento) {	
 		NodoLista<T> actual = primero;
-		
 		while(actual != null){
 			if(elemento.compareTo(actual.darElemento()) == 0){
-				//TODO check comparison method
 				return actual.darElemento();
-			}else {
+			}
+			else {
 				actual = actual.darSiguiente();
 			}
 		}
 		return null;
 	}
 
-	public Object[] darArreglo() {
-		Object[] array = new Object[darLongitud()];
-		NodoLista<T> actual = primero;
-		
-		int i = 0;
-		while(actual != null){
-			array[i] = actual.darElemento();
-			i++;
-			actual = actual.darSiguiente();
-		}
-		
-		return array;
-	}
-
-	public int darLongitud() {
-		int valor = 0;
-		NodoLista<T> actual = primero;
-		while(actual!=null){
-			valor++;
-			actual =actual.darSiguiente();
-		}
-		longitud = valor;
-		return valor;
-	}
-
-	public T darUltimo(){
-		return ultimo.darElemento();
-	}
-	
 	public T eliminar(T elemento) {
 		NodoLista<T> actual = primero;
-		
-		if(longitud == 0)
+		if(elemento == null ||longitud == 0 ){
 			return null;
-
-		if(elemento.compareTo(actual.darElemento()) == 0){
+		}
+		else if(elemento.compareTo(actual.darElemento()) == 0){
 			primero = actual.darSiguiente();
+			primero.cambiarAnterior(null);
 			longitud--;
-			return actual.darElemento();
-		}else{
-			while(actual != null && actual.darSiguiente() != null){
-				if(elemento.compareTo(actual.darSiguiente().darElemento()) == 0){
-					if(actual.darSiguiente() == ultimo){
-						ultimo = actual;
+			return elemento;
+		}
+		else{
+			actual= actual.darSiguiente();
+			while(actual != null){
+				if(elemento.compareTo(actual.darElemento()) == 0){
+					NodoLista<T> anterior = actual.darAnterior();
+					NodoLista<T> siguiente = actual.darSiguiente();
+					anterior.cambiarSiguiente(siguiente);
+					if(siguiente != null){
+						siguiente.cambiarAnterior(anterior);
 					}
 					longitud--;
-					return actual.desconectarSiguiente().darElemento();
-				}else{
+					return elemento;
+				}
+				else{
 					actual = actual.darSiguiente();
 				}
 			}
@@ -129,9 +79,23 @@ public class Lista<T extends Comparable<?super T>> implements ILista<T>, Seriali
 		return null;
 	}
 
-	@Override
-	public Iterator<T> iterator() {
-		return new IteratorLista<T>(primero);
+	public Object[] darArreglo() {
+		Object[] arreglo = new Object[darLongitud()];
+		NodoLista<T> actual = primero;
+		int i = 0;
+		while(actual != null){
+			arreglo[i] = actual.darElemento();
+			i++;
+			actual = actual.darSiguiente();
+		}
+		return arreglo;
 	}
 
+	public int darLongitud() {
+		return longitud;
+	}
+	
+	public Iterator<T> iterator() {
+		return new IteratorLista<T>(this);
+	}
 }

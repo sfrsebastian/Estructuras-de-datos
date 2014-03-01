@@ -3,8 +3,8 @@ package HashTable;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import Lista.Lista;
-import ListaOrdenada.IListaOrdenada;
+import Lista.ILista;
+import ListaEncadenada.ListaEncadenada;
 import ListaOrdenada.ListaOrdenada;
 
 public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V>,Serializable {
@@ -56,7 +56,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		int posicion = 0;
 		for(int i = 0; i<areaPrimaria.length;i++){
 			ListaOrdenada<NodoTabla<K,V>> lista = areaPrimaria[i];
-			Object[] arregloLista = lista.darElementos();
+			Object[] arregloLista = lista.darArreglo();
 			for(int j = 0;j<arregloLista.length;j++){
 				arreglo[posicion] = arregloLista[j];
 				posicion++;
@@ -76,8 +76,8 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		return tamano;
 	}
 
-	public Lista<V> darLista(){
-		Lista<V> lista = new Lista();
+	public ListaEncadenada<V> darLista(){
+		ListaEncadenada<V> lista = new ListaEncadenada();
 		
 		Iterator i = iterator();
 		while(i.hasNext()){
@@ -116,7 +116,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 				nueva[i] = new ListaOrdenada<NodoTabla<K,V>>();
 			}
 			for(int i = 0; i<areaPrimaria.length;i++){
-				IListaOrdenada<NodoTabla<K,V>> lista = areaPrimaria[i];
+				ILista<NodoTabla<K,V>> lista = areaPrimaria[i];
 				Iterator<NodoTabla<K,V>> iterador = lista.iterator();
 				while(iterador.hasNext()){
 					NodoTabla<K,V> actual = iterador.next();

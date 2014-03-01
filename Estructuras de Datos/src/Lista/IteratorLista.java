@@ -3,16 +3,16 @@ package Lista;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import Lista.NodoLista;
-
 public class IteratorLista <T extends Comparable<?super T>> implements Iterator<T>{
 
 	NodoLista<T> proximo;
 	NodoLista<T> anteriorProximo; 
 	NodoLista<T> anteriorAnterior;
+	Lista<T> lista;
 	
-	public IteratorLista(NodoLista<T> primerNodo){
-		proximo = primerNodo;
+	public IteratorLista(Lista<T> nLista){
+		lista = nLista;
+		proximo = nLista.primero;
 		anteriorProximo = null;
 		anteriorAnterior = null;
 	}
@@ -24,7 +24,7 @@ public class IteratorLista <T extends Comparable<?super T>> implements Iterator<
 
 	@Override
 	public T next() throws NoSuchElementException{
-		if(proximo==null){
+		if(proximo == null){
 			throw new NoSuchElementException("No hay proximo");
 		}
 		else{
@@ -37,18 +37,20 @@ public class IteratorLista <T extends Comparable<?super T>> implements Iterator<
 	}
 
 	@Override
-	public void remove()throws UnsupportedOperationException, NoSuchElementException{
+	public void remove()throws NoSuchElementException{
 		if(anteriorProximo == null && anteriorAnterior == null){
 			throw new NoSuchElementException("No hay elemento a eliminar");
 		}
 		if(anteriorProximo != null && anteriorAnterior == null){
-			throw new UnsupportedOperationException("No se puede eliminar el primer elemento de la lista");
+			lista.eliminar(anteriorProximo.darElemento());
+			proximo = lista.primero;
+			anteriorProximo = null;
+			anteriorAnterior = null;
 		}
 		else{
-			anteriorAnterior.cambiarSiguiente(proximo);
-			anteriorProximo.cambiarSiguiente(null);
+			lista.eliminar(anteriorProximo.darElemento());
 			anteriorProximo = anteriorAnterior;
-			//anteriorAnterior = null;
+			anteriorAnterior = null;
 		}
 		
 	}

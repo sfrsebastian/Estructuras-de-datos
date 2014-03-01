@@ -1,28 +1,17 @@
 package ListaOrdenada;
 
 import java.io.Serializable;
-import java.util.Iterator;
+
+import Lista.Lista;
+import Lista.NodoLista;
 
 /**
  * @author Sebastian Florez
  * @version 1.0
  * @created 01-Feb-2014 6:19:56 PM
  */
-public class ListaOrdenada<T extends Comparable <?super T>> implements IListaOrdenada<T>, Serializable {
+public class ListaOrdenada<T extends Comparable <?super T>> extends Lista<T> implements Serializable {
 	
-	//------------------------------------------
-	// Atributos
-	//------------------------------------------
-	/**
-	 * El primer nodo de la lista ordenada
-	 */
-	private NodoLista<T> primerNodo;
-	
-	/**
-	 * La longitud de la lista ordenada
-	 */
-	private int longitud;
-
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
@@ -31,8 +20,7 @@ public class ListaOrdenada<T extends Comparable <?super T>> implements IListaOrd
 	 * El primer nodo es inicializado a null y la longitud en 0
 	 */
 	public ListaOrdenada(){
-		primerNodo = null;
-		longitud = 0;
+		super();
 	}
 
 	/**
@@ -47,113 +35,31 @@ public class ListaOrdenada<T extends Comparable <?super T>> implements IListaOrd
 		if(elemento == null){
 			return null;
 		}
-		else if(primerNodo == null){
-			primerNodo = porAgregar;
+		else if(primero == null){
+			primero = porAgregar;
 		}
-		else if(porAgregar.darElemento().compareTo(primerNodo.darElemento())<0){
-			porAgregar.cambiarSiguiente(primerNodo);
-			primerNodo = porAgregar;
+		else if(porAgregar.darElemento().compareTo(primero.darElemento())<0){
+			porAgregar.cambiarSiguiente(primero);
+			primero.cambiarAnterior(porAgregar);
+			primero = porAgregar;
 		}
 		else{
-			NodoLista<T> actual = primerNodo;
-			while(actual.darSiguiente() != null && porAgregar.darElemento().compareTo(actual.darSiguiente().darElemento())>0){
+			NodoLista<T> actual = primero;
+			while(actual.darSiguiente() != null && elemento.compareTo(actual.darSiguiente().darElemento())>0){
 				actual = actual.darSiguiente();
 			}
-			porAgregar.cambiarSiguiente(actual.darSiguiente());
-			actual.cambiarSiguiente(porAgregar);
+			if(actual.darSiguiente() == null){
+				porAgregar.cambiarAnterior(actual);
+				actual.cambiarSiguiente(porAgregar);
+			}
+			else{
+				porAgregar.cambiarSiguiente(actual.darSiguiente());
+				actual.darSiguiente().cambiarAnterior(porAgregar);
+				actual.cambiarSiguiente(porAgregar);
+				porAgregar.cambiarAnterior(actual);
+			}
 		}
 		longitud++;
 		return elemento;
-	}
-
-	/**
-	 * Busca el elemento dado como parametro.
-	 * @param El objeto a buscar.
-	 * @return El objeto dado por parametro, null de lo contrario.
-	 */
-	public T buscar(T elemento) {
-		if(elemento == null){
-			return null;
-		}
-		else{
-			NodoLista<T> actual = primerNodo;
-			while(actual != null){
-				if(actual.darElemento().compareTo(elemento)==0){
-					return actual.darElemento();
-				}
-				else{
-					actual = actual.darSiguiente();
-				}
-			}
-			return null;
-		}
-	}
-
-	//------------------------------------------
-	// Metodos
-	//------------------------------------------
-	/**
-	 * Retorna los objetos de la lista ordenada
-	 * @return El arreglo con todos los elementos en la lista.
-	 */
-	public Object[] darElementos(){
-		NodoLista<T> actual = primerNodo;
-		Object[] respuesta = new Object[darLongitud()];
-		for(int i = 0; i<longitud;i++){
-			respuesta[i] = actual.darElemento();
-			actual = actual.darSiguiente();
-		}
-		return respuesta;
-	}
-
-	/**
-	 * Retorna la longitud de la lista.
-	 * @return La longitud de la lista.
-	 */
-	public int darLongitud() {
-		int valor = 0;
-		NodoLista<T> actual = primerNodo;
-		while(actual!=null){
-			valor++;
-			actual =actual.darSiguiente();
-		}
-		longitud = valor;
-		return valor;
-	}
-
-	/**
-	 * Elimina el elemento dado por parametro de la lista
-	 * @param El elemento a eliminar
-	 * @return El elemento eliminado, null en caso de no haber sido encontrado.
-	 */
-	public T eliminar(T elemento) {
-		if(elemento == null){
-			return null;
-		}
-		else{
-			NodoLista<T> actual = primerNodo;
-			if(actual !=null && actual.darElemento().compareTo(elemento)==0){
-				primerNodo = actual.darSiguiente();
-				actual.cambiarSiguiente(null);
-				longitud--;
-				return elemento;
-			}
-			else{
-				while(actual != null && actual.darSiguiente()!=null){
-					NodoLista<T> siguiente = actual.darSiguiente();
-					if(siguiente.darElemento().compareTo(elemento)==0){
-						longitud--;
-						return actual.desconectarSiguiente().darElemento();
-					}
-					actual = actual.darSiguiente();
-				}
-			}
-			return null;
-		}
-	}
-
-	@Override
-	public Iterator<T> iterator() {
-		return new IteratorLista<T>(primerNodo); 
 	}
 }

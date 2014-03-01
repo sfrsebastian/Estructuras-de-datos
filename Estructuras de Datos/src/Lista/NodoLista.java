@@ -17,6 +17,8 @@ public class NodoLista<T> implements Serializable{
 	 * El siguiente elemento de tipo T que contiene el nodo
 	 */
 	private NodoLista<T> siguiente;
+
+	private NodoLista<T> anterior;
 	
 	//------------------------------------------
 	// Constructor
@@ -26,6 +28,7 @@ public class NodoLista<T> implements Serializable{
 	{
 		elemento = nElemento;
 		siguiente = null;
+		anterior = null;
 	}
 
 	//------------------------------------------
@@ -56,18 +59,12 @@ public class NodoLista<T> implements Serializable{
 		return siguiente;
 	}
 	
-	/**
-	 * Desconecta el siguiente nodo
-	 * @return El nodo desconectado, null en caso contrario
-	 */
-	public NodoLista<T> desconectarSiguiente() {
-		if(siguiente == null){
-			return null;
-		}else{
-			NodoLista<T> sig = this.darSiguiente();
-			siguiente = this.darSiguiente().darSiguiente();
-			return sig;
-		}
+	public NodoLista<T> darAnterior(){
+		return anterior;
+	}
+
+	public void cambiarAnterior(NodoLista<T> nodo) {
+		anterior = nodo;
 	}
 }
 

@@ -3,7 +3,7 @@ package testLista;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 import junit.framework.TestCase;
 import testLista.Enfermera;
 
@@ -16,7 +16,7 @@ public class TestLista extends TestCase{
 	/**
 	 * Es la lista que hace las pruebas
 	 */
-	private Lista listaPrueba;
+	private ListaEncadenada<Enfermera> listaPrueba;
 	Enfermera e2;
 	
 	//------------------------------------------
@@ -24,7 +24,7 @@ public class TestLista extends TestCase{
 	//------------------------------------------
 	
 	private void setupScenario1(){
-		listaPrueba = new Lista<Enfermera>();
+		listaPrueba = new ListaEncadenada<Enfermera>();
 		
 		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
 		e2 = new Enfermera("Carmen", 42, "7.8");
@@ -40,7 +40,7 @@ public class TestLista extends TestCase{
 	}
 	
 	private void setupScenario2(){
-		listaPrueba = new Lista<Enfermera>();
+		listaPrueba = new ListaEncadenada<Enfermera>();
 		
 		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
 		
@@ -48,7 +48,7 @@ public class TestLista extends TestCase{
 	}
 	
 	private void setupScenario3(){
-		listaPrueba = new Lista<Enfermera>();
+		listaPrueba = new ListaEncadenada<Enfermera>();
 	}
 	
 	//------------------------------------------
@@ -216,7 +216,7 @@ public class TestLista extends TestCase{
 	public void testIterator(){
 		//Prueba con iterador vacio
 		setupScenario3();
-		Iterator<String> iterator = listaPrueba.iterator();
+		Iterator<Enfermera> iterator = listaPrueba.iterator();
 		assertFalse(iterator.hasNext());
 		try{
 			iterator.next();
