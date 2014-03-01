@@ -1,12 +1,13 @@
 package HashTable;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import Lista.Lista;
 import ListaOrdenada.IListaOrdenada;
 import ListaOrdenada.ListaOrdenada;
 
-public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V> {
+public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHashing<K,V>,Serializable {
 
 	private int tamano;
 

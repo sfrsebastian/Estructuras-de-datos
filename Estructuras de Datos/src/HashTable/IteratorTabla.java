@@ -1,4 +1,5 @@
 package HashTable;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -6,7 +7,7 @@ import HashTable.NodoTabla;
 import ListaOrdenada.IListaOrdenada;
 import ListaOrdenada.ListaOrdenada;
 
-public class IteratorTabla<V extends Comparable<V>> implements Iterator<V> {
+public class IteratorTabla<V extends Comparable<V>> implements Iterator<V>,Serializable {
 
 	private IListaOrdenada<NodoTabla<?,V>> listaActual;
 	

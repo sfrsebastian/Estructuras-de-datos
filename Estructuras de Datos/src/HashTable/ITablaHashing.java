@@ -1,6 +1,8 @@
 package HashTable;
 
-public interface ITablaHashing<K,V> extends Iterable<V> {
+import java.io.Serializable;
+
+public interface ITablaHashing<K,V> extends Iterable<V>,Serializable{
 
 	/**
 	 * Agrega un nuevo elemento dada su llave y el elemento
