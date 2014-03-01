@@ -6,6 +6,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 
 /**
@@ -57,7 +58,7 @@ public class Canal implements Comparable<Canal>,Serializable {
 	 */
 	public Canal(String nNombre){
 		nombre = nNombre;
-		sonidos = new Lista<Sample>();
+		sonidos = new ListaEncadenada<Sample>();
 		bpm = 1.0;
 		sonidoActual = 0;
 		termino = false;
@@ -67,7 +68,7 @@ public class Canal implements Comparable<Canal>,Serializable {
 	 */
 	public Canal(){
 		nombre = DEFAULT;
-		sonidos = new Lista<Sample>();
+		sonidos = new ListaEncadenada<Sample>();
 		bpm = 1.0;
 		sonidoActual = 0;
 		termino = false;

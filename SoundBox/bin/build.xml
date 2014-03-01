@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<project name="Soundbox" default="build" basedir="../">
+
+	<!--
+	*******************************************************
+		Generales
+	*******************************************************
+	-->
+	
+	<!-- Classpath para compilación -->
+	<path id="classpath">
+		<fileset dir="./lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Inicialización de las Propiedades -->
+	<target name="init" description="Inicializa las propiedades">
+		<!-- Definición de Propiedades -->
+		<property name="source" value="./src" />
+		<property name="classes" value="./classes" />
+		<property name="data" value="./data" />
+		<property name="jar" value="Soundbox.jar" />
+		<property name="bin" value="./bin" />
+		<property name="lib" value="./lib" />
+		<property name="dist" value="./dist" />
+		<property name="javadoc" value="./docs/api" />
+		<!-- Borra y crea los directorios nuevamente -->
+		<delete dir="${classes}" />
+		<mkdir dir="${classes}" />
+		<delete dir="${javadoc}" />
+		<mkdir dir="${javadoc}" />
+		<delete dir="${dist}" />
+		<mkdir dir="${dist}" />
+	</target>
+
+	<!--
+	*******************************************************
+		Ejercicio
+	*******************************************************
+	-->
+
+	<!-- Compilación -->
+	<target name="compile" description="Compilación" depends="init">
+		<!-- Compila -->
+		<javac destdir="${classes}" debug="on" deprecation="on" optimize="on" classpathref="classpath">
+			<src path="${source}" />
+		</javac>
+	</target>
+
+	<!-- Creación de JAR -->
+	<target name="build" depends="compile" description="Crea el JAR de la aplicación" >
+		<!-- Empaqueta las clases en un JAR -->
+		<jar jarfile="${dist}/${jar}">
+			<fileset dir="${classes}" />
+			<!--Variables del manifest-->
+			<manifest>
+				<attribute name="Class-Path" value="lib/Estructuras de Datos.jar lib/jfxrt.jar" />
+				<attribute name="Main-Class" value="interfaz.InterfazCupiSoundBox" />
+			</manifest>
+		</jar>
+		<!-- Copia las librerias en dist -->
+		<copy file="${lib}/Estructuras de Datos.jar" todir="${dist}/${lib}" />
+		<copy file="${lib}/jfxrt.jar" todir="${dist}/${lib}" />
+	</target>
+
+	<!-- Generación del javadoc -->
+	<target name="javaDoc" depends="build" description="Genera el java doc de la aplicación">
+		<javadoc destdir="${javadoc}">
+			<fileset dir="${source}" />
+		</javadoc>
+	</target>
+
+</project>

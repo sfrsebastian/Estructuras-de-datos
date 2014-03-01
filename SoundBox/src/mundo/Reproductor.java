@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 import ListaOrdenada.ListaOrdenada;
 
 /**
@@ -148,7 +148,7 @@ public class Reproductor implements ISoundBox {
 	 * @return
 	 */
 	public Object[] darProyectos(){
-		return proyectos.darElementos();
+		return proyectos.darArreglo();
 	}
 	
 	/**
@@ -240,7 +240,7 @@ public class Reproductor implements ISoundBox {
 	 * @return El proyecto encontrado, null en caso contrario
 	 */
 	public Proyecto buscarProyectoPorAutor(String nAutor){
-		Object[] lista = proyectos.darElementos();
+		Object[] lista = proyectos.darArreglo();
 		for(int i = 0; i<lista.length;i++){
 			if(((Proyecto) lista[i]).darAutor().equals(nAutor)){
 				return (Proyecto) lista[i];
@@ -255,7 +255,7 @@ public class Reproductor implements ISoundBox {
 	 * @return Proyecto: El proyecto encontrado, null en caso contrario
 	 */
 	public Proyecto buscarProyectoPorNombre(String nNombre){
-		Object[] lista = proyectos.darElementos();
+		Object[] lista = proyectos.darArreglo();
 		for(int i = 0; i<lista.length;i++){
 			if(((Proyecto) lista[i]).darNombre().equals(nNombre)){
 				return (Proyecto) lista[i];
@@ -269,7 +269,7 @@ public class Reproductor implements ISoundBox {
 	 * @return Los sonidos de la biblioteca
 	 */
 	public Object[] darSonidos() {
-		return sonidos.darElementos();
+		return sonidos.darArreglo();
 	}
 	
 	/**
@@ -277,7 +277,7 @@ public class Reproductor implements ISoundBox {
 	 * @return Las categorias del reproductor
 	 */
 	public Object[] darCategorias() {
-		return categorias.darElementos();
+		return categorias.darArreglo();
 	}
 	
 	/**
@@ -286,7 +286,7 @@ public class Reproductor implements ISoundBox {
 	 */
 	public void eliminarSonido(Sample sonido) {
 		sonidos.eliminar(sonido);
-		Object[] nCategorias = categorias.darElementos();
+		Object[] nCategorias = categorias.darArreglo();
 		for (int i = 0; i < nCategorias.length; i++) {
 			Categoria actual = (Categoria)nCategorias[i];
 			Object[] sonidos = actual.darSonidos(); 
@@ -313,7 +313,7 @@ public class Reproductor implements ISoundBox {
 	 * @return La categoria encontrada
 	 */
 	public Categoria darCategoriaPorNombre(String nombre){
-		Object[] cats = categorias.darElementos();
+		Object[] cats = categorias.darArreglo();
 		for (int i = 0; i < cats.length; i++) {
 			Categoria t = (Categoria)cats[i];
 			if(t.darNombre().equals(nombre)){
@@ -329,9 +329,9 @@ public class Reproductor implements ISoundBox {
 	 * @return Un arreglo de sonidos que cumple con el filtro
 	 */
 	public Object[] filtrarSonidosPorNombre(String filtro) {
-		Object[] lista = sonidos.darElementos();
+		Object[] lista = sonidos.darArreglo();
 		if(lista.length > 0){
-			Lista<Sample> listaRetorno = new Lista<Sample>();
+			ListaEncadenada<Sample> listaRetorno = new ListaEncadenada<Sample>();
 			for(int i = 0; i<lista.length;i++){
 				if(((Sample) lista[i]).darNombre().equals(filtro)){
 					listaRetorno.agregar((Sample) lista[i]);

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 public class Proyecto implements Comparable <Proyecto>, Serializable {
 	private static final String RUTA_GUARDADO = "./data/Proyectos/";
@@ -27,7 +28,7 @@ public class Proyecto implements Comparable <Proyecto>, Serializable {
 	public Proyecto(String nAutor, String nNombre, int numCanales){
 		autor = nAutor;
 		nombre = nNombre;
-		canales = new Lista <Canal>();
+		canales = new ListaEncadenada <Canal>();
 		for(int i = 0; i<numCanales;i++){
 			canales.agregar(new Canal());
 		}

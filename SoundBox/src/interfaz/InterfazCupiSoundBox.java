@@ -1,13 +1,12 @@
 package interfaz;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,19 +17,6 @@ import mundo.Categoria;
 import mundo.Proyecto;
 import mundo.Reproductor;
 import mundo.Sample;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.io.File;
-
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-
-import org.omg.CORBA.RepositoryIdHelper;
 
 public class InterfazCupiSoundBox extends JFrame{
 

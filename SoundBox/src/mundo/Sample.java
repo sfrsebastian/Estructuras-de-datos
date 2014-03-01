@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 
 import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 
 /**
@@ -38,7 +39,7 @@ public class Sample implements Comparable<Sample>,Serializable {
 	 * @param nCategoria La categoria a la que pertenece
 	 */
 	public Sample(File f, Categoria nCategoria){
-		categorias = new Lista <Categoria>();
+		categorias = new ListaEncadenada <Categoria>();
 		categorias.agregar(nCategoria);
 		archivo = f;
 		nombre = archivo.getName();

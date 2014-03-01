@@ -57,7 +57,7 @@ public class Categoria implements Comparable<Categoria>,Serializable {
 	 * @return Arreglo de sonidos
 	 */
 	public Object[] darSonidos(){
-		return sonidos.darElementos();
+		return sonidos.darArreglo();
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class Categoria implements Comparable<Categoria>,Serializable {
 	 * Metodo que elimina la categoria de los sonidos a los que pertenece
 	 */
 	public void eliminarDeSonidos() {
-		Object[] lista =  sonidos.darElementos();
+		Object[] lista =  sonidos.darArreglo();
 		for(int i = 0; i<lista.length;i++){
 			((Sample) lista[i]).eliminarCategoria(this);
 		}

@@ -1,21 +1,20 @@
 package interfaz;
 
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.TitledBorder;
 
 import mundo.Proyecto;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class PanelProyectosGuardados extends JPanel {
 	private JTextField txtFiltro;
