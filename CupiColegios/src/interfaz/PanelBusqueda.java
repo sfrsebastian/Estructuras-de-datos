@@ -2,10 +2,6 @@ package interfaz;
 
 import java.awt.Dimension;
 
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
-import javafx.scene.control.TitledPane;
-
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
@@ -57,6 +53,8 @@ public class PanelBusqueda extends JPanel {
 	//------------------------------------------
 	
 	public PanelBusqueda(InterfazCupiColegios interfazCupiColegios) {
+		padre = interfazCupiColegios;
+		
 		setBorder(new TitledBorder(null, "Busqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setSize(200, 570);
 		setPreferredSize(new Dimension(287, 596));
@@ -129,19 +127,23 @@ public class PanelBusqueda extends JPanel {
 					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.INFERIOR);
 					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.MUY_INFERIOR);
 				Criterio genero = new Criterio();
-					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.MASCULINO);
-					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.FEMENINO);
-					if(chckbxMixto.isSelected()) icfes.agregarSubcriterio(Criterio.MIXTO);
+					if(chckbxMasculino.isSelected()) genero.agregarSubcriterio(Criterio.MASCULINO);
+					if(chckbxFemenino.isSelected()) genero.agregarSubcriterio(Criterio.FEMENINO);
+					if(chckbxMixto.isSelected()) genero.agregarSubcriterio(Criterio.MIXTO);
 				Criterio calendario = new Criterio();
-					if(chckbxA.isSelected()) icfes.agregarSubcriterio(Criterio.CA);
-					if(chckbxB.isSelected()) icfes.agregarSubcriterio(Criterio.CB);
-					if(chckbxF.isSelected()) icfes.agregarSubcriterio(Criterio.CF);
+					if(chckbxA.isSelected()) calendario.agregarSubcriterio(Criterio.CA);
+					if(chckbxB.isSelected()) calendario.agregarSubcriterio(Criterio.CB);
+					if(chckbxF.isSelected()) calendario.agregarSubcriterio(Criterio.CF);
 				Criterio tipo = new Criterio();
-					if(chckbxMasculino.isSelected()) icfes.agregarSubcriterio(Criterio.PRIVADO);
-					if(chckbxFemenino.isSelected()) icfes.agregarSubcriterio(Criterio.PUBLICO);
+					if(chckbxPrivado.isSelected()) tipo.agregarSubcriterio(Criterio.PRIVADO);
+					if(chckbxPublico.isSelected()) tipo.agregarSubcriterio(Criterio.PUBLICO);
 					
+					try{
 				Criterio[] criterios = {jornada,icfes,genero,calendario,tipo};
 				padre.buscarPorCriterio(criterios);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 			}
 		});
 		btnBuscarCrit.setBounds(54, 263, 180, 29);

@@ -12,14 +12,14 @@ public class Criterio {
 	public final static String MEDIO = "Medio";
 	public final static String INFERIOR = "Inferior";
 	public final static String MUY_INFERIOR = "Muy Inferior";
-	public final static String MASCULINO = "Masculino";
-	public final static String FEMENINO = "Femenino";
-	public final static String MIXTO = "Mixto";
+	public final static String MASCULINO = "MASCULINO";
+	public final static String FEMENINO = "FEMENINO";
+	public final static String MIXTO = "MIXTO";
 	public final static String CA = "A";
 	public final static String CB = "B";
-	public final static String CF = "F";
-	public final static String PRIVADO = "Privado";
-	public final static String PUBLICO = "Publico";
+	public final static String CF = "FLEXIBLE";
+	public final static String PRIVADO = "NO OFICIAL";
+	public final static String PUBLICO = "OFICIAL";
 	private Lista <String> subcriterios;
 	public Criterio(){
 		subcriterios = new Lista<String>();
