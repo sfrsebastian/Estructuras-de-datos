@@ -74,7 +74,7 @@ public class Usuario implements Comparable<Usuario>,Serializable{
 	}
 	
 	public Object[] darHijos(){
-		return listaHijos.darElementos();
+		return listaHijos.darArreglo();
 	}
 	
 	public boolean validarContrasena(String con){

@@ -94,12 +94,14 @@ public class LectorExcel{
 		}
 		
 		oos.writeObject(tablaColegios);
-		oos.close();		
+		oos.close();	
+		System.out.println("Colegios serializados");
 	}
 	
 	public static void main(String[] args) {
-		LectorExcel lector = new LectorExcel("./data/2004.xls", 8860, 19, 0, 1);
+		LectorExcel lector = new LectorExcel("./data/2004.xls", 8861, 19, 0, 1);
 		try {
+			lector.leer();
 			lector.construirTablaHashing();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

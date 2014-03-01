@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 import HashTable.TablaHashing;
 import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 public class CentralColegios implements ICentralColegios {
 	
@@ -108,7 +109,7 @@ public class CentralColegios implements ICentralColegios {
 			if(criterio.darSubcriterios().length == 0){
 				return auxiliar(nuevosCriterios(criterios),nColegios);
 			}
-			Lista<Colegio> nueva = new Lista<Colegio>();
+			Lista<Colegio> nueva = new ListaEncadenada<Colegio>();
 			Iterator<Colegio> iterador = nColegios.iterator();
 			while(iterador.hasNext()){
 				Colegio actual = iterador.next();

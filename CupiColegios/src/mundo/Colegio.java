@@ -3,6 +3,7 @@ package mundo;
 import java.io.Serializable;
 
 import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 public class Colegio implements Comparable<Colegio>, Serializable{
 	
@@ -47,7 +48,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	}
 
 	private Lista<String> darListaAtributos(){
-		Lista <String> atributos = new Lista <String>();
+		Lista <String> atributos = new ListaEncadenada <String>();
 		atributos.agregar(jornada);
 		atributos.agregar(icfes);
 		atributos.agregar(genero);

@@ -115,7 +115,7 @@ public class Hijo implements Comparable<Hijo>,Serializable{
 	}
 	
 	public Object[] darColegiosFavoritos(){
-		return listaColegioFav.darElementos();
+		return listaColegioFav.darArreglo();
 	}
 
 	public void setListaColegioFav(ListaOrdenada<Colegio> listaColegioFav) {

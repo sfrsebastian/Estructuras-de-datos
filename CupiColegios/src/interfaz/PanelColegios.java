@@ -262,7 +262,6 @@ public class PanelColegios extends JPanel {
 	
 	private String[][] darDatosTabla(Object[] arreglo){
 		String[][] data = new String[arreglo.length][5];
-		
 		for (int i = 0; i < arreglo.length; i++) {
 			Colegio col = (Colegio)arreglo[i];
 			data[i][0] = col.getCodigo();

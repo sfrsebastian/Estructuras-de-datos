@@ -1,6 +1,6 @@
 package mundo;
 
-import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 public class Criterio{
 	public final static String DIURNA = "Diurna";
@@ -20,9 +20,9 @@ public class Criterio{
 	public final static String CF = "FLEXIBLE";
 	public final static String PRIVADO = "NO OFICIAL";
 	public final static String PUBLICO = "OFICIAL";
-	private Lista <String> subcriterios;
+	private ListaEncadenada <String> subcriterios;
 	public Criterio(){
-		subcriterios = new Lista<String>();
+		subcriterios = new ListaEncadenada<String>();
 	}
 	
 	public void agregarSubcriterio(String nuevo){
