@@ -81,7 +81,7 @@
 				<path refid="classpathTests" />
 				<pathelement location="${test}" />
 			</classpath>
-			<arg value="testLista.TestLista" />
+			<arg value="testListaEncadenada.TestListaEncadenada" />
 			<jvmarg value="-ea" />
 		</java>
 		

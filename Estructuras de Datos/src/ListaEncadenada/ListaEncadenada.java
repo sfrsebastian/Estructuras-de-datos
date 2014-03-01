@@ -43,7 +43,7 @@ public class ListaEncadenada<T extends Comparable<?super T>> extends Lista<T> im
 		else{
 			NodoLista<T> nuevo = new NodoLista<T>(elemento);
 			ultimo.cambiarSiguiente(nuevo);
-			nuevo.cambiarAnterior(nuevo);
+			nuevo.cambiarAnterior(ultimo);
 			ultimo = nuevo;
 			longitud++;
 		}
@@ -54,8 +54,16 @@ public class ListaEncadenada<T extends Comparable<?super T>> extends Lista<T> im
 	public T eliminar(T elemento) {
 		if(ultimo!=null && ultimo.darElemento() == elemento){
 			NodoLista<T> anterior = ultimo.darAnterior();
-			anterior.cambiarSiguiente(null);
-			ultimo = anterior;
+			if(anterior!=null){
+				anterior.cambiarSiguiente(null);
+				ultimo.cambiarAnterior(null);
+				ultimo = anterior;
+			}
+			else{
+				primero = null;
+				ultimo = null;
+			}
+			longitud--;
 			return elemento;
 		}
 		else{

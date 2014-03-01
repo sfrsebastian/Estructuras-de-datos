@@ -54,7 +54,9 @@ public abstract class Lista<T extends Comparable<?super T>> implements ILista<T>
 		}
 		else if(elemento.compareTo(actual.darElemento()) == 0){
 			primero = actual.darSiguiente();
-			primero.cambiarAnterior(null);
+			if(primero != null){
+				primero.cambiarAnterior(null);
+			}
 			longitud--;
 			return elemento;
 		}

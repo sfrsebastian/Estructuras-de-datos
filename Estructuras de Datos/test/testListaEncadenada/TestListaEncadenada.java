@@ -1,13 +1,12 @@
-package testLista;
+package testListaEncadenada;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import ListaEncadenada.ListaEncadenada;
 import junit.framework.TestCase;
-import testLista.Enfermera;
 
-public class TestLista extends TestCase{
+public class TestListaEncadenada extends TestCase{
 
 	//------------------------------------------
 	// Atributos
@@ -16,21 +15,20 @@ public class TestLista extends TestCase{
 	/**
 	 * Es la lista que hace las pruebas
 	 */
-	private ListaEncadenada<Enfermera> listaPrueba;
-	Enfermera e2;
+	private ListaEncadenada<String> listaPrueba;
 	
 	//------------------------------------------
 	// Setup Scenarios
 	//------------------------------------------
 	
 	private void setupScenario1(){
-		listaPrueba = new ListaEncadenada<Enfermera>();
+		listaPrueba = new ListaEncadenada<String>();
 		
-		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
-		e2 = new Enfermera("Carmen", 42, "7.8");
-		Enfermera e3 = new Enfermera("Maria", 40, "3.5");
-		Enfermera e4 = new Enfermera("Pedro", 45, "7.6");
-		Enfermera e5 = new Enfermera("Jose", 32, "1.0");
+		String e1 = "Laura";
+		String e2 = "Carmen";
+		String e3 = "Maria";
+		String e4 = "Pedro";
+		String e5 = "Jose";
 		
 		listaPrueba.agregar(e1);
 		listaPrueba.agregar(e2);
@@ -40,15 +38,15 @@ public class TestLista extends TestCase{
 	}
 	
 	private void setupScenario2(){
-		listaPrueba = new ListaEncadenada<Enfermera>();
+		listaPrueba = new ListaEncadenada<String>();
 		
-		Enfermera e1 = new Enfermera("Laura", 20, "2.2");
+		String e1 = "Laura";
 		
 		listaPrueba.agregar(e1);
 	}
 	
 	private void setupScenario3(){
-		listaPrueba = new ListaEncadenada<Enfermera>();
+		listaPrueba = new ListaEncadenada<String>();
 	}
 	
 	//------------------------------------------
@@ -58,9 +56,9 @@ public class TestLista extends TestCase{
 	public void testAgregarElemento(){
 		setupScenario1();
 		
-		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
-		Enfermera t2 = new Enfermera("Maria", 40, "3.5");
-		Enfermera t3 = new Enfermera("Pdero", 45, "7.6");
+		String t1 = "Laura";
+		String t2 ="Maria";
+		String t3 = "Pedro";
 		
 		//Prueba para agregar el primer elemento
 		assertNotNull("No se agrego correctamente", listaPrueba.buscar(t1));
@@ -69,8 +67,8 @@ public class TestLista extends TestCase{
 		assertNotNull("No se agrego correctamente", listaPrueba.buscar(t2));
 		assertNotNull("No se agrego correctamente", listaPrueba.buscar(t3));
 		
-		listaPrueba.agregar(new Enfermera("a", 1, "hola"));
-		assertNotNull("Se debio agregar un nuevo elemento", listaPrueba.buscar(new Enfermera("a", 1, "hola")));
+		listaPrueba.agregar("hola");
+		assertNotNull("Se debio agregar un nuevo elemento", listaPrueba.buscar("hola"));
 		
 		assertNull("No se debio poder anadir null", listaPrueba.agregar(null));
 	}
@@ -78,9 +76,9 @@ public class TestLista extends TestCase{
 	public void testAgregarElemento2(){
 		setupScenario2();
 		
-		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
-		Enfermera t2 = new Enfermera("Maria", 40, "3.5");
-		Enfermera t3 = new Enfermera("Pdero", 45, "7.6");
+		String t1 = "Laura";
+		String t2 ="Maria";
+		String t3 = "Pedro";
 		
 		listaPrueba.agregar(t1);
 		listaPrueba.agregar(t2);
@@ -89,25 +87,25 @@ public class TestLista extends TestCase{
 		assertEquals("No se agrego bien el ultimo elemento", t3,listaPrueba.darUltimo());
 		listaPrueba.eliminar(t3);
 		
-		Enfermera d = new Enfermera("a", 1, "a");
+		String d = "a";
 		
 		listaPrueba.agregar(d);
 		assertEquals("Se debio anadir el ultimo elemento", d, listaPrueba.darUltimo());
 		
-		listaPrueba.agregar(new Enfermera("a", 2, "q"));
-		listaPrueba.agregar(new Enfermera("b", 3, "r"));
+		listaPrueba.agregar("q");
+		listaPrueba.agregar("r");
 		
-		assertNotNull("El elemento se debe encontrar", listaPrueba.buscar(new Enfermera("b", 3, "r")));
-		assertNotNull("El elemento se debe encontrar", listaPrueba.buscar(new Enfermera("a", 2, "q")));
+		assertNotNull("El elemento se debe encontrar", listaPrueba.buscar("r"));
+		assertNotNull("El elemento se debe encontrar", listaPrueba.buscar("a"));
 		
 	}
 	
 	public void testBuscarElemento(){
 		setupScenario1();
 
-		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
-		Enfermera t2 = new Enfermera("Maria", 40, "3.5");
-		Enfermera t3 = new Enfermera("Pdero", 45, "7.6");
+		String t1 = "Laura";
+		String t2 ="Maria";
+		String t3 = "Pedro";
 		
 		//Prueba para buscar el primer elemento
 		assertNotNull("No se agrego correctamente", listaPrueba.buscar(t1));
@@ -117,30 +115,30 @@ public class TestLista extends TestCase{
 		assertNotNull("No se agrego correctamente", listaPrueba.buscar(t3));
 		
 		//Prueba para no encontrar elemento
-		assertNull("No se debio encontrar elemento", listaPrueba.buscar(new Enfermera("a", 1, "cedulaFalsa")));
+		assertNull("No se debio encontrar elemento", listaPrueba.buscar("a"));
 	}
 	
 	public void testDarArreglo(){
 		setupScenario1();
 		
 		Object[] arreglo = listaPrueba.darArreglo();
-		Enfermera e1 = (Enfermera)arreglo[0];
-		Enfermera e2 = (Enfermera)arreglo[2];
+		String e1 = (String) arreglo[0];
+		String e2 = (String) arreglo[2];
 		
 		//Primera posicion del arreglo
-		assertEquals("El arreglo no esta correctamente configurado", "Laura", e1.getNombre());
+		assertEquals("El arreglo no esta correctamente configurado", "Laura", e1);
 		
 		//Mitad
-		assertEquals("El arreglo no esta correctamente configurado", "Maria", e2.getNombre());
+		assertEquals("El arreglo no esta correctamente configurado", "Maria", e2);
 		
-		listaPrueba.agregar(new Enfermera("b", 1, "a"));
-		listaPrueba.agregar(new Enfermera("b", 2, "c"));
+		listaPrueba.agregar("b");
+		listaPrueba.agregar("b");
 		
 		Object[] enfermeras = listaPrueba.darArreglo();
 		
-		Enfermera e3 = (Enfermera)enfermeras[5];
+		String e3 = (String)enfermeras[5];
 		//Final del arreglo
-		assertEquals("El arreglo no esta correctamente configurado", "b", e3.getNombre());		
+		assertEquals("El arreglo no esta correctamente configurado", "b", e3);		
 	}
 	
 	public void testDarLongitud(){
@@ -148,10 +146,10 @@ public class TestLista extends TestCase{
 		
 		assertEquals("La longitud de la lista es incorrecta", 5, listaPrueba.darLongitud());
 		
-		listaPrueba.agregar(new Enfermera("b", 1, "a"));
-		listaPrueba.agregar(new Enfermera("b", 2, "c"));
+		listaPrueba.agregar("b");
+		listaPrueba.agregar("b");
 		
-		listaPrueba.eliminar(new Enfermera("b", 1, "a"));
+		listaPrueba.eliminar("b");
 		
 		//Nueva longitud
 		assertEquals("La longitud de la lista es incorrecta", 6, listaPrueba.darLongitud());
@@ -160,7 +158,7 @@ public class TestLista extends TestCase{
 	public void testDarLongitud2(){
 		setupScenario2();
 		
-		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
+		String t1 = "Laura";
 		assertNotNull("Se debio eliminar un elemento", listaPrueba.eliminar(t1));
 		
 		listaPrueba.agregar(null);
@@ -172,12 +170,12 @@ public class TestLista extends TestCase{
 	public void testEliminarElemento(){
 		setupScenario1();
 
-		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
-		Enfermera t2 = new Enfermera("Maria", 40, "3.5");
-		Enfermera t3 = new Enfermera("Pdero", 45, "7.6");		
+		String t1 = "Laura";
+		String t2 ="Maria";
+		String t3 = "Pedro";		
 		
 		//No hay elemento que eliminar
-		assertNull("No se debio eliminar ningun nodo", listaPrueba.eliminar(new Enfermera("a", 2, "cedulaFalsa")));
+		assertNull("No se debio eliminar ningun nodo", listaPrueba.eliminar("a"));
 		
 		//Eliminar el primer elemento de la lista
 		assertNotNull("Se debio eliminar un elemento", listaPrueba.eliminar(t1));
@@ -188,22 +186,22 @@ public class TestLista extends TestCase{
 		assertNull("No se elimino correctamente el elemento", listaPrueba.buscar(t3));
 
 		//Eliminar en la mitad
-		listaPrueba.agregar(new Enfermera("b", 1, "a"));
-		listaPrueba.agregar(new Enfermera("b", 2, "c"));
-		assertNotNull("se debio eliminar un elemento", listaPrueba.eliminar(new Enfermera("b", 1, "a")));
+		listaPrueba.agregar("b");
+		listaPrueba.agregar("b");
+		assertNotNull("se debio eliminar un elemento", listaPrueba.eliminar("b"));
 		
-		Enfermera t5 = new Enfermera("b", 2, "c");
-		Enfermera b1 = (Enfermera) listaPrueba.eliminar(t5);
+		String t5 = "b";
+		String b1 = (String) listaPrueba.eliminar(t5);
 		
 		//Eliminar ultimo elemento
-		assertEquals("Se debio eliminar el ultimo elemento", t5.getCedula(),b1.getCedula());
-		assertNull("La enfermera no se elimino correctamente", listaPrueba.buscar(new Enfermera("b", 2, "c")));
+		assertEquals("Se debio eliminar el ultimo elemento", t5,b1);
+		assertNull("No se elimino correctamente el elemento", listaPrueba.buscar("b"));
 	}
 	
 	public void testEliminarElemento2(){
 		setupScenario2();
 		
-		Enfermera t1 = new Enfermera("Laura", 20, "2.2");
+		String t1 = "Laura";
 		
 		//Eliminar cuando solo hay un elemento
 		assertNotNull("Se debio eliminar un elemento", listaPrueba.eliminar(t1));
@@ -216,7 +214,7 @@ public class TestLista extends TestCase{
 	public void testIterator(){
 		//Prueba con iterador vacio
 		setupScenario3();
-		Iterator<Enfermera> iterator = listaPrueba.iterator();
+		Iterator<String> iterator = listaPrueba.iterator();
 		assertFalse(iterator.hasNext());
 		try{
 			iterator.next();
@@ -240,22 +238,22 @@ public class TestLista extends TestCase{
 		
 		iterator = listaPrueba.iterator();
 		iterator.next();
-		try{
-			iterator.remove();//intenta eliminar el primero
-			fail("No debe pasar por aca");
-		}
-		catch(UnsupportedOperationException e){
-			
-		}
-		
-		iterator.next();//Elimina el segundo elemento de la lista
-		iterator.remove();
-		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar(e2));
-		assertFalse("Los elementos no deben ser el mismo", e2==listaPrueba.darArreglo()[1]);
+		iterator.remove();//Elimina el primer elemento de la lista
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Laura"));
+		assertFalse("Los elementos no deben ser el mismo", "Laura"==listaPrueba.darArreglo()[0]);
 		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),4);
-		iterator = listaPrueba.iterator();
-		assertEquals("Debe interarse la misma cantidad de elementos", iterarTamano(iterator),4);
-		
+		iterator.next();
+		iterator.next();
+		iterator.remove();//Elimina el tercer elemento de la lista
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Maria"));
+		assertFalse("Los elementos no deben ser el mismo", "Maria"==listaPrueba.darArreglo()[1]);
+		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),3);
+		iterator.next();
+		iterator.next();
+		iterator.remove();//Elimina el ultimo elemento de la lista
+		assertNull("El elemento eliminado no debe existir",listaPrueba.buscar("Jose"));
+		assertFalse("Los elementos no deben ser el mismo", "Jose"==listaPrueba.darArreglo()[1]);
+		assertEquals("La longitud de la lista debe disminuir", listaPrueba.darLongitud(),2);
 		
 	}
 	private int iterarTamano(Iterator iterator){

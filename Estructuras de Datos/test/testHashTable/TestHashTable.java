@@ -7,20 +7,20 @@ import junit.framework.TestCase;
 
 public class TestHashTable extends TestCase {
 	TablaHashing<Llave,String> tabla;
-	private int iterarTamano(Iterator iterator){
+	private int iterarTamano(Iterator<String> iterator){
 		int contador = 0;
 		while(iterator.hasNext()){
-			System.out.println(iterator.next());
+			iterator.next();
 			contador++;
 		}
 		return contador;
 	}
 	private void setupScenario1(){
-		tabla = new TablaHashing(7,2);
+		tabla = new TablaHashing<Llave, String>(7,2);
 	}
 
 	private void setupScenario2(){
-		tabla = new TablaHashing(7,2);
+		tabla = new TablaHashing<Llave,String>(7,2);
 		String e1 = "Laura";
 		String e2 = "Carmen";
 		String e3 = "Maria";
@@ -101,7 +101,7 @@ public class TestHashTable extends TestCase {
 		//Tabla arreglo multiples elementos.
 		setupScenario2();
 		assertEquals("El arreglo debe ser de longitud 7", tabla.darArreglo().length,7);
-}
+	}
 	public void testEliminar(){
 		//Borrar en tabla vacia
 		setupScenario1();
@@ -118,7 +118,15 @@ public class TestHashTable extends TestCase {
 		setupScenario2();
 		assertEquals("Debe retornarse el elemento eliminado","Sebastian", tabla.eliminar(new Llave("Sebastian")));
 		assertEquals("La longitud debe ser de 6",tabla.darLongitud(),6);
-		Iterator iterador = tabla.iterator();
+		Iterator<String> iterador = tabla.iterator();
 		assertEquals("Se debe iterar 6 veces", iterarTamano(iterador),6);
+	}
+	
+	public void testEliminarIterador(){
+		setupScenario2();
+		Iterator<String> iterador = tabla.iterator();
+		iterador.next();
+		iterador.remove();//elimina primer elemento del iterador
+		assertEquals("La longitud debe disminuir", 6, tabla.darLongitud());
 	}
 }

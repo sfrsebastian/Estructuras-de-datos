@@ -15,7 +15,7 @@ public class TestListaOrdenada extends TestCase {
 	 */
 	private ListaOrdenada<String> listaPrueba;
 	
-	private int iterarTamano(Iterator iterator){
+	private int iterarTamano(Iterator<String> iterator){
 		int contador = 0;
 		while(iterator.hasNext()){
 			iterator.next();

@@ -91,7 +91,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 		while(iterador.hasNext()){
 			NodoTabla<K,V>elemento = iterador.next();
 			if(elemento.darLlave().toString().equals(nLlave.toString())){
-				areaPrimaria[hash(nLlave)].eliminar(elemento);
+				iterador.remove();
 				tamano--;
 				return elemento.darElemento();
 			}
