@@ -14,17 +14,6 @@
 		</fileset>
 	</path>
 
-	<!-- Classpath para compilación de pruebas -->
-	<path id="classpathTests">
-		<fileset dir="./test/lib">
-			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="./lib">
-			<include name="**/*.jar" />
-		</fileset>
-		<pathelement location="classes" />
-	</path>
-
 	<!-- Inicialización de las Propiedades -->
 	<target name="init" description="Inicializa las propiedades">
 		<!-- Definición de Propiedades -->
