@@ -111,8 +111,7 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public boolean anadirColegioHijo(Colegio colegio, Hijo hijo)
-			throws GeneroIncompatibleException {
+	public boolean anadirColegioHijo(Colegio colegio, Hijo hijo){
 		// TODO Auto-generated method stub
 		return false;
 	}

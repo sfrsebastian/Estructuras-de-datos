@@ -72,5 +72,5 @@ public interface ICentralColegios {
 	 * @param esDepto Si es un departamento TRUE sino es un municipio
 	 * @return Arreglo de Colegios con la informacion buscada
 	 */
-	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento, int codigoMunicipio);
+	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento,int codigoMunicipio);
 }
