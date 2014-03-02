@@ -9,8 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
+import lector.LectorExcel;
 import HashTable.TablaHashing;
-import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 import ListaOrdenada.ListaOrdenada;
 
@@ -30,6 +30,8 @@ public class CentralColegios implements ICentralColegios {
 	 */
 	private TablaHashing<Llave,Colegio> colegios;
 	
+	private Anio actualizado;
+	
 	private ListaOrdenada<Anio> anios;
 	/**
 	 * 
@@ -48,10 +50,16 @@ public class CentralColegios implements ICentralColegios {
 	 */
 	public CentralColegios() throws FileNotFoundException, IOException, ClassNotFoundException{
 		usuarioActual = null;
-		ObjectInputStream ois =  new ObjectInputStream(new FileInputStream("./data/serializados/2011.col"));
-		colegios = (TablaHashing<Llave, Colegio>) ois.readObject();
-		ois.close();
-		
+		anios = new ListaOrdenada<Anio>();		
+		cargarTablas();
+		Iterator<Anio> iterador = anios.iterator();
+		while(iterador.hasNext() && colegios == null){
+			Anio actual = (Anio)iterador.next();
+			if(actual.getAnio() == 2011){
+				actualizado = actual;
+				colegios = actual.getColegios();
+			}
+		}
 		try {
 			ObjectInputStream ois1 = new ObjectInputStream(new FileInputStream("./data/usuarios.us"));
 			usuarios = (TablaHashing<Llave, Usuario>)ois1.readObject();
@@ -60,6 +68,18 @@ public class CentralColegios implements ICentralColegios {
 			usuarios = new TablaHashing<Llave, Usuario>(7,2);
 			System.out.println("users not created");
 		}
+	}
+
+	private void cargarTablas() throws FileNotFoundException,IOException {
+		LectorExcel lector = new LectorExcel();
+		anios.agregar(lector.construirAnio("./data/2004.xls", 8861, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2005.xls", 8838, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2006.xls", 9250, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2007.xls", 9681, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2008.xls", 10161, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2009.xls", 10376, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2010.xls", 10975, 19, 0, 1));
+		anios.agregar(lector.construirAnio("./data/2011.xls", 8587, 19, 0, 1));
 	}
 
 	@Override
@@ -102,7 +122,7 @@ public class CentralColegios implements ICentralColegios {
 		return auxiliar(criterios, colegios.darLista());
 	}	
 	
-	private Object[] auxiliar(Criterio[] criterios, Lista nColegios){
+	private Object[] auxiliar(Criterio[] criterios, ListaEncadenada<Colegio> nColegios){
 		if(criterios.length == 0){
 			return nColegios.darArreglo();
 		}
@@ -111,7 +131,7 @@ public class CentralColegios implements ICentralColegios {
 			if(criterio.darSubcriterios().length == 0){
 				return auxiliar(nuevosCriterios(criterios),nColegios);
 			}
-			Lista<Colegio> nueva = new ListaEncadenada<Colegio>();
+			ListaEncadenada<Colegio> nueva = new ListaEncadenada<Colegio>();
 			Iterator<Colegio> iterador = nColegios.iterator();
 			while(iterador.hasNext()){
 				Colegio actual = iterador.next();
@@ -131,10 +151,18 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public Colegio[] buscarPorArea(Area area, AnioAcademico anio, int puntaje)
-			throws RangoInvalidoException {
-		// TODO Auto-generated method stub
-		return null;
+	public Object[] buscarPorArea(Area area, int anio){
+		ListaOrdenada<Colegio> buscados = new ListaOrdenada<Colegio>();
+		Anio elegido = anios.buscar(new Anio(anio,null,null));
+		Iterator<Colegio> iterador = elegido.getColegios().iterator();
+		while(iterador.hasNext()){
+			Colegio actual = iterador.next();
+			int puntaje = actual.getNotas().getLista().buscar(area).getPuntaje();
+			if(puntaje == area.getPuntaje() && puntaje != Area.NO_APLICA){
+				buscados.agregar(actual);
+			}
+		}
+		return buscados.darArreglo();
 	}
 
 	@Override
@@ -162,10 +190,14 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public Object[] mostrarColegiosPorUbicacion(String ubicacion,
-			boolean esDepto) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento, int codigoMunicipio) {
+		if(!(codigoMunicipio > 0)){
+			return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).buscarMunicipio(new Llave(codigoMunicipio)).getColegios().darArreglo();
+		}
+		else{
+			return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).getColegios().darArreglo();
+		}
+		
 	}
 
 	public Usuario darUsuarioActual() {
@@ -174,6 +206,14 @@ public class CentralColegios implements ICentralColegios {
 	
 	public Object[] darColegios(){
 		return colegios.darArreglo();
+	}
+	
+	public Object[] darDepartamentos(){
+		return actualizado.getDepartamentos().darArreglo(); 
+	}
+	
+	public Object[] darMunicipios(int codigoDepartamento){
+		return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).getMunicipios().darArreglo();
 	}
 
 	public boolean buscarUsuario(String usuario, String pass) {

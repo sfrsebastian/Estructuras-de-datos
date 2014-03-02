@@ -7,21 +7,20 @@ import ListaEncadenada.ListaEncadenada;
 
 
 public class Notas implements Serializable {
-	public final static int NO_APLICA = -1;
-	private int sociales;
-	private int quimica;
-	private int fisica;
-	private int biologia;
-	private int filosofia;
-	private int matematicas;
-	private int lenguaje;
-	private int ingles;
-	private int geografia;
-	private int historia;
-	ListaEncadenada <Integer> lista;
+	private Area sociales;
+	private Area quimica;
+	private Area fisica;
+	private Area biologia;
+	private Area filosofia;
+	private Area matematicas;
+	private Area lenguaje;
+	private Area ingles;
+	private Area geografia;
+	private Area historia;
+	ListaEncadenada <Area> lista;
 	
-	public Notas(int nSociales,int nQuimica,int nFisica, int nBiologia, int nFilosofia,int nMatematicas,int nLenguaje, int nIngles, int nGeografia, int nHistoria){
-		lista = new ListaEncadenada<Integer>();
+	public Notas(Area nSociales,Area nQuimica,Area nFisica, Area nBiologia, Area nFilosofia,Area nMatematicas,Area nLenguaje, Area nIngles, Area nGeografia, Area nHistoria){
+		lista = new ListaEncadenada<Area>();
 		sociales = nSociales;
 		quimica = nQuimica;
 		fisica = nQuimica;
@@ -46,53 +45,57 @@ public class Notas implements Serializable {
 	}
 
 	public int getSociales() {
-		return sociales;
+		return sociales.getPuntaje();
 	}
 
 	public int getQuimica() {
-		return quimica;
+		return quimica.getPuntaje();
 	}
 
 	public int getFisica() {
-		return fisica;
+		return fisica.getPuntaje();
 	}
 
 	public int getBiologia() {
-		return biologia;
+		return biologia.getPuntaje();
 	}
 
 	public int getFilosofia() {
-		return filosofia;
+		return filosofia.getPuntaje();
 	}
 
 	public int getMatematicas() {
-		return matematicas;
+		return matematicas.getPuntaje();
 	}
 
 	public int getLenguaje() {
-		return lenguaje;
+		return lenguaje.getPuntaje();
 	}
 
 	public int getIngles() {
-		return ingles;
+		return ingles.getPuntaje();
 	}
 
 	public int getGeografia() {
-		return geografia;
+		return geografia.getPuntaje();
 	}
 
 	public int getHistoria() {
-		return historia;
+		return historia.getPuntaje();
+	}
+	
+	public ListaEncadenada<Area> getLista(){
+		return lista;
 	}
 	
 	public double darPromedio(){
 		int total = lista.darLongitud();
 		int suma = 0;
-		Iterator<Integer> iterador = lista.iterator();
+		Iterator<Area> iterador = lista.iterator();
 		while(iterador.hasNext()){
-			int materia = iterador.next();
-			if(materia != NO_APLICA){
-				suma += materia;
+			Area materia = iterador.next();
+			if(materia.getPuntaje() != Area.NO_APLICA){
+				suma += materia.getPuntaje();
 			}
 			else{
 				total--;

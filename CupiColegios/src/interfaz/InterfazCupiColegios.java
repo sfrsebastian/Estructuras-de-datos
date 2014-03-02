@@ -12,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
 import mundo.CentralColegios;
 import mundo.Criterio;
 import mundo.Hijo;

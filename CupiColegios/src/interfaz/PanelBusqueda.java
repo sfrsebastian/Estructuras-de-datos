@@ -1,23 +1,22 @@
 package interfaz;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JSeparator;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.JCheckBox;
+import javax.swing.border.TitledBorder;
 
 import mundo.Criterio;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class PanelBusqueda extends JPanel {
 

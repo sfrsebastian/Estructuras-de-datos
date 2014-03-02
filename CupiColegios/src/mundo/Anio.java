@@ -1,7 +1,5 @@
 package mundo;
 
-import java.io.File;
-
 import HashTable.TablaHashing;
 
 public class Anio implements Comparable<Anio> {
@@ -10,7 +8,10 @@ public class Anio implements Comparable<Anio> {
 	private TablaHashing<Llave,Colegio> colegios;
 	private TablaHashing<Llave,Departamento> departamentos;
 	
-	public Anio(File anio){
+	public Anio(int nAnio,TablaHashing<Llave,Colegio> nColegios, TablaHashing<Llave,Departamento> nDepartamentos){
+		anio = nAnio;
+		colegios = nColegios;
+		departamentos = nDepartamentos;
 		
 	}
 	@Override
@@ -31,11 +32,11 @@ public class Anio implements Comparable<Anio> {
 	public void setAnio(int nAnio) {
 		anio = nAnio;
 	}
-	public Object[] getColegios() {
-		return colegios.darArreglo();
+	public TablaHashing<Llave, Colegio> getColegios() {
+		return colegios;
 	}
-	public Object[] getDepartamentos() {
-		return departamentos.darArreglo();
+	public TablaHashing<Llave,Departamento> getDepartamentos() {
+		return departamentos;
 	}
 
 }

@@ -3,11 +3,11 @@ package lector;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
+import mundo.Anio;
+import mundo.Area;
 import mundo.Colegio;
 import mundo.Departamento;
 import mundo.Llave;
@@ -82,13 +82,12 @@ public class LectorExcel{
 	}	
 	
 	
-	public void construirAnio(String ruta, int rs, int colu, int x, int y) throws FileNotFoundException, IOException{
+	public Anio construirAnio(String ruta, int rs, int colu, int x, int y) throws FileNotFoundException, IOException{
 		inicializarAtributos(ruta, rs, colu, x, y);
 		inicializarTablasUbicaciones();
 		leerDatos();
-		File archivo = new File(rutaFolder + archivoExcel.getName().substring(0, 4)+".col"); 
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo));
-		TablaHashing<Llave, Colegio> tablaColegios = new TablaHashing<Llave,Colegio>(7, 2);
+		int anio = Integer.parseInt(archivoExcel.getName().substring(0, 4));
+		TablaHashing<Llave, Colegio> colegios = new TablaHashing<Llave,Colegio>(7, 2);
 		
 		for (int i = 1; i < rows; i++){
 			String codigoUbicacion = data[i][2];
@@ -110,85 +109,83 @@ public class LectorExcel{
 					aAgregar2.agregarColegio(new Llave(col.getCodigo()), col);
 				}
 			}
-			tablaColegios.agregar(new Llave(col.getCodigo()), col);
+			colegios.agregar(new Llave(col.getCodigo()), col);
 		}
-		
-		oos.writeObject(tablaColegios);
-		oos.writeObject(departamentos);
-		oos.close();	
-		System.out.println("Colegios " + archivoExcel.getName().substring(0, 4)+ " serializados.");
+		System.out.println("Anio " + archivoExcel.getName().substring(0, 4)+ " Creado.");
+		return new Anio(anio, colegios, departamentos);
 	}
 	
 	private Notas crearNotas(int i) {
-		int sociales;
-		int quimica;
-		int fisica;
-		int biologia;
-		int filosofia;
-		int matematicas;
-		int lenguaje;
-		int ingles;
-		int geografia;
-		int historia;
+		Area sociales;
+		Area quimica;
+		Area fisica;
+		Area biologia;
+		Area filosofia;
+		Area matematicas;
+		Area lenguaje;
+		Area ingles;
+		Area geografia;
+		Area historia;
 		
 		try{
-			sociales = (int)Double.parseDouble(data[i][7]);
+			sociales = new Area(Area.SOCIALES,(int)Double.parseDouble(data[i][7]));
+			
 		}catch(Exception e){
-			sociales = Notas.NO_APLICA;
+			sociales = new Area(Area.SOCIALES,Area.NO_APLICA);
 		}
 		
 		try{
-			quimica = (int)Double.parseDouble(data[i][8]);
+			quimica = new Area(Area.QUIMICA,(int)Double.parseDouble(data[i][8]));
 		}catch(Exception e){
-			quimica = Notas.NO_APLICA;
+			quimica = new Area(Area.QUIMICA,Area.NO_APLICA);
 		}
 		
 		try{
-			fisica = (int)Double.parseDouble(data[i][9]);
+			fisica = new Area(Area.FISICA,(int)Double.parseDouble(data[i][9]));
 		}catch(Exception e){
-			fisica = Notas.NO_APLICA;
+			fisica = new Area(Area.FISICA, Area.NO_APLICA);
 		}
 		
 		try{
-			biologia = (int)Double.parseDouble(data[i][10]);
+			biologia = new Area(Area.BIOLOGIA,(int)Double.parseDouble(data[i][10]));
 		}catch(Exception e){
-			biologia = Notas.NO_APLICA;
+			biologia = new Area(Area.BIOLOGIA,Area.NO_APLICA);
 		}
 		
 		try{
-			filosofia = (int)Double.parseDouble(data[i][11]);
+			filosofia = new Area(Area.FILOSOFIA,(int)Double.parseDouble(data[i][11]));
 		}catch(Exception e){
-			filosofia = Notas.NO_APLICA;
+			filosofia = new Area(Area.FILOSOFIA,Area.NO_APLICA);
 		}
 		
 		try{
-			matematicas = (int)Double.parseDouble(data[i][12]);
+			matematicas = new Area(Area.MATEMATICAS,(int)Double.parseDouble(data[i][12]));
 		}catch(Exception e){
-			matematicas = Notas.NO_APLICA;
+			matematicas = new Area(Area.MATEMATICAS,Area.NO_APLICA);
 		}
 		
 		try{
-			lenguaje = (int)Double.parseDouble(data[i][13]);
+			lenguaje = new Area(Area.LENGUAJE,(int)Double.parseDouble(data[i][13]));
 		}catch(Exception e){
-			lenguaje = Notas.NO_APLICA;
+			lenguaje = new Area(Area.LENGUAJE,Area.NO_APLICA);
 		}
 		
 		try{
-			ingles = (int)Double.parseDouble(data[i][14]);
+			ingles = new Area(Area.INGLES,(int)Double.parseDouble(data[i][14]));
 		}catch(Exception e){
-			ingles = Notas.NO_APLICA;
+			ingles = new Area(Area.INGLES,Area.NO_APLICA);
 		}
 		
 		try{
-			geografia = (int)Double.parseDouble(data[i][15]);
+			geografia = new Area(Area.GEOGRAFIA,(int)Double.parseDouble(data[i][15]));
 		}catch(Exception e){
-			geografia = Notas.NO_APLICA;
+			geografia = new Area(Area.GEOGRAFIA,Area.NO_APLICA);
 		}
 		
 		try{
-			historia = (int)Double.parseDouble(data[i][16]);
+			historia = new Area(Area.HISTORIA,(int)Double.parseDouble(data[i][16]));
 		}catch(Exception e){
-			historia = Notas.NO_APLICA;
+			historia = new Area(Area.HISTORIA,Area.NO_APLICA);
 		}
 		return new Notas(sociales,quimica,fisica,biologia,filosofia,matematicas,lenguaje,ingles,geografia,historia);
 	}
@@ -209,7 +206,6 @@ public class LectorExcel{
 			int i = 0;
 			while(rowIterator.hasNext() && i <1121){
 				Row row = rowIterator.next();
-				Iterator<Cell> cellIterator = row.cellIterator();
 				int codigoDepartamento = (int)(Double.parseDouble(row.getCell(0).toString()));
 				String nombreDepartamento = row.getCell(1).toString();
 				int codigoMunicipio = (int)(Double.parseDouble(row.getCell(2).toString()));
@@ -228,25 +224,4 @@ public class LectorExcel{
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args) {
-		LectorExcel lector = new LectorExcel();
-		try {
-			
-			lector.construirAnio("./data/2004.xls", 8861, 19, 0, 1);
-			lector.construirAnio("./data/2005.xls", 8838, 19, 0, 1);
-			lector.construirAnio("./data/2006.xls", 9250, 19, 0, 1);
-			lector.construirAnio("./data/2007.xls", 9681, 19, 0, 1);
-			lector.construirAnio("./data/2008.xls", 10161, 19, 0, 1);
-			lector.construirAnio("./data/2009.xls", 10376, 19, 0, 1);
-			lector.construirAnio("./data/2010.xls", 10975, 19, 0, 1);
-			lector.construirAnio("./data/2011.xls", 8587, 19, 0, 1);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }
