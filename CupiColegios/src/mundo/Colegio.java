@@ -11,7 +11,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	
 	private String jornada;
 	
-	private String icfes;
+	private String nivel;
 	
 	private String genero;
 
@@ -23,6 +23,8 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	
 	private String codigo;
 	
+	private Notas notas;
+	
 	private Certificado[] certificados;
 	
 	/**
@@ -32,13 +34,16 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	 * @param nCalendario
 	 * @param nGenero
 	 * @param nTipo
+	 * @param nNivel 
 	 */
-	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo){
+	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas){
 		genero = nGenero;
 		calendario = nCalendario;
 		tipo = nTipo;
 		nombre = nNombre;
 		codigo = nCodigo;
+		nivel = nNivel;
+		notas = nNotas;
 	}
 	
 	@Override
@@ -50,7 +55,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	private Lista<String> darListaAtributos(){
 		Lista <String> atributos = new ListaEncadenada <String>();
 		atributos.agregar(jornada);
-		atributos.agregar(icfes);
+		atributos.agregar(nivel);
 		atributos.agregar(genero);
 		atributos.agregar(calendario);
 		atributos.agregar(tipo);
@@ -58,7 +63,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	}
 	public boolean cumpleCriterio(Criterio criterio) {
 		Object[] subcriterios = criterio.darSubcriterios();
-		Lista lista = darListaAtributos();
+		Lista<String> lista = darListaAtributos();
 		String cumple = null;
 		for(int i = 0;i<subcriterios.length && cumple == null;i++){
 			cumple = (String) lista.buscar((String)subcriterios[i]);
@@ -70,56 +75,36 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 		return jornada;
 	}
 
-	public void setJornada(String jornada) {
-		this.jornada = jornada;
-	}
-
-	public String getIcfes() {
-		return icfes;
-	}
-
-	public void setIcfes(String icfes) {
-		this.icfes = icfes;
+	public String getNivel() {
+		return nivel;
 	}
 
 	public String getGenero() {
 		return genero;
 	}
 
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-
 	public String getCalendario() {
 		return calendario;
-	}
-
-	public void setCalendario(String calendario) {
-		this.calendario = calendario;
 	}
 
 	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public String getNombre() {
 		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getCodigo() {
 		return codigo;
 	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	
+	public Notas getNotas(){
+		return notas;
+	}
+	
+	public double darPromedio(){
+		return notas.darPromedio();
 	}
 
 }

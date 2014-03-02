@@ -1,8 +1,10 @@
 package mundo;
 
+import java.io.Serializable;
+
 import HashTable.TablaHashing;
 
-public class Municipio {
+public class Municipio implements Comparable <Municipio>,Serializable {
 
 	//------------------------------------------
 	// Atributos
@@ -50,6 +52,16 @@ public class Municipio {
 
 	public void setColegios(TablaHashing<Llave, Colegio> colegios) {
 		this.colegios = colegios;
+	}
+
+	public void agregarColegio(Llave llave, Colegio colegio){
+		colegios.agregar(llave, colegio);
+	}
+	
+	@Override
+	public int compareTo(Municipio o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

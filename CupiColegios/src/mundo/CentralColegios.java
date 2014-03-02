@@ -12,6 +12,7 @@ import java.util.Iterator;
 import HashTable.TablaHashing;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
+import ListaOrdenada.ListaOrdenada;
 
 public class CentralColegios implements ICentralColegios {
 	
@@ -29,6 +30,7 @@ public class CentralColegios implements ICentralColegios {
 	 */
 	private TablaHashing<Llave,Colegio> colegios;
 	
+	private ListaOrdenada<Anio> anios;
 	/**
 	 * 
 	 */
@@ -46,7 +48,7 @@ public class CentralColegios implements ICentralColegios {
 	 */
 	public CentralColegios() throws FileNotFoundException, IOException, ClassNotFoundException{
 		usuarioActual = null;
-		ObjectInputStream ois =  new ObjectInputStream(new FileInputStream("./data/colegiosSerializados.col"));
+		ObjectInputStream ois =  new ObjectInputStream(new FileInputStream("./data/serializados/2011.col"));
 		colegios = (TablaHashing<Llave, Colegio>) ois.readObject();
 		ois.close();
 		

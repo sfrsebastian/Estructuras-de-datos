@@ -126,7 +126,7 @@ public class PanelBusqueda extends JPanel {
 					if(chckbxBajo.isSelected()) icfes.agregarSubcriterio(Criterio.BAJO);
 					if(chckbxMedio.isSelected()) icfes.agregarSubcriterio(Criterio.MEDIO);
 					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.INFERIOR);
-					if(chckbxInferior.isSelected()) icfes.agregarSubcriterio(Criterio.MUY_INFERIOR);
+					if(chckbxMuyInferior.isSelected()) icfes.agregarSubcriterio(Criterio.MUY_INFERIOR);
 				Criterio genero = new Criterio();
 					if(chckbxMasculino.isSelected()) genero.agregarSubcriterio(Criterio.MASCULINO);
 					if(chckbxFemenino.isSelected()) genero.agregarSubcriterio(Criterio.FEMENINO);
@@ -159,7 +159,7 @@ public class PanelBusqueda extends JPanel {
 		add(lblArea);
 		
 		JComboBox comboArea = new JComboBox();
-		comboArea.setModel(new DefaultComboBoxModel(new String[] {"Sociales", "Matematicas", "Espa\u00F1ol"}));
+		comboArea.setModel(new DefaultComboBoxModel(new String[] {"Sociales", "Matematicas", "Espanol"}));
 		comboArea.setBounds(117, 331, 158, 27);
 		add(comboArea);
 		

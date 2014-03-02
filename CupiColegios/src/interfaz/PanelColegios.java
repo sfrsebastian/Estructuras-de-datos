@@ -56,7 +56,7 @@ public class PanelColegios extends JPanel {
 		setSize(600, 600);
 		setLayout(null);
 				
-		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo"};
+		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo","Nivel"};
 		
 		DefaultTableModel tableModel = new DefaultTableModel(arre,4){
 			
@@ -238,7 +238,7 @@ public class PanelColegios extends JPanel {
 		table.removeAll();
 		
 		String[][] datos = darDatosTabla(resultados);
-		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo"};
+		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo","Nivel"};
 		
 		DefaultTableModel model = new DefaultTableModel(datos,arre) {
 		    @Override
@@ -261,7 +261,7 @@ public class PanelColegios extends JPanel {
 	}
 	
 	private String[][] darDatosTabla(Object[] arreglo){
-		String[][] data = new String[arreglo.length][5];
+		String[][] data = new String[arreglo.length][6];
 		for (int i = 0; i < arreglo.length; i++) {
 			Colegio col = (Colegio)arreglo[i];
 			data[i][0] = col.getCodigo();
@@ -269,6 +269,7 @@ public class PanelColegios extends JPanel {
 			data[i][2] = col.getCalendario();
 			data[i][3] = col.getGenero();
 			data[i][4] = col.getTipo();
+			data[i][5] = col.getNivel();
 		}
 		
 		return data;
