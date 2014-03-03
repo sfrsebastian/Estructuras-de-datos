@@ -67,12 +67,12 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 
 	
 	public int darLongitud(){
-		int tamaño = 0;
+		int tamano = 0;
 		for(int i = 0;i<areaPrimaria.length;i++){
 			ListaOrdenada<NodoTabla<K,V>> actual = areaPrimaria[i];
-			tamaño += actual.darLongitud(); 
+			tamano += actual.darLongitud(); 
 		}
-		tamano = tamaño;
+		tamano = tamano;
 		return tamano;
 	}
 

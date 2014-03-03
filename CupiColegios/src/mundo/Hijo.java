@@ -2,6 +2,7 @@ package mundo;
 
 import java.io.Serializable;
 
+import Lista.Lista;
 import ListaOrdenada.ListaOrdenada;
 
 
@@ -173,6 +174,17 @@ public class Hijo implements Comparable<Hijo>,Serializable{
 	@Override
 	public String toString(){
 		return nombre + " - " + edad;
+	}
+
+	public Object[] darColegioRecomendados() {
+		ListaOrdenada<Colegio> cols = new ListaOrdenada<Colegio>();
+		for (Object colegio : listaColegioFav) {
+			Colegio colR = (Colegio)colegio;
+			if(colR.darPromedio() >= 7){
+				cols.agregar(colR);
+			}
+		}
+		return cols.darArreglo();
 	}
 
 }

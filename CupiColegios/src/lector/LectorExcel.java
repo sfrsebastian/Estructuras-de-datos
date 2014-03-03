@@ -94,7 +94,7 @@ public class LectorExcel{
 			int codigoDepartamento = Integer.parseInt(codigoUbicacion.substring(0,2));
 			int codigoMunicipio = Integer.parseInt(codigoUbicacion.substring(2,5));
 			Notas notas = crearNotas(i);
-			Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas);
+			Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas,codigoMunicipio,codigoDepartamento);
 			Departamento aAgregar = departamentos.buscar(new Llave(codigoDepartamento));
 			if(aAgregar == null){
 				System.out.println(i + " No se encontro departamento: " + codigoDepartamento);

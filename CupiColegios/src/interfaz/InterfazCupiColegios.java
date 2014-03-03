@@ -13,7 +13,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import mundo.Area;
 import mundo.CentralColegios;
+import mundo.Colegio;
 import mundo.Criterio;
 import mundo.Hijo;
 import mundo.Usuario;
@@ -193,6 +195,7 @@ public class InterfazCupiColegios extends JFrame {
 			central = new CentralColegios();
 			Object[] colegios = central.darColegios();
 			panelColegios.refrescarTabla(colegios);
+			panelBusqueda.inicializarCombos();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -248,10 +251,8 @@ public class InterfazCupiColegios extends JFrame {
 		return hijito.darColegiosFavoritos();
 	}
 
-	public Object[] darColegiosRecomendados(Object hijo) {
-		Hijo hijito = (Hijo)hijo;
-		return null;
-		//TODO termina
+	public Object[] darColegiosRecomendados(Hijo hijo) {
+		return hijo.darColegioRecomendados();
 	}
 	
 	public void buscarPorCriterio(Criterio[] criterios){
@@ -295,5 +296,23 @@ public class InterfazCupiColegios extends JFrame {
 
 	public void eliminarHijo(Hijo elim) {
 		central.eliminarHijo(elim);
+	}
+
+	public Colegio buscarColegio(String cod) {
+		return central.buscarColegioCodigo(cod);
+	}
+
+	public void buscarPorAreaPuntaje(String area,int anio, int puntajeA, int puntajeB) {
+		Object[] resultados = central.buscarPorArea(new Area(area,0), anio, puntajeA, puntajeB);
+		panelColegios.refrescarTabla(resultados);
+	}
+
+	public Object[] darDepartamentos() {
+		return central.darDepartamentos();
+	}
+
+	public void buscarPorUbicacion(int depto, int mun) {
+		Object[] resultados = central.mostrarColegiosPorUbicacion(depto, mun);
+		panelColegios.refrescarTabla(resultados);
 	}
 }

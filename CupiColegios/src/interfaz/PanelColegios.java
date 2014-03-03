@@ -7,6 +7,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -33,7 +34,7 @@ public class PanelColegios extends JPanel {
 	private InterfazCupiColegios padre;
 	private JTable table;
 	private JTextField txtDireccion;
-	private JTextField txtMunicipio;
+	private JTextField txtDepto;
 	private JTextField txtNombre;
 	private JTextField txtGenero;
 	private JTextField txtTipo;
@@ -77,12 +78,15 @@ public class PanelColegios extends JPanel {
 				// TODO Auto-generated method stub
 				try {
 					txtDireccion.setText((String) table.getValueAt(table.getSelectedRow(), 0));
-					txtMunicipio.setText("");
+					String cod = (String) table.getValueAt(table.getSelectedRow(), 0);
+					cod = cod.substring(0, 2);
+					txtDepto.setText(cod);
 					txtNombre.setText((String) table.getValueAt(table.getSelectedRow(), 1));
 					txtGenero.setText((String) table.getValueAt(table.getSelectedRow(), 3));
 					txtTipo.setText((String) table.getValueAt(table.getSelectedRow(), 4));
-					txtIcfes.setText("");
+					txtIcfes.setText((String) table.getValueAt(table.getSelectedRow(), 5));
 					txtCal.setText((String) table.getValueAt(table.getSelectedRow(), 2));
+					
 					//System.out.println(table.getValueAt(table.getSelectedRow(), 0));
 				} catch (Exception e2) {
 					// TODO: handle exception
@@ -177,15 +181,15 @@ public class PanelColegios extends JPanel {
 		lblDireccion.setBounds(386, 379, 61, 16);
 		add(lblDireccion);
 		
-		JLabel lblMuncip = new JLabel("Muncip:");
+		JLabel lblMuncip = new JLabel("Depto:");
 		lblMuncip.setBounds(386, 415, 61, 16);
 		add(lblMuncip);
 		
-		txtMunicipio = new JTextField();
-		txtMunicipio.setEditable(false);
-		txtMunicipio.setColumns(10);
-		txtMunicipio.setBounds(447, 409, 134, 28);
-		add(txtMunicipio);
+		txtDepto = new JTextField();
+		txtDepto.setEditable(false);
+		txtDepto.setColumns(10);
+		txtDepto.setBounds(447, 409, 134, 28);
+		add(txtDepto);
 		
 		JLabel cert1 = new JLabel("Cert1");
 		cert1.setBounds(65, 524, 127, 59);
@@ -211,6 +215,40 @@ public class PanelColegios extends JPanel {
 		add(comboHijos);
 		
 		JButton btnNewButton = new JButton("A\u00F1adir a");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Hijo hijo = (Hijo)comboHijos.getSelectedItem();
+					String codigo = (String) table.getValueAt(table.getSelectedRow(), 0);
+					Colegio col = padre.buscarColegio(codigo);
+					
+					boolean error = false;
+					String gen = col.getGenero();
+					
+					int genCol = 0;
+					if(gen.equals("MASCULINO"))
+						genCol = 1;
+					else if (gen.equals("FEMENINO"))
+						genCol = 2;
+					
+					if(genCol != 0){
+					if(hijo.getGenero() != genCol)
+						error = true;
+						//mostrarError("No se puede agregar el hijo al colegio");
+					}
+					
+					if(col != null && !error){
+						hijo.agregarFavorito(col);
+						System.out.println("Colegio agregado: " + col);
+					}
+					//System.out.println(hijo + " : " + cod);
+				} catch (Exception e2) {
+					// TODO: handle exception
+					mostrarError("Ha ocurrido un error inesperado:" + e2.getMessage());
+					e2.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(422, 540, 159, 29);
 		add(btnNewButton);
 	}
@@ -252,7 +290,7 @@ public class PanelColegios extends JPanel {
 	
 	private void limpiarTextos(){
 		txtDireccion.setText("");
-		txtMunicipio.setText("");
+		txtDepto.setText("");
 		txtNombre.setText("");
 		txtGenero.setText("");
 		txtTipo.setText("");
@@ -273,6 +311,14 @@ public class PanelColegios extends JPanel {
 		}
 		
 		return data;
+	}
+	
+	/**
+	 * Le muestra un error al usuario
+	 * @param error El error que se quiere mostrar
+	 */
+	private void mostrarError(String error){
+		JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void refrescar() {

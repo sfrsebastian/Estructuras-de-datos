@@ -64,4 +64,8 @@ public class Municipio implements Comparable <Municipio>,Serializable {
 		return 0;
 	}
 	
+	public String toString(){
+		return nombre;
+	}
+	
 }

@@ -25,6 +25,10 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	
 	private Notas notas;
 	
+	private int codigoMunicipio;
+	
+	private int codigoDepartamento;
+	
 	private Certificado[] certificados;
 	
 	/**
@@ -36,7 +40,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	 * @param nTipo
 	 * @param nNivel 
 	 */
-	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas){
+	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas, int nCM, int nCD){
 		genero = nGenero;
 		calendario = nCalendario;
 		tipo = nTipo;
@@ -44,6 +48,8 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 		codigo = nCodigo;
 		nivel = nNivel;
 		notas = nNotas;
+		codigoMunicipio = nCM;
+		codigoDepartamento = nCD;
 	}
 	
 	@Override
@@ -105,6 +111,10 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	
 	public double darPromedio(){
 		return notas.darPromedio();
+	}
+	
+	public String toString(){
+		return nombre + " - " + codigo + " - " + tipo + " - " + calendario;
 	}
 
 }

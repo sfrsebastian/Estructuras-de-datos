@@ -150,14 +150,15 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public Object[] buscarPorArea(Area area, int anio){
+	public Object[] buscarPorArea(Area area, int anio, int puntajeA, int puntajeB){
 		ListaOrdenada<Colegio> buscados = new ListaOrdenada<Colegio>();
 		Anio elegido = anios.buscar(new Anio(anio,null,null));
 		Iterator<Colegio> iterador = elegido.getColegios().iterator();
 		while(iterador.hasNext()){
 			Colegio actual = iterador.next();
+			
 			int puntaje = actual.getNotas().getLista().buscar(area).getPuntaje();
-			if(puntaje == area.getPuntaje() && puntaje != Area.NO_APLICA){
+			if(puntaje >= puntajeB && puntaje <= puntajeA && puntaje != Area.NO_APLICA){
 				buscados.agregar(actual);
 			}
 		}
@@ -190,7 +191,7 @@ public class CentralColegios implements ICentralColegios {
 
 	@Override
 	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento, int codigoMunicipio) {
-		if(!(codigoMunicipio > 0)){
+		if(codigoMunicipio > 0){
 			return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).buscarMunicipio(new Llave(codigoMunicipio)).getColegios().darArreglo();
 		}
 		else{
@@ -243,6 +244,11 @@ public class CentralColegios implements ICentralColegios {
 
 	public void cerrarSesion() {
 		usuarioActual = null;
+	}
+
+	public Colegio buscarColegioCodigo(String cod) {
+		Llave llave = new Llave(cod);
+		return colegios.buscar(llave);
 	}
 
 }

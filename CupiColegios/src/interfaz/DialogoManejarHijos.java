@@ -232,7 +232,9 @@ public class DialogoManejarHijos extends JDialog {
 		}
 		listaColegiosFav.setModel(mode1);
 		
-		Object[] colegiosRec = padre.darColegiosRecomendados(hijo);
+		Hijo hijoActual = (Hijo)hijo;
+		
+		Object[] colegiosRec = padre.darColegiosRecomendados(hijoActual);
 		DefaultListModel mode2 = new DefaultListModel();
 
 		if(colegiosRec != null && colegiosRec.length != 0){

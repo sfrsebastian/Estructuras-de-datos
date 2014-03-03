@@ -16,7 +16,10 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
+import mundo.Area;
 import mundo.Criterio;
+import mundo.Departamento;
+import mundo.Municipio;
 
 public class PanelBusqueda extends JPanel {
 
@@ -26,7 +29,7 @@ public class PanelBusqueda extends JPanel {
 	
 	private InterfazCupiColegios padre;
 	private JSpinner spinnerAnio;
-	private JSpinner spinnerPuntaje;
+	private JSpinner spinnerPuntajeAlt;
 	private JComboBox comboDepto;
 	private JComboBox comboMunicipio;
 	private JCheckBox chckbxDiurn;
@@ -46,6 +49,8 @@ public class PanelBusqueda extends JPanel {
 	private JCheckBox chckbxF;
 	private JCheckBox chckbxPublico;
 	private JCheckBox chckbxPrivado;
+	private JComboBox comboArea;
+	private JSpinner spinnerPuntajoBajo;
 	
 	//------------------------------------------
 	// Constructor
@@ -157,8 +162,8 @@ public class PanelBusqueda extends JPanel {
 		lblArea.setBounds(6, 335, 61, 16);
 		add(lblArea);
 		
-		JComboBox comboArea = new JComboBox();
-		comboArea.setModel(new DefaultComboBoxModel(new String[] {"Sociales", "Matematicas", "Espanol"}));
+		comboArea = new JComboBox();
+		comboArea.setModel(new DefaultComboBoxModel(new String[] {Area.BIOLOGIA, Area.FILOSOFIA, Area.FISICA,Area.GEOGRAFIA,Area.HISTORIA,Area.INGLES,Area.LENGUAJE,Area.MATEMATICAS,Area.QUIMICA,Area.SOCIALES}));
 		comboArea.setBounds(117, 331, 158, 27);
 		add(comboArea);
 		
@@ -167,7 +172,7 @@ public class PanelBusqueda extends JPanel {
 		add(lblAo);
 		
 		spinnerAnio = new JSpinner();
-		SpinnerModel sm = new SpinnerNumberModel(2001,2001,2011,1);
+		SpinnerModel sm = new SpinnerNumberModel(2004,2004,2011,1);
 		spinnerAnio.setBounds(122, 357, 153, 28);
 		spinnerAnio.setModel(sm);
 		add(spinnerAnio);
@@ -176,11 +181,27 @@ public class PanelBusqueda extends JPanel {
 		lblPuntaje.setBounds(6, 391, 61, 16);
 		add(lblPuntaje);
 		
-		spinnerPuntaje = new JSpinner();
-		spinnerPuntaje.setBounds(122, 385, 153, 28);
-		add(spinnerPuntaje);
+		spinnerPuntajeAlt = new JSpinner();
+		spinnerPuntajeAlt.setBounds(200, 385, 75, 28);
+		spinnerPuntajeAlt.setModel(new SpinnerNumberModel(10, 1, 10, 1));
+		add(spinnerPuntajeAlt);
 		
 		JButton btnNewButton = new JButton("Buscar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int anio = (int)spinnerAnio.getValue();	
+					String area = (String)comboArea.getSelectedItem();
+					int puntajeA = (int)spinnerPuntajeAlt.getValue();
+					int puntajeB = (int)spinnerPuntajoBajo.getValue();
+					
+					padre.buscarPorAreaPuntaje(area,anio,puntajeA,puntajeB);
+				} catch (Exception e2) {
+					// TODO: handle exception
+					//e2.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(54, 418, 180, 29);
 		add(btnNewButton);
 		
@@ -197,7 +218,15 @@ public class PanelBusqueda extends JPanel {
 		add(lblDepto);
 		
 		comboDepto = new JComboBox();
-		comboDepto.setModel(new DefaultComboBoxModel(new String[] {"Antioquia", "Otro"}));
+		comboDepto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Departamento depto = (Departamento)comboDepto.getSelectedItem();
+				refrescarComboMunicipios(depto);
+				comboMunicipio.repaint();
+			}
+		});
 		comboDepto.setBounds(122, 485, 153, 27);
 		add(comboDepto);
 		
@@ -206,11 +235,25 @@ public class PanelBusqueda extends JPanel {
 		add(lblMunicipio);
 		
 		comboMunicipio = new JComboBox();
-		comboMunicipio.setModel(new DefaultComboBoxModel(new String[] {"Bogota DC", "n1", "n2"}));
+		comboMunicipio.setModel(new DefaultComboBoxModel(new String[] {"Seleccione Depto Primero"}));
 		comboMunicipio.setBounds(122, 513, 153, 27);
 		add(comboMunicipio);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int depto = ((Departamento)comboDepto.getSelectedItem()).getCodigo();
+					int mun = ((Municipio)comboMunicipio.getSelectedItem()).getCodigo();			
+					padre.buscarPorUbicacion(depto,mun);
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+					int depto = ((Departamento)comboDepto.getSelectedItem()).getCodigo();
+					padre.buscarPorUbicacion(depto, -1);
+				}
+			}
+		});
 		btnBuscar.setBounds(54, 556, 180, 29);
 		add(btnBuscar);
 		
@@ -257,6 +300,35 @@ public class PanelBusqueda extends JPanel {
 		chckbxPublico = new JCheckBox("Publico");
 		chckbxPublico.setBounds(66, 230, 97, 23);
 		add(chckbxPublico);
+		
+		spinnerPuntajoBajo = new JSpinner();
+		spinnerPuntajoBajo.setBounds(118, 385, 75, 28);
+		spinnerPuntajoBajo.setModel(new SpinnerNumberModel(1,1,10,1));
+		add(spinnerPuntajoBajo);
 		padre = interfazCupiColegios;
+	}
+	
+	public void inicializarCombos(){
+		Object[] deptos = padre.darDepartamentos();
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		for (int i = 0; i < deptos.length; i++) {
+			Departamento depto = (Departamento)deptos[i];
+			model.addElement(depto);
+		}
+		comboDepto.setModel(model);
+	}
+	
+	private void refrescarComboMunicipios(Departamento deptoActual){
+		comboMunicipio.removeAll();
+		
+		Object[] municipios = deptoActual.getMunicipios().darArreglo();
+		DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+		modelo.addElement("Sin municipio");
+		for (int i = 0; i < municipios.length; i++) {
+			Municipio mun = (Municipio) municipios[i];
+			modelo.addElement(mun);
+		}
+		comboMunicipio.setModel(modelo);
+		comboMunicipio.repaint();
 	}
 }

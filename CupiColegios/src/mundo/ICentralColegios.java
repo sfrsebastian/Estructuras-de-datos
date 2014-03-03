@@ -40,7 +40,7 @@ public interface ICentralColegios {
 	 * @return Un arreglo de colegios que correspondan al parametro de busqueda
 	 * @throws RangoInvalidoException En caso de que el rango se salgade 0 - 10
 	 */
-	public Object[] buscarPorArea(Area area, int anio);
+	public Object[] buscarPorArea(Area area, int anio, int puntajeA, int puntajeB);
 	
 	/**
 	 * Muestra la informacion del colegio desde la interfaz y retorna el colegio

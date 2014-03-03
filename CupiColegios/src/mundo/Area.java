@@ -1,6 +1,8 @@
 package mundo;
 
-public class Area implements Comparable<Area> {
+import java.io.Serializable;
+
+public class Area implements Comparable<Area>,Serializable {
 
 	//------------------------------------------
 	// Atributos
