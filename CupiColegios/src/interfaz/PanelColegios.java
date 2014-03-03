@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import mundo.Anio;
 import mundo.Colegio;
 import mundo.Hijo;
 
@@ -42,6 +43,7 @@ public class PanelColegios extends JPanel {
 	private JTextField txtIcfes;
 	private JTextField txtCal;
 	private JComboBox comboHijos;
+	private JComboBox comboAnio;
 	
 	//------------------------------------------
 	// Constructor
@@ -195,8 +197,7 @@ public class PanelColegios extends JPanel {
 		cert1.setBounds(65, 524, 127, 59);
 		add(cert1);
 		
-		JComboBox comboAnio = new JComboBox();
-		comboAnio.setModel(new DefaultComboBoxModel(new String[] {"2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011"}));
+		comboAnio = new JComboBox();
 		comboAnio.setBounds(386, 446, 88, 27);
 		add(comboAnio);
 		
@@ -204,7 +205,13 @@ public class PanelColegios extends JPanel {
 		btnResultados.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String codigo = (String) table.getValueAt(table.getSelectedRow(), 0);
+				Anio n = (Anio)comboAnio.getSelectedItem();
+				Colegio col = padre.buscarColegioAnio(codigo,n);
 				
+				DialogoResultados dialogoResultados = new DialogoResultados(col,n);
+				dialogoResultados.setParent(padre);
+				dialogoResultados.setVisible(true);
 			}
 		});
 		btnResultados.setBounds(477, 445, 117, 29);
@@ -270,6 +277,19 @@ public class PanelColegios extends JPanel {
 		
 		caja.setModel(model);
 		caja.repaint();
+	}
+	
+	public void inicializarComboAnios(){
+		comboAnio.removeAll();
+		
+		DefaultComboBoxModel modelo = new DefaultComboBoxModel<>();
+		Object[] anios = padre.darAnios();
+		for (int i = 0; i < anios.length; i++) {
+			Anio n = (Anio)anios[i];
+			modelo.addElement(n);
+		}
+		comboAnio.setModel(modelo);
+		comboAnio.repaint();
 	}
 
 	public void refrescarTabla(Object[] resultados) {

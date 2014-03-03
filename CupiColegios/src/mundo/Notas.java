@@ -103,4 +103,21 @@ public class Notas implements Serializable {
 		}
 		return (double)suma/total;
 	}
+
+	public String[][] darMatriz() {
+		String[][] datos = new String[lista.darLongitud()][2];
+		Iterator i = lista.iterator();
+		
+		int j = 0;
+		
+		while(i.hasNext()){
+			Area n = (Area) i.next();
+			datos[j][0] = n.getArea();
+			String puntaje = (n.getPuntaje() == Area.NO_APLICA) ? "No aplica" : "" + n.getPuntaje();
+			datos[j][1] = puntaje;
+			j++;
+		}
+		
+		return datos;
+	}
 }

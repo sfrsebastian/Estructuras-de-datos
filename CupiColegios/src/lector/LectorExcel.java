@@ -87,7 +87,7 @@ public class LectorExcel{
 		inicializarTablasUbicaciones();
 		leerDatos();
 		int anio = Integer.parseInt(archivoExcel.getName().substring(0, 4));
-		TablaHashing<Llave, Colegio> colegios = new TablaHashing<Llave,Colegio>(7, 2);
+		TablaHashing<Llave, Colegio> colegios = new TablaHashing<Llave,Colegio>(10000, 2);
 		
 		for (int i = 1; i < rows; i++){
 			String codigoUbicacion = data[i][2];
@@ -197,7 +197,7 @@ public class LectorExcel{
 	}
 	private void inicializarTablasUbicaciones(){
 		try {
-			departamentos = new TablaHashing<Llave,Departamento>(7,2);
+			departamentos = new TablaHashing<Llave,Departamento>(100,2);
 			FileInputStream fis = new FileInputStream("./data/Departamentos y Municipios.xls");
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet = wb.getSheetAt(0);
@@ -215,7 +215,7 @@ public class LectorExcel{
 				if(departamentos.buscar(new Llave(codigoDepartamento)) == null){
 					departamentos.agregar(new Llave(codigoDepartamento), departamento);
 				}
-				departamentos.buscar(new Llave(codigoDepartamento)).agregarMunicipio(new Llave(codigoMunicipio), municipio);
+					departamentos.buscar(new Llave(codigoDepartamento)).agregarMunicipio(new Llave(codigoMunicipio), municipio);
 				i++;
 			}
 			fis.close();

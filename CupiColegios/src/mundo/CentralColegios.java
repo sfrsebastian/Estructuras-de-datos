@@ -195,7 +195,10 @@ public class CentralColegios implements ICentralColegios {
 			return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).buscarMunicipio(new Llave(codigoMunicipio)).getColegios().darArreglo();
 		}
 		else{
-			return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).getColegios().darArreglo();
+			Departamento d = actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento));
+			Object[] cols = d.getColegios().darArreglo();
+			//return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).getColegios().darArreglo();
+			return cols;
 		}
 		
 	}
@@ -249,6 +252,15 @@ public class CentralColegios implements ICentralColegios {
 	public Colegio buscarColegioCodigo(String cod) {
 		Llave llave = new Llave(cod);
 		return colegios.buscar(llave);
+	}
+
+	public Object[] darAnios() {
+		return anios.darArreglo();
+	}
+
+	public Colegio buscarAnioColegio(String codigo, Anio n) {
+		Llave l = new Llave(codigo);
+		return n.getColegios().buscar(l);
 	}
 
 }

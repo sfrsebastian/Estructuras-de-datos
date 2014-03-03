@@ -24,8 +24,8 @@ public class Departamento implements Comparable<Departamento>, Serializable {
 	public Departamento(String nNombre, int nCod){
 		nombre = nNombre;
 		codigo = nCod;
-		colegios = new TablaHashing<Llave, Colegio>(7,2);
-		municipios = new TablaHashing<Llave,Municipio>(7,2);
+		colegios = new TablaHashing<Llave, Colegio>(103,2);
+		municipios = new TablaHashing<Llave,Municipio>(1000,2);
 	}
 	
 	//------------------------------------------

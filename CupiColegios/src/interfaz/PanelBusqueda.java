@@ -248,7 +248,7 @@ public class PanelBusqueda extends JPanel {
 					padre.buscarPorUbicacion(depto,mun);
 				} catch (Exception e2) {
 					// TODO: handle exception
-					e2.printStackTrace();
+					//e2.printStackTrace();
 					int depto = ((Departamento)comboDepto.getSelectedItem()).getCodigo();
 					padre.buscarPorUbicacion(depto, -1);
 				}

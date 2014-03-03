@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import mundo.Anio;
 import mundo.Area;
 import mundo.CentralColegios;
 import mundo.Colegio;
@@ -196,6 +197,7 @@ public class InterfazCupiColegios extends JFrame {
 			Object[] colegios = central.darColegios();
 			panelColegios.refrescarTabla(colegios);
 			panelBusqueda.inicializarCombos();
+			panelColegios.inicializarComboAnios();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -314,5 +316,13 @@ public class InterfazCupiColegios extends JFrame {
 	public void buscarPorUbicacion(int depto, int mun) {
 		Object[] resultados = central.mostrarColegiosPorUbicacion(depto, mun);
 		panelColegios.refrescarTabla(resultados);
+	}
+
+	public Object[] darAnios() {
+		return central.darAnios();
+	}
+
+	public Colegio buscarColegioAnio(String codigo, Anio n) {
+		return central.buscarAnioColegio(codigo,n);
 	}
 }

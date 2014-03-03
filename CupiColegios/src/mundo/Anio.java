@@ -38,5 +38,9 @@ public class Anio implements Comparable<Anio> {
 	public TablaHashing<Llave,Departamento> getDepartamentos() {
 		return departamentos;
 	}
+	
+	public String toString(){
+		return "" + anio;
+	}
 
 }
