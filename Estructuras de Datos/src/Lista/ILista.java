@@ -1,6 +1,6 @@
 package Lista;
 
-public interface ILista<T> extends Iterable{
+public interface ILista<T> extends Iterable<T>{
 	
 	/**
 	 * Agrega un nuevo elemento al final de la lista
