@@ -25,9 +25,9 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	
 	private Notas notas;
 	
-	private int codigoMunicipio;
+	private String municipio;
 	
-	private int codigoDepartamento;
+	private String departamento;
 	
 	private Certificado[] certificados;
 	
@@ -40,7 +40,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	 * @param nTipo
 	 * @param nNivel 
 	 */
-	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas, int nCM, int nCD){
+	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas, String nCM, String nCD){
 		genero = nGenero;
 		calendario = nCalendario;
 		tipo = nTipo;
@@ -48,8 +48,8 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 		codigo = nCodigo;
 		nivel = nNivel;
 		notas = nNotas;
-		codigoMunicipio = nCM;
-		codigoDepartamento = nCD;
+		municipio = nCM;
+		departamento = nCD;
 	}
 	
 	@Override
@@ -115,6 +115,26 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	
 	public String toString(){
 		return nombre + " - " + codigo + " - " + tipo + " - " + calendario;
+	}
+
+	public String getNombreDepartamento() {
+		return departamento;
+	}
+
+	public Certificado[] getCertificados() {
+		return certificados;
+	}
+
+	public void setCertificados(Certificado[] certificados) {
+		this.certificados = certificados;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
 	}
 
 }

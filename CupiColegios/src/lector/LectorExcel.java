@@ -93,28 +93,28 @@ public class LectorExcel{
 			String codigoUbicacion = data[i][2];
 			int codigoDepartamento = Integer.parseInt(codigoUbicacion.substring(0,2));
 			int codigoMunicipio = Integer.parseInt(codigoUbicacion.substring(2,5));
-			Notas notas = crearNotas(i);
-			Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas,codigoMunicipio,codigoDepartamento);
+			
 			Departamento aAgregar = departamentos.buscar(new Llave(codigoDepartamento));
-			if(aAgregar == null){
-				System.out.println(i + " No se encontro departamento: " + codigoDepartamento);
+			Municipio aAgregar2 = aAgregar.buscarMunicipio(new Llave(codigoMunicipio));
+//		    Notas notas = crearNotas(i);
+//			Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas,aAgregar2.getNombre(),aAgregar.getNombre());
+			
+			
+			if(aAgregar2 == null){
+				System.out.println(i + " No se encontro municipio: " + codigoMunicipio);
 			}
 			else{
+				Notas notas = crearNotas(i);
+				Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas,aAgregar2.getNombre(),aAgregar.getNombre());
 				aAgregar.agregarColegio(new Llave(col.getCodigo()), col);
-				Municipio aAgregar2 = aAgregar.buscarMunicipio(new Llave(codigoMunicipio));
-				if(aAgregar2 == null){
-					System.out.println(i + " No se encontro municipio: " + codigoMunicipio);
-				}
-				else{
-					aAgregar2.agregarColegio(new Llave(col.getCodigo()), col);
-				}
+				aAgregar2.agregarColegio(new Llave(col.getCodigo()), col);
+				colegios.agregar(new Llave(col.getCodigo()), col);
 			}
-			colegios.agregar(new Llave(col.getCodigo()), col);
 		}
 		System.out.println("Anio " + archivoExcel.getName().substring(0, 4)+ " Creado.");
 		return new Anio(anio, colegios, departamentos);
 	}
-	
+
 	private Notas crearNotas(int i) {
 		Area sociales;
 		Area quimica;

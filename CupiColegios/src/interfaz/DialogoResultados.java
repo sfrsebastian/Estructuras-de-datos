@@ -20,7 +20,7 @@ public class DialogoResultados extends JDialog {
 	public DialogoResultados(Colegio colegioActual, Anio nuevoAnio){
 		setResizable(false);
 		setTitle("Resultados anio " + nuevoAnio.getAnio());
-		setSize(new Dimension(500, 125));
+		setSize(new Dimension(500, 150));
 		setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		anio = nuevoAnio;

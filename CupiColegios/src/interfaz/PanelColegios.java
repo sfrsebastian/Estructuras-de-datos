@@ -81,8 +81,8 @@ public class PanelColegios extends JPanel {
 				try {
 					txtDireccion.setText((String) table.getValueAt(table.getSelectedRow(), 0));
 					String cod = (String) table.getValueAt(table.getSelectedRow(), 0);
-					cod = cod.substring(0, 2);
-					txtDepto.setText(cod);
+					Colegio col = padre.buscarColegio(cod);
+					txtDepto.setText(col.getNombreDepartamento() + " - " + col.getMunicipio());
 					txtNombre.setText((String) table.getValueAt(table.getSelectedRow(), 1));
 					txtGenero.setText((String) table.getValueAt(table.getSelectedRow(), 3));
 					txtTipo.setText((String) table.getValueAt(table.getSelectedRow(), 4));
@@ -183,7 +183,7 @@ public class PanelColegios extends JPanel {
 		lblDireccion.setBounds(386, 379, 61, 16);
 		add(lblDireccion);
 		
-		JLabel lblMuncip = new JLabel("Depto:");
+		JLabel lblMuncip = new JLabel("Ubic:");
 		lblMuncip.setBounds(386, 415, 61, 16);
 		add(lblMuncip);
 		
@@ -209,9 +209,13 @@ public class PanelColegios extends JPanel {
 				Anio n = (Anio)comboAnio.getSelectedItem();
 				Colegio col = padre.buscarColegioAnio(codigo,n);
 				
+				try{
 				DialogoResultados dialogoResultados = new DialogoResultados(col,n);
 				dialogoResultados.setParent(padre);
 				dialogoResultados.setVisible(true);
+				}catch(Exception e2){
+					mostrarError("No hay resultados del colegio para el anio: " + n);
+				}
 			}
 		});
 		btnResultados.setBounds(477, 445, 117, 29);
