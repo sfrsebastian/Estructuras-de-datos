@@ -178,9 +178,50 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	@Override
-	public void mostrarEstadisticas() {
-		// TODO Auto-generated method stub
-
+	public String[][] darDatosDepartamentos() {
+		TablaHashing<Llave,Departamento> departamentos = actualizado.getDepartamentos();
+		String[][] respuesta = new String[departamentos.darLongitud()][2];
+		Iterator<Departamento> iterador =departamentos.iterator();
+		int i = 0;
+		while(iterador.hasNext()){
+			Departamento actual = iterador.next();
+			respuesta[i][0] = actual.getNombre();
+			respuesta[i][1] = ""+ actual.darTotalMuySuperiores();
+			i++;
+		}
+		return respuesta;
+	}
+	
+	public String[][] darPromediosIcfes(){
+		Iterator i = anios.iterator();
+		String[][] respuesta = new String[anios.darLongitud()][2];
+		int c = 0;
+		while(i.hasNext()){
+			Anio anioActual = (Anio)i.next();
+			double resp = anioActual.darPromedioIcfes();
+			respuesta[c][0] = "" + anioActual.getAnio();
+			respuesta[c][1] = "" + resp;
+			c++;
+		}
+		
+		return respuesta;
+		
+	}
+	public String[][] darDatosDepartamentosAnio(){
+		Iterator i = anios.iterator();
+		String[][] respuesta = new String[anios.darLongitud()][2];
+		
+		int c = 0;
+		
+		while(i.hasNext()){
+			Anio anioActual = (Anio)i.next();
+			int resp = anioActual.darCantidadDeptosSuperiores();
+			respuesta[c][0] = "" + anioActual.getAnio();
+			respuesta[c][1] = "" + resp;
+			c++;
+		}
+		
+		return respuesta;
 	}
 
 	@Override

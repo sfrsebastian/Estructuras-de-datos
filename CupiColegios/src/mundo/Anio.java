@@ -1,5 +1,7 @@
 package mundo;
 
+import java.util.Iterator;
+
 import HashTable.TablaHashing;
 
 public class Anio implements Comparable<Anio> {
@@ -41,6 +43,25 @@ public class Anio implements Comparable<Anio> {
 	
 	public String toString(){
 		return "" + anio;
+	}
+	public int darCantidadDeptosSuperiores() {
+		int r = 0;
+		Iterator i = departamentos.iterator();
+		while(i.hasNext()){
+			Departamento d = (Departamento)i.next();
+			if(d.darTotalMuySuperiores() > 50)
+				r++;
+		}
+		return r;
+	}
+	public double darPromedioIcfes() {
+		double suma = 0;
+		Iterator i = departamentos.iterator();
+		while(i.hasNext()){
+			Departamento d = (Departamento)i.next();
+			suma += d.darPromedio();
+		}
+		return suma/departamentos.darLongitud();
 	}
 
 }

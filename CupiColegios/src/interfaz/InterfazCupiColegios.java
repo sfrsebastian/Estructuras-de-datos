@@ -208,8 +208,16 @@ public class InterfazCupiColegios extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	}
-	
+		
+		//Temporal prueba graficos
+		JFrame grafico = new GraficoTorta(central.darDatosDepartamentos(),"Departamentos MUY SUPERIOR");
+		grafico.setSize(500,500);
+		grafico.setVisible(true);
+		
+		JFrame grafico2 = new GraficaBarras(central.darPromediosIcfes(),"Promedio icfes", "Anio","promedio");
+		grafico2.setSize(500,500);
+		grafico2.setVisible(true);
+	}	
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------

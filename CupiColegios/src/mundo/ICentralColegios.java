@@ -57,11 +57,6 @@ public interface ICentralColegios {
 	public Object[] mostrarRecomendados(Hijo hijo);
 	
 	/**
-	 * Muestra las estadisticas de las graficas
-	 */
-	public void mostrarEstadisticas();
-	
-	/**
 	 * Muestra las estaditicas nacionales
 	 */
 	public void mostrarEstadisticasNacionales();
@@ -73,4 +68,6 @@ public interface ICentralColegios {
 	 * @return Arreglo de Colegios con la informacion buscada
 	 */
 	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento,int codigoMunicipio);
+
+	public String[][] darDatosDepartamentos();
 }

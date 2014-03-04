@@ -1,6 +1,7 @@
 package mundo;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 import HashTable.TablaHashing;
 
@@ -69,6 +70,28 @@ public class Departamento implements Comparable<Departamento>, Serializable {
 	
 	public String toString(){
 		return nombre;
+	}
+
+	public int darTotalMuySuperiores() {
+		int total = 0;
+		Iterator<Colegio> iterador = colegios.iterator();
+		while(iterador.hasNext()){
+			Colegio actual = iterador.next();
+			if(actual.getNivel().equals(Criterio.MUY_SUPERIOR)){
+				total++;
+			}
+		}
+		return total;
+	}
+
+	public double darPromedio() {
+		double suma = 0;
+		Iterator<Colegio> iterador = colegios.iterator();
+		while(iterador.hasNext()){
+			Colegio actual = iterador.next();
+			suma+=actual.darPromedio();
+		}
+		return suma/colegios.darLongitud();
 	}
 
 }
