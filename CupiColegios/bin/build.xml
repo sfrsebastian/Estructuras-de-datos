@@ -7,6 +7,7 @@
 	*******************************************************
 	-->
 
+	<property name="jar.class.path" value="lib/dom4j-1.6.1.jar lib/Estructuras de Datos.jar lib/poi-3.10-FINAL-20140208.jar lib/poi-ooxml-3.10-FINAL-20140208.jar lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar lib/xmlbeans-2.3.0.jar lib/jcommon-1.0.21.jar lib/jfreechart-1.0.17.jar" />
 	<!-- Classpath para compilación -->
 	<path id="classpath">
 		<fileset dir="./lib">
@@ -49,18 +50,13 @@
 	</target>
 
 	<!-- Creación de JAR -->
-	<target name="build" depends="compile" description="Crea el JAR de la aplicación">
+	<target name="build" depends="compile, javaDoc" description="Crea el JAR de la aplicación">
 		<!-- Empaqueta las clases en un JAR -->
 		<jar jarfile="${dist}/${jar}">
 			<fileset dir="${classes}" />
 			<!--Variables del manifest-->
 			<manifest>
-				<attribute name="Class-Path" value="${lib}/dom4j-1.6.1.jar" />
-				<attribute name="Class-Path" value="${lib}/Estructuras de Datos.jar" />
-				<attribute name="Class-Path" value="${lib}/poi-3.10-FINAL-20140208.jar" />
-				<attribute name="Class-Path" value="${lib}/poi-ooxml-3.10-FINAL-20140208.jar" />
-				<attribute name="Class-Path" value="${lib}/poi-ooxml-schemas-3.10-FINAL-20140208.jar" />
-				<attribute name="Class-Path" value="${lib}/xmlbeans-2.3.0.jar" />
+				<attribute name="Class-Path" value="${jar.class.path}" />
 				<attribute name="Main-Class" value="interfaz.InterfazCupiColegios" />
 			</manifest>
 		</jar>
@@ -71,6 +67,8 @@
 		<copy file="${lib}/poi-ooxml-3.10-FINAL-20140208.jar" todir="${dist}/${lib}" />
 		<copy file="${lib}/poi-ooxml-schemas-3.10-FINAL-20140208.jar" todir="${dist}/${lib}" />
 		<copy file="${lib}/xmlbeans-2.3.0.jar" todir="${dist}/${lib}" />
+		<copy file="${lib}/jfreechart-1.0.17.jar" todir="${dist}/${lib}" />
+		<copy file="${lib}/jcommon-1.0.21.jar" todir="${dist}/${lib}" />
 		<!-- Copia la carpeta data a dist -->
 		<copy todir="${dist}/${data}">
 			<fileset dir="${data}" />
@@ -78,7 +76,7 @@
 	</target>
 
 	<!-- Generación del javadoc -->
-	<target name="javaDoc" depends="build" description="Genera el java doc de la aplicación">
+	<target name="javaDoc" depends="compile"  description="Genera el java doc de la aplicación">
 		<javadoc destdir="${javadoc}">
 			<fileset dir="${source}" />
 		</javadoc>

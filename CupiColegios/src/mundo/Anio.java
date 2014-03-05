@@ -21,7 +21,7 @@ public class Anio implements Comparable<Anio> {
 	private TablaHashing<Llave,Departamento> departamentos;
 	
 	/**
-	 * Construye un nuevo año dados los parametros
+	 * Construye un nuevo anio dados los parametros
 	 * @param nAnio
 	 * @param nColegios
 	 * @param nDepartamentos
