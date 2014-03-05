@@ -164,7 +164,7 @@ public class InterfazCupiColegios extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame grafico = new GraficoTorta(central.darDatosGraficaLibre(),"Grafica libre");
+				JFrame grafico = new GraficaBarras(central.darDatosGraficaLibre(),"Matematicas", "Anio","Promedio");
 				grafico.setSize(500,500);
 				grafico.setVisible(true);
 			}

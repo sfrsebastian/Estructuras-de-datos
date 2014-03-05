@@ -94,4 +94,14 @@ public class Departamento implements Comparable<Departamento>, Serializable {
 		return suma/colegios.darLongitud();
 	}
 
+	public double darPromedioMatematicas() {
+		double suma = 0;
+		Iterator<Colegio> iterador = colegios.iterator();
+		while(iterador.hasNext()){
+			Colegio actual = iterador.next();
+			suma+=actual.getNotas().getMatematicas();
+		}
+		return suma/colegios.darLongitud();
+	}
+
 }

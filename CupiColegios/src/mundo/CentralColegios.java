@@ -319,8 +319,16 @@ public class CentralColegios implements ICentralColegios {
 	}
 
 	public String[][] darDatosGraficaLibre() {
-		// TODO Auto-generated method stub
-		return null;
+		String[][] respuesta = new String [anios.darLongitud()][2];
+		Iterator<Anio> iterador = anios.iterator();
+		int i  = 0;
+		while(iterador.hasNext()){
+			Anio actual = iterador.next();;
+			respuesta[i][0]=""+actual.getAnio();
+			respuesta[i][1]=""+actual.darPromedioMatematicas();
+			i++;
+		}
+		return respuesta;
 	}
 
 	public String metodoExtension1() {

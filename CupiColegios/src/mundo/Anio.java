@@ -63,6 +63,15 @@ public class Anio implements Comparable<Anio> {
 		}
 		return suma/departamentos.darLongitud();
 	}
+	public double darPromedioMatematicas() {
+		double suma = 0;
+		Iterator i = departamentos.iterator();
+		while(i.hasNext()){
+			Departamento d = (Departamento)i.next();
+			suma += d.darPromedioMatematicas();
+		}
+		return suma/departamentos.darLongitud();
+	}
 	
 	
 
