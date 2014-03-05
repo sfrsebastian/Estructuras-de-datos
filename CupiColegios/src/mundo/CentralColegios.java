@@ -303,5 +303,19 @@ public class CentralColegios implements ICentralColegios {
 		Llave l = new Llave(codigo);
 		return n.getColegios().buscar(l);
 	}
+	
+	public String[][] darPromedioAnios(int codigoDepartamento){
+		String[][] respuesta = new String [anios.darLongitud()][2];
+		Iterator<Anio> iterador = anios.iterator();
+		int i  = 0;
+		while(iterador.hasNext()){
+			Anio actual = iterador.next();
+			Departamento dep = actual.getDepartamentos().buscar(new Llave(codigoDepartamento));
+			respuesta[i][0]=""+actual.getAnio();
+			respuesta[i][1]=""+dep.darPromedio();
+			i++;
+		}
+		return respuesta;
+	}
 
 }
