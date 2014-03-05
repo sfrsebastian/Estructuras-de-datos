@@ -188,6 +188,7 @@ public class PanelBusqueda extends JPanel {
 		
 		JButton btnNewButton = new JButton("Buscar");
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int anio = (int)spinnerAnio.getValue();	
@@ -241,6 +242,7 @@ public class PanelBusqueda extends JPanel {
 		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int depto = ((Departamento)comboDepto.getSelectedItem()).getCodigo();

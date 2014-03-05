@@ -17,15 +17,15 @@ public interface ICentralColegios {
 	 */
 	public boolean registrarHijoUsuario(Usuario usuario, Hijo hijo);
 	
-	/**
-	 * Agrega un nuevo colegio a los colegios favoritos del hijo
-	 * @param colegio El colegio que se quiere agregar
-	 * @param hijo El hijo al que se le van a agregar el colegio
-	 * @return TRUE si se pudo agregar un colegio, FALSE en caso contrario
-	 * @throws GeneroIncompatibleException para el caso de genero incompatible
-	 */
-	public boolean anadirColegioHijo(Colegio colegio, Hijo hijo) throws GeneroIncompatibleException;
-	
+//	/**
+//	 * Agrega un nuevo colegio a los colegios favoritos del hijo
+//	 * @param colegio El colegio que se quiere agregar
+//	 * @param hijo El hijo al que se le van a agregar el colegio
+//	 * @return TRUE si se pudo agregar un colegio, FALSE en caso contrario
+//	 * @throws GeneroIncompatibleException para el caso de genero incompatible
+//	 */
+//	public boolean anadirColegioHijo(Colegio colegio, Hijo hijo) throws GeneroIncompatibleException;
+//	
 	/**
 	 * Busca dado el criterio o criterios que se mandan por parametro
 	 * @param criterios Los criterios que se quieren buscar
@@ -42,24 +42,24 @@ public interface ICentralColegios {
 	 */
 	public Object[] buscarPorArea(Area area, int anio, int puntajeA, int puntajeB);
 	
-	/**
-	 * Muestra la informacion del colegio desde la interfaz y retorna el colegio
-	 * @param colegio El colegio por el cual se quiere mostrar la informacion
-	 * @return El colegio que se quiere mostrar
-	 */
-	public Colegio mostrarInfoColegio(Colegio colegio);
+//	/**
+//	 * Muestra la informacion del colegio desde la interfaz y retorna el colegio
+//	 * @param colegio El colegio por el cual se quiere mostrar la informacion
+//	 * @return El colegio que se quiere mostrar
+//	 */
+//	public Colegio mostrarInfoColegio(Colegio colegio);
 	
-	/**
-	 * Muestra lo colegio recomendados entre los colegios favoritos del hijo
-	 * @param hijo El hijo del que se muestran los colegios
-	 * @return Un arreglo de colegios recomendados
-	 */
-	public Object[] mostrarRecomendados(Hijo hijo);
+//	/**
+//	 * Muestra lo colegio recomendados entre los colegios favoritos del hijo
+//	 * @param hijo El hijo del que se muestran los colegios
+//	 * @return Un arreglo de colegios recomendados
+//	 */
+//	public Object[] mostrarRecomendados(Hijo hijo);
 	
-	/**
-	 * Muestra las estaditicas nacionales
-	 */
-	public void mostrarEstadisticasNacionales();
+//	/**
+//	 * Muestra las estaditicas nacionales
+//	 */
+//	public void mostrarEstadisticasNacionales();
 	
 	/**
 	 * Muestra los colegios dados una ubicacion
@@ -70,4 +70,14 @@ public interface ICentralColegios {
 	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento,int codigoMunicipio);
 
 	public String[][] darDatosDepartamentos();
+
+	String[][] darPromediosIcfes();
+
+	String[][] darDatosDepartamentosAnio();
+
+	boolean buscarUsuario(String usuario, String pass);
+
+	String[][] darPromedioAnios(int codigoDepartamento);
+
+	String[][] darDatosGraficaLibre();
 }

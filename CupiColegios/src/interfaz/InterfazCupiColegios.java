@@ -268,9 +268,6 @@ public class InterfazCupiColegios extends JFrame {
 		} catch (FileNotFoundException e1) {
 			
 			e1.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
 		} catch (IOException e1) {
 			
 			e1.printStackTrace();

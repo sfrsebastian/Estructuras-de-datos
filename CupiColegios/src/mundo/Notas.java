@@ -7,6 +7,7 @@ import ListaEncadenada.ListaEncadenada;
 
 
 public class Notas implements Serializable {
+	//Atributos
 	private Area sociales;
 	private Area quimica;
 	private Area fisica;
@@ -17,8 +18,25 @@ public class Notas implements Serializable {
 	private Area ingles;
 	private Area geografia;
 	private Area historia;
+	
+	/**
+	 * Lista que almacena las distintas areas
+	 */
 	ListaEncadenada <Area> lista;
 	
+	/**
+	 * Metodo que crea unas nuevas Notas
+	 * @param nSociales
+	 * @param nQuimica
+	 * @param nFisica
+	 * @param nBiologia
+	 * @param nFilosofia
+	 * @param nMatematicas
+	 * @param nLenguaje
+	 * @param nIngles
+	 * @param nGeografia
+	 * @param nHistoria
+	 */
 	public Notas(Area nSociales,Area nQuimica,Area nFisica, Area nBiologia, Area nFilosofia,Area nMatematicas,Area nLenguaje, Area nIngles, Area nGeografia, Area nHistoria){
 		lista = new ListaEncadenada<Area>();
 		sociales = nSociales;
@@ -44,6 +62,7 @@ public class Notas implements Serializable {
 		lista.agregar(historia);
 	}
 
+	// Getters de los puntajes de las distintas areas.
 	public int getSociales() {
 		return sociales.getPuntaje();
 	}
@@ -88,6 +107,10 @@ public class Notas implements Serializable {
 		return lista;
 	}
 	
+	/**
+	 * Retorna el promedio de las materias.
+	 * @return
+	 */
 	public double darPromedio(){
 		int total = lista.darLongitud();
 		int suma = 0;
@@ -104,6 +127,10 @@ public class Notas implements Serializable {
 		return (double)suma/total;
 	}
 
+	/**
+	 * Metodo que retorna una matriz con el area y su puntaje.
+	 * @return
+	 */
 	public String[][] darMatriz() {
 		String[][] datos = new String[lista.darLongitud()][2];
 		Iterator i = lista.iterator();

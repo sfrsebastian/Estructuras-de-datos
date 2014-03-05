@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Area implements Comparable<Area>,Serializable {
 
 	//------------------------------------------
-	// Atributos
+	// Constantes
 	//------------------------------------------
 	public final static int NO_APLICA = -1;
 	public final static String SOCIALES = "Sociales";
@@ -20,19 +20,23 @@ public class Area implements Comparable<Area>,Serializable {
 	public final static String HISTORIA = "Historia";
 	
 	/**
-	 * 
+	 * El puntaje en el area
 	 */
 	private int puntaje;
 	
 	/**
-	 * 
+	 * El nombre del area
 	 */
 	private String area;
 	
 	//------------------------------------------
 	// Contructor
 	//------------------------------------------
-	
+	/**
+	 * Inicializa una nueva area
+	 * @param nArea Debe ser alguna de las constantes
+	 * @param nPuntaje El puntaje obtenido
+	 */
 	public Area(String nArea, int nPuntaje){
 		puntaje = nPuntaje;
 		area = nArea;
@@ -42,13 +46,25 @@ public class Area implements Comparable<Area>,Serializable {
 	// Metodos
 	//------------------------------------------
 	
+	/**
+	 * Retorna el puntaje obtenido en el Area.
+	 * @return
+	 */
 	public int getPuntaje() {
 		return puntaje;
 	}
 
+	/**
+	 * Retorna el nombre del area.
+	 * @return
+	 */
 	public String getArea() {
 		return area;
 	}
+	
+	/**
+	 * Metodo para comparar dos areas.
+	 */
 	@Override
 	public int compareTo(Area otra) {
 		if(area.compareTo(otra.getArea())==0){

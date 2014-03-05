@@ -17,12 +17,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JSeparator;
 import javax.swing.JLabel;
 
-import java.awt.Component;
-
-import javax.swing.Box;
 import javax.swing.JTextField;
 
 public class DialogoEstadisticas extends JDialog {
@@ -91,6 +87,7 @@ public class DialogoEstadisticas extends JDialog {
 		txtResultado.setText(Area.MATEMATICAS);
 		
 		btnSeleccionar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Departamento depto = (Departamento)comboDeptos.getSelectedItem();
 				String[][] matriz = padre.darPromedioAnios(depto.getCodigo());

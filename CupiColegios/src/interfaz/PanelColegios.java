@@ -82,14 +82,14 @@ public class PanelColegios extends JPanel {
 				try {
 					String cod = (String) table.getValueAt(table.getSelectedRow(), 0);
 					Colegio col = padre.buscarColegio(cod);
-					txtDireccion.setText((String) col.getCodigo());
+					txtDireccion.setText(col.getCodigo());
 					txtDepto.setText(col.getNombreDepartamento() + " - " + col.getMunicipio());
-					txtNombre.setText((String) col.getNombre());
-					txtGenero.setText((String) col.getGenero());
-					txtTipo.setText((String) col.getTipo());
-					txtIcfes.setText((String) col.getNivel());
-					txtCal.setText((String) col.getCalendario());
-					txtJornada.setText((String)col.getJornada());
+					txtNombre.setText(col.getNombre());
+					txtGenero.setText(col.getGenero());
+					txtTipo.setText(col.getTipo());
+					txtIcfes.setText(col.getNivel());
+					txtCal.setText(col.getCalendario());
+					txtJornada.setText(col.getJornada());
 					
 					//System.out.println(table.getValueAt(table.getSelectedRow(), 0));
 				} catch (Exception e2) {
@@ -231,6 +231,7 @@ public class PanelColegios extends JPanel {
 		
 		JButton btnNewButton = new JButton("A\u00F1adir a");
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Hijo hijo = (Hijo)comboHijos.getSelectedItem();

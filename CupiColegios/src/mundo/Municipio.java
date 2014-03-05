@@ -10,16 +10,29 @@ public class Municipio implements Comparable <Municipio>,Serializable {
 	// Atributos
 	//------------------------------------------
 	
+	/**
+	 * El nombre del municipio
+	 */
 	private String nombre;
 	
+	/**
+	 * El codigo unico del municipio
+	 */
 	private int codigo;
 	
+	/**
+	 * Tabla con los colegios del municipio
+	 */
 	private TablaHashing<Llave, Colegio> colegios;
 	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
-	
+	/**
+	 * Se crea un nuevo municipio
+	 * @param nNombre
+	 * @param nCodigo
+	 */
 	public Municipio(String nNombre, int nCodigo){
 		nombre = nNombre;
 		codigo = nCodigo;
@@ -30,40 +43,59 @@ public class Municipio implements Comparable <Municipio>,Serializable {
 	// Metodos
 	//------------------------------------------
 
+	/**
+	 * El nombre del municipio
+	 * @return
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+	/**
+	 * El codigo del municipio
+	 * @return
+	 */
 	public int getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-
+	/**
+	 * La tabla con los colegios del municipio
+	 * @return
+	 */
 	public TablaHashing<Llave, Colegio> getColegios() {
 		return colegios;
 	}
 
-	public void setColegios(TablaHashing<Llave, Colegio> colegios) {
-		this.colegios = colegios;
-	}
-
+	/**
+	 * Agrega un nuevo colegio a la tabla de colegios.
+	 * @param llave
+	 * @param colegio
+	 */
 	public void agregarColegio(Llave llave, Colegio colegio){
 		colegios.agregar(llave, colegio);
 	}
 	
+	/**
+	 * Metodo que compara dos municipios.
+	 */
 	@Override
-	public int compareTo(Municipio o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Municipio otro) {
+		if(nombre.compareTo(otro.getNombre())==0){
+			return 0;
+		}
+		else if(nombre.compareTo(otro.getNombre())>0){
+			return 1;
+		}
+		else{
+			return -1;
+		}
 	}
 	
+	/**
+	 * To string del municipio. Incluye su nombre.
+	 */
+	@Override
 	public String toString(){
 		return nombre;
 	}

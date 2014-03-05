@@ -26,15 +26,22 @@ public class CentralColegios implements ICentralColegios {
 	private Usuario usuarioActual;
 	
 	/**
-	 * 
+	 * La tabla de colegios mas actualizada (2011)
 	 */
 	private TablaHashing<Llave,Colegio> colegios;
 	
+	/**
+	 * El anio mas actualizado
+	 */
 	private Anio actualizado;
 	
-	private ListaOrdenada<Anio> anios;
 	/**
-	 * 
+	 * Lista que contiene los anios de la central.
+	 */
+	private ListaOrdenada<Anio> anios;
+	
+	/**
+	 * Hash Table que almacena los usuarios de la central.
 	 */
 	private TablaHashing<Llave, Usuario> usuarios;
 	
@@ -43,18 +50,18 @@ public class CentralColegios implements ICentralColegios {
 	//------------------------------------------
 	
 	/**
-	 * 
+	 * Crea una nueva central de colegios.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public CentralColegios() throws FileNotFoundException, IOException, ClassNotFoundException{
+	public CentralColegios() throws FileNotFoundException, IOException{
 		usuarioActual = null;
 		anios = new ListaOrdenada<Anio>();		
 		cargarTablas();
 		Iterator<Anio> iterador = anios.iterator();
 		while(iterador.hasNext() && colegios == null){
-			Anio actual = (Anio)iterador.next();
+			Anio actual = iterador.next();
 			if(actual.getAnio() == 2011){
 				actualizado = actual;
 				colegios = actual.getColegios();
@@ -70,6 +77,11 @@ public class CentralColegios implements ICentralColegios {
 		}
 	}
 
+	/**
+	 * Carga todos los anios disponible para la central.
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void cargarTablas() throws FileNotFoundException,IOException {
 		LectorExcel lector = new LectorExcel();
 		anios.agregar(lector.construirAnio("./data/2004.xls", 8861, 19, 0, 1));
@@ -82,6 +94,9 @@ public class CentralColegios implements ICentralColegios {
 		anios.agregar(lector.construirAnio("./data/2011.xls", 8587, 19, 0, 1));
 	}
 
+	/**
+	 * Agrega un nuevo usuario a la central.
+	 */
 	@Override
 	public Usuario agregarNuevoUsuario(String usuario, String contrasena) {
 		Usuario usu = new Usuario(usuario, contrasena);
@@ -91,6 +106,9 @@ public class CentralColegios implements ICentralColegios {
 		return usu;
 	}
 
+	/**
+	 * Registra un hijo al usuario
+	 */
 	@Override
 	public boolean registrarHijoUsuario(Usuario usuario, Hijo hijo) {
 		usuario.agregarHijo(hijo);
@@ -98,7 +116,7 @@ public class CentralColegios implements ICentralColegios {
 	}
 	
 	/**
-	 * 
+	 * Guarda un archivo serializado con los usuarios.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -110,17 +128,20 @@ public class CentralColegios implements ICentralColegios {
 		os.close();
 	}
 
-	@Override
-	public boolean anadirColegioHijo(Colegio colegio, Hijo hijo){
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * Filtra por los criterios dados la lista de colegios.
+	 */
 	@Override
 	public Object[] buscarPorCriterio(Criterio[] criterios){	
 		return auxiliar(criterios, colegios.darLista());
 	}	
 	
+	/**
+	 * Metodo auxiliar para filtrar los colegios.
+	 * @param criterios
+	 * @param nColegios
+	 * @return
+	 */
 	private Object[] auxiliar(Criterio[] criterios, ListaEncadenada<Colegio> nColegios){
 		if(criterios.length == 0){
 			return nColegios.darArreglo();
@@ -141,6 +162,12 @@ public class CentralColegios implements ICentralColegios {
 			return auxiliar(nuevosCriterios(criterios),nueva);
 		}
 	}
+	
+	/**
+	 * Metodo auxiliar para disminuir la lista de criterios.
+	 * @param criterios
+	 * @return
+	 */
 	private Criterio[] nuevosCriterios(Criterio[] criterios) {
 		Criterio[] nueva = new Criterio[criterios.length-1];
 		for(int i = 1; i<criterios.length;i++){
@@ -149,6 +176,9 @@ public class CentralColegios implements ICentralColegios {
 		return nueva;
 	}
 
+	/**
+	 * Busca los colegios segun el area dada y rangos dados.
+	 */
 	@Override
 	public Object[] buscarPorArea(Area area, int anio, int puntajeA, int puntajeB){
 		ListaOrdenada<Colegio> buscados = new ListaOrdenada<Colegio>();
@@ -165,18 +195,9 @@ public class CentralColegios implements ICentralColegios {
 		return buscados.darArreglo();
 	}
 
-	@Override
-	public Colegio mostrarInfoColegio(Colegio colegio) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object[] mostrarRecomendados(Hijo hijo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/**
+	 * Retorna una matriz con los datos que representan la cantidad de colegios MUY SUPERIORES por cad departamento
+	 */
 	@Override
 	public String[][] darDatosDepartamentos() {
 		TablaHashing<Llave,Departamento> departamentos = actualizado.getDepartamentos();
@@ -192,6 +213,11 @@ public class CentralColegios implements ICentralColegios {
 		return respuesta;
 	}
 	
+	/**
+	 * Retorna una matriz de datos con los promedio de icfes de cada anio.
+	 * @return
+	 */
+	@Override
 	public String[][] darPromediosIcfes(){
 		Iterator i = anios.iterator();
 		String[][] respuesta = new String[anios.darLongitud()][2];
@@ -207,6 +233,12 @@ public class CentralColegios implements ICentralColegios {
 		return respuesta;
 		
 	}
+	
+	/**
+	 * Retorna una matriz con los datos referentes a los departamentos con mayor cantidad de colegios uy superores.
+	 * @return
+	 */
+	@Override
 	public String[][] darDatosDepartamentosAnio(){
 		Iterator i = anios.iterator();
 		String[][] respuesta = new String[anios.darLongitud()][2];
@@ -224,12 +256,9 @@ public class CentralColegios implements ICentralColegios {
 		return respuesta;
 	}
 
-	@Override
-	public void mostrarEstadisticasNacionales() {
-		// TODO Auto-generated method stub
-
-	}
-
+	/**
+	 * Retorna los colegios que cumplen con las ubicaciones dadas por parametro.
+	 */
 	@Override
 	public Object[] mostrarColegiosPorUbicacion(int codigoDepartamento, int codigoMunicipio) {
 		if(codigoMunicipio > 0){
@@ -244,24 +273,46 @@ public class CentralColegios implements ICentralColegios {
 		
 	}
 
+	/**
+	 * retorna el usuario actual de la central.
+	 * @return
+	 */
 	public Usuario darUsuarioActual() {
 		return usuarioActual;
 	}
 	
+	/**
+	 * Retorna los colegios de la central.
+	 */
 	public Object[] darColegios(){
 		return colegios.darArreglo();
 	}
 	
+	/**
+	 * Retorna los departamentos de la central.
+	 * @return
+	 */
 	public Object[] darDepartamentos(){
 		return actualizado.getDepartamentos().darArreglo(); 
 	}
 	
+	/**
+	 * Retorna los municipios del departamento dado por parametro.
+	 * @param codigoDepartamento
+	 * @return
+	 */
 	public Object[] darMunicipios(int codigoDepartamento){
 		return actualizado.getDepartamentos().buscar(new Llave(codigoDepartamento)).getMunicipios().darArreglo();
 	}
 
+	/**
+	 * Busca el usuario con usuario y contrasena dados por parametro.
+	 * @param usuario
+	 * @param pass
+	 * @return true si se valido al usuario, false de lo contrario.
+	 */
+	@Override
 	public boolean buscarUsuario(String usuario, String pass) {
-
 		Usuario encontrado = usuarios.buscar(new Llave(usuario));
 		if(encontrado != null){
 			if(encontrado.validarContrasena(pass)){
@@ -275,6 +326,10 @@ public class CentralColegios implements ICentralColegios {
 		return false;
 	}
 
+	/**
+	 * Retorna los hijos del usuario actual.
+	 * @return
+	 */
 	public Object[] darHijosUsuarioActual() {
 		if(usuarioActual != null)
 			return usuarioActual.darHijos();
@@ -282,28 +337,56 @@ public class CentralColegios implements ICentralColegios {
 			return new Object[0];
 	}
 
+	/**
+	 * Elimina el hijo dado por parametro del usuario actual.
+	 * @param elim
+	 */
 	public void eliminarHijo(Hijo elim) {
 		usuarioActual.eliminarHijo(elim);
 	}
 
+	/**
+	 * Cierra sesion del usuario actual.
+	 */
 	public void cerrarSesion() {
 		usuarioActual = null;
 	}
 
+	/**
+	 * Busca un colegio dado su codigo.
+	 * @param cod
+	 * @return
+	 */
 	public Colegio buscarColegioCodigo(String cod) {
 		Llave llave = new Llave(cod);
 		return colegios.buscar(llave);
 	}
 
+	/**
+	 * Retorna un arreglo con los anios de la central.
+	 * @return
+	 */
 	public Object[] darAnios() {
 		return anios.darArreglo();
 	}
 
+	/**
+	 * Busca un colegio dado un anio y codigo.
+	 * @param codigo
+	 * @param n
+	 * @return
+	 */
 	public Colegio buscarAnioColegio(String codigo, Anio n) {
 		Llave l = new Llave(codigo);
 		return n.getColegios().buscar(l);
 	}
 	
+	/**
+	 * Retorna una matriz con la informacion del promedio de cada anio.
+	 * @param codigoDepartamento
+	 * @return
+	 */
+	@Override
 	public String[][] darPromedioAnios(int codigoDepartamento){
 		String[][] respuesta = new String [anios.darLongitud()][2];
 		Iterator<Anio> iterador = anios.iterator();
@@ -318,6 +401,11 @@ public class CentralColegios implements ICentralColegios {
 		return respuesta;
 	}
 
+	/**
+	 * Retorna una matriz con los datos correspondientes a el promedio de matematicas de cada anio.
+	 * @return
+	 */
+	@Override
 	public String[][] darDatosGraficaLibre() {
 		String[][] respuesta = new String [anios.darLongitud()][2];
 		Iterator<Anio> iterador = anios.iterator();
@@ -331,6 +419,7 @@ public class CentralColegios implements ICentralColegios {
 		return respuesta;
 	}
 
+	//Metodos de extension.
 	public String metodoExtension1() {
 		return "Metodo extension 1";
 	}

@@ -9,17 +9,17 @@ public class Certificado {
 	//------------------------------------------
 	
 	/**
-	 * 
+	 * El tipo del certificado
 	 */
 	private String tipo;
 	
 	/**
-	 * 
+	 * La fecha de otorgamiento del certificado
 	 */
 	private Date fechaOtorgamiento;
 	
 	/**
-	 * 
+	 * La fechad de validez del certificado
 	 */
 	private Date fechaValidez;
 	
@@ -27,6 +27,12 @@ public class Certificado {
 	// Constructor
 	//------------------------------------------
 	
+	/**
+	 * Crea un nuevo certificado a parti de los parametros dados.
+	 * @param nTipo
+	 * @param nFechaO
+	 * @param nFechaV
+	 */
 	public Certificado(String nTipo, Date nFechaO, Date nFechaV){
 		tipo = nTipo;
 		fechaOtorgamiento = nFechaO;
@@ -37,30 +43,27 @@ public class Certificado {
 	// Metodos
 	//------------------------------------------
 
+	/**
+	 * Retorna le tipo del certificado
+	 * @return
+	 */
 	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
+	/**
+	 * Retorna la fecha de otorgamiento del certificado
+	 * @return
+	 */
 	public Date getFechaOtorgamiento() {
 		return fechaOtorgamiento;
 	}
 
-	public void setFechaOtorgamiento(Date fechaOtorgamiento) {
-		this.fechaOtorgamiento = fechaOtorgamiento;
-	}
-
+	/**
+	 * Retorna la fecha de validez del certificado
+	 * @return
+	 */
 	public Date getFechaValidez() {
 		return fechaValidez;
 	}
-
-	public void setFechaValidez(Date fechaValidez) {
-		this.fechaValidez = fechaValidez;
-	}
-	
-	
-	
 }

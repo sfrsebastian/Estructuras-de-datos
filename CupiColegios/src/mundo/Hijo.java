@@ -2,7 +2,6 @@ package mundo;
 
 import java.io.Serializable;
 
-import Lista.Lista;
 import ListaOrdenada.ListaOrdenada;
 
 
@@ -105,77 +104,97 @@ public class Hijo implements Comparable<Hijo>,Serializable{
 			return false;
 	}
 	
+	/**
+	 * Metodo que compara dos hijos
+	 */
 	@Override
-	public int compareTo(Hijo o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Hijo otro) {
+		if(nombre.compareTo(otro.getNombre())==0){
+			return 0;
+		}
+		else if(nombre.compareTo(otro.getNombre())>0){
+			return 1;
+		}
+		else{
+			return -1;
+		}
 	}
 
+	/**
+	 * Metodo que retorna la lista de favoritos del hijo
+	 * @return
+	 */
 	public ListaOrdenada<Colegio> getListaColegioFav() {
 		return listaColegioFav;
 	}
 	
+	/**
+	 * Retorna los colegios favoritos del hijo
+	 * @return
+	 */
 	public Object[] darColegiosFavoritos(){
 		return listaColegioFav.darArreglo();
 	}
 
-	public void setListaColegioFav(ListaOrdenada<Colegio> listaColegioFav) {
-		this.listaColegioFav = listaColegioFav;
-	}
-
+	/**
+	 * El nombre del hijo
+	 * @return
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+	/**
+	 * La edad del hijos
+	 * @return
+	 */
 	public int getEdad() {
 		return edad;
 	}
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-
+	/**
+	 * El genero del hijo.
+	 * @return
+	 */
 	public int getGenero() {
 		return genero;
 	}
-
-	public void setGenero(int genero) {
-		this.genero = genero;
-	}
-
+	
+	/**
+	 * La ciudad del hijos
+	 * @return
+	 */
 	public String getCiudad() {
 		return ciudad;
 	}
 
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
-	}
-
+	/**
+	 * El telefono del hijo
+	 * @return
+	 */
 	public int getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
-		this.telefono = telefono;
-	}
-
+	/**
+	 * El acudiente del hijo
+	 * @return
+	 */
 	public String getAcudiente() {
 		return acudiente;
 	}
-
-	public void setAcudiente(String acudiente) {
-		this.acudiente = acudiente;
-	}
 	
+	/**
+	 * To string del hijo. Incluye su nombre y edad.
+	 */
 	@Override
 	public String toString(){
 		return nombre + " - " + edad;
 	}
 
+	/**
+	 * Metodo que retorna los colegios recomendados para el hijo.
+	 * @return
+	 */
 	public Object[] darColegioRecomendados() {
 		ListaOrdenada<Colegio> cols = new ListaOrdenada<Colegio>();
 		for (Object colegio : listaColegioFav) {
