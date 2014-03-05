@@ -40,7 +40,7 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 	 * @param nTipo
 	 * @param nNivel 
 	 */
-	public Colegio(String nCodigo, String nNombre, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas, String nCM, String nCD){
+	public Colegio(String nCodigo, String nNombre, String nJornada, String nCalendario, String nGenero, String nTipo, String nNivel, Notas nNotas, String nCM, String nCD){
 		genero = nGenero;
 		calendario = nCalendario;
 		tipo = nTipo;
@@ -50,8 +50,9 @@ public class Colegio implements Comparable<Colegio>, Serializable{
 		notas = nNotas;
 		municipio = nCM;
 		departamento = nCD;
+		jornada = nJornada;
 	}
-	
+
 	@Override
 	public int compareTo(Colegio o) {
 		// TODO Auto-generated method stub

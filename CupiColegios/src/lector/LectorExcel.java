@@ -9,6 +9,7 @@ import java.util.Iterator;
 import mundo.Anio;
 import mundo.Area;
 import mundo.Colegio;
+import mundo.Criterio;
 import mundo.Departamento;
 import mundo.Llave;
 import mundo.Municipio;
@@ -96,6 +97,7 @@ public class LectorExcel{
 			
 			Departamento aAgregar = departamentos.buscar(new Llave(codigoDepartamento));
 			Municipio aAgregar2 = aAgregar.buscarMunicipio(new Llave(codigoMunicipio));
+			
 //		    Notas notas = crearNotas(i);
 //			Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas,aAgregar2.getNombre(),aAgregar.getNombre());
 			
@@ -104,8 +106,9 @@ public class LectorExcel{
 				System.out.println(i + " No se encontro municipio: " + codigoMunicipio);
 			}
 			else{
+				String jornada = data[i][3].equals("N")?Criterio.NOCTURNA:Criterio.DIURNA;
 				Notas notas = crearNotas(i);
-				Colegio col = new Colegio(data[i][0],data[i][1],data[i][4],data[i][5],data[i][6],data[i][17],notas,aAgregar2.getNombre(),aAgregar.getNombre());
+				Colegio col = new Colegio(data[i][0],data[i][1],jornada,data[i][4],data[i][5],data[i][6],data[i][17],notas,aAgregar2.getNombre(),aAgregar.getNombre());
 				aAgregar.agregarColegio(new Llave(col.getCodigo()), col);
 				aAgregar2.agregarColegio(new Llave(col.getCodigo()), col);
 				colegios.agregar(new Llave(col.getCodigo()), col);
