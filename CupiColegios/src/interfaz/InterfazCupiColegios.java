@@ -18,6 +18,7 @@ import mundo.Area;
 import mundo.CentralColegios;
 import mundo.Colegio;
 import mundo.Criterio;
+import mundo.Departamento;
 import mundo.Hijo;
 import mundo.Usuario;
 
@@ -60,7 +61,7 @@ public class InterfazCupiColegios extends JFrame {
 	 * Construye la interfaz principal de la aplicacion
 	 */
 	public InterfazCupiColegios(){
-		setSize(new Dimension(916, 652));
+		setSize(new Dimension(1000, 652));
 		getContentPane().setLayout(null);
 		setTitle("CupiColegios");
 		setResizable(false);
@@ -68,11 +69,11 @@ public class InterfazCupiColegios extends JFrame {
 		self = this;
 		
 		panelColegios = new PanelColegios(self);
-		panelColegios.setBounds(303, 6, 609, 600);
+		panelColegios.setBounds(385, 6, 609, 600);
 		getContentPane().add(panelColegios);
 		
 		panelBusqueda = new PanelBusqueda(self);
-		panelBusqueda.setBounds(6, 6, 287, 600);
+		panelBusqueda.setBounds(6, 6, 367, 600);
 		getContentPane().add(panelBusqueda);
 		
 		//JMenu---------------------
@@ -97,17 +98,61 @@ public class InterfazCupiColegios extends JFrame {
 		});
 		menuOpciones.add(itmAdministrarHijos);
 		
-		JMenuItem itmEstadisticas = new JMenuItem("Ver estadisticas");
+		menuOpciones.addSeparator();
+		
+		JMenuItem itmEstadisticas = new JMenuItem("Ver Grafica Deptos Superiores");
 		itmEstadisticas.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DialogoEstadisticas dialogoEstadisticas = new DialogoEstadisticas();
-				dialogoEstadisticas.setParent(self);
-				dialogoEstadisticas.setVisible(true);
+				JFrame grafico = new GraficoTorta(central.darDatosDepartamentos(),"Departamentos MUY SUPERIOR");
+				grafico.setSize(500,500);
+				grafico.setVisible(true);
 			}
 		});
 		menuOpciones.add(itmEstadisticas);
+		
+		JMenuItem itmEstadisticas2 = new JMenuItem("Ver Grafica Puntajes Icfes");
+		itmEstadisticas2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame grafico2 = new GraficaBarras(central.darPromediosIcfes(),"Promedio icfes", "Anio","promedio");
+				grafico2.setSize(500,500);
+				grafico2.setVisible(true);
+			}
+		});
+		menuOpciones.add(itmEstadisticas2);
+		
+		JMenuItem itmEstadisticas3 = new JMenuItem("Ver grafica departamentos anio");
+		itmEstadisticas3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame grafico = new GraficoTorta(central.darDatosDepartamentosAnio(),"Departamentos por anio");
+				grafico.setSize(500,500);
+				grafico.setVisible(true);
+			}
+		});
+		menuOpciones.add(itmEstadisticas3);
+		
+		menuOpciones.addSeparator();
+		
+		JMenuItem itmRequUlt = new JMenuItem("Ver Estadisticas");
+		itmRequUlt.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try{
+					DialogoEstadisticas dialogoEstadisticas = new DialogoEstadisticas();	
+					dialogoEstadisticas.setParent(self);
+					dialogoEstadisticas.setVisible(true);
+				} catch (Exception e2) {
+					mostrarError("Error inesperado");
+				}
+			}
+		});
+		menuOpciones.add(itmRequUlt);
 		
 		JMenu menuCuenta = new JMenu("Cuenta");
 		
@@ -137,21 +182,6 @@ public class InterfazCupiColegios extends JFrame {
 		
 		menuCuenta.addSeparator();
 		
-		JMenuItem itmPreferencias = new JMenuItem("Preferencias");
-		itmPreferencias.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(tieneUsuario()){
-					
-				}else{
-					mostrarError("No se encuentra autenticado!");
-				}
-			}
-		});
-		menuCuenta.add(itmPreferencias);
-		menuCuenta.addSeparator();
-		
 		JMenuItem itmCerrarSesion = new JMenuItem("Cerrar Sesion");
 		itmCerrarSesion.addActionListener(new ActionListener() {
 			
@@ -176,14 +206,15 @@ public class InterfazCupiColegios extends JFrame {
 					try {
 						central.salvarUsuarios();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						mostrarError(e1.getMessage());
 					}
 				}else
 					mostrarError("No hay sesion iniciada");
 			}
 		});
 		menuCuenta.add(itmGuardarInformacion);
+		
+		//JMenu
 		
 		menu.add(menuOpciones);
 		menu.add(Box.createHorizontalGlue());
@@ -199,24 +230,15 @@ public class InterfazCupiColegios extends JFrame {
 			panelBusqueda.inicializarCombos();
 			panelColegios.inicializarComboAnios();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
-		
-		//Temporal prueba graficos
-		JFrame grafico = new GraficoTorta(central.darDatosDepartamentos(),"Departamentos MUY SUPERIOR");
-		grafico.setSize(500,500);
-		grafico.setVisible(true);
-		
-		JFrame grafico2 = new GraficaBarras(central.darPromediosIcfes(),"Promedio icfes", "Anio","promedio");
-		grafico2.setSize(500,500);
-		grafico2.setVisible(true);
 	}	
 	//------------------------------------------
 	// Metodos
@@ -245,6 +267,10 @@ public class InterfazCupiColegios extends JFrame {
 		self = interfaz;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean tieneUsuario(){
 		if(usuarioActual != null)
 			return true;
@@ -252,6 +278,10 @@ public class InterfazCupiColegios extends JFrame {
 			return false;	
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Object[] darHijos() {
 		return central.darHijosUsuarioActual();
 	}
@@ -320,6 +350,10 @@ public class InterfazCupiColegios extends JFrame {
 	public Object[] darDepartamentos() {
 		return central.darDepartamentos();
 	}
+	
+	public Departamento darDeptoSeleccionado(){
+		return panelBusqueda.darDepartamentoSeleccionado();
+	}
 
 	public void buscarPorUbicacion(int depto, int mun) {
 		Object[] resultados = central.mostrarColegiosPorUbicacion(depto, mun);
@@ -332,5 +366,10 @@ public class InterfazCupiColegios extends JFrame {
 
 	public Colegio buscarColegioAnio(String codigo, Anio n) {
 		return central.buscarAnioColegio(codigo,n);
+	}
+
+	public String[][] darPromedioAnios(int codigo) {
+		//return central.darPromedioAnios(codigo);
+		return null;
 	}
 }

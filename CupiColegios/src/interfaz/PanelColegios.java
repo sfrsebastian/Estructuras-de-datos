@@ -59,7 +59,7 @@ public class PanelColegios extends JPanel {
 		setSize(600, 600);
 		setLayout(null);
 				
-		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo","Nivel"};
+		String[] arre = {"Codigo","Nombre","Nivel"};
 		
 		DefaultTableModel tableModel = new DefaultTableModel(arre,4){
 			
@@ -79,15 +79,16 @@ public class PanelColegios extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					txtDireccion.setText((String) table.getValueAt(table.getSelectedRow(), 0));
 					String cod = (String) table.getValueAt(table.getSelectedRow(), 0);
 					Colegio col = padre.buscarColegio(cod);
+					txtDireccion.setText((String) col.getCodigo());
 					txtDepto.setText(col.getNombreDepartamento() + " - " + col.getMunicipio());
-					txtNombre.setText((String) table.getValueAt(table.getSelectedRow(), 1));
-					txtGenero.setText((String) table.getValueAt(table.getSelectedRow(), 3));
-					txtTipo.setText((String) table.getValueAt(table.getSelectedRow(), 4));
-					txtIcfes.setText((String) table.getValueAt(table.getSelectedRow(), 5));
-					txtCal.setText((String) table.getValueAt(table.getSelectedRow(), 2));
+					txtNombre.setText((String) col.getNombre());
+					txtGenero.setText((String) col.getGenero());
+					txtTipo.setText((String) col.getTipo());
+					txtIcfes.setText((String) col.getNivel());
+					txtCal.setText((String) col.getCalendario());
+					txtJornada.setText((String)col.getJornada());
 					
 					//System.out.println(table.getValueAt(table.getSelectedRow(), 0));
 				} catch (Exception e2) {
@@ -193,8 +194,8 @@ public class PanelColegios extends JPanel {
 		txtDepto.setBounds(447, 409, 134, 28);
 		add(txtDepto);
 		
-		JLabel cert1 = new JLabel("Cert1");
-		cert1.setBounds(65, 524, 127, 59);
+		JLabel cert1 = new JLabel("ISO 9000-1");
+		cert1.setBounds(6, 524, 80, 59);
 		add(cert1);
 		
 		comboAnio = new JComboBox();
@@ -262,6 +263,22 @@ public class PanelColegios extends JPanel {
 		});
 		btnNewButton.setBounds(422, 540, 159, 29);
 		add(btnNewButton);
+		
+		JLabel label = new JLabel("ISO 9000-1");
+		label.setBounds(86, 524, 73, 59);
+		add(label);
+		
+		JLabel label_1 = new JLabel("ISO 9000-1");
+		label_1.setBounds(171, 524, 80, 59);
+		add(label_1);
+		
+		JLabel label_2 = new JLabel("ISO 9000-1");
+		label_2.setBounds(252, 524, 80, 59);
+		add(label_2);
+		
+		JLabel label_3 = new JLabel("ISO 9000-1");
+		label_3.setBounds(333, 524, 80, 59);
+		add(label_3);
 	}
 	
 	public void refrescarComboHijos(JComboBox caja){
@@ -300,7 +317,7 @@ public class PanelColegios extends JPanel {
 		table.removeAll();
 		
 		String[][] datos = darDatosTabla(resultados);
-		String[] arre = {"Codigo","Nombre","Calendario","Genero","Tipo","Nivel"};
+		String[] arre = {"Codigo","Nombre","Nivel"};
 		
 		DefaultTableModel model = new DefaultTableModel(datos,arre) {
 		    @Override
@@ -328,10 +345,7 @@ public class PanelColegios extends JPanel {
 			Colegio col = (Colegio)arreglo[i];
 			data[i][0] = col.getCodigo();
 			data[i][1] = col.getNombre();
-			data[i][2] = col.getCalendario();
-			data[i][3] = col.getGenero();
-			data[i][4] = col.getTipo();
-			data[i][5] = col.getNivel();
+			data[i][2] = col.getNivel();
 		}
 		
 		return data;

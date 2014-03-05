@@ -61,35 +61,35 @@ public class PanelBusqueda extends JPanel {
 		
 		setBorder(new TitledBorder(null, "Busqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setSize(200, 570);
-		setPreferredSize(new Dimension(287, 596));
+		setPreferredSize(new Dimension(367, 596));
 		setLayout(null);
 		
 		chckbxPrivado = new JCheckBox("Privado");
-		chckbxPrivado.setBounds(144, 230, 97, 23);
+		chckbxPrivado.setBounds(164, 231, 97, 23);
 		add(chckbxPrivado);
 		
 		chckbxF = new JCheckBox("F");
-		chckbxF.setBounds(227, 202, 54, 23);
+		chckbxF.setBounds(273, 202, 61, 23);
 		add(chckbxF);
 		
 		chckbxB = new JCheckBox("B");
-		chckbxB.setBounds(144, 202, 97, 23);
+		chckbxB.setBounds(164, 202, 54, 23);
 		add(chckbxB);
 		
 		chckbxMixto = new JCheckBox("Mixto");
-		chckbxMixto.setBounds(227, 176, 54, 23);
+		chckbxMixto.setBounds(273, 176, 75, 23);
 		add(chckbxMixto);
 		
 		chckbxFemenino = new JCheckBox("Femenino");
-		chckbxFemenino.setBounds(144, 176, 97, 23);
+		chckbxFemenino.setBounds(164, 176, 97, 23);
 		add(chckbxFemenino);
 		
 		chckbxNocturna = new JCheckBox("Nocturna");
-		chckbxNocturna.setBounds(178, 50, 97, 23);
+		chckbxNocturna.setBounds(241, 49, 97, 23);
 		add(chckbxNocturna);
 		
 		JLabel lblCriterio = new JLabel("Criterio");
-		lblCriterio.setBounds(132, 27, 47, 16);
+		lblCriterio.setBounds(159, 27, 47, 16);
 		add(lblCriterio);
 		
 		JLabel lblJornada = new JLabel("Jornada:");
@@ -113,7 +113,7 @@ public class PanelBusqueda extends JPanel {
 		add(lblTipo);
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(6, 293, 274, 12);
+		separator_1.setBounds(6, 293, 355, 12);
 		add(separator_1);
 		
 		JButton btnBuscarCrit = new JButton("Buscar");
@@ -151,11 +151,11 @@ public class PanelBusqueda extends JPanel {
 					}
 			}
 		});
-		btnBuscarCrit.setBounds(54, 263, 180, 29);
+		btnBuscarCrit.setBounds(100, 266, 180, 29);
 		add(btnBuscarCrit);
 		
 		JLabel lblAreaao = new JLabel("Area/A\u00F1o");
-		lblAreaao.setBounds(118, 303, 61, 16);
+		lblAreaao.setBounds(157, 303, 61, 16);
 		add(lblAreaao);
 		
 		JLabel lblArea = new JLabel("Area:");
@@ -164,7 +164,7 @@ public class PanelBusqueda extends JPanel {
 		
 		comboArea = new JComboBox();
 		comboArea.setModel(new DefaultComboBoxModel(new String[] {Area.BIOLOGIA, Area.FILOSOFIA, Area.FISICA,Area.GEOGRAFIA,Area.HISTORIA,Area.INGLES,Area.LENGUAJE,Area.MATEMATICAS,Area.QUIMICA,Area.SOCIALES}));
-		comboArea.setBounds(117, 331, 158, 27);
+		comboArea.setBounds(100, 331, 180, 27);
 		add(comboArea);
 		
 		JLabel lblAo = new JLabel("A\u00F1o:");
@@ -173,7 +173,7 @@ public class PanelBusqueda extends JPanel {
 		
 		spinnerAnio = new JSpinner();
 		SpinnerModel sm = new SpinnerNumberModel(2004,2004,2011,1);
-		spinnerAnio.setBounds(122, 357, 153, 28);
+		spinnerAnio.setBounds(100, 357, 175, 28);
 		spinnerAnio.setModel(sm);
 		add(spinnerAnio);
 		
@@ -182,7 +182,7 @@ public class PanelBusqueda extends JPanel {
 		add(lblPuntaje);
 		
 		spinnerPuntajeAlt = new JSpinner();
-		spinnerPuntajeAlt.setBounds(200, 385, 75, 28);
+		spinnerPuntajeAlt.setBounds(187, 385, 88, 28);
 		spinnerPuntajeAlt.setModel(new SpinnerNumberModel(10, 1, 10, 1));
 		add(spinnerPuntajeAlt);
 		
@@ -202,15 +202,15 @@ public class PanelBusqueda extends JPanel {
 				}
 			}
 		});
-		btnNewButton.setBounds(54, 418, 180, 29);
+		btnNewButton.setBounds(100, 411, 180, 29);
 		add(btnNewButton);
 		
 		JSeparator separator_3 = new JSeparator();
-		separator_3.setBounds(6, 452, 274, 12);
+		separator_3.setBounds(6, 452, 355, 12);
 		add(separator_3);
 		
 		JLabel lblUbicacin = new JLabel("Ubicaci\u00F3n");
-		lblUbicacin.setBounds(118, 458, 75, 16);
+		lblUbicacin.setBounds(143, 459, 75, 16);
 		add(lblUbicacin);
 		
 		JLabel lblDepto = new JLabel("Depto:");
@@ -227,7 +227,7 @@ public class PanelBusqueda extends JPanel {
 				comboMunicipio.repaint();
 			}
 		});
-		comboDepto.setBounds(122, 485, 153, 27);
+		comboDepto.setBounds(108, 486, 153, 27);
 		add(comboDepto);
 		
 		JLabel lblMunicipio = new JLabel("Municipio:");
@@ -236,7 +236,7 @@ public class PanelBusqueda extends JPanel {
 		
 		comboMunicipio = new JComboBox();
 		comboMunicipio.setModel(new DefaultComboBoxModel(new String[] {"Seleccione Depto Primero"}));
-		comboMunicipio.setBounds(122, 513, 153, 27);
+		comboMunicipio.setBounds(108, 514, 153, 27);
 		add(comboMunicipio);
 		
 		JButton btnBuscar = new JButton("Buscar");
@@ -254,7 +254,7 @@ public class PanelBusqueda extends JPanel {
 				}
 			}
 		});
-		btnBuscar.setBounds(54, 556, 180, 29);
+		btnBuscar.setBounds(100, 552, 180, 29);
 		add(btnBuscar);
 		
 		chckbxDiurn = new JCheckBox("Diurna");
@@ -262,15 +262,15 @@ public class PanelBusqueda extends JPanel {
 		add(chckbxDiurn);
 		
 		chckbxSuperior = new JCheckBox("Muy superior");
-		chckbxSuperior.setBounds(66, 81, 97, 23);
+		chckbxSuperior.setBounds(66, 81, 140, 23);
 		add(chckbxSuperior);
 		
 		chckbxSuperior_1 = new JCheckBox("Superior");
-		chckbxSuperior_1.setBounds(178, 81, 97, 23);
+		chckbxSuperior_1.setBounds(241, 81, 97, 23);
 		add(chckbxSuperior_1);
 		
 		chckbxMedio = new JCheckBox("Medio");
-		chckbxMedio.setBounds(178, 104, 97, 23);
+		chckbxMedio.setBounds(241, 104, 97, 23);
 		add(chckbxMedio);
 		
 		chckbxAlto = new JCheckBox("Alto");
@@ -282,11 +282,11 @@ public class PanelBusqueda extends JPanel {
 		add(chckbxBajo);
 		
 		chckbxInferior = new JCheckBox("Inferior");
-		chckbxInferior.setBounds(178, 126, 97, 23);
+		chckbxInferior.setBounds(241, 126, 97, 23);
 		add(chckbxInferior);
 		
 		chckbxMuyInferior = new JCheckBox("Muy Inferior");
-		chckbxMuyInferior.setBounds(66, 149, 97, 23);
+		chckbxMuyInferior.setBounds(66, 149, 140, 23);
 		add(chckbxMuyInferior);
 		
 		chckbxMasculino = new JCheckBox("Masculino");
@@ -302,7 +302,7 @@ public class PanelBusqueda extends JPanel {
 		add(chckbxPublico);
 		
 		spinnerPuntajoBajo = new JSpinner();
-		spinnerPuntajoBajo.setBounds(118, 385, 75, 28);
+		spinnerPuntajoBajo.setBounds(100, 385, 88, 28);
 		spinnerPuntajoBajo.setModel(new SpinnerNumberModel(1,1,10,1));
 		add(spinnerPuntajoBajo);
 		padre = interfazCupiColegios;
@@ -330,5 +330,10 @@ public class PanelBusqueda extends JPanel {
 		}
 		comboMunicipio.setModel(modelo);
 		comboMunicipio.repaint();
+	}
+
+	public Departamento darDepartamentoSeleccionado() {
+		Departamento p = (Departamento)comboDepto.getSelectedItem();
+		return p;
 	}
 }
