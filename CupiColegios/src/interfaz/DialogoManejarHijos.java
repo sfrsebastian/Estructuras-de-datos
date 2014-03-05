@@ -102,6 +102,7 @@ public class DialogoManejarHijos extends JDialog {
 		           // list.remove(index);
 		        	padre.eliminarHijo(elim);
 		        	padre.refrescarHijos();
+		        	refrescarListasColegios(padre.darHijos());
 		        	
 		        	refrescarTodasListas(padre.darHijos());
 		        } else if (evt.getClickCount() == 3) {   // Triple-click

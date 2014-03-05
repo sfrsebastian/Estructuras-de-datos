@@ -318,4 +318,17 @@ public class CentralColegios implements ICentralColegios {
 		return respuesta;
 	}
 
+	public String[][] darDatosGraficaLibre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String metodoExtension1() {
+		return "Metodo extension 1";
+	}
+
+	public String metodoExtension2() {
+		return "Metodo extension 1";
+	}
+
 }

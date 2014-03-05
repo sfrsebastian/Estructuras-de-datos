@@ -5,6 +5,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import mundo.Area;
 import mundo.Departamento;
 
 import javax.swing.JComboBox;
@@ -18,8 +19,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+
 import java.awt.Component;
+
 import javax.swing.Box;
+import javax.swing.JTextField;
 
 public class DialogoEstadisticas extends JDialog {
 	
@@ -35,6 +39,7 @@ public class DialogoEstadisticas extends JDialog {
 	private JTable tabla;
 	
 	private int estado;
+	private JTextField txtResultado;
 	
 	//------------------------------------------
 	// Constructor
@@ -43,7 +48,7 @@ public class DialogoEstadisticas extends JDialog {
 	public DialogoEstadisticas(){
 		setResizable(false);
 		setTitle("Estadisticas");
-		setSize(600, 500);
+		setSize(600, 400);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		estado = 0;
@@ -55,28 +60,36 @@ public class DialogoEstadisticas extends JDialog {
 		panel.setLayout(null);
 		
 		comboDeptos = new JComboBox();
-		comboDeptos.setBounds(12, 375, 230, 27);
+		comboDeptos.setBounds(6, 86, 230, 27);
 		panel.add(comboDeptos);
 		
 		JButton btnSeleccionar = new JButton("Seleccionar");
-		btnSeleccionar.setBounds(12, 431, 230, 29);
+		btnSeleccionar.setBounds(6, 125, 230, 29);
 		panel.add(btnSeleccionar);
 		
 		tabla = new JTable();
-		tabla.setBounds(6, 25, 576, 265);
+		tabla.setBounds(248, 16, 334, 138);
 		panel.add(tabla);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(6, 291, 576, 12);
-		panel.add(separator);
-		
 		JLabel lblEstadicticasDepartamentoPor = new JLabel("Estadicticas Departamento por a\u00F1o");
-		lblEstadicticasDepartamentoPor.setBounds(16, 315, 230, 16);
+		lblEstadicticasDepartamentoPor.setBounds(10, 26, 230, 16);
 		panel.add(lblEstadicticasDepartamentoPor);
 		
 		JLabel lblEligaDepartamento = new JLabel("Eliga Departamento:");
-		lblEligaDepartamento.setBounds(12, 353, 142, 16);
+		lblEligaDepartamento.setBounds(6, 64, 142, 16);
 		panel.add(lblEligaDepartamento);
+		
+		JLabel lblMateriaConMayor = new JLabel("Materia con mayor cantidad de 10s fue:");
+		lblMateriaConMayor.setBounds(6, 181, 284, 16);
+		panel.add(lblMateriaConMayor);
+		
+		txtResultado = new JTextField();
+		txtResultado.setBounds(289, 175, 183, 28);
+		panel.add(txtResultado);
+		txtResultado.setColumns(10);
+		txtResultado.setEditable(false);
+		txtResultado.setText(Area.MATEMATICAS);
+		
 		btnSeleccionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Departamento depto = (Departamento)comboDeptos.getSelectedItem();
@@ -84,6 +97,7 @@ public class DialogoEstadisticas extends JDialog {
 				refrescarTabla(matriz, 1);
 			}
 		});
+		
 	}
 	
 	//------------------------------------------
@@ -93,6 +107,8 @@ public class DialogoEstadisticas extends JDialog {
 	public void setParent(InterfazCupiColegios interfaz){
 		padre = interfaz;
 		inicializarCombos();
+		String mejor = padre.darMejorMateria();
+		txtResultado.setText(mejor);
 	}
 	
 	/**
@@ -109,10 +125,12 @@ public class DialogoEstadisticas extends JDialog {
 		
 		if(estado == 1){
 			String[] columns = {"Departamento","Promedio"};
-			modelo = new DefaultTableModel(datos, columns);
-		}
-		else if (estado == 2){
-			String[] columns = {"",""};
+			modelo = new DefaultTableModel(datos,columns) {
+			    @Override
+			    public boolean isCellEditable(int row, int column) {
+			        return false;
+			    }
+			};		
 		}
 		else{
 			String[] columns = {"",""};

@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import mundo.Anio;
 import mundo.Colegio;
 import mundo.Hijo;
+import java.awt.Color;
 
 public class PanelColegios extends JPanel {
 
@@ -30,7 +31,7 @@ public class PanelColegios extends JPanel {
 	//------------------------------------------
 	
 	/**
-	 * La refrencia a la interfaz padre
+	 * La referencia a la interfaz padre
 	 */
 	private InterfazCupiColegios padre;
 	private JTable table;
@@ -195,7 +196,9 @@ public class PanelColegios extends JPanel {
 		add(txtDepto);
 		
 		JLabel cert1 = new JLabel("ISO 9000-1");
+		cert1.setBackground(Color.BLACK);
 		cert1.setBounds(6, 524, 80, 59);
+		cert1.setForeground(Color.blue);;
 		add(cert1);
 		
 		comboAnio = new JComboBox();
@@ -264,21 +267,23 @@ public class PanelColegios extends JPanel {
 		btnNewButton.setBounds(422, 540, 159, 29);
 		add(btnNewButton);
 		
-		JLabel label = new JLabel("ISO 9000-1");
-		label.setBounds(86, 524, 73, 59);
-		add(label);
+		JLabel lblIsoEfqm = new JLabel("EFQM\n");
+		lblIsoEfqm.setBounds(97, 524, 47, 59);
+		add(lblIsoEfqm);
 		
-		JLabel label_1 = new JLabel("ISO 9000-1");
-		label_1.setBounds(171, 524, 80, 59);
-		add(label_1);
+		JLabel lblAdvanced = new JLabel("AdvancED");
+		lblAdvanced.setBounds(156, 524, 80, 59);
+		lblAdvanced.setForeground(Color.blue);
+		add(lblAdvanced);
 		
-		JLabel label_2 = new JLabel("ISO 9000-1");
-		label_2.setBounds(252, 524, 80, 59);
-		add(label_2);
+		JLabel lblFeYAlgra = new JLabel("Fe y Alegr\u00EDa");
+		lblFeYAlgra.setBounds(252, 524, 80, 59);
+		add(lblFeYAlgra);
 		
-		JLabel label_3 = new JLabel("ISO 9000-1");
-		label_3.setBounds(333, 524, 80, 59);
-		add(label_3);
+		JLabel lblNeascsis = new JLabel(" NEASC-SIS");
+		lblNeascsis.setBounds(333, 524, 80, 59);
+		lblNeascsis.setForeground(Color.blue);
+		add(lblNeascsis);
 	}
 	
 	public void refrescarComboHijos(JComboBox caja){
