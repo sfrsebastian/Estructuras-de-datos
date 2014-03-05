@@ -45,10 +45,6 @@ public class LectorExcel{
 	 * @param y La coordenada y inicial
 	 */
 	public LectorExcel(){
-		File file = new File(rutaFolder);
-		if(!file.exists()){
-			file.mkdirs();
-		}
 	}
 	public void leerDatos(){
 		try {

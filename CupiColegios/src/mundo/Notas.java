@@ -41,7 +41,7 @@ public class Notas implements Serializable {
 		lista = new ListaEncadenada<Area>();
 		sociales = nSociales;
 		quimica = nQuimica;
-		fisica = nQuimica;
+		fisica = nFisica;
 		biologia = nBiologia;
 		filosofia = nFilosofia;
 		matematicas = nMatematicas;

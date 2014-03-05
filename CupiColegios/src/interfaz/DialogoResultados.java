@@ -3,7 +3,9 @@ package interfaz;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 
 import mundo.Anio;
 import mundo.Colegio;
@@ -33,6 +35,10 @@ public class DialogoResultados extends JDialog {
 		
 		JTable table = new JTable(datos, cols);
 		table.setBounds(0, 0, 500, 125);
+//		JScrollPane scrollPane = new JScrollPane(table);
+//		scrollPane.setBounds(0, 0, 500, 125);
+//		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		add(scrollPane);
 		add(table);
 	}
 	
