@@ -58,6 +58,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		if(elemento != null){
 			if(raiz == null){
 				raiz = new NodoArbolBinario<T>(elemento,comparador);
+				peso++;
 				return true;
 			}
 			else if(raiz.agregar(elemento)){
@@ -92,7 +93,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 			return false;
 		}
 		else{
-			raiz = raiz.eliminar(elemento);
+			raiz = (NodoArbolBinario<T>) raiz.eliminar(elemento);
 			return true;
 		}
 	}

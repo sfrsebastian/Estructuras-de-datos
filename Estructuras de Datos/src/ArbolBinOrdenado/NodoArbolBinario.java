@@ -52,7 +52,7 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		if(comparar(elemento,pElemento) == 0){
 			return false;
 		}
-		else if(comparar(elemento,pElemento) > 0){
+		else if(comparar(elemento,pElemento) < 0){
 			if(derecho != null){
 				return derecho.agregar(pElemento);
 			}
@@ -109,13 +109,18 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 			if(derecho != null){
 				return derecho.buscar(pElemento);
 			}	
+			else{
+				return null;
+			}
 		}
 		else{
 			if(izquierdo != null){
 				return izquierdo.buscar(pElemento);
 			}
-		} 
-		return null;
+			else{
+				return null;
+			}
+		}
 	}
 	
 	public NodoArbolBinario <T> eliminar(T pElemento){
@@ -271,7 +276,8 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	public int comparar(T elem1, T elem2){
 		if (comparador == null){
 			return elem1.compareTo(elem2);
-		}else{
+		}
+		else{
 			return comparador.compare(elem1, elem2);
 		}
 	}
