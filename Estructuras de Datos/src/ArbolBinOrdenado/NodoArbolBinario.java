@@ -2,7 +2,7 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 
-public class NodoArbolBinario<T>{
+public class NodoArbolBinario<T extends Comparable<T>>{
 
 	//------------------------------------------
 	// Atributos
@@ -49,31 +49,52 @@ public class NodoArbolBinario<T>{
 	 * @return boolean TRUE si se pudo agregar, false en caso contrario
 	 */
 	public boolean agregar(T pElemento){
-		if((comparar(pElemento, elemento)) == 0){
-			System.out.println("Intentado agregar elemento repetido");
+		if(comparar(elemento,pElemento) == 0){
 			return false;
-		}else{
-			if(comparar(pElemento, elemento) < 0){
-				if(izquierdo == null){
-				NodoArbolBinario<T> izq = new  NodoArbolBinario(pElemento,comparador);
-				izquierdo = izq;
-				return true;
-				}else{
-					return izquierdo.agregar(pElemento);
-				}
+		}
+		else if(comparar(elemento,pElemento) > 0){
+			if(derecho != null){
+				return derecho.agregar(pElemento);
 			}
-			else if(comparar(pElemento, elemento) > 0){
-				if(derecho == null){
-					NodoArbolBinario<T> der = new NodoArbolBinario(pElemento, comparador);
-					derecho = der;
-					return true;
-				}else{
-					return derecho.agregar(pElemento);
-				}
+			else{
+				derecho = new NodoArbolBinario<T>(pElemento, comparador);
+				return true;
 			}
 		}
-		return false;
+		else{
+			if(izquierdo != null){
+				return izquierdo.agregar(pElemento);
+			}
+			else{
+				izquierdo = new NodoArbolBinario<T>(pElemento, comparador);
+				return true;
+			}
+		}
 	}
+//		if((comparar(pElemento, elemento)) == 0){
+//			System.out.println("Intentado agregar elemento repetido");
+//			return false;
+//		}else{
+//			if(comparar(pElemento, elemento) < 0){
+//				if(izquierdo == null){
+//				NodoArbolBinario<T> izq = new  NodoArbolBinario(pElemento,comparador);
+//				izquierdo = izq;
+//				return true;
+//				}else{
+//					return izquierdo.agregar(pElemento);
+//				}
+//			}
+//			else if(comparar(pElemento, elemento) > 0){
+//				if(derecho == null){
+//					NodoArbolBinario<T> der = new NodoArbolBinario(pElemento, comparador);
+//					derecho = der;
+//					return true;
+//				}else{
+//					return derecho.agregar(pElemento);
+//				}
+//			}
+//		}
+//		return false;
 	
 	/**
 	 * Busca un elemento T en el arbol binario
@@ -81,76 +102,96 @@ public class NodoArbolBinario<T>{
 	 * @return T el elemento, null en caso contrario
 	 */
 	public T buscar(T pElemento){
-		if((comparar(pElemento, elemento)) == 0){
+		if(comparar(pElemento, elemento) == 0){
 			return darElemento();
-		}else{
-			if((comparar(pElemento, elemento) > 0) && derecho != null){
+		}
+		else if(comparar(pElemento, elemento) > 0){
+			if(derecho != null){
 				return derecho.buscar(pElemento);
-			}else if((comparar(pElemento, elemento) < 0) && izquierdo != null){
+			}	
+		}
+		else{
+			if(izquierdo != null){
 				return izquierdo.buscar(pElemento);
 			}
-		}
+		} 
 		return null;
 	}
 	
-	public T eliminar(T pElemento){
-		if(derecho != null && (comparar(pElemento, elemento)) > 0){
-			if(comparar(pElemento, derecho.darElemento()) == 0){
-				if(derecho.esHoja()){
-					T elem = derecho.darElemento();
-					derecho = null;
-					return elem;
-				}else if(derecho.tieneSoloUnSubArbol()){
-					if(derecho == null){
-						T elem = izquierdo.darElemento();
-						this.izquierdo = this.izquierdo.izquierdo;
-						return elem;
-					}else if(izquierdo == null){
-						T elem = derecho.darElemento();
-						this.derecho = this.derecho.derecho;
-						return elem;
-					}		
-				}else if(!derecho.tieneSoloUnSubArbol()){
-					T elem = derecho.izquierdo.darElemMasDerecho();
-					if(comparar(derecho.izquierdo.darElemento(), elem) == 0){
-						derecho.izquierdo = null;
-					}
-					return elem;
-				}
-			}else{
-				return derecho.eliminar(pElemento);
+	public NodoArbolBinario <T> eliminar(T pElemento){
+		if(comparar(elemento,pElemento) == 0){
+			
+		}
+		else if(comparar(elemento,pElemento) > 0){
+			if(derecho != null){
+				derecho = derecho.eliminar(pElemento);
 			}
 		}
-		if(izquierdo != null && (comparar(pElemento, elemento)) < 0){
-			if(comparar(pElemento, izquierdo.darElemento()) == 0){
-				if(izquierdo.esHoja()){
-					T elem = izquierdo.darElemento();
-					izquierdo = null;
-					return elem;
-				}else if(izquierdo.tieneSoloUnSubArbol()){
-					if(derecho == null){
-						T elem = izquierdo.darElemento();
-						this.izquierdo = this.izquierdo.izquierdo;
-						return elem;
-					}else if(izquierdo == null){
-						T elem = derecho.darElemento();
-						this.derecho = this.derecho.derecho;
-						return elem;
-					}		
-				}else if(!izquierdo.tieneSoloUnSubArbol()){
-					T elem = izquierdo.izquierdo.darElemMasDerecho();
-					if(comparar(izquierdo.darElemento(), elem) == 0){
-						izquierdo.izquierdo = null;
-					}
-					return elem;
-				}
-			}else{
-				return izquierdo.eliminar(pElemento);
+		else{
+			if(izquierdo != null){
+				izquierdo = izquierdo.eliminar(pElemento);
 			}
 		}
-		return null;
+		return this;
 	}
-	
+//	public NodoArbolBinario<T> eliminar(T pElemento){
+//		if(derecho != null && (comparar(pElemento, elemento)) > 0){
+//			if(comparar(pElemento, derecho.darElemento()) == 0){
+//				if(derecho.esHoja()){
+//					T elem = derecho.darElemento();
+//					derecho = null;
+//					return elem;
+//				}else if(derecho.tieneSoloUnSubArbol()){
+//					if(derecho == null){
+//						T elem = izquierdo.darElemento();
+//						this.izquierdo = this.izquierdo.izquierdo;
+//						return elem;
+//					}else if(izquierdo == null){
+//						T elem = derecho.darElemento();
+//						this.derecho = this.derecho.derecho;
+//						return elem;
+//					}		
+//				}else if(!derecho.tieneSoloUnSubArbol()){
+//					T elem = derecho.izquierdo.darElemMasDerecho();
+//					if(comparar(derecho.izquierdo.darElemento(), elem) == 0){
+//						derecho.izquierdo = null;
+//					}
+//					return elem;
+//				}
+//			}else{
+//				return derecho.eliminar(pElemento);
+//			}
+//		}
+//		if(izquierdo != null && (comparar(pElemento, elemento)) < 0){
+//			if(comparar(pElemento, izquierdo.darElemento()) == 0){
+//				if(izquierdo.esHoja()){
+//					T elem = izquierdo.darElemento();
+//					izquierdo = null;
+//					return elem;
+//				}else if(izquierdo.tieneSoloUnSubArbol()){
+//					if(derecho == null){
+//						T elem = izquierdo.darElemento();
+//						this.izquierdo = this.izquierdo.izquierdo;
+//						return elem;
+//					}else if(izquierdo == null){
+//						T elem = derecho.darElemento();
+//						this.derecho = this.derecho.derecho;
+//						return elem;
+//					}		
+//				}else if(!izquierdo.tieneSoloUnSubArbol()){
+//					T elem = izquierdo.izquierdo.darElemMasDerecho();
+//					if(comparar(izquierdo.darElemento(), elem) == 0){
+//						izquierdo.izquierdo = null;
+//					}
+//					return elem;
+//				}
+//			}else{
+//				return izquierdo.eliminar(pElemento);
+//			}
+//		}
+//		return null;
+//	}
+//	
 	private T darElemMasDerecho() {
 		if(!esHoja()){
 			if(derecho.derecho == null){
@@ -175,7 +216,7 @@ public class NodoArbolBinario<T>{
 			return false;
 	}
 	
-	public int darAltura(int a) {
+	public int darAltura() {
 		return 0;
 	}
 	
@@ -229,7 +270,7 @@ public class NodoArbolBinario<T>{
 	 */
 	public int comparar(T elem1, T elem2){
 		if (comparador == null){
-			return ((Comparable<T>)elem1).compareTo(elem2);
+			return elem1.compareTo(elem2);
 		}else{
 			return comparador.compare(elem1, elem2);
 		}

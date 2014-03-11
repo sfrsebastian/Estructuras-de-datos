@@ -21,9 +21,9 @@ public interface IArbolBinarioOrdenado<T> {
 	/**
 	 * Elimina un elemento del arbol 
 	 * @param elemento El elemento que se quiere eliminar
-	 * @return T el elemento eliminado, NULL en caso contrario
+	 * @return true si elimina correctamente,false de lo contrario.
 	 */
-	public T eliminar(T elemento);
+	public boolean eliminar(T elemento);
 	
 	/**
 	 * Da el peso del arbol binario (El numero total de elementos)

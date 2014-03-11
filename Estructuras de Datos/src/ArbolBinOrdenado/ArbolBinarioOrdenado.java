@@ -3,7 +3,7 @@ package ArbolBinOrdenado;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class ArbolBinarioOrdenado<T> implements IArbolBinarioOrdenado<T> {
+public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T> {
 
 	//------------------------------------------
 	// Atributos
@@ -53,56 +53,71 @@ public class ArbolBinarioOrdenado<T> implements IArbolBinarioOrdenado<T> {
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	
 	@Override
 	public boolean agregar(T elemento) {
-		if(raiz == null && elemento != null){
-			raiz = new NodoArbolBinario(elemento,comparador);
-			peso++;
-			return true;
-		}else{
-			if(elemento != null)
-				if(raiz.agregar(elemento)){
-					peso++;
-					return true;
-				}
-		}		
-		return false;
+		if(elemento != null){
+			if(raiz == null){
+				raiz = new NodoArbolBinario<T>(elemento,comparador);
+				return true;
+			}
+			else if(raiz.agregar(elemento)){
+				peso++;
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
 	}
-
+	
 	@Override
 	public T buscar(T elemento) {
-		if(raiz == null)
+		if(raiz == null){
 			return null;
-		else if (comparar(raiz.darElemento(), elemento) == 0)
+		}
+		else if (comparar(raiz.darElemento(), elemento) == 0){
 			return raiz.darElemento();
-		else
+		}
+		else{
 			return raiz.buscar(elemento);
+		}	
 	}
 
 	@Override
-	public T eliminar(T elemento) {
-		if(raiz == null)
-			return null;
-		else if (raiz.esHoja()){
-			T elem = raiz.darElemento();
-			raiz = null;
-			peso--;
-			return elem;
+	public boolean eliminar(T elemento){
+		if(raiz == null){
+			return false;
 		}
-		else {
-			if(!raiz.esHoja() && (comparar(raiz.darElemento(), elemento)) == 0){
-				System.out.println("Intentando eliminar la raiz con hijos");
-				return null;
-			}else{
-				T elem = raiz.eliminar(elemento);
-				if(elem != null)
-					peso--;
-				return elem;
-			}
-			
+		else{
+			raiz = raiz.eliminar(elemento);
+			return true;
 		}
 	}
+//	public T eliminar(T elemento) {
+//		if(raiz == null)
+//			return null;
+//		else if (raiz.esHoja()){
+//			T elem = raiz.darElemento();
+//			raiz = null;
+//			peso--;
+//			return elem;
+//		}
+//		else {
+//			if(!raiz.esHoja() && (comparar(raiz.darElemento(), elemento)) == 0){
+//				System.out.println("Intentando eliminar la raiz con hijos");
+//				return null;
+//			}else{
+//				T elem = raiz.eliminar(elemento);
+//				if(elem != null)
+//					peso--;
+//				return elem;
+//			}
+//			
+//		}
+//	}
 
 	@Override
 	public int darPeso() {
@@ -111,8 +126,7 @@ public class ArbolBinarioOrdenado<T> implements IArbolBinarioOrdenado<T> {
 
 	@Override
 	public int darAltura() {
-		int a = 0;
-		return raiz.darAltura(a);
+		return raiz.darAltura();
 	}
 
 	@Override
