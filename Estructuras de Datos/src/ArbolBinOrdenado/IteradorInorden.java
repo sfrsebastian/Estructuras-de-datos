@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 public class IteradorInorden<T> implements Iterator<T> {
 	
+	
+	
 	public IteradorInorden(){
 		
 	}

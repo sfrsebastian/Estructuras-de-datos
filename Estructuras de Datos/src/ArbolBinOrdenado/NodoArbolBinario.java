@@ -101,21 +101,24 @@ public class NodoArbolBinario<T>{
 					derecho = null;
 					return elem;
 				}else if(derecho.tieneSoloUnSubArbol()){
-					if(derecho == null){
-						T elem = izquierdo.darElemento();
-						this.izquierdo = this.izquierdo.izquierdo;
+					if(derecho.derecho == null){
+						T elem = derecho.darElemento();
+						this.derecho = this.derecho.izquierdo;
 						return elem;
-					}else if(izquierdo == null){
+					}else if(derecho.izquierdo == null){
 						T elem = derecho.darElemento();
 						this.derecho = this.derecho.derecho;
 						return elem;
 					}		
 				}else if(!derecho.tieneSoloUnSubArbol()){
+					T retorno = derecho.darElemento();
 					T elem = derecho.izquierdo.darElemMasDerecho();
 					if(comparar(derecho.izquierdo.darElemento(), elem) == 0){
 						derecho.izquierdo = null;
 					}
-					return elem;
+					derecho.elemento = elem;
+					
+					return retorno;
 				}
 			}else{
 				return derecho.eliminar(pElemento);
@@ -128,21 +131,24 @@ public class NodoArbolBinario<T>{
 					izquierdo = null;
 					return elem;
 				}else if(izquierdo.tieneSoloUnSubArbol()){
-					if(derecho == null){
+					if(izquierdo.derecho == null){
 						T elem = izquierdo.darElemento();
 						this.izquierdo = this.izquierdo.izquierdo;
 						return elem;
-					}else if(izquierdo == null){
-						T elem = derecho.darElemento();
-						this.derecho = this.derecho.derecho;
+					}else if(izquierdo.izquierdo == null){
+						T elem = izquierdo.darElemento();
+						this.izquierdo = this.izquierdo.derecho;
 						return elem;
 					}		
 				}else if(!izquierdo.tieneSoloUnSubArbol()){
+					T retorno = izquierdo.darElemento();
 					T elem = izquierdo.izquierdo.darElemMasDerecho();
-					if(comparar(izquierdo.darElemento(), elem) == 0){
+					if(comparar(izquierdo.izquierdo.darElemento(), elem) == 0){
 						izquierdo.izquierdo = null;
 					}
-					return elem;
+					izquierdo.elemento = elem;
+					
+					return retorno;
 				}
 			}else{
 				return izquierdo.eliminar(pElemento);
@@ -159,7 +165,7 @@ public class NodoArbolBinario<T>{
 				return elem;
 			}
 			else
-				return derecho.darElemento();
+				return derecho.darElemMasDerecho();
 		}else{
 			return darElemento();
 		}
