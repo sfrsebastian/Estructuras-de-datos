@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 public class TestArbolBinarioOrdenado extends TestCase{
 
-	private ArbolBinarioOrdenado arbol;
+	private ArbolBinarioOrdenado<String> arbol;
 	
 	private void setupScenario1(){
 		arbol = new ArbolBinarioOrdenado<String>();
@@ -75,13 +75,15 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		arbol.agregar("Juliana");
 		
 		//un solo elemento
-		assertEquals("Se debio eliminar el elemento", "Juliana", arbol.eliminar("Juliana"));
+		assertTrue("Se debio eliminar el elemento", arbol.eliminar("Juliana"));
 		assertNull("El elemento ya no debe estar en el arbol", arbol.buscar("Juliana"));
 		
 		arbol.agregar("Carlos");
 		arbol.agregar("Jose");
 		
-		assertNull("No se puede eliminar la raiz con hijos", arbol.eliminar("Carlos"));
+		arbol.eliminar("Carlos");
+		assertNull("No se puede eliminar la raiz con hijos", arbol.buscar("Carlos"));
+		assertEquals("Jose debe encontrarse", "Jose",arbol.buscar("Jose"));
 		
 	}
 	
@@ -89,14 +91,14 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		setupScenario1();
 		
 		//Eliminar con solo un sub arbol
-		assertEquals("Se debio eliminar el elemento", "Yandia", arbol.eliminar("Yandia"));
+		assertTrue("Se debio eliminar el elemento",arbol.eliminar("Yandia"));
 		assertNull("No se debio encontrar el elemento", arbol.buscar("Yandia"));
 		
 		//Eliminar una hoja
-		assertEquals("Se debio eliminar el elemento", "Wendy", arbol.eliminar("Wendy"));
+		assertTrue("Se debio eliminar el elemento",arbol.eliminar("Wendy"));
 		assertNull("No se debio encontrar el elemento", arbol.buscar("Wendy"));
 		
-		assertEquals("Se debio eliminar el elemento", "Alan", arbol.eliminar("Alan"));
+		assertTrue("Se debio eliminar el elemento", arbol.eliminar("Alan"));
 		assertNull("No se debio encontrar el elemento", arbol.buscar("Alan"));
 		
 		arbol.agregar("Felipe");
@@ -104,19 +106,19 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		arbol.agregar("Camila");
 		arbol.agregar("Maria");
 		
-		assertEquals("Se debio eliminar el elemento", "Sebastian", arbol.eliminar("Sebastian"));
-		assertNull("No se debio encontrar el elemento", arbol.eliminar("Sebastian"));
+		assertTrue("Se debio eliminar el elemento", arbol.eliminar("Sebastian"));
+		assertNull("No se debio encontrar el elemento", arbol.buscar("Sebastian"));
 		
-		assertEquals("Se debio eliminar el elemento", "Felipe", arbol.eliminar("Felipe"));
-		assertNull("No se debio encontrar el elemento", arbol.eliminar("Felipe"));
+		assertTrue("Se debio eliminar el elemento",arbol.eliminar("Felipe"));
+		assertNull("No se debio encontrar el elemento", arbol.buscar("Felipe"));
 		
 		arbol.agregar("Carlos");
 		arbol.agregar("Jose");
 		arbol.agregar("Laura");
 		arbol.agregar("Alejandra");
 		
-		assertEquals("Se debio eliminar el elemento", "Camila", arbol.eliminar("Camila"));
-		assertNull("No se debio encontrar el elemento", arbol.eliminar("Camila"));
+		assertTrue("Se debio eliminar el elemento",arbol.eliminar("Camila"));
+		assertNull("No se debio encontrar el elemento", arbol.buscar("Camila"));
 		
 	}
 	

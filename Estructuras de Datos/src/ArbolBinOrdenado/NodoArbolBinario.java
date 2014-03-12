@@ -102,32 +102,42 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	 * @return T el elemento, null en caso contrario
 	 */
 	public T buscar(T pElemento){
-		if(comparar(pElemento, elemento) == 0){
+		if(comparar(elemento,pElemento) == 0){
 			return darElemento();
 		}
-		else if(comparar(pElemento, elemento) > 0){
+		else if(comparar(elemento,pElemento) < 0){
 			if(derecho != null){
 				return derecho.buscar(pElemento);
-			}	
-			else{
-				return null;
 			}
 		}
-		else{
+		else {
 			if(izquierdo != null){
 				return izquierdo.buscar(pElemento);
 			}
-			else{
-				return null;
-			}
 		}
+		return null;
 	}
 	
 	public NodoArbolBinario <T> eliminar(T pElemento){
 		if(comparar(elemento,pElemento) == 0){
-			
+			if(esHoja()){
+				return null;
+			}
+			else if(derecho == null){
+				return izquierdo;
+			}
+			else if(izquierdo == null){
+				return derecho;
+			}
+			else{
+				NodoArbolBinario<T> menor = derecho.darMenor();
+				derecho = eliminar(menor.darElemento());
+				menor.derecho = derecho;
+				menor.izquierdo = izquierdo;
+				return menor;
+			}
 		}
-		else if(comparar(elemento,pElemento) > 0){
+		else if(comparar(elemento,pElemento) < 0){
 			if(derecho != null){
 				derecho = derecho.eliminar(pElemento);
 			}
@@ -139,7 +149,19 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		}
 		return this;
 	}
-//	public NodoArbolBinario<T> eliminar(T pElemento){
+	
+	private NodoArbolBinario<T> darMenor() {
+		if(esHoja()){
+			return this;
+		}
+		else{
+			return izquierdo.darMenor();
+		}
+	}
+	
+	
+
+	//	public NodoArbolBinario<T> eliminar(T pElemento){
 //		if(derecho != null && (comparar(pElemento, elemento)) > 0){
 //			if(comparar(pElemento, derecho.darElemento()) == 0){
 //				if(derecho.esHoja()){

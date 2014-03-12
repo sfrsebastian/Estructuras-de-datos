@@ -65,13 +65,8 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 				peso++;
 				return true;
 			}
-			else{
-				return false;
-			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	@Override
@@ -93,7 +88,8 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 			return false;
 		}
 		else{
-			raiz = (NodoArbolBinario<T>) raiz.eliminar(elemento);
+			raiz = raiz.eliminar(elemento);
+			peso--;
 			return true;
 		}
 	}
@@ -155,8 +151,9 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	
 	public int comparar(T elem1, T elem2){
 		if (comparador == null){
-			return ((Comparable<T>)elem1).compareTo(elem2);
-		}else{
+			return elem1.compareTo(elem2);
+		}
+		else{
 			return comparador.compare(elem1, elem2);
 		}
 	}
