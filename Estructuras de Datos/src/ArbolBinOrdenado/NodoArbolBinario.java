@@ -155,7 +155,10 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 			return this;
 		}
 		else{
-			return izquierdo.darMenor();
+			if(izquierdo!=null)
+				return izquierdo.darMenor();
+			else
+				return this;
 		}
 	}
 	
