@@ -2,7 +2,9 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 import java.util.Iterator;
-
+import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
+import ListaOrdenada.ListaOrdenada;
 public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T> {
 
 	//------------------------------------------
@@ -93,28 +95,6 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 			return true;
 		}
 	}
-//	public T eliminar(T elemento) {
-//		if(raiz == null)
-//			return null;
-//		else if (raiz.esHoja()){
-//			T elem = raiz.darElemento();
-//			raiz = null;
-//			peso--;
-//			return elem;
-//		}
-//		else {
-//			if(!raiz.esHoja() && (comparar(raiz.darElemento(), elemento)) == 0){
-//				System.out.println("Intentando eliminar la raiz con hijos");
-//				return null;
-//			}else{
-//				T elem = raiz.eliminar(elemento);
-//				if(elem != null)
-//					peso--;
-//				return elem;
-//			}
-//			
-//		}
-//	}
 
 	@Override
 	public int darPeso() {
@@ -128,19 +108,23 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 
 	@Override
 	public Iterator<T> recorrerPreorden() {
-		// TODO Auto-generated method stub
-		return null;
+		ListaEncadenada listaNodos = new ListaEncadenada();
+		raiz.agregarElementosPreorden(listaNodos);
+		return listaNodos.iterator();
 	}
 
 	@Override
 	public Iterator<T> recorrerInorden() {
-		return new IteradorInorden();
+		ListaEncadenada listaNodos = new ListaEncadenada();
+		raiz.agregarElementosInorden(listaNodos);
+		return listaNodos.iterator();
 	}
 
 	@Override
 	public Iterator<T> recorrerPosorden() {
-		// TODO Auto-generated method stub
-		return null;
+		ListaEncadenada listaNodos = new ListaEncadenada();
+		raiz.agregarElementosPosorden(listaNodos);
+		return listaNodos.iterator();
 	}
 
 	@Override

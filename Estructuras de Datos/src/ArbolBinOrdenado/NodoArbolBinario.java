@@ -1,8 +1,11 @@
 package ArbolBinOrdenado;
 
 import java.util.Comparator;
+import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 public class NodoArbolBinario<T extends Comparable<T>>{
+
 
 	//------------------------------------------
 	// Atributos
@@ -71,30 +74,6 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 			}
 		}
 	}
-//		if((comparar(pElemento, elemento)) == 0){
-//			System.out.println("Intentado agregar elemento repetido");
-//			return false;
-//		}else{
-//			if(comparar(pElemento, elemento) < 0){
-//				if(izquierdo == null){
-//				NodoArbolBinario<T> izq = new  NodoArbolBinario(pElemento,comparador);
-//				izquierdo = izq;
-//				return true;
-//				}else{
-//					return izquierdo.agregar(pElemento);
-//				}
-//			}
-//			else if(comparar(pElemento, elemento) > 0){
-//				if(derecho == null){
-//					NodoArbolBinario<T> der = new NodoArbolBinario(pElemento, comparador);
-//					derecho = der;
-//					return true;
-//				}else{
-//					return derecho.agregar(pElemento);
-//				}
-//			}
-//		}
-//		return false;
 	
 	/**
 	 * Busca un elemento T en el arbol binario
@@ -118,6 +97,7 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		return null;
 	}
 	
+
 	public NodoArbolBinario <T> eliminar(T pElemento){
 		if(comparar(elemento,pElemento) == 0){
 			if(esHoja()){
@@ -162,94 +142,6 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		}
 	}
 	
-	
-
-	//	public NodoArbolBinario<T> eliminar(T pElemento){
-//		if(derecho != null && (comparar(pElemento, elemento)) > 0){
-//			if(comparar(pElemento, derecho.darElemento()) == 0){
-//				if(derecho.esHoja()){
-//					T elem = derecho.darElemento();
-//					derecho = null;
-//					return elem;
-//				}else if(derecho.tieneSoloUnSubArbol()){
-//					if(derecho == null){
-//						T elem = izquierdo.darElemento();
-//						this.izquierdo = this.izquierdo.izquierdo;
-//						return elem;
-//					}else if(izquierdo == null){
-//						T elem = derecho.darElemento();
-//						this.derecho = this.derecho.derecho;
-//						return elem;
-//					}		
-//				}else if(!derecho.tieneSoloUnSubArbol()){
-//					T elem = derecho.izquierdo.darElemMasDerecho();
-//					if(comparar(derecho.izquierdo.darElemento(), elem) == 0){
-//						derecho.izquierdo = null;
-//					}
-//					return elem;
-//				}
-//			}else{
-//				return derecho.eliminar(pElemento);
-//			}
-//		}
-//		if(izquierdo != null && (comparar(pElemento, elemento)) < 0){
-//			if(comparar(pElemento, izquierdo.darElemento()) == 0){
-//				if(izquierdo.esHoja()){
-//					T elem = izquierdo.darElemento();
-//					izquierdo = null;
-//					return elem;
-//				}else if(izquierdo.tieneSoloUnSubArbol()){
-//					if(derecho == null){
-//						T elem = izquierdo.darElemento();
-//						this.izquierdo = this.izquierdo.izquierdo;
-//						return elem;
-//					}else if(izquierdo == null){
-//						T elem = derecho.darElemento();
-//						this.derecho = this.derecho.derecho;
-//						return elem;
-//					}		
-//				}else if(!izquierdo.tieneSoloUnSubArbol()){
-//					T elem = izquierdo.izquierdo.darElemMasDerecho();
-//					if(comparar(izquierdo.darElemento(), elem) == 0){
-//						izquierdo.izquierdo = null;
-//					}
-//					return elem;
-//				}
-//			}else{
-//				return izquierdo.eliminar(pElemento);
-//			}
-//		}
-//		return null;
-//	}
-//	
-	private T darElemMasDerecho() {
-		if(!esHoja()){
-			if(derecho.derecho == null){
-				T elem = derecho.darElemento();
-				derecho = null;
-				return elem;
-			}
-			else
-				return derecho.darElemento();
-		}else{
-			return darElemento();
-		}
-
-	}
-
-	private boolean tieneSoloUnSubArbol(){
-		if(derecho == null && izquierdo != null)
-			return true;
-		else if (izquierdo == null && derecho != null)
-			return true;
-		else
-			return false;
-	}
-	
-	public int darAltura() {
-		return 0;
-	}
-	
 	/**
 	 * Determina si el nodo es una hoja
 	 * @return TRUE si no tiene nodos hijos FALSE en caso contrario
@@ -267,6 +159,48 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	 */
 	public T darElemento(){
 		return elemento;
+	}
+	
+	/**
+	 * 
+	 * @param lista
+	 */
+	public void agregarElementosInorden(Lista lista){
+		if(izquierdo != null){
+			izquierdo.agregarElementosInorden(lista);
+		}
+		lista.agregar(this.darElemento());
+		if(derecho != null){
+			derecho.agregarElementosInorden(lista);
+		}
+	}
+
+	/**
+	 * 
+	 * @param listaNodos
+	 */
+	public void agregarElementosPreorden(ListaEncadenada listaNodos) {
+		listaNodos.agregar(this.darElemento());
+		if(izquierdo != null){
+			izquierdo.agregarElementosPreorden(listaNodos);
+		}
+		if(derecho != null){
+			derecho.agregarElementosPreorden(listaNodos);
+		}
+	}
+
+	/**
+	 * 
+	 * @param listaNodos
+	 */
+	public void agregarElementosPosorden(ListaEncadenada listaNodos) {
+		if(izquierdo != null){
+			izquierdo.agregarElementosPosorden(listaNodos);
+		}
+		if(derecho != null){
+			derecho.agregarElementosPosorden(listaNodos);
+		}
+		listaNodos.agregar(this.darElemento());
 	}
 
 	public String toString(){
@@ -305,6 +239,11 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		else{
 			return comparador.compare(elem1, elem2);
 		}
+	}
+
+	public int darAltura() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -1,5 +1,8 @@
 package testArbolBinarioOrdenado;
 
+import java.util.Iterator;
+
+import ArbolBinOrdenado.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.ArbolBinarioOrdenado;
 import junit.framework.TestCase;
 
@@ -50,9 +53,11 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Ellen"));
 		arbol.agregar("Carlos");
 		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Carlos"));
+		
+		
 	}
 	
-	public void testDarPeso1(){
+	public void testDarPeso(){
 		setupScenario2();
 		
 		arbol.agregar("Felipe");		
@@ -64,6 +69,17 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		arbol.agregar("Sebastian");
 		arbol.agregar("Maria");
 		arbol.agregar("Carlos");
+		
+		assertEquals("El tamano es incorrecto",4, arbol.darPeso());
+		
+		arbol.eliminar("Sebastian");
+		arbol.eliminar("Maria");
+		
+		assertEquals("El tamano es incorrecto",2, arbol.darPeso());
+		
+		arbol.agregar("Juan");
+		//arbol.agregar("Felipe");
+		arbol.agregar("Elsa");
 		
 		assertEquals("El tamano es incorrecto",4, arbol.darPeso());
 			
@@ -81,9 +97,22 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		arbol.agregar("Carlos");
 		arbol.agregar("Jose");
 		
-		arbol.eliminar("Carlos");
-		assertNull("No se puede eliminar la raiz con hijos", arbol.buscar("Carlos"));
-		assertEquals("Jose debe encontrarse", "Jose",arbol.buscar("Jose"));
+		assertNull("No se puede eliminar la raiz con hijos", arbol.eliminar("Carlos"));
+		
+		assertEquals("Se debio eliminar el elemento", "Jose", arbol.eliminar("Jose"));
+		assertNull("El elemento ya no debe estar en el arbol", arbol.buscar("Jose"));
+		
+		for (int i = 0; i < 21; i++) {
+			arbol.agregar("b" + i);
+			arbol.agregar("c" + i);
+			arbol.agregar("a" + i);
+		}
+		
+		for (int i = 0; i < 21; i++) {
+			arbol.agregar("e" + i);
+			arbol.agregar("d" + i);
+			arbol.agregar("g" + i);
+		}
 		
 	}
 	
@@ -120,6 +149,124 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		assertTrue("Se debio eliminar el elemento",arbol.eliminar("Camila"));
 		assertNull("No se debio encontrar el elemento", arbol.buscar("Camila"));
 		
+		//Eliminar elementos con dos hijos
+		assertEquals("Se debio eliminar el elemento", "Bob", arbol.eliminar("Bob"));
+		assertNull("No se debio encontrar el elemento", arbol.eliminar("Bob"));
+		
+		//Elementos sobrantes: Karen, Tom, Ellen, Maria, Carlos, Jose, Laura, Alejandra
+		//Busquemos si todos siguen en el arbol
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Karen"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Tom"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Ellen"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Maria"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Carlos"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Jose"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Laura"));
+		assertNotNull("Se debe encontrar el elemento", arbol.buscar("Alejandra"));
+
+		assertEquals("El tamano del arbol es incorrecto", 8, arbol.darPeso());
+		
+		assertEquals("Se debio eliminar el elemento", "Ellen", arbol.eliminar("Ellen"));
+		assertNull("No se debio encontrar el elemento", arbol.eliminar("Ellen"));
+		
+		assertEquals("Se debio eliminar el elemento", "Tom", arbol.eliminar("Tom"));
+		assertNull("No se debio encontrar el elemento", arbol.eliminar("Tom"));
+		
+		assertEquals("Se debio eliminar el elemento", "Carlos", arbol.eliminar("Carlos"));
+		assertNull("No se debio encontrar el elemento", arbol.eliminar("Carlos"));
+	}
+	
+	public void testIteradorInorden(){
+		setupScenario1();
+		
+		String[] nombres = {"Alan","Bob","Ellen","Karen","Tom","Wendy","Yandia"};
+		
+		Iterator i = arbol.recorrerInorden();
+		int j = 0;
+		
+		while(i.hasNext()){
+			String elem = (String)i.next();
+			assertEquals("El orden es incorrecto, deberia seguir: " + nombres[j], nombres[j] ,elem);
+			j++;
+		}
+		
+		arbol.agregar("Carlos");
+		arbol.agregar("Elsa");
+		arbol.agregar("Juan");
+		arbol.agregar("Maria");
+		
+		arbol.eliminar("Bob");
+		
+		String noms[] = {"Alan","Carlos","Ellen","Elsa","Juan","Karen","Maria","Tom","Wendy","Yandia"};
+		int p = 0;
+		Iterator o = arbol.recorrerInorden();
+		while (o.hasNext()) {
+			String nomb = (String) o.next();
+			assertEquals("El orden es incorrecto, deberia seguir: "+ noms[p], noms[p], nomb);
+			p++;
+		}
+	}
+	
+	public void testIteradorPreorden(){
+		setupScenario1();
+		
+		String[] nombres = {"Karen","Bob","Alan","Ellen","Tom","Wendy","Yandia"};
+		
+		Iterator i = arbol.recorrerPreorden();
+		int j = 0;
+		
+		while(i.hasNext()){
+			String elem = (String)i.next();
+			assertEquals("El orden es incorrecto, deberia seguir: " + nombres[j], nombres[j] ,elem);
+			j++;
+		}
+		
+		arbol.agregar("Carlos");
+		arbol.agregar("Elsa");
+		arbol.agregar("Juan");
+		arbol.agregar("Maria");
+		
+		arbol.eliminar("Bob");
+		
+		String noms[] = {"Karen","Alan","Ellen","Carlos","Elsa","Juan","Tom","Maria","Wendy","Yandia"};
+		int p = 0;
+		Iterator o = arbol.recorrerPreorden();
+		while (o.hasNext()) {
+			String nomb = (String) o.next();
+			assertEquals("El orden es incorrecto, deberia seguir: "+ noms[p], noms[p], nomb);
+			p++;
+		}
+	}
+	
+	public void testIteradorPosorden(){
+		setupScenario1();
+		
+		String[] nombres = {"Alan","Ellen","Bob","Yandia","Wendy","Tom","Karen"};
+		
+		Iterator i = arbol.recorrerPosorden();
+		int j = 0;
+		
+		while(i.hasNext()){
+			String elem = (String)i.next();
+			assertEquals("El orden es incorrecto, deberia seguir: " + nombres[j], nombres[j] ,elem);
+			j++;
+		}
+		
+		arbol.agregar("Carlos");
+		arbol.agregar("Elsa");
+		arbol.agregar("Juan");
+		arbol.agregar("Maria");
+		
+		arbol.eliminar("Bob");
+		
+		String noms[] = {"Carlos","Juan","Elsa","Ellen","Alan","Maria","Yandia","Wendy","Tom","Karen"};
+		int p = 0;
+		Iterator o = arbol.recorrerPosorden();
+		while (o.hasNext()) {
+			String nomb = (String) o.next();
+			assertEquals("El orden es incorrecto, deberia seguir: "+ noms[p], noms[p], nomb);
+			p++;
+		}
 	}
 	
 }
