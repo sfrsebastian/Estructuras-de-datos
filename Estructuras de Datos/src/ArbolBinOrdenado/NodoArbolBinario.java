@@ -110,11 +110,11 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 				return derecho;
 			}
 			else{
-				NodoArbolBinario<T> menor = derecho.darMenor();
-				derecho = derecho.eliminar(menor.darElemento());
-				menor.derecho = derecho;
-				menor.izquierdo = izquierdo;
-				return menor;
+				NodoArbolBinario<T> mayor = izquierdo.darMayor();
+				izquierdo = izquierdo.eliminar(mayor.darElemento());
+				mayor.derecho = derecho;
+				mayor.izquierdo = izquierdo;
+				return mayor;
 			}
 		}
 		else if(comparar(elemento,pElemento) < 0){
@@ -130,13 +130,13 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		return this;
 	}
 	
-	private NodoArbolBinario<T> darMenor() {
+	private NodoArbolBinario<T> darMayor() {
 		if(esHoja()){
 			return this;
 		}
 		else{
-			if(izquierdo!=null)
-				return izquierdo.darMenor();
+			if(derecho!=null)
+				return derecho.darMayor();
 			else
 				return this;
 		}
