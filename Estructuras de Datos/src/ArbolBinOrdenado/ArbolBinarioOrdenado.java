@@ -108,7 +108,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 
 	@Override
 	public Iterator<T> recorrerPreorden() {
-		ListaEncadenada listaNodos = new ListaEncadenada();
+		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
 		raiz.agregarElementosPreorden(listaNodos);
 		return listaNodos.iterator();
 	}

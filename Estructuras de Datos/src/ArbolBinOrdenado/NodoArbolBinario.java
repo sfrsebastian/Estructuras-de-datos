@@ -179,8 +179,8 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	 * 
 	 * @param listaNodos
 	 */
-	public void agregarElementosPreorden(ListaEncadenada listaNodos) {
-		listaNodos.agregar(this.darElemento());
+	public void agregarElementosPreorden(ListaEncadenada<T> listaNodos) {
+		listaNodos.agregar(darElemento());
 		if(izquierdo != null){
 			izquierdo.agregarElementosPreorden(listaNodos);
 		}
