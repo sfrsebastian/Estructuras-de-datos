@@ -111,7 +111,7 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 			}
 			else{
 				NodoArbolBinario<T> menor = derecho.darMenor();
-				derecho = eliminar(menor.darElemento());
+				derecho = derecho.eliminar(menor.darElemento());
 				menor.derecho = derecho;
 				menor.izquierdo = izquierdo;
 				return menor;
