@@ -2,6 +2,9 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 
+import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
+
 public class NodoArbolBinario<T>{
 
 	//------------------------------------------
@@ -202,6 +205,48 @@ public class NodoArbolBinario<T>{
 	 */
 	public T darElemento(){
 		return elemento;
+	}
+	
+	/**
+	 * 
+	 * @param lista
+	 */
+	public void agregarElementosInorden(Lista lista){
+		if(izquierdo != null){
+			izquierdo.agregarElementosInorden(lista);
+		}
+		lista.agregar(this.darElemento());
+		if(derecho != null){
+			derecho.agregarElementosInorden(lista);
+		}
+	}
+
+	/**
+	 * 
+	 * @param listaNodos
+	 */
+	public void agregarElementosPreorden(ListaEncadenada listaNodos) {
+		listaNodos.agregar(this.darElemento());
+		if(izquierdo != null){
+			izquierdo.agregarElementosPreorden(listaNodos);
+		}
+		if(derecho != null){
+			derecho.agregarElementosPreorden(listaNodos);
+		}
+	}
+
+	/**
+	 * 
+	 * @param listaNodos
+	 */
+	public void agregarElementosPosorden(ListaEncadenada listaNodos) {
+		if(izquierdo != null){
+			izquierdo.agregarElementosPosorden(listaNodos);
+		}
+		if(derecho != null){
+			derecho.agregarElementosPosorden(listaNodos);
+		}
+		listaNodos.agregar(this.darElemento());
 	}
 
 	public String toString(){

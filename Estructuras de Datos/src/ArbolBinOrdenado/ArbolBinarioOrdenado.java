@@ -3,6 +3,10 @@ package ArbolBinOrdenado;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
+import ListaOrdenada.ListaOrdenada;
+
 public class ArbolBinarioOrdenado<T> implements IArbolBinarioOrdenado<T> {
 
 	//------------------------------------------
@@ -117,19 +121,23 @@ public class ArbolBinarioOrdenado<T> implements IArbolBinarioOrdenado<T> {
 
 	@Override
 	public Iterator<T> recorrerPreorden() {
-		// TODO Auto-generated method stub
-		return null;
+		ListaEncadenada listaNodos = new ListaEncadenada();
+		raiz.agregarElementosPreorden(listaNodos);
+		return listaNodos.iterator();
 	}
 
 	@Override
 	public Iterator<T> recorrerInorden() {
-		return new IteradorInorden();
+		ListaEncadenada listaNodos = new ListaEncadenada();
+		raiz.agregarElementosInorden(listaNodos);
+		return listaNodos.iterator();
 	}
 
 	@Override
 	public Iterator<T> recorrerPosorden() {
-		// TODO Auto-generated method stub
-		return null;
+		ListaEncadenada listaNodos = new ListaEncadenada();
+		raiz.agregarElementosPosorden(listaNodos);
+		return listaNodos.iterator();
 	}
 
 	@Override
