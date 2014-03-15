@@ -17,12 +17,12 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	/**
 	 * El hijo izquierdo que tiene el nodo
 	 */
-	private NodoArbolBinario<T> izquierdo;
+	public NodoArbolBinario<T> izquierdo;
 	
 	/**
 	 * El hijo derehoc que tiene el nodo
 	 */
-	private NodoArbolBinario<T> derecho;
+	public NodoArbolBinario<T> derecho;
 	
 	/**
 	 * El comparados del nodo

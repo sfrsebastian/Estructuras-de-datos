@@ -2,6 +2,9 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
 public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T> {
 
@@ -118,7 +121,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 
 	/**
 	 * Da un iterador con los elementos ordenados en PREORDEN
-	 * @return iterador con los elementos
+	 * @return iterador con los elementos del arbol
 	 */
 	public Iterator<T> recorrerPreorden() {
 		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
@@ -128,7 +131,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 
 	/**
 	 * Da un iterador con los elementos ordenados en INORDEN
-	 * @return iterador con los elementos
+	 * @return iterador con los elementos del arbol
 	 */
 	public Iterator<T> recorrerInorden() {
 		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
@@ -138,7 +141,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 
 	/**
 	 * Da un iterador con los elementos ordenados en POSORDEN
-	 * @return iterador con los elementos
+	 * @return iterador con los elementos del arbol
 	 */
 	public Iterator<T> recorrerPosorden() {
 		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
@@ -146,9 +149,28 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		return listaNodos.iterator();
 	}
 
-	@Override
+	/**
+	 * Recorre el arbol por niveles
+	 * @return Iterador con los elementos del arbol.
+	 */
 	public Iterator<T> recorrerNiveles() {
-		// TODO Auto-generated method stub
-		return null;
+		Cola<NodoArbolBinario<T>> cola = new Cola<NodoArbolBinario<T>>();
+		ListaEncadenada<T>lista = new ListaEncadenada<T>();
+		cola.agregar(raiz);
+		try{
+			while(true){
+				NodoArbolBinario<T> dado = cola.dar();
+				lista.agregar(dado.darElemento());
+				if(dado.izquierdo !=null){
+					cola.agregar(dado.izquierdo);
+				}
+				if(dado.derecho != null){
+					cola.agregar(dado.derecho);
+				}
+			}
+		}
+		catch(NoSuchElementException e){
+			return lista.iterator();
+		}
 	}
 }

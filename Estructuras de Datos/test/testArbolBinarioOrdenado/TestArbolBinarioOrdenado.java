@@ -199,6 +199,31 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		}
 	}
 	
+	public void  testRecorrerNiveles(){
+		setupScenario1();
+		String[] nombres = {"Karen","Bob","Tom","Alan","Ellen","Wendy","Yandia"};
+		Iterator<String> i = arbol.recorrerNiveles();
+		int j = 0;
+		while(i.hasNext()){
+			String elem = i.next();
+			assertEquals("El orden es incorrecto, deberia seguir: " + nombres[j], nombres[j] ,elem);
+			j++;
+		}
+		//Se agregan elementos
+		arbol.agregar("Carlos");
+		arbol.agregar("Elsa");
+		arbol.agregar("Juan");
+		arbol.agregar("Maria");
+		arbol.eliminar("Bob");
+		String noms[] = {"Karen","Alan","Tom","Ellen","Maria","Wendy","Carlos","Elsa","Yandia","Juan"};
+		int p = 0;
+		Iterator<String> o = arbol.recorrerNiveles();
+		while (o.hasNext()) {
+			String nomb = (String) o.next();
+			assertEquals("El orden es incorrecto, deberia seguir: "+ noms[p], noms[p], nomb);
+			p++;
+		}
+	}
 	public void testAltura(){
 		setupScenario1();
 		assertEquals("La altura debe ser 4",4,arbol.darAltura());
