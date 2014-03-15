@@ -1,7 +1,8 @@
 package Cola;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
-public class Cola<T> {
+public class Cola<T> implements Serializable,ICola<T>{
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
