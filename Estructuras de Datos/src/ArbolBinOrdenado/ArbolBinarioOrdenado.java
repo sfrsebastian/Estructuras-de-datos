@@ -15,12 +15,12 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	/**
 	 * El peso del arbol 
 	 */
-	private int peso;
+	protected int peso;
 	
 	/**
 	 * La raiz del arbol ordenado
 	 */
-	private NodoArbolBinario<T> raiz;
+	protected NodoArbolBinario<T> raiz;
 	
 	/**
 	 * El comparador del arbol binario
@@ -49,7 +49,10 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		peso = 0;
 		comparador = comp;
 	}
-	
+
+	//------------------------------------------
+	// Metodos
+	//------------------------------------------
 	/**
 	 * Da el peso del arbol
 	 * @return el peso del arbol
@@ -65,10 +68,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	public int darAltura() {
 		return raiz != null?raiz.darAltura():0;
 	}
-
-	//------------------------------------------
-	// Metodos
-	//------------------------------------------
+	
 	/**
 	 * Agrega el elemento dado por parametro al arbol
 	 * @param El elemento a agregar

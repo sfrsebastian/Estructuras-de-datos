@@ -2,8 +2,8 @@ package testArbolBinarioOrdenado;
 
 import java.util.Iterator;
 
-import ArbolBinOrdenado.ArbolBinarioOrdenado;
 import junit.framework.TestCase;
+import ArbolBinOrdenado.ArbolBinarioOrdenado;
 
 public class TestArbolBinarioOrdenado extends TestCase{
 
@@ -23,6 +23,7 @@ public class TestArbolBinarioOrdenado extends TestCase{
 	
 	private void setupScenario2(){
 		arbol = new ArbolBinarioOrdenado<String>();
+		
 	}
 	
 	public void testAltura(){
