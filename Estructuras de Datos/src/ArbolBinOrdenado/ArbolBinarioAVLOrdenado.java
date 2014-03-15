@@ -13,30 +13,20 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> extends ArbolBinar
 	 */
 	private NodoArbolBinarioAVL<T> raiz;
 	
-	/**
-	 * El peso del arbol binario AVL
-	 */
-	private int peso;
-	
-	/**
-	 * La altura del arbol binario AVL
-	 */
-	private int altura;
-	
 	//------------------------------------------
 	// Constructores
 	//------------------------------------------
 	
-	public ArbolBinarioAVLOrdenado(Comparator c){
+	public ArbolBinarioAVLOrdenado(Comparator<T> c){
 		super(c);
-		peso = 0;
-		altura = 0;
+		raiz = null;
+		super.raiz = raiz;
 	}
 	
 	public ArbolBinarioAVLOrdenado(){
 		super();
-		peso = 0;
-		altura = 0;
+		raiz = null;
+		super.raiz = raiz;
 	}
 	
 	//------------------------------------------

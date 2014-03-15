@@ -69,39 +69,42 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>> extends NodoArbolBina
 	}
 
 	public NodoArbolBinarioAVL<T> balancearXAltura(){
-		if (izquierdo != null){ 
-			izquierdo = izquierdo.balancearXAltura(); 
-		}
-		if (derecho != null){ 
-			derecho = derecho.balancearXAltura(); 
-		}
-		calcularAltura_e_Indicador( );
-		if (-1 <= indBalanceo && indBalanceo <= 1 ){ 
-			return this; 
-		}
-		else if ( indBalanceo == 2 ){
-			if ( izquierdo.indBalanceo == 1 ){ 
-				return this.rotarDerecha(); 
-			}
-			else if ( izquierdo.indBalanceo == -1 ){ 
-				return this.rotarIzquierdaDerecha(); 
-			}
-			else { 
-				return this.rotarIzquierdaDerecha(); 
-			}
-		}
-		else if ( indBalanceo == -2 ) {
-			if ( derecho.indBalanceo == 1 ){ 
-				return this.rotarIzquierda(); 
-			}
-			else if ( derecho.indBalanceo == -1 ){ 
-				return this.rotarDerechaIzquierda(); 
-			}
-			else { 
-				return this.rotarDerechaIzquierda(); 
-			}
-		}
+		System.out.println("hey im working");
 		return null;
 	}
+//		if (izquierdo != null){ 
+//			izquierdo = izquierdo.balancearXAltura(); 
+//		}
+//		if (derecho != null){ 
+//			derecho = derecho.balancearXAltura(); 
+//		}
+//		calcularAltura_e_Indicador( );
+//		if (-1 <= indBalanceo && indBalanceo <= 1 ){ 
+//			return this; 
+//		}
+//		else if ( indBalanceo == 2 ){
+//			if ( izquierdo.indBalanceo == 1 ){ 
+//				return this.rotarDerecha(); 
+//			}
+//			else if ( izquierdo.indBalanceo == -1 ){ 
+//				return this.rotarIzquierdaDerecha(); 
+//			}
+//			else { 
+//				return this.rotarIzquierdaDerecha(); 
+//			}
+//		}
+//		else if ( indBalanceo == -2 ) {
+//			if ( derecho.indBalanceo == 1 ){ 
+//				return this.rotarIzquierda(); 
+//			}
+//			else if ( derecho.indBalanceo == -1 ){ 
+//				return this.rotarDerechaIzquierda(); 
+//			}
+//			else { 
+//				return this.rotarDerechaIzquierda(); 
+//			}
+//		}
+//		return null;
+//	}
 }
 
