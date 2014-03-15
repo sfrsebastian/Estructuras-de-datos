@@ -25,6 +25,44 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		arbol = new ArbolBinarioOrdenado<String>();
 	}
 	
+	public void testAltura(){
+		setupScenario1();
+		assertEquals("La altura debe ser 4",4,arbol.darAltura());
+		
+		//Se elimina elemento mas bajo
+		arbol.eliminar("Yandia");
+		assertEquals("La altura debe ser 3",3,arbol.darAltura());
+		
+		//Se debe mantener la altura
+		arbol.eliminar("Wendy");
+		assertEquals("La altura debe ser 3",3,arbol.darAltura());
+		
+		//Arbol vacio
+		setupScenario2();
+		assertEquals("La altura debe ser 0",0,arbol.darAltura());
+	}
+
+	public void testDarPeso(){
+		//Arbol vacio
+		setupScenario2();
+		assertEquals("El tamano es incorrecto",0, arbol.darPeso());
+		
+		//un solo elemento
+		arbol.agregar("Felipe");		
+		assertEquals("El tamano es incorrecto",1, arbol.darPeso());
+		
+		//varios elementos 
+		arbol.agregar("Sebastian");
+		arbol.agregar("Maria");
+		arbol.agregar("Carlos");
+		assertEquals("El tamano es incorrecto",4, arbol.darPeso());
+		
+		//Elementos eliminados
+		arbol.eliminar("Sebastian");
+		arbol.eliminar("Maria");
+		assertEquals("El tamano es incorrecto",2, arbol.darPeso());
+	}
+
 	public void testAgregarElemento(){
 		setupScenario1();
 
@@ -59,27 +97,6 @@ public class TestArbolBinarioOrdenado extends TestCase{
 		//Buscar arbol vacio
 		setupScenario2();
 		assertNull("No se debio encontrar el elemento agregado",arbol.buscar("Carlos"));
-	}
-	
-	public void testDarPeso(){
-		//Arbol vacio
-		setupScenario2();
-		assertEquals("El tamano es incorrecto",0, arbol.darPeso());
-		
-		//un solo elemento
-		arbol.agregar("Felipe");		
-		assertEquals("El tamano es incorrecto",1, arbol.darPeso());
-		
-		//varios elementos 
-		arbol.agregar("Sebastian");
-		arbol.agregar("Maria");
-		arbol.agregar("Carlos");
-		assertEquals("El tamano es incorrecto",4, arbol.darPeso());
-		
-		//Elementos eliminados
-		arbol.eliminar("Sebastian");
-		arbol.eliminar("Maria");
-		assertEquals("El tamano es incorrecto",2, arbol.darPeso());
 	}
 	
 	public void testEliminarElemento(){
@@ -223,21 +240,5 @@ public class TestArbolBinarioOrdenado extends TestCase{
 			assertEquals("El orden es incorrecto, deberia seguir: "+ noms[p], noms[p], nomb);
 			p++;
 		}
-	}
-	public void testAltura(){
-		setupScenario1();
-		assertEquals("La altura debe ser 4",4,arbol.darAltura());
-		
-		//Se elimina elemento mas bajo
-		arbol.eliminar("Yandia");
-		assertEquals("La altura debe ser 3",3,arbol.darAltura());
-		
-		//Se debe mantener la altura
-		arbol.eliminar("Wendy");
-		assertEquals("La altura debe ser 3",3,arbol.darAltura());
-		
-		//Arbol vacio
-		setupScenario2();
-		assertEquals("La altura debe ser 0",0,arbol.darAltura());
 	}
 }
