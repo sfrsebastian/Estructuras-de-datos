@@ -46,4 +46,17 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> extends ArbolBinar
 	public void balancear(){
 		raiz.balancearXAltura();
 	}
+	
+	public boolean eliminar(T elemento){
+		boolean b = super.eliminar(elemento);
+		balancear();
+		return b;
+	}
+	
+	public boolean agregar(T elemento){
+		boolean b = super.agregar(elemento);
+		balancear();
+		return b;
+				
+	}
 }

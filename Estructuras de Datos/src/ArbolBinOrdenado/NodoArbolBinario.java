@@ -1,12 +1,10 @@
 package ArbolBinOrdenado;
 
 import java.util.Comparator;
-import Lista.Lista;
+
 import ListaEncadenada.ListaEncadenada;
 
 public class NodoArbolBinario<T extends Comparable<T>>{
-
-
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
@@ -34,7 +32,11 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
-	
+	/**
+	 * Crea un nuevo nodoArbolBinario
+	 * @param nElemento El elemento del arbol
+	 * @param c el comparador del arbol
+	 */
 	public NodoArbolBinario(T nElemento, Comparator<T> c){
 		elemento = nElemento;
 		izquierdo = null;
@@ -42,14 +44,68 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		comparador = c;
 	}
 	
+	/**
+	 * Retorna el nodo con el mayor elemento del nodo
+	 * @return El mayor nodo.
+	 */
+	private NodoArbolBinario<T> darMayor() {
+		if(esHoja()){
+			return this;
+		}
+		else{
+			if(derecho!=null)
+				return derecho.darMayor();
+			else
+				return this;
+		}
+	}
+
+	/**
+	 * Determina si el nodo es una hoja
+	 * @return TRUE si no tiene nodos hijos FALSE en caso contrario
+	 */
+	private boolean esHoja(){
+		if(izquierdo == null && derecho == null)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Da el elemento que tiene el nodo
+	 * @return T el elemento del nodo
+	 */
+	public T darElemento(){
+		return elemento;
+	}
+
+	/**
+	 * Retorna la altura del arbol
+	 * Compara las alturas de los nodos izquierdo y derechos.
+	 * @return La altura del arbol
+	 */
+	public int darAltura() {
+		int izq = 0;
+		int der = 0;
+		if(esHoja()){
+			return 1;
+		}
+		if(izquierdo != null){
+			izq = izquierdo.darAltura();
+		}
+		if(derecho != null){
+			der = derecho.darAltura();
+		}
+		return Math.max(izq, der)+1;
+	}
+
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	
 	/**
 	 * Agrega un nuevo elemento al nodo actual
 	 * @param pElemento El elemento que se quiere agregar
-	 * @return boolean TRUE si se pudo agregar, false en caso contrario
+	 * @return boolean TRUE si se pudo agregar, FALSE en caso contrario
 	 */
 	public boolean agregar(T pElemento){
 		if(comparar(elemento,pElemento) == 0){
@@ -78,7 +134,7 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	/**
 	 * Busca un elemento T en el arbol binario
 	 * @param pElemento El elemento que se quiere buscar
-	 * @return T el elemento, null en caso contrario
+	 * @return T el elemento buscado, null en caso contrario
 	 */
 	public T buscar(T pElemento){
 		if(comparar(elemento,pElemento) == 0){
@@ -97,7 +153,11 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		return null;
 	}
 	
-
+	/**
+	 * Elimina el elemento dado por parametro
+	 * @param pElemento El elemento a eliminar
+	 * @return El nodoArbol reorganizado con el elemento eliminado.
+	 */
 	public NodoArbolBinario <T> eliminar(T pElemento){
 		if(comparar(elemento,pElemento) == 0){
 			if(esHoja()){
@@ -130,42 +190,11 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 		return this;
 	}
 	
-	private NodoArbolBinario<T> darMayor() {
-		if(esHoja()){
-			return this;
-		}
-		else{
-			if(derecho!=null)
-				return derecho.darMayor();
-			else
-				return this;
-		}
-	}
-	
 	/**
-	 * Determina si el nodo es una hoja
-	 * @return TRUE si no tiene nodos hijos FALSE en caso contrario
+	 * Agrega a la lista dada por parametro los elementos INORDEN (izquierdo-raiz-derecho)
+	 * @param La lista para acumular los valores.
 	 */
-	public boolean esHoja(){
-		if(izquierdo == null && derecho == null)
-			return true;
-		else
-			return false;
-	}
-	
-	/**
-	 * Da el elemento que tiene el nodo
-	 * @return T el elemento del nodo
-	 */
-	public T darElemento(){
-		return elemento;
-	}
-	
-	/**
-	 * 
-	 * @param lista
-	 */
-	public void agregarElementosInorden(Lista lista){
+	public void agregarElementosInorden(ListaEncadenada<T> lista){
 		if(izquierdo != null){
 			izquierdo.agregarElementosInorden(lista);
 		}
@@ -176,33 +205,37 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	}
 
 	/**
-	 * 
-	 * @param listaNodos
+	 *Agrega a la lista dada por parametro los elementos PREORDEN (raiz-izquierdo-derecho)
+	 * @param La lista para acumular los valores.
 	 */
-	public void agregarElementosPreorden(ListaEncadenada<T> listaNodos) {
-		listaNodos.agregar(darElemento());
+	public void agregarElementosPreorden(ListaEncadenada<T> lista) {
+		lista.agregar(darElemento());
 		if(izquierdo != null){
-			izquierdo.agregarElementosPreorden(listaNodos);
+			izquierdo.agregarElementosPreorden(lista);
 		}
 		if(derecho != null){
-			derecho.agregarElementosPreorden(listaNodos);
+			derecho.agregarElementosPreorden(lista);
 		}
 	}
 
 	/**
-	 * 
-	 * @param listaNodos
+	 * Agrega a la lista dada por parametro los elemento POSORDEN (izquierdo-derecho-raiz)
+	 * @param La lista para acumular los valores.
 	 */
-	public void agregarElementosPosorden(ListaEncadenada listaNodos) {
+	public void agregarElementosPosorden(ListaEncadenada<T> lista) {
 		if(izquierdo != null){
-			izquierdo.agregarElementosPosorden(listaNodos);
+			izquierdo.agregarElementosPosorden(lista);
 		}
 		if(derecho != null){
-			derecho.agregarElementosPosorden(listaNodos);
+			derecho.agregarElementosPosorden(lista);
 		}
-		listaNodos.agregar(this.darElemento());
+		lista.agregar(this.darElemento());
 	}
 
+	/**
+	 * Metodo to string del nodo. Indica quien es y cuales son sus nodos izquierdo y derecho.
+	 * @return toString del nodo
+	 */
 	public String toString(){
 		String der = "NO TIENE";
 		String izq = "NO TIENE";
@@ -232,18 +265,13 @@ public class NodoArbolBinario<T extends Comparable<T>>{
 	 * @param elem2 El elemento local
 	 * @return int El valor de la comparacion 
 	 */
-	public int comparar(T elem1, T elem2){
+	private int comparar(T elem1, T elem2){
 		if (comparador == null){
 			return elem1.compareTo(elem2);
 		}
 		else{
 			return comparador.compare(elem1, elem2);
 		}
-	}
-
-	public int darAltura() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }

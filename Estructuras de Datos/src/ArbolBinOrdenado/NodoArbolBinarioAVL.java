@@ -2,7 +2,7 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 
-public class NodoArbolBinarioAVL<T> extends NodoArbolBinario<T> {
+public class NodoArbolBinarioAVL<T extends Comparable <T>> extends NodoArbolBinario<T> {
 
 	//------------------------------------------
 	// Atributos
@@ -27,7 +27,7 @@ public class NodoArbolBinarioAVL<T> extends NodoArbolBinario<T> {
 	// Constructor
 	//------------------------------------------
 	
-	public NodoArbolBinarioAVL(T nElemento, Comparator c) {
+	public NodoArbolBinarioAVL(T nElemento, Comparator<T> c) {
 		super(nElemento, c);
 		indBalanceo = 0;
 	}
@@ -35,18 +35,6 @@ public class NodoArbolBinarioAVL<T> extends NodoArbolBinario<T> {
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-
-	public boolean agregar(T elemento){
-		boolean resp = super.agregar(elemento);
-		balancearXAltura();
-		return resp;
-	}
-	
-	public T eliminar(T elemento){
-		T elem = super.eliminar(elemento);
-		balancearXAltura();
-		return elem;
-	}
 	
 	public NodoArbolBinarioAVL<T> rotarDerecha(){
 		NodoArbolBinarioAVL<T> k1 = izquierdo;
@@ -80,7 +68,7 @@ public class NodoArbolBinarioAVL<T> extends NodoArbolBinario<T> {
 		// TODO Auto-generated method stub
 	}
 
-	public NodoArbolBinarioAVL balancearXAltura(){
+	public NodoArbolBinarioAVL<T> balancearXAltura(){
 		if (izquierdo != null){ 
 			izquierdo = izquierdo.balancearXAltura(); 
 		}

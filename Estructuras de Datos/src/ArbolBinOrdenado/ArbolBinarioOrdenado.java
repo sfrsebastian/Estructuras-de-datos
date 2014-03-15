@@ -2,19 +2,12 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
-import ListaOrdenada.ListaOrdenada;
 public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T> {
 
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
-	
-	/**
-	 * La altura del arbol binario
-	 */
-	private int altura;
 	
 	/**
 	 * El peso del arbol 
@@ -27,7 +20,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	private NodoArbolBinario<T> raiz;
 	
 	/**
-	 * El comparados del arbol binario
+	 * El comparador del arbol binario
 	 */
 	private Comparator<T> comparador;
 	
@@ -36,26 +29,48 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	//------------------------------------------
 	
 	/**
-	 * Crea un nuevo arbol binario con altura y peso 0
+	 * Crea un nuevo arbol binario
 	 */
 	public ArbolBinarioOrdenado(){
 		raiz = null;
-		altura = 0;
 		peso = 0;
 		comparador = null;
 	}
 	
+	/**
+	 * Crea un nuevo arbol binario con un comparador
+	 * @param comp
+	 */
 	public ArbolBinarioOrdenado(Comparator<T> comp){
 		raiz = null;
-		altura = 0;
 		peso = 0;
 		comparador = comp;
 	}
 	
+	/**
+	 * Da el peso del arbol
+	 * @return el peso del arbol
+	 */
+	public int darPeso() {
+		return peso;
+	}
+
+	/**
+	 * Da la altura del arbol
+	 * @return La altura del arbol
+	 */
+	public int darAltura() {
+		return raiz != null?raiz.darAltura():0;
+	}
+
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	@Override
+	/**
+	 * Agrega el elemento dado por parametro al arbol
+	 * @param El elemento a agregar
+	 * @return TRUE si se agrega el elemento, FALSE de lo contrario
+	 */
 	public boolean agregar(T elemento) {
 		if(elemento != null){
 			if(raiz == null){
@@ -71,20 +86,25 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		return false;
 	}
 	
-	@Override
+	/**
+	 * Busca el elemento dado por parametro
+	 * @param El elemento a buscar
+	 * @return El elemento encontrado, null de lo contrario 
+	 */
 	public T buscar(T elemento) {
 		if(raiz == null){
 			return null;
-		}
-		else if (comparar(raiz.darElemento(), elemento) == 0){
-			return raiz.darElemento();
 		}
 		else{
 			return raiz.buscar(elemento);
 		}	
 	}
 
-	@Override
+	/**
+	 * Elimina del arbol el elemento dado por parametro
+	 * @param el elemento a eliminar
+	 * @return TRUE si fue eliminado, FALSE de lo contrario.
+	 */
 	public boolean eliminar(T elemento){
 		if(raiz == null){
 			return false;
@@ -96,33 +116,32 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		}
 	}
 
-	@Override
-	public int darPeso() {
-		return peso;
-	}
-
-	@Override
-	public int darAltura() {
-		return raiz.darAltura();
-	}
-
-	@Override
+	/**
+	 * Da un iterador con los elementos ordenados en PREORDEN
+	 * @return iterador con los elementos
+	 */
 	public Iterator<T> recorrerPreorden() {
 		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
 		raiz.agregarElementosPreorden(listaNodos);
 		return listaNodos.iterator();
 	}
 
-	@Override
+	/**
+	 * Da un iterador con los elementos ordenados en INORDEN
+	 * @return iterador con los elementos
+	 */
 	public Iterator<T> recorrerInorden() {
-		ListaEncadenada listaNodos = new ListaEncadenada();
+		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
 		raiz.agregarElementosInorden(listaNodos);
 		return listaNodos.iterator();
 	}
 
-	@Override
+	/**
+	 * Da un iterador con los elementos ordenados en POSORDEN
+	 * @return iterador con los elementos
+	 */
 	public Iterator<T> recorrerPosorden() {
-		ListaEncadenada listaNodos = new ListaEncadenada();
+		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
 		raiz.agregarElementosPosorden(listaNodos);
 		return listaNodos.iterator();
 	}
@@ -132,14 +151,4 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public int comparar(T elem1, T elem2){
-		if (comparador == null){
-			return elem1.compareTo(elem2);
-		}
-		else{
-			return comparador.compare(elem1, elem2);
-		}
-	}
-
 }
