@@ -22,8 +22,7 @@ public class TestArbolBinarioOrdenado extends TestCase{
 	}
 	
 	private void setupScenario2(){
-		arbol = new ArbolBinarioOrdenado<String>();
-		
+		arbol = new ArbolBinarioOrdenado<String>();	
 	}
 	
 	public void testAltura(){

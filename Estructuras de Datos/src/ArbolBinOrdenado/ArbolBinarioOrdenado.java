@@ -15,12 +15,12 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	/**
 	 * El peso del arbol 
 	 */
-	protected int peso;
+	private int peso;
 	
 	/**
 	 * La raiz del arbol ordenado
 	 */
-	protected NodoArbolBinario<T> raiz;
+	private NodoArbolBinario<T> raiz;
 	
 	/**
 	 * El comparador del arbol binario

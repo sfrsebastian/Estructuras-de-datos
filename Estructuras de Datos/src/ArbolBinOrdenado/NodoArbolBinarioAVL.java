@@ -2,7 +2,9 @@ package ArbolBinOrdenado;
 
 import java.util.Comparator;
 
-public class NodoArbolBinarioAVL<T extends Comparable <T>> extends NodoArbolBinario<T> {
+import ListaEncadenada.ListaEncadenada;
+
+public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 
 	//------------------------------------------
 	// Atributos
@@ -23,18 +25,186 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>> extends NodoArbolBina
 	 */
 	private NodoArbolBinarioAVL<T> derecho;
 	
+	/**
+	 * El comparador del nodo
+	 */
+	private Comparator<T> comparador;
+	
+	/**
+	 * El elemento del nodo
+	 */
+	private T elemento;
+	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
 	
 	public NodoArbolBinarioAVL(T nElemento, Comparator<T> c) {
-		super(nElemento, c);
+		elemento = nElemento;
 		indBalanceo = 0;
 	}
 	
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
+	
+	/**
+	 * Agrega un nuevo elemento al nodo actual
+	 * @param pElemento El elemento que se quiere agregar
+	 * @return boolean TRUE si se pudo agregar, FALSE en caso contrario
+	 */
+	public boolean agregar(T pElemento){
+		if(comparar(elemento,pElemento) == 0){
+			return false;
+		}
+		else if(comparar(elemento,pElemento) < 0){
+			if(derecho != null){
+				return derecho.agregar(pElemento);
+			}
+			else{
+				derecho = new NodoArbolBinarioAVL<T>(pElemento, comparador);
+				return true;
+			}
+		}
+		else{
+			if(izquierdo != null){
+				return izquierdo.agregar(pElemento);
+			}
+			else{
+				izquierdo = new NodoArbolBinarioAVL<T>(pElemento, comparador);
+				return true;
+			}
+		}
+	}
+	
+	/**
+	 * Busca un elemento T en el arbol binario
+	 * @param pElemento El elemento que se quiere buscar
+	 * @return T el elemento buscado, null en caso contrario
+	 */
+	public T buscar(T pElemento){
+		if(comparar(elemento,pElemento) == 0){
+			return darElemento();
+		}
+		else if(comparar(elemento,pElemento) < 0){
+			if(derecho != null){
+				return derecho.buscar(pElemento);
+			}
+		}
+		else {
+			if(izquierdo != null){
+				return izquierdo.buscar(pElemento);
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Elimina el elemento dado por parametro
+	 * @param pElemento El elemento a eliminar
+	 * @return El nodoArbol reorganizado con el elemento eliminado.
+	 */
+	public NodoArbolBinarioAVL <T> eliminar(T pElemento){
+		if(comparar(elemento,pElemento) == 0){
+			if(esHoja()){
+				return null;
+			}
+			else if(derecho == null){
+				return izquierdo;
+			}
+			else if(izquierdo == null){
+				return derecho;
+			}
+			else{
+				NodoArbolBinarioAVL<T> mayor = izquierdo.darMayor();
+				izquierdo = izquierdo.eliminar(mayor.darElemento());
+				mayor.derecho = derecho;
+				mayor.izquierdo = izquierdo;
+				return mayor;
+			}
+		}
+		else if(comparar(elemento,pElemento) < 0){
+			if(derecho != null){
+				derecho = derecho.eliminar(pElemento);
+			}
+		}
+		else{
+			if(izquierdo != null){
+				izquierdo = izquierdo.eliminar(pElemento);
+			}
+		}
+		return this;
+	}
+	
+	/**
+	 * Da el elemento que tiene el nodo
+	 * @return T el elemento del nodo
+	 */
+	public T darElemento(){
+		return elemento;
+	}
+	
+	/**
+	 * Retorna la altura del arbol
+	 * Compara las alturas de los nodos izquierdo y derechos.
+	 * @return La altura del arbol
+	 */
+	public int darAltura() {
+		int izq = 0;
+		int der = 0;
+		if(esHoja()){
+			return 1;
+		}
+		if(izquierdo != null){
+			izq = izquierdo.darAltura();
+		}
+		if(derecho != null){
+			der = derecho.darAltura();
+		}
+		return Math.max(izq, der)+1;
+	}
+	
+	/**
+	 * Agrega a la lista dada por parametro los elementos INORDEN (izquierdo-raiz-derecho)
+	 * @param La lista para acumular los valores.
+	 */
+	public void agregarElementosInorden(ListaEncadenada<T> lista){
+		if(izquierdo != null){
+			izquierdo.agregarElementosInorden(lista);
+		}
+		lista.agregar(this.darElemento());
+		if(derecho != null){
+			derecho.agregarElementosInorden(lista);
+		}
+	}
+
+	/**
+	 *Agrega a la lista dada por parametro los elementos PREORDEN (raiz-izquierdo-derecho)
+	 * @param La lista para acumular los valores.
+	 */
+	public void agregarElementosPreorden(ListaEncadenada<T> lista) {
+		lista.agregar(darElemento());
+		if(izquierdo != null){
+			izquierdo.agregarElementosPreorden(lista);
+		}
+		if(derecho != null){
+			derecho.agregarElementosPreorden(lista);
+		}
+	}
+
+	/**
+	 * Agrega a la lista dada por parametro los elemento POSORDEN (izquierdo-derecho-raiz)
+	 * @param La lista para acumular los valores.
+	 */
+	public void agregarElementosPosorden(ListaEncadenada<T> lista) {
+		if(izquierdo != null){
+			izquierdo.agregarElementosPosorden(lista);
+		}
+		if(derecho != null){
+			derecho.agregarElementosPosorden(lista);
+		}
+		lista.agregar(this.darElemento());
+	}
 	
 	public NodoArbolBinarioAVL<T> rotarDerecha(){
 		NodoArbolBinarioAVL<T> k1 = izquierdo;
@@ -64,47 +234,95 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>> extends NodoArbolBina
 		return rotarIzquierda();
 	}
 	
-	private void calcularAltura_e_Indicador() {
-		// TODO Auto-generated method stub
+	public boolean esHoja(){
+		if(derecho == null && izquierdo == null)
+			return true;
+		else
+			return false;
 	}
-
+	
 	public NodoArbolBinarioAVL<T> balancearXAltura(){
-		System.out.println("hey im working");
+		if (izquierdo != null){ 
+			izquierdo = izquierdo.balancearXAltura(); 
+		}
+		if (derecho != null){ 
+			derecho = derecho.balancearXAltura(); 
+		}
+		calcularAltura_e_Indicador( );
+		if (-1 <= indBalanceo && indBalanceo <= 1 ){ 
+			return this; 
+		}
+		else if ( indBalanceo == 2 ){
+			if ( izquierdo.indBalanceo == 1 ){ 
+				return this.rotarDerecha(); 
+			}
+			else if ( izquierdo.indBalanceo == -1 ){ 
+				return this.rotarIzquierdaDerecha(); 
+			}
+			else { 
+				return this.rotarIzquierdaDerecha(); 
+			}
+		}
+		else if ( indBalanceo == -2 ) {
+			if ( derecho.indBalanceo == 1 ){ 
+				return this.rotarIzquierda(); 
+			}
+			else if ( derecho.indBalanceo == -1 ){ 
+				return this.rotarDerechaIzquierda(); 
+			}
+			else { 
+				return this.rotarDerechaIzquierda(); 
+			}
+		}
 		return null;
 	}
-//		if (izquierdo != null){ 
-//			izquierdo = izquierdo.balancearXAltura(); 
-//		}
-//		if (derecho != null){ 
-//			derecho = derecho.balancearXAltura(); 
-//		}
-//		calcularAltura_e_Indicador( );
-//		if (-1 <= indBalanceo && indBalanceo <= 1 ){ 
-//			return this; 
-//		}
-//		else if ( indBalanceo == 2 ){
-//			if ( izquierdo.indBalanceo == 1 ){ 
-//				return this.rotarDerecha(); 
-//			}
-//			else if ( izquierdo.indBalanceo == -1 ){ 
-//				return this.rotarIzquierdaDerecha(); 
-//			}
-//			else { 
-//				return this.rotarIzquierdaDerecha(); 
-//			}
-//		}
-//		else if ( indBalanceo == -2 ) {
-//			if ( derecho.indBalanceo == 1 ){ 
-//				return this.rotarIzquierda(); 
-//			}
-//			else if ( derecho.indBalanceo == -1 ){ 
-//				return this.rotarDerechaIzquierda(); 
-//			}
-//			else { 
-//				return this.rotarDerechaIzquierda(); 
-//			}
-//		}
-//		return null;
-//	}
+	
+	private int calcularAltura_e_Indicador() {
+		int der = 0;
+		int izq = 0;
+		
+		if(esHoja()){
+			indBalanceo = 1;
+			return 1;
+		}
+		else{
+			der = (derecho != null) ? derecho.calcularAltura_e_Indicador() : 0;
+			izq = (izquierdo != null) ? izquierdo.calcularAltura_e_Indicador() : 0;
+		}
+		indBalanceo += izq - der;
+		return izq - der;
+	}
+
+	/**
+	 * Retorna el nodo con el mayor elemento del nodo
+	 * @return El mayor nodo.
+	 */
+	private NodoArbolBinarioAVL<T> darMayor() {
+		if(esHoja()){
+			return this;
+		}
+		else{
+			if(derecho!=null)
+				return derecho.darMayor();
+			else
+				return this;
+		}
+	}
+	
+	/**
+	 * Compara dos elementos por su comparador, si este existe
+	 * De lo contrario los compara por su metodo de compareTo
+	 * @param elem1 El elemento visitante
+	 * @param elem2 El elemento local
+	 * @return int El valor de la comparacion 
+	 */
+	private int comparar(T elem1, T elem2){
+		if (comparador == null){
+			return elem1.compareTo(elem2);
+		}
+		else{
+			return comparador.compare(elem1, elem2);
+		}
+	}
 }
 
