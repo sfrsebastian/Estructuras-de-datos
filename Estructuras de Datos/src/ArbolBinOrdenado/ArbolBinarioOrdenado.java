@@ -11,7 +11,6 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
-	
 	/**
 	 * El peso del arbol 
 	 */
@@ -30,7 +29,6 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
-	
 	/**
 	 * Crea un nuevo arbol binario
 	 */
