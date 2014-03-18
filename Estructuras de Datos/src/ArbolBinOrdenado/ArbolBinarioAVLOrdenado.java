@@ -6,59 +6,110 @@ import java.util.NoSuchElementException;
 
 import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
-public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T> {
 
+public class ArbolBinarioAVLOrdenado<T extends Comparable<T>>{
+	
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
+	
 	/**
-	 * El peso del arbol 
+	 * La raiz del arbol AVL 
+	 */
+	private NodoArbolBinarioAVL<T> raiz;
+	
+	/**
+	 * El comparador del arbol 
+	 */
+	private Comparator<T> comparador;
+	
+	/**
+	 * El peso del arbol binario Adelson,Velski,Ledison
 	 */
 	private int peso;
 	
 	/**
-	 * La raiz del arbol ordenado
+	 * La altura del arbol binario
 	 */
-	private NodoArbolBinario<T> raiz;
-	
-	/**
-	 * El comparador del arbol binario
-	 */
-	private Comparator<T> comparador;
+	private int altura;
 	
 	//------------------------------------------
-	// Constructor
+	// Constructores
 	//------------------------------------------
-	/**
-	 * Crea un nuevo arbol binario
-	 */
-	public ArbolBinarioOrdenado(){
+	
+	public ArbolBinarioAVLOrdenado(Comparator<T> c){
+		comparador = c;
 		raiz = null;
-		peso = 0;
+	}
+	
+	public ArbolBinarioAVLOrdenado(){
 		comparador = null;
+		raiz = null;
 	}
 	
-	/**
-	 * Crea un nuevo arbol binario con un comparador
-	 * @param comp
-	 */
-	public ArbolBinarioOrdenado(Comparator<T> comp){
-		raiz = null;
-		peso = 0;
-		comparador = comp;
-	}
-
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
+	
 	/**
-	 * Da el peso del arbol
-	 * @return el peso del arbol
+	 * Balancea el arbol AVL
 	 */
-	public int darPeso() {
-		return peso;
+	public void balancear(){
+		if (raiz != null) 
+			raiz.balancearXAltura();
 	}
-
+	
+	/**
+	 * 
+	 * @param elemento
+	 * @return
+	 */
+	public boolean eliminar(T elemento){
+		if(raiz == null){
+			return false;
+		}
+		else{
+			raiz = raiz.eliminar(elemento);
+			peso--;
+		return true;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param elemento
+	 * @return
+	 */
+	public T buscar(T elemento){
+		if(elemento != null){
+			return (raiz == null) ? null : raiz.buscar(elemento);
+		}else{
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param elemento
+	 * @return
+	 */
+	public boolean agregar(T elemento){
+		if(elemento != null){
+			if (raiz == null){
+				raiz = new NodoArbolBinarioAVL<T>(elemento, comparador);
+			}else{
+				boolean b = raiz.agregar(elemento);
+				if(b){
+					balancear();
+				}
+				return b;
+			}
+		}else{
+			return false;
+		}
+		return true;		
+	}
+	
 	/**
 	 * Da la altura del arbol
 	 * @return La altura del arbol
@@ -68,55 +119,13 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	}
 	
 	/**
-	 * Agrega el elemento dado por parametro al arbol
-	 * @param El elemento a agregar
-	 * @return TRUE si se agrega el elemento, FALSE de lo contrario
+	 * Da el peso del arbol
+	 * @return el peso del arbol
 	 */
-	public boolean agregar(T elemento) {
-		if(elemento != null){
-			if(raiz == null){
-				raiz = new NodoArbolBinario<T>(elemento,comparador);
-				peso++;
-				return true;
-			}
-			else if(raiz.agregar(elemento)){
-				peso++;
-				return true;
-			}
-		}
-		return false;
+	public int darPeso() {
+		return peso;
 	}
 	
-	/**
-	 * Busca el elemento dado por parametro
-	 * @param El elemento a buscar
-	 * @return El elemento encontrado, null de lo contrario 
-	 */
-	public T buscar(T elemento) {
-		if(raiz == null){
-			return null;
-		}
-		else{
-			return raiz.buscar(elemento);
-		}	
-	}
-
-	/**
-	 * Elimina del arbol el elemento dado por parametro
-	 * @param el elemento a eliminar
-	 * @return TRUE si fue eliminado, FALSE de lo contrario.
-	 */
-	public boolean eliminar(T elemento){
-		if(raiz == null){
-			return false;
-		}
-		else{
-			raiz = raiz.eliminar(elemento);
-			peso--;
-			return true;
-		}
-	}
-
 	/**
 	 * Da un iterador con los elementos ordenados en PREORDEN
 	 * @return iterador con los elementos del arbol
@@ -154,7 +163,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	public Iterator<T> recorrerNiveles() {
 		Cola<NodoArbolBinario<T>> cola = new Cola<NodoArbolBinario<T>>();
 		ListaEncadenada<T>lista = new ListaEncadenada<T>();
-		cola.agregar(raiz);
+		//cola.agregar(raiz); TODO 
 		try{
 			while(true){
 				NodoArbolBinario<T> dado = cola.dar();
@@ -170,12 +179,5 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 		catch(NoSuchElementException e){
 			return lista.iterator();
 		}
-	}
-
-	/**
-	 * Retorna un iterador inorden
-	 */
-	public Iterator<T> iterator() {
-		return recorrerInorden();
 	}
 }
