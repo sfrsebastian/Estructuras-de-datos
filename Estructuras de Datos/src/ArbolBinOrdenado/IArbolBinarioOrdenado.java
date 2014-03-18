@@ -2,7 +2,7 @@ package ArbolBinOrdenado;
 
 import java.util.Iterator;
 
-public interface IArbolBinarioOrdenado<T> {
+public interface IArbolBinarioOrdenado<T> extends Iterable<T> {
 
 	/**
 	 * Agrega un nuevo elemento al arbol

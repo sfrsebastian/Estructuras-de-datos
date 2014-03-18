@@ -171,4 +171,11 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 			return lista.iterator();
 		}
 	}
+
+	/**
+	 * Retorna un iterador inorden
+	 */
+	public Iterator<T> iterator() {
+		return recorrerInorden();
+	}
 }
