@@ -66,6 +66,7 @@ public class Scraper {
 			}else if (inner.matches(patternInner)){
 //				String newUrl = "http://www.wikipedia.org" + inner;
 //				recorrerPorNiveles(inner);
+				//hola!
 			}
 		}
 	}
