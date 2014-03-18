@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
 
-public class ArbolBinarioAVLOrdenado<T extends Comparable<T>>{
+public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T>{
 	
 	//------------------------------------------
 	// Atributos
@@ -179,5 +179,12 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>>{
 		catch(NoSuchElementException e){
 			return lista.iterator();
 		}
+	}
+
+	/**
+	 * Retorna un iterado inorden de los nodos del arbol
+	 */
+	public Iterator<T> iterator() {
+		return recorrerInorden();
 	}
 }
