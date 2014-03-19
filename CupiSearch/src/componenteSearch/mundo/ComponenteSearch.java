@@ -20,12 +20,11 @@ public class ComponenteSearch {
 	 * @param c
 	 */
 	public ComponenteSearch(ICore c) {
-		this.core = c;
+		core = c;
 	}
 	
     //-----------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------
-
 	
 }
