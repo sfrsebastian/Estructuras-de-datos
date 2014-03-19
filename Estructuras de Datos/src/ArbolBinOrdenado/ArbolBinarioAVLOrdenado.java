@@ -97,10 +97,12 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 		if(elemento != null){
 			if (raiz == null){
 				raiz = new NodoArbolBinarioAVL<T>(elemento, comparador);
+				peso++;
 			}else{
 				boolean b = raiz.agregar(elemento);
 				if(b){
 					balancear();
+					peso++;
 				}
 				return b;
 			}
@@ -186,5 +188,12 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	 */
 	public Iterator<T> iterator() {
 		return recorrerInorden();
+	}
+
+	public boolean esAVL() {
+		if(raiz != null)
+			return raiz.esAVL();
+		else
+			return true;
 	}
 }

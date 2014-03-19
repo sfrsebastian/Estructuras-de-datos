@@ -254,10 +254,13 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		else if ( indBalanceo == 2 ){
 			if ( izquierdo.indBalanceo == 1 ){ 
+				//FIJO
 				return this.rotarDerecha(); 
 			}
 			else if ( izquierdo.indBalanceo == -1 ){ 
-				return this.rotarIzquierdaDerecha(); 
+				//return this.rotarIzquierdaDerecha();
+				//SUPUESTO CASO SIMETRICO
+				return this.rotarDerecha();
 			}
 			else { 
 				return this.rotarIzquierdaDerecha(); 
@@ -265,10 +268,13 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		else if ( indBalanceo == -2 ) {
 			if ( derecho.indBalanceo == 1 ){ 
+				//SUPUESTO CASO SIMETRICO
 				return this.rotarIzquierda(); 
 			}
 			else if ( derecho.indBalanceo == -1 ){ 
-				return this.rotarDerechaIzquierda(); 
+				//return this.rotarDerechaIzquierda(); 
+				//FIJO
+				return this.rotarIzquierda();
 			}
 			else { 
 				return this.rotarDerechaIzquierda(); 
@@ -281,16 +287,30 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		int der = 0;
 		int izq = 0;
 		
-		if(esHoja()){
-			indBalanceo = 1;
-			return 1;
+		if(izquierdo != null){
+			izq = izquierdo.darAltura();
 		}
-		else{
-			der = (derecho != null) ? derecho.calcularAltura_e_Indicador() : 0;
-			izq = (izquierdo != null) ? izquierdo.calcularAltura_e_Indicador() : 0;
+		if(derecho != null){
+			der = derecho.darAltura();
 		}
-		indBalanceo += izq - der;
-		return izq - der;
+		
+		return indBalanceo = izq-der;
+	}
+	
+	public boolean esAVL(){
+		boolean der = true; 
+		boolean izq = true;
+		
+		if(izquierdo != null){
+			int indicador = izquierdo.calcularAltura_e_Indicador();
+			izq = Math.abs(indicador) <= 1;
+		}
+		if(derecho != null){
+			int indicador = derecho.calcularAltura_e_Indicador();
+			der = Math.abs(indicador) <= 1;
+		}
+		
+		return (izq & der);
 	}
 
 	/**
@@ -323,6 +343,32 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		else{
 			return comparador.compare(elem1, elem2);
 		}
+	}
+	
+	/**
+	 * Metodo to string del nodo. Indica quien es y cuales son sus nodos izquierdo y derecho.
+	 * @return toString del nodo
+	 */
+	public String toString(){
+		String der = "NO TIENE";
+		String izq = "NO TIENE";
+		if(derecho != null){
+			try {
+				der = derecho.darElemento().toString();
+			} catch (Exception e) {
+				System.out.println("Agregar el metodo toString() del elemento");
+				der = "TIENE";
+			}
+		}
+		if(izquierdo != null){
+			try {
+				izq = izquierdo.darElemento().toString();
+			} catch (Exception e) {
+				System.out.println("Agregar el metodo toString() del elemento");
+				izq = "TIENE";
+			}
+		}
+		return "Soy: " + elemento.toString() + ", derecho: " + der + " izquierdo: " + izq;
 	}
 }
 
