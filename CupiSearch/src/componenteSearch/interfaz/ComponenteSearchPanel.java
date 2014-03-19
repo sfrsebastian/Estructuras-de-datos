@@ -25,7 +25,7 @@ public class ComponenteSearchPanel extends JPanel {
         n.setVisible(true);
         ComponenteSearchPanel nuevo = new ComponenteSearchPanel();
         nuevo.setVisible(true);
-        n.add(nuevo);  
+        n.getContentPane().add(nuevo);  
         n.setVisible(true);
     }
     //-----------------------------------------------------------------
@@ -51,14 +51,17 @@ public class ComponenteSearchPanel extends JPanel {
 	
 	public ComponenteSearchPanel(){//ComponenteSearch mundo) {
 		setBorder(new TitledBorder("CupiSearch"));
-		//componenteContactos = mundo;
-		setLayout(new GridLayout(2,3));
 		mensaje = new JLabel("Ingrese el texto a decodificar");
+		mensaje.setBounds(6, 18, 189, 31);
 		texto = new JTextField();
+		texto.setBounds(6, 47, 438, 31);
 		comprimir = new JButton("Comprimir");
+		comprimir.setBounds(132, 90, 189, 31);
 		respuesta = new JTextField();
+		respuesta.setBounds(6, 155, 438, 31);
 		respuesta.setEditable(false);
 		descomprimir = new JButton("Descomprimir");
+		descomprimir.setBounds(132, 198, 189, 31);
 		comprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				huffman = new CompresorHuffman(texto.getText());
@@ -71,6 +74,7 @@ public class ComponenteSearchPanel extends JPanel {
 				respuesta.setText(comprimido.descomprimir());
 			}
 		});
+		setLayout(null);
 		add(mensaje);
 		add(texto);
 		add(comprimir);
