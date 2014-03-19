@@ -56,7 +56,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	 */
 	public void balancear(){
 		if (raiz != null) 
-			raiz.balancearXAltura();
+			raiz = raiz.balancearXAltura();
 	}
 	
 	/**

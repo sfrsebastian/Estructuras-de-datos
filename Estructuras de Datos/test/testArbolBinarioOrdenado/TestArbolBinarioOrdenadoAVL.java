@@ -78,7 +78,34 @@ public class TestArbolBinarioOrdenadoAVL extends TestCase {
 		arbol.agregar("Camila");
 		assertTrue("Debe ser AVL", arbol.esAVL());
 		
-		//Test caso 
+		//Test caso rotar a la derecha-izquierda
 		arbol.agregar("Caliche");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		setupScenario2();
+		
+		arbol.agregar("Bob");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		arbol.agregar("Karen");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		arbol.agregar("Alan");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		arbol.agregar("Abe");
+		
+		//Caso rotar derecha
+		arbol.agregar("Aaron");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		arbol.eliminar("Aaron");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		//Rotacion izquierda
+		arbol.agregar("Ajiaco");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		//Rotacion izquierda derecha
+		arbol.agregar("Aslan");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
 	}
 }

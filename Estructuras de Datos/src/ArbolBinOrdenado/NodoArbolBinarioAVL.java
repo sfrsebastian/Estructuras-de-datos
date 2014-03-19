@@ -258,9 +258,8 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 				return this.rotarDerecha(); 
 			}
 			else if ( izquierdo.indBalanceo == -1 ){ 
-				//return this.rotarIzquierdaDerecha();
-				//SUPUESTO CASO SIMETRICO
-				return this.rotarDerecha();
+				//FIJO
+				return this.rotarIzquierdaDerecha();
 			}
 			else { 
 				return this.rotarIzquierdaDerecha(); 
@@ -268,11 +267,10 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		else if ( indBalanceo == -2 ) {
 			if ( derecho.indBalanceo == 1 ){ 
-				//SUPUESTO CASO SIMETRICO
-				return this.rotarIzquierda(); 
+				//FIJO
+				return this.rotarDerechaIzquierda();
 			}
 			else if ( derecho.indBalanceo == -1 ){ 
-				//return this.rotarDerechaIzquierda(); 
 				//FIJO
 				return this.rotarIzquierda();
 			}
