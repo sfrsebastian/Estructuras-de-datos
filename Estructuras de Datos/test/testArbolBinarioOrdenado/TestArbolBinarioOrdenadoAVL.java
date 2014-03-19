@@ -32,7 +32,6 @@ public class TestArbolBinarioOrdenadoAVL extends TestCase {
 		
 		arbol.agregar("Karen");
 		arbol.agregar("Laura");
-		
 	}
 	
 	public void testAgregarElemento(){
@@ -54,5 +53,32 @@ public class TestArbolBinarioOrdenadoAVL extends TestCase {
 		setupScenario2();
 		assertTrue("Se debio agregar el elemento", arbol.agregar("Carlos"));
 		assertEquals("Se debio encontrar el elemento agregado","Carlos",arbol.buscar("Carlos"));
+	}
+	
+	public void testAVL(){
+		setupScenario2();
+		
+		arbol.agregar("Bob");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		arbol.agregar("Karen");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		arbol.agregar("Alan");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		arbol.agregar("Laura");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		//Test caso rotar a la izquierda
+		arbol.agregar("Manuel");
+		
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		arbol.eliminar("Manuel");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		//Test caso rotar a la derecha
+		arbol.agregar("Camila");
+		assertTrue("Debe ser AVL", arbol.esAVL());
+		
+		//Test caso 
+		arbol.agregar("Caliche");
 	}
 }
