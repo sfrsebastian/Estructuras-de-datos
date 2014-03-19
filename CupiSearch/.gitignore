@@ -2,3 +2,4 @@
 .settings
 /dist
 /docs/api
+/docs/*.bak
