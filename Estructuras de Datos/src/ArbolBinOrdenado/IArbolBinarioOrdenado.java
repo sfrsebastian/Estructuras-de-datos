@@ -60,5 +60,10 @@ public interface IArbolBinarioOrdenado<T> extends Iterable<T> {
 	 * @return Iterator El iterador con el recorrido
 	 */
 	public Iterator<T> recorrerNiveles();
+	
+	/**
+	 * Retorna un arreglo inorden de elementos
+	 */
+	public Object[] darArreglo();
 }
 

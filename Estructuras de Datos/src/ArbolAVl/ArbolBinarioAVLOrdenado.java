@@ -1,9 +1,10 @@
-package ArbolBinOrdenado;
+package ArbolAVl;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import ArbolBinOrdenado.IArbolBinarioOrdenado;
 import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
 
@@ -158,12 +159,12 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	 * @return Iterador con los elementos del arbol.
 	 */
 	public Iterator<T> recorrerNiveles() {
-		Cola<NodoArbolBinario<T>> cola = new Cola<NodoArbolBinario<T>>();
+		Cola<NodoArbolBinarioAVL<T>> cola = new Cola<NodoArbolBinarioAVL<T>>();
 		ListaEncadenada<T>lista = new ListaEncadenada<T>();
-		//cola.agregar(raiz); TODO 
+		cola.agregar(raiz);
 		try{
 			while(true){
-				NodoArbolBinario<T> dado = cola.dar();
+				NodoArbolBinarioAVL<T> dado = cola.dar();
 				lista.agregar(dado.darElemento());
 				if(dado.izquierdo !=null){
 					cola.agregar(dado.izquierdo);

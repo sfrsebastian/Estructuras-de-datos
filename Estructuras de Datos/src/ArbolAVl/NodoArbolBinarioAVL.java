@@ -1,4 +1,4 @@
-package ArbolBinOrdenado;
+package ArbolAVl;
 
 import java.util.Comparator;
 
@@ -18,12 +18,12 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 	/**
 	 * El nodo izquierdo que tiene el nodo
 	 */
-	private NodoArbolBinarioAVL<T> izquierdo;
+	public NodoArbolBinarioAVL<T> izquierdo;
 	
 	/**
 	 * El nodo derecho que tiene el nodo
 	 */
-	private NodoArbolBinarioAVL<T> derecho;
+	public NodoArbolBinarioAVL<T> derecho;
 	
 	/**
 	 * El comparador del nodo

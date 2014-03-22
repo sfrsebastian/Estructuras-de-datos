@@ -178,4 +178,13 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBina
 	public Iterator<T> iterator() {
 		return recorrerInorden();
 	}
+
+	/**
+	 * Retorna una arreglo inorden de elementos
+	 */
+	public Object[] darArreglo() {
+		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
+		raiz.agregarElementosInorden(listaNodos);
+		return listaNodos.darArreglo();
+	}
 }
