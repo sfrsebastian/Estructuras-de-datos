@@ -28,11 +28,6 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	 */
 	private int peso;
 	
-	/**
-	 * La altura del arbol binario
-	 */
-	private int altura;
-	
 	//------------------------------------------
 	// Constructores
 	//------------------------------------------
@@ -195,5 +190,15 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 			return raiz.esAVL();
 		else
 			return true;
+	}
+	
+	/**
+	 * Retorna un arreglo con los elementos ordenados del arbol.
+	 * @return
+	 */
+	public Object[] darArreglo(){
+		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
+		raiz.agregarElementosInorden(listaNodos);
+		return listaNodos.darArreglo();
 	}
 }
