@@ -114,4 +114,14 @@ public class Scraper {
 			e.printStackTrace();
 		}
 	}
+
+	public Exploracion explorarSitios() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void agregarURL(String path) {
+		// TODO Auto-generated method stub
+		
+	}
 }
