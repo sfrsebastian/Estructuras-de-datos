@@ -82,4 +82,9 @@ public class ComponenteSearchPanelCentral extends JPanel {
         n.add(nuevo);  
 	}
 
+	public void terminar() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

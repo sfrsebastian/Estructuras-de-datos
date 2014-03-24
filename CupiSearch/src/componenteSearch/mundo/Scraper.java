@@ -46,6 +46,10 @@ public class Scraper {
 		}
 	}
 	
+	public void recorrerFuentePorProfundidad(){
+		
+	}
+	
 	public void recorrerPorNiveles(String url) throws IOException{
 		System.out.println("Soy: " + url);
 		Document doc = Jsoup.connect(url).get();
