@@ -1,29 +1,40 @@
 package componenteSearch.interfaz;
 
-import java.awt.Dimension;
-
-import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class ComponenteSearchPanelCategoria extends JPanel {
+import net.miginfocom.swing.MigLayout;
+
+import java.awt.GridBagLayout;
+
+import javax.swing.JButton;
+
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.Insets;
+
+import javax.swing.border.TitledBorder;
+
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import java.awt.Color;
+
+public class ComponenteSearchPanelHome extends JPanel {
 	
     //-----------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------
 	
 	private JTextField textField;
-
+	
     //-----------------------------------------------------------------
     // Constructor
     //-----------------------------------------------------------------
 	
-	public ComponenteSearchPanelCategoria(){
-		setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Categorias", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	public ComponenteSearchPanelHome() {
+		setBorder(new TitledBorder(null, "Home", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(null);
 		setSize(new Dimension(320, 423));
 		setPreferredSize(new Dimension(320, 423));
@@ -41,29 +52,18 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 		btnHome.setBounds(124, 364, 72, 53);
 		add(btnHome);
 		
-		JLabel lblNewLabel = new JLabel("Manejar Categorias");
-		lblNewLabel.setBounds(94, 32, 167, 16);
+		JButton btnAgregar = new JButton("Agregar Fuente");
+		btnAgregar.setBounds(92, 310, 134, 29);
+		add(btnAgregar);
+		
+		JLabel lblNewLabel = new JLabel("Filleeer, filler, filleeer, filler");
+		lblNewLabel.setBackground(Color.ORANGE);
+		lblNewLabel.setBounds(29, 33, 265, 203);
 		add(lblNewLabel);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(25, 55, 268, 201);
-		add(scrollPane);
-		
-		JButton button = new JButton("+");
-		button.setBounds(25, 268, 34, 29);
-		add(button);
-		
-		JButton button_1 = new JButton("-");
-		button_1.setBounds(71, 268, 34, 29);
-		add(button_1);
-		
 		textField = new JTextField();
-		textField.setBounds(124, 268, 169, 28);
+		textField.setBounds(39, 248, 240, 28);
 		add(textField);
 		textField.setColumns(10);
-		
-		JButton btnVerContenido = new JButton("Ver Contenido");
-		btnVerContenido.setBounds(25, 311, 268, 29);
-		add(btnVerContenido);
 	}
 }
