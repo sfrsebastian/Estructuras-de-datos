@@ -1,31 +1,210 @@
 package componenteSearch.mundo;
 
+import java.net.URL;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Timer;
+
+import ArbolBinOrdenado.ArbolBinarioAVLOrdenado;
+import ArbolBinOrdenado.IArbolBinarioOrdenado;
+import ListaEncadenada.ListaEncadenada;
 import uniandes.cupi2.cupIphone.core.ICore;
 
-public class ComponenteSearch {
+public class ComponenteSearch implements ICupiSearch {
 
-    //-----------------------------------------------------------------
-    // Atributos
-    //-----------------------------------------------------------------
-	
+	//-----------------------------------------------------------------
+	// Atributos
+	//-----------------------------------------------------------------
+
+	private IArbolBinarioOrdenado<Categoria> categorias;
+
+	private IArbolBinarioOrdenado<Exploracion> exploraciones;
+
+	private Exploracion exploracionActual;
 	/**
 	 * La referencia al core de la aplciacion
 	 */
 	private ICore core;
-	
+
 	private Scraper scraper;
-	
+
 	/**
 	 * 
 	 * @param c
 	 */
 	public ComponenteSearch(ICore c) {
-		this.core = c;
+		core = c;
+		categorias = new ArbolBinarioAVLOrdenado<Categoria>();
+		exploraciones = new ArbolBinarioAVLOrdenado<Exploracion>();
+		exploracionActual = null;
+		scraper = new Scraper();
 	}
-	
-    //-----------------------------------------------------------------
-    // Metodos
-    //-----------------------------------------------------------------
 
-	
+	//-----------------------------------------------------------------
+	// Metodos
+	//-----------------------------------------------------------------
+	/**
+	 * @see package0.ICupiSearch#agregarSitiosFuente(URL)
+	 */
+	public void agregarSitiosFuente(URL url) {
+		scraper.agregarURL(url.getPath());
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#explorarSitios()
+	 */
+	public void explorarSitios() {
+		exploracionActual = scraper.explorarSitios();
+		exploraciones.agregar(exploracionActual);
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#mostrarEstadistica(package0.Exploracion)
+	 */
+	public String mostrarEstadistica(Exploracion nExploracion) {
+		return exploraciones.buscar(nExploracion).darEstadistica();
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#darHistorialExploraciones()
+	 */
+	public Iterator<Exploracion> darHistorialExploraciones() {
+		return exploraciones.recorrerInorden();
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#buscarResultados(Criterio[], Timer, int)
+	 */
+	@Override
+	public Object[] buscarResultados(Categoria[] criterios, int segundos, int nivel) {
+		if(segundos != 0){
+			long tiempoInicio = System.currentTimeMillis();
+			return buscarXtiempo(criterios,segundos, exploracionActual.getRecursos().darArreglo(),tiempoInicio);
+		}
+		else if(nivel != 0){
+			return buscarXNivel(criterios,exploracionActual.getRecursos().darArreglo(),nivel);
+		}
+		else{
+			return busquedaNormal(criterios,exploracionActual.getRecursos().darArreglo());
+		}
+	}
+
+
+	private Object[] busquedaNormal(Categoria[] criterios, Object[] arreglo) {
+		if(criterios.length == 0){
+			return arreglo;
+		}
+		else{
+			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
+			for(int i = 0; i<arreglo.length;i++){
+				Recurso actual = (Recurso) arreglo[i];
+				if(actual.getValor().equals(criterios[0])){
+					lista.agregar(actual);
+				}
+			}
+			return busquedaNormal(disminuirCriterios(criterios),(Recurso[]) lista.darArreglo());
+		}
+	}
+
+	private Categoria[] disminuirCriterios(Categoria[] criterios) {
+		Categoria[] nueva = new Categoria[criterios.length-1];
+		for (int i = 1; i < criterios.length; i++) {
+			nueva[i-1] = criterios[i];
+		}
+		return nueva;
+	}
+
+	private Object[] buscarXNivel(Categoria[] criterios, Object[] arreglo, int nivel) {
+		if(criterios.length == 0 || nivel == 0){
+			return arreglo;
+		}
+		else{
+			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
+			for(int i = 0; i<arreglo.length;i++){
+				Recurso actual = (Recurso) arreglo[i];
+				if(actual.getValor().equals(criterios[0])){
+					lista.agregar(actual);
+				}
+			}
+			return buscarXNivel(disminuirCriterios(criterios), lista.darArreglo(),nivel-1);
+		}
+	}
+
+	private Object[] buscarXtiempo(Categoria[] criterios, int segundos,Object[] arreglo, long inicio) {
+		long tiempoTranscurrido = (new Date()).getTime() - inicio;
+		if(criterios.length == 0 || tiempoTranscurrido < segundos*1000){
+			return arreglo;
+		}
+		else{
+			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
+			for(int i = 0; i<arreglo.length && tiempoTranscurrido < segundos*1000;i++){
+				Recurso actual = (Recurso) arreglo[i];
+				if(actual.getValor().equals(criterios[0])){
+					lista.agregar(actual);
+				}
+				tiempoTranscurrido = (new Date()).getTime() - inicio;
+			}
+			return buscarXtiempo(disminuirCriterios(criterios), segundos,lista.darArreglo(),inicio);
+		}
+	}
+
+	/**
+	 * @see package0.ICupiSearch#crearCategoria(java.lang.String)
+	 */
+	public void crearCategoria(String nombre) {
+		Categoria nueva = new Categoria(nombre);
+		categorias.agregar(nueva);
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#eliminarCategoria(java.lang.String)
+	 */
+	public boolean eliminarCategoria(Categoria categoria) {
+		return categorias.eliminar(categoria);
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#agregarRecursoACategoria(java.lang.String, package0.Recurso)
+	 */
+	public void agregarRecursoACategoria(Categoria categoria, Recurso recurso) {
+		categoria.agregarRecurso(recurso);
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#eliminarRecursoDeCategoria(java.lang.String, package0.Recurso)
+	 */
+	public void eliminarRecursoDeCategoria(Categoria categoria, Recurso recurso) {
+		categoria.eliminarRecurso(recurso);
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#comprimirCategorias()
+	 */
+	public void comprimirCategorias() {
+
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#recuperarCategorias()
+	 */
+	public void recuperarCategorias() {
+
+	}
+
+
+	/**
+	 * @see package0.ICupiSearch#visualizarResultado(package0.Recurso)
+	 */
+	public void visualizarResultado(Recurso recurso) {
+
+	}
 }

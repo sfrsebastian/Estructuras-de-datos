@@ -3,9 +3,6 @@ package componenteSearch.interfaz;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import net.miginfocom.swing.MigLayout;
-
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
