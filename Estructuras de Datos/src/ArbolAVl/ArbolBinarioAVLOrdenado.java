@@ -9,52 +9,57 @@ import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
 
 public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T>{
-	
+
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
-	
+
 	/**
 	 * La raiz del arbol AVL 
 	 */
 	private NodoArbolBinarioAVL<T> raiz;
-	
+
 	/**
 	 * El comparador del arbol 
 	 */
 	private Comparator<T> comparador;
-	
+
 	/**
 	 * El peso del arbol binario Adelson,Velski,Ledison
 	 */
 	private int peso;
-	
+
+	/**
+	 * La altura del arbol binario
+	 */
+	private int altura;
+
 	//------------------------------------------
 	// Constructores
 	//------------------------------------------
-	
+
 	public ArbolBinarioAVLOrdenado(Comparator<T> c){
 		comparador = c;
 		raiz = null;
 	}
-	
+
 	public ArbolBinarioAVLOrdenado(){
 		comparador = null;
 		raiz = null;
 	}
-	
+
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	
+
 	/**
 	 * Balancea el arbol AVL
 	 */
 	public void balancear(){
 		if (raiz != null) 
-			raiz.balancearXAltura();
+			raiz = raiz.balancearXAltura();
 	}
-	
+
 	/**
 	 * 
 	 * @param elemento
@@ -70,7 +75,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 		return true;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param elemento
@@ -83,7 +88,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param elemento
@@ -107,7 +112,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 		}
 		return true;		
 	}
-	
+
 	/**
 	 * Da la altura del arbol
 	 * @return La altura del arbol
@@ -115,7 +120,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	public int darAltura() {
 		return raiz != null?raiz.darAltura():0;
 	}
-	
+
 	/**
 	 * Da el peso del arbol
 	 * @return el peso del arbol
@@ -123,7 +128,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	public int darPeso() {
 		return peso;
 	}
-	
+
 	/**
 	 * Da un iterador con los elementos ordenados en PREORDEN
 	 * @return iterador con los elementos del arbol
@@ -161,7 +166,7 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 	public Iterator<T> recorrerNiveles() {
 		Cola<NodoArbolBinarioAVL<T>> cola = new Cola<NodoArbolBinarioAVL<T>>();
 		ListaEncadenada<T>lista = new ListaEncadenada<T>();
-		cola.agregar(raiz);
+		cola.agregar(raiz);  
 		try{
 			while(true){
 				NodoArbolBinarioAVL<T> dado = cola.dar();
@@ -192,12 +197,9 @@ public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolB
 		else
 			return true;
 	}
-	
-	/**
-	 * Retorna un arreglo con los elementos ordenados del arbol.
-	 * @return
-	 */
-	public Object[] darArreglo(){
+
+	@Override
+	public Object[] darArreglo() {
 		ListaEncadenada<T> listaNodos = new ListaEncadenada<T>();
 		raiz.agregarElementosInorden(listaNodos);
 		return listaNodos.darArreglo();

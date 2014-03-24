@@ -16,6 +16,8 @@ public class Cola<T> implements Serializable,ICola<T>{
 	 */
 	private NodoCola<T> ultimo;
 	
+	private int longitud;
+	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
@@ -25,6 +27,7 @@ public class Cola<T> implements Serializable,ICola<T>{
 	public Cola(){
 		primero = null;
 		ultimo = null;
+		longitud = 0;
 	}
 	
 	//------------------------------------------
@@ -39,6 +42,7 @@ public class Cola<T> implements Serializable,ICola<T>{
 		if(primero != null){
 			T elemento = primero.darElemento();
 			primero = primero.darSiguiente();
+			longitud--;
 			return elemento;
 		}
 		else{
@@ -63,5 +67,10 @@ public class Cola<T> implements Serializable,ICola<T>{
 			ultimo.cambiarSiguiente(nuevo);
 			ultimo = nuevo;
 		}
+		longitud++;
+	}
+	
+	public int darLongitud(){
+		return longitud;
 	}
 }

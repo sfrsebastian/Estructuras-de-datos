@@ -15,4 +15,10 @@ public interface ICola<T> {
 	 * @param pElemento el elemento a agregar a la cola
 	 */
 	public void agregar(T pElemento);
+	
+	/**
+	 * Retorna la longitud de la cola
+	 * @return int Longitud de la cola
+	 */
+	public int darLongitud();
 }

@@ -9,45 +9,45 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------
-	
+
 	/**
 	 * El indicador del balanceo del sub-arbol del nodo
 	 */
 	private int indBalanceo;
-	
+
 	/**
 	 * El nodo izquierdo que tiene el nodo
 	 */
 	public NodoArbolBinarioAVL<T> izquierdo;
-	
+
 	/**
 	 * El nodo derecho que tiene el nodo
 	 */
 	public NodoArbolBinarioAVL<T> derecho;
-	
+
 	/**
 	 * El comparador del nodo
 	 */
 	private Comparator<T> comparador;
-	
+
 	/**
 	 * El elemento del nodo
 	 */
 	private T elemento;
-	
+
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
-	
+
 	public NodoArbolBinarioAVL(T nElemento, Comparator<T> c) {
 		elemento = nElemento;
 		indBalanceo = 0;
 	}
-	
+
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
-	
+
 	/**
 	 * Agrega un nuevo elemento al nodo actual
 	 * @param pElemento El elemento que se quiere agregar
@@ -76,7 +76,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 			}
 		}
 	}
-	
+
 	/**
 	 * Busca un elemento T en el arbol binario
 	 * @param pElemento El elemento que se quiere buscar
@@ -98,7 +98,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Elimina el elemento dado por parametro
 	 * @param pElemento El elemento a eliminar
@@ -135,7 +135,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Da el elemento que tiene el nodo
 	 * @return T el elemento del nodo
@@ -143,7 +143,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 	public T darElemento(){
 		return elemento;
 	}
-	
+
 	/**
 	 * Retorna la altura del arbol
 	 * Compara las alturas de los nodos izquierdo y derechos.
@@ -163,7 +163,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		return Math.max(izq, der)+1;
 	}
-	
+
 	/**
 	 * Agrega a la lista dada por parametro los elementos INORDEN (izquierdo-raiz-derecho)
 	 * @param La lista para acumular los valores.
@@ -205,42 +205,42 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		lista.agregar(this.darElemento());
 	}
-	
+
 	public NodoArbolBinarioAVL<T> rotarDerecha(){
 		NodoArbolBinarioAVL<T> k1 = izquierdo;
 		izquierdo = k1.derecho;
 		k1.derecho = this;
-		
+
 		return k1;
 	}
-	
+
 	public NodoArbolBinarioAVL<T> rotarIzquierda(){
 		NodoArbolBinarioAVL<T> k1 = derecho;
 		derecho = k1.izquierdo;
 		k1.izquierdo = this;
-		
+
 		return k1;
 	}
-	
+
 	public NodoArbolBinarioAVL<T> rotarIzquierdaDerecha(){
 		NodoArbolBinarioAVL<T> k1 = izquierdo;
 		izquierdo = k1.rotarIzquierda();
 		return rotarDerecha();
 	}
-	
+
 	public NodoArbolBinarioAVL<T> rotarDerechaIzquierda(){
 		NodoArbolBinarioAVL<T> k1 = derecho;
 		derecho = k1.rotarDerecha();
 		return rotarIzquierda();
 	}
-	
+
 	public boolean esHoja(){
 		if(derecho == null && izquierdo == null)
 			return true;
 		else
 			return false;
 	}
-	
+
 	public NodoArbolBinarioAVL<T> balancearXAltura(){
 		if (izquierdo != null){ 
 			izquierdo = izquierdo.balancearXAltura(); 
@@ -258,9 +258,8 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 				return this.rotarDerecha(); 
 			}
 			else if ( izquierdo.indBalanceo == -1 ){ 
-				//return this.rotarIzquierdaDerecha();
-				//SUPUESTO CASO SIMETRICO
-				return this.rotarDerecha();
+				//FIJO
+				return this.rotarIzquierdaDerecha();
 			}
 			else { 
 				return this.rotarIzquierdaDerecha(); 
@@ -268,11 +267,10 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		else if ( indBalanceo == -2 ) {
 			if ( derecho.indBalanceo == 1 ){ 
-				//SUPUESTO CASO SIMETRICO
-				return this.rotarIzquierda(); 
+				//FIJO
+				return this.rotarDerechaIzquierda();
 			}
 			else if ( derecho.indBalanceo == -1 ){ 
-				//return this.rotarDerechaIzquierda(); 
 				//FIJO
 				return this.rotarIzquierda();
 			}
@@ -282,25 +280,25 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		}
 		return null;
 	}
-	
+
 	private int calcularAltura_e_Indicador() {
 		int der = 0;
 		int izq = 0;
-		
+
 		if(izquierdo != null){
 			izq = izquierdo.darAltura();
 		}
 		if(derecho != null){
 			der = derecho.darAltura();
 		}
-		
+
 		return indBalanceo = izq-der;
 	}
-	
+
 	public boolean esAVL(){
 		boolean der = true; 
 		boolean izq = true;
-		
+
 		if(izquierdo != null){
 			int indicador = izquierdo.calcularAltura_e_Indicador();
 			izq = Math.abs(indicador) <= 1;
@@ -309,7 +307,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 			int indicador = derecho.calcularAltura_e_Indicador();
 			der = Math.abs(indicador) <= 1;
 		}
-		
+
 		return (izq & der);
 	}
 
@@ -328,7 +326,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 				return this;
 		}
 	}
-	
+
 	/**
 	 * Compara dos elementos por su comparador, si este existe
 	 * De lo contrario los compara por su metodo de compareTo
@@ -344,7 +342,7 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 			return comparador.compare(elem1, elem2);
 		}
 	}
-	
+
 	/**
 	 * Metodo to string del nodo. Indica quien es y cuales son sus nodos izquierdo y derecho.
 	 * @return toString del nodo
@@ -371,4 +369,3 @@ public class NodoArbolBinarioAVL<T extends Comparable <T>>{
 		return "Soy: " + elemento.toString() + ", derecho: " + der + " izquierdo: " + izq;
 	}
 }
-
