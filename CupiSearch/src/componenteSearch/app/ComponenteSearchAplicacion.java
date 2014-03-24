@@ -2,7 +2,7 @@ package componenteSearch.app;
 
 import javax.swing.JPanel;
 
-import componenteSearch.interfaz.ComponenteSearchPanel;
+import componenteSearch.interfaz.ComponenteSearchPanelCentral;
 import componenteSearch.mundo.ComponenteSearch;
 import uniandes.cupi2.cupIphone.componentes.IAplicacion;
 import uniandes.cupi2.cupIphone.core.ICore;
@@ -21,7 +21,7 @@ public class ComponenteSearchAplicacion implements IAplicacion {
 	/**
 	 * Panel principal del componente
 	 */
-	private ComponenteSearchPanel panel;
+	private ComponenteSearchPanelCentral panel;
 	
 	/**
 	 * Clase principal del mundo del componente
@@ -51,7 +51,7 @@ public class ComponenteSearchAplicacion implements IAplicacion {
 	@Override
 	public void iniciarEjecucion() {
 		mundo = new ComponenteSearch(core);
-		panel = new ComponenteSearchPanel();
+		panel = new ComponenteSearchPanelCentral(mundo);
 	}
 
 	@Override
@@ -66,11 +66,7 @@ public class ComponenteSearchAplicacion implements IAplicacion {
 	 */
 	public static IAplicacion darInstancia()
 	{
-		 if ( instancia == null )
-	        {
-	            instancia = new ComponenteSearchAplicacion();
-	        }
-	     return instancia;
+		return instancia!=null? instancia: new ComponenteSearchAplicacion();
 	}
 
 }
