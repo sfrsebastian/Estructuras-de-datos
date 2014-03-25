@@ -6,15 +6,15 @@ import java.util.Timer;
 
 public interface ICupiSearch {
 
-	public void agregarSitiosFuente(URL url);
+	public void agregarSitiosFuente(String url);
 
-	public void explorarSitios();
+	public void explorarSitios(long l);
 
 	public String mostrarEstadistica(Exploracion nExploracion);
 
 	public Iterator<Exploracion> darHistorialExploraciones();
 
-	public Object[] buscarResultados(Categoria[] criterios, int segundos, int nivel);
+	public Object[] buscarResultados(String[] criterios, int segundos, int nivel);
 
 	public void crearCategoria(String nombre);
 
