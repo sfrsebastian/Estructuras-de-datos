@@ -196,7 +196,7 @@ public class Scraper {
 			String extension = e[e.length-1];
 			
 			
-			String salida = "./data/image"+ Math.random()*1000 + "." + extension;
+			String salida = "./data/resources/image"+ Math.random()*1000 + "." + extension;
 	        FileOutputStream out = (new FileOutputStream(new File(salida)));
 	        out.write(resultImageResponse.bodyAsBytes());           // resultImageResponse.body() is where the image's contents are.
 	        out.close();
