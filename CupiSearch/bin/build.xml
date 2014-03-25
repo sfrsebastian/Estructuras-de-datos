@@ -39,6 +39,5 @@
 			<fileset dir="./" includes="${lib.dir}/**"/>
 			<fileset dir="./" excludes="${lib.dir}/cupiphoneSDK.jar, ${lib.dir}/Estructuras de Datos.jar, {lib.dir}/jsoup-1.7.3.jar"/>
         </jar>
-    	<copy file="${jar.dir}/${jar.name}" todir="${deploy.dir}" />
     </target>
 </project>
