@@ -10,6 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import componenteSearch.mundo.ComponenteSearch;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class ComponenteSearchPanelCategoria extends JPanel {
 	
     //-----------------------------------------------------------------
@@ -17,27 +22,47 @@ public class ComponenteSearchPanelCategoria extends JPanel {
     //-----------------------------------------------------------------
 	
 	private JTextField textField;
+	
+	private ComponenteSearchPanelCentral padre;
 
+	private ComponenteSearch mundo;
+	
+	private static ComponenteSearchPanelCategoria self;
+	
     //-----------------------------------------------------------------
     // Constructor
     //-----------------------------------------------------------------
 	
-	public ComponenteSearchPanelCategoria(){
+	public ComponenteSearchPanelCategoria(ComponenteSearchPanelCentral componenteSearchPanelCentral, ComponenteSearch componenteSearch){
+		padre = componenteSearchPanelCentral;
+		mundo = componenteSearch;
+		self = this;
+		
 		setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Categorias", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(null);
 		setSize(new Dimension(320, 423));
 		setPreferredSize(new Dimension(320, 423));
 		
 		JButton btnCat = new JButton("Categorias");
+		btnCat.setEnabled(false);
 		btnCat.setBounds(6, 364, 117, 53);
 		add(btnCat);
 		
 		JButton btnBusq = new JButton("Busqueda");
+		btnBusq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				padre.cargarPanelBusqueda(self);
+			}
+		});
 		btnBusq.setBounds(197, 364, 117, 53);
 		add(btnBusq);
 		
 		JButton btnHome = new JButton("Home");
-		btnHome.setEnabled(false);
+		btnHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				padre.cargarPanelHome(self);
+			}
+		});
 		btnHome.setBounds(124, 364, 72, 53);
 		add(btnHome);
 		

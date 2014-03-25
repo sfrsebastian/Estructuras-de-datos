@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Timer;
 
-import ArbolBinOrdenado.ArbolBinarioAVLOrdenado;
+import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 import ListaEncadenada.ListaEncadenada;
 import uniandes.cupi2.cupIphone.core.ICore;
@@ -46,16 +46,20 @@ public class ComponenteSearch implements ICupiSearch {
 	/**
 	 * @see package0.ICupiSearch#agregarSitiosFuente(URL)
 	 */
-	public void agregarSitiosFuente(URL url) {
-		scraper.agregarURL(url.getPath());
+//	public void agregarSitiosFuente(URL url) {
+//		scraper.agregarURL(url.getPath());
+//	}
+
+	public void agregarSitiosFuente(String url){
+		scraper.agregarURL(url);
 	}
 
-
 	/**
+	 * @param l 
 	 * @see package0.ICupiSearch#explorarSitios()
 	 */
-	public void explorarSitios() {
-		exploracionActual = scraper.explorarSitios();
+	public void explorarSitios(long l) {
+		exploracionActual = scraper.explorarSitios(l);
 		exploraciones.agregar(exploracionActual);
 	}
 
@@ -67,7 +71,6 @@ public class ComponenteSearch implements ICupiSearch {
 		return exploraciones.buscar(nExploracion).darEstadistica();
 	}
 
-
 	/**
 	 * @see package0.ICupiSearch#darHistorialExploraciones()
 	 */
@@ -75,12 +78,11 @@ public class ComponenteSearch implements ICupiSearch {
 		return exploraciones.recorrerInorden();
 	}
 
-
 	/**
 	 * @see package0.ICupiSearch#buscarResultados(Criterio[], Timer, int)
 	 */
 	@Override
-	public Object[] buscarResultados(Categoria[] criterios, int segundos, int nivel) {
+	public Object[] buscarResultados(String[] criterios, int segundos, int nivel) {
 		if(segundos != 0){
 			long tiempoInicio = System.currentTimeMillis();
 			return buscarXtiempo(criterios,segundos, exploracionActual.getRecursos().darArreglo(),tiempoInicio);
@@ -93,8 +95,7 @@ public class ComponenteSearch implements ICupiSearch {
 		}
 	}
 
-
-	private Object[] busquedaNormal(Categoria[] criterios, Object[] arreglo) {
+	private Object[] busquedaNormal(String[] criterios, Object[] arreglo) {
 		if(criterios.length == 0){
 			return arreglo;
 		}
@@ -102,23 +103,23 @@ public class ComponenteSearch implements ICupiSearch {
 			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
 			for(int i = 0; i<arreglo.length;i++){
 				Recurso actual = (Recurso) arreglo[i];
-				if(actual.getValor().equals(criterios[0])){
+				if(actual.contiene(criterios[0])){
 					lista.agregar(actual);
 				}
 			}
-			return busquedaNormal(disminuirCriterios(criterios),(Recurso[]) lista.darArreglo());
+			return busquedaNormal(disminuirCriterios(criterios),lista.darArreglo());
 		}
 	}
 
-	private Categoria[] disminuirCriterios(Categoria[] criterios) {
-		Categoria[] nueva = new Categoria[criterios.length-1];
+	private String[] disminuirCriterios(String[] criterios) {
+		String[] nueva = new String[criterios.length-1];
 		for (int i = 1; i < criterios.length; i++) {
 			nueva[i-1] = criterios[i];
 		}
 		return nueva;
 	}
 
-	private Object[] buscarXNivel(Categoria[] criterios, Object[] arreglo, int nivel) {
+	private Object[] buscarXNivel(String[] criterios, Object[] arreglo, int nivel) {
 		if(criterios.length == 0 || nivel == 0){
 			return arreglo;
 		}
@@ -126,7 +127,7 @@ public class ComponenteSearch implements ICupiSearch {
 			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
 			for(int i = 0; i<arreglo.length;i++){
 				Recurso actual = (Recurso) arreglo[i];
-				if(actual.getValor().equals(criterios[0])){
+				if(actual.contiene(criterios[0])){
 					lista.agregar(actual);
 				}
 			}
@@ -134,16 +135,16 @@ public class ComponenteSearch implements ICupiSearch {
 		}
 	}
 
-	private Object[] buscarXtiempo(Categoria[] criterios, int segundos,Object[] arreglo, long inicio) {
+	private Object[] buscarXtiempo(String[] criterios, int segundos,Object[] arreglo, long inicio) {
 		long tiempoTranscurrido = (new Date()).getTime() - inicio;
-		if(criterios.length == 0 || tiempoTranscurrido < segundos*1000){
+		if(criterios.length == 0 || tiempoTranscurrido > segundos*1000){
 			return arreglo;
 		}
 		else{
 			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
 			for(int i = 0; i<arreglo.length && tiempoTranscurrido < segundos*1000;i++){
 				Recurso actual = (Recurso) arreglo[i];
-				if(actual.getValor().equals(criterios[0])){
+				if(actual.contiene(criterios[0])){
 					lista.agregar(actual);
 				}
 				tiempoTranscurrido = (new Date()).getTime() - inicio;
@@ -189,7 +190,7 @@ public class ComponenteSearch implements ICupiSearch {
 	 * @see package0.ICupiSearch#comprimirCategorias()
 	 */
 	public void comprimirCategorias() {
-
+		
 	}
 
 
@@ -205,6 +206,6 @@ public class ComponenteSearch implements ICupiSearch {
 	 * @see package0.ICupiSearch#visualizarResultado(package0.Recurso)
 	 */
 	public void visualizarResultado(Recurso recurso) {
-
+		
 	}
 }
