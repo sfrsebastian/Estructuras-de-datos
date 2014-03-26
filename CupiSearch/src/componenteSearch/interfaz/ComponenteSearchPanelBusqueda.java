@@ -44,7 +44,6 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 	private JList listaResultados;
 	
 	private static ComponenteSearchPanelBusqueda self;
-	private JSpinner spinnerTiempo;
 	
     //-----------------------------------------------------------------
     // Constructor
@@ -112,7 +111,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 				}
 			}
 		});
-		btnBuscar.setBounds(25, 75, 117, 28);
+		btnBuscar.setBounds(25, 75, 117, 58);
 		add(btnBuscar);
 		
 		comboTipo = new JComboBox();
@@ -156,11 +155,6 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		comboFiltro.setModel(modelFiltro);
 		comboFiltro.setBounds(140, 106, 147, 27);
 		add(comboFiltro);
-		
-		spinnerTiempo = new JSpinner();
-		spinnerTiempo.setModel(new SpinnerNumberModel(1,1,60,1));
-		spinnerTiempo.setBounds(25, 104, 110, 28);
-		add(spinnerTiempo);
 		
 		refrescarLista(null);
 	}
