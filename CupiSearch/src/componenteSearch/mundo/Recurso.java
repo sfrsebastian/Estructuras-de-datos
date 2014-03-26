@@ -55,7 +55,7 @@ public class Recurso implements Comparable<Recurso>{
 	}
 
 	public boolean contiene(String busqueda) {
-		return descripcion.contains(busqueda) || tipo.equals(busqueda);
+		return descripcion.contains(busqueda) || tipo.compareTo(busqueda)==0;
 	}
 
 	@Override
@@ -82,5 +82,9 @@ public class Recurso implements Comparable<Recurso>{
 
 	public int getNivel() {
 		return nivel;
+	}
+
+	public boolean igual(String criterio) {
+		return descripcion.compareTo(criterio)==0 || tipo.equals(criterio);
 	}
 } 
