@@ -2,6 +2,7 @@ package componenteSearch.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -113,6 +114,10 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		if(exception != null)
 			exceptionMessage = exception.getMessage();
 		JOptionPane.showMessageDialog(this, "Hola", mensaje + exceptionMessage, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public String descargarImagen(Recurso r) throws IOException{
+		return componenteSearch.visualizarImagen(r);
 	}
 	
 	//-----------------------------------------------------------------

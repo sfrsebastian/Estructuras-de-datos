@@ -1,5 +1,8 @@
 package componenteSearch.app;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JPanel;
 
 import componenteSearch.interfaz.ComponenteSearchPanelCentral;
@@ -56,7 +59,14 @@ public class ComponenteSearchAplicacion implements IAplicacion {
 
 	@Override
 	public void terminarEjecucion() {
-		panel.terminar();
+		try {
+			mundo.guardar();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("error de guardado");
+		}
 	}
 	
 	/**

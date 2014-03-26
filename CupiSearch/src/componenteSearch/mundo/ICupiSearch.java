@@ -1,5 +1,6 @@
 package componenteSearch.mundo;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Timer;
@@ -28,6 +29,6 @@ public interface ICupiSearch {
 
 	public void recuperarCategorias();
 
-	public void visualizarResultado(Recurso recurso);
+	public String visualizarImagen(Recurso recurso) throws IOException;
 
 }

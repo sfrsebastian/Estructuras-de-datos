@@ -78,15 +78,11 @@ public class PanelWebView extends JPanel {
 	}
 	
 	private String descargarImagen(Recurso rec){
-		Scraper escrapeador = new Scraper();
-		
 		try {
-			return escrapeador.descargarImagen(rec.getImgUrl());
+			return padre.descargarImagen(rec);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("error");
 		}
-		
-		return "ERROR";
+		return "Error";
 	}
 }

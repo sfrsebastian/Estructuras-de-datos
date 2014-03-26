@@ -188,15 +188,17 @@ public class Scraper {
 		}
 	}
 	
-	public String descargarImagen(String url) throws IOException{	
+	public String descargarImagen(String url,String ruta) throws IOException{	
 			Response resultImageResponse = Jsoup.connect(url).cookie("hola","perro").ignoreContentType(true).execute();
 			System.out.println(resultImageResponse.url());
 	        // output here
 			String[] e = url.split(Pattern.quote("."));
 			String extension = e[e.length-1];
-			
-			
-			String salida = "./data/resources/image"+ Math.random()*1000 + "." + extension;
+			System.out.println("La ruta de guardado es: "+ ruta);
+			File f = new File(ruta + "/resources");
+			f.delete();
+			f.mkdir();
+			String salida = ruta + "/resources/image"+ Math.random()*1000 + "." + extension;
 	        FileOutputStream out = (new FileOutputStream(new File(salida)));
 	        out.write(resultImageResponse.bodyAsBytes());           // resultImageResponse.body() is where the image's contents are.
 	        out.close();
@@ -228,6 +230,7 @@ public class Scraper {
 		return generarExploracion(l);
 	}
 
+	
 	public void agregarURL(String path) {
 		fuentes.agregar(path);
 	}

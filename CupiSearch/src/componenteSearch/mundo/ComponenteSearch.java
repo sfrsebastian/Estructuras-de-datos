@@ -1,5 +1,10 @@
 package componenteSearch.mundo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
@@ -203,9 +208,32 @@ public class ComponenteSearch implements ICupiSearch {
 
 
 	/**
+	 * @throws IOException 
 	 * @see package0.ICupiSearch#visualizarResultado(package0.Recurso)
 	 */
-	public void visualizarResultado(Recurso recurso) {
+	public String visualizarImagen(Recurso recurso) throws IOException {
+		if(core != null){
+			return scraper.descargarImagen(recurso.getImgUrl(),core.darDirectorioDatos().getPath());
+		}
+		else{
+			return scraper.descargarImagen(recurso.getImgUrl(),"./data");
+		}
 		
+	}
+
+	public void guardar() throws FileNotFoundException, IOException {
+		File ruta;
+		if(core !=null){
+			ruta = new File(core.darDirectorioDatos().getPath() + "/datos/exploraciones.dat/");
+		}
+		else{
+			ruta = new File("./data/datos/exploraciones.dat/");
+		}
+		
+		exploraciones.agregar(exploracionActual);
+		ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(ruta));
+		ois.writeObject(exploraciones);
+		ois.close();
+		System.out.println("guardo!");
 	}
 }
