@@ -125,7 +125,7 @@ public class ComponenteSearchPanelHome extends JPanel {
 				int niveles = (int)spinnerNivel.getValue();
 				mundo.explorarSitios(spinnerVal*1000,niveles);
 				Exploracion exploracion = mundo.getExploracionActual();
-				lblEstadisticas.setText("Tiempo de busqueda: " + exploracion.getTiempoTotal() + "segundos \n" + "Total recursos: " + exploracion.darCantidadRecursos());
+				lblEstadisticas.setText("<html>Tiempo de busqueda: " + exploracion.getTiempoTotal() + " segundos" + "<br>" + "Total recursos: " + exploracion.darCantidadRecursos()+"</html>");
 			}
 		});
 		btnExplorar.setBounds(162, 310, 132, 29);

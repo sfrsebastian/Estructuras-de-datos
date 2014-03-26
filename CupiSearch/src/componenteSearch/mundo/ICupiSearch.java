@@ -15,7 +15,7 @@ public interface ICupiSearch {
 
 	public Iterator<Exploracion> darHistorialExploraciones();
 
-	public Object[] buscarResultados(String[] criterios, int segundos, int nivel);
+	public Object[] buscarResultados(String[] criterios, String valor);
 
 	public void crearCategoria(String nombre);
 

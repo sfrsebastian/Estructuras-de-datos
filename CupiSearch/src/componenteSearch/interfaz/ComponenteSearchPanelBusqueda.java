@@ -105,7 +105,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 					String criter = termino + ";" + filtro;
 					String[] criters = criter.split(";");
 					
-					refrescarLista(mundo.buscarResultados(criters, 0, 0));
+					refrescarLista(mundo.buscarResultados(criters,(String)comboFiltro.getSelectedItem()));
 				} catch (Exception e2) {
 					// TODO: handle exception
 					e2.printStackTrace();
@@ -153,6 +153,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		DefaultComboBoxModel<String> modelFiltro = new DefaultComboBoxModel<String>();
 		modelFiltro.addElement("CONTIENE");
 		modelFiltro.addElement("IGUAL");
+		modelFiltro.addElement("NO CONTIENE");
 		comboFiltro.setModel(modelFiltro);
 		comboFiltro.setBounds(140, 106, 147, 27);
 		add(comboFiltro);

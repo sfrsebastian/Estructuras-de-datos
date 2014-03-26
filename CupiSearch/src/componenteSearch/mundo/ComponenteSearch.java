@@ -93,20 +93,11 @@ public class ComponenteSearch implements ICupiSearch {
 	 * @see package0.ICupiSearch#buscarResultados(Criterio[], Timer, int)
 	 */
 	@Override
-	public Object[] buscarResultados(String[] criterios, int segundos, int nivel) {
-		if(segundos != 0){
-			long tiempoInicio = System.currentTimeMillis();
-			return buscarXtiempo(criterios,segundos, exploracionActual.getRecursos().darArreglo(),tiempoInicio);
-		}
-		else if(nivel != 0){
-			return buscarXNivel(criterios,exploracionActual.getRecursos().darArreglo(),nivel);
-		}
-		else{
-			return busquedaNormal(criterios,exploracionActual.getRecursos().darArreglo());
-		}
+	public Object[] buscarResultados(String[] criterios, String valor) {
+		return busquedaNormal(criterios,exploracionActual.getRecursos().darArreglo(),valor);
 	}
 
-	private Object[] busquedaNormal(String[] criterios, Object[] arreglo) {
+	private Object[] busquedaNormal(String[] criterios, Object[] arreglo,String valor) {
 		if(criterios.length == 0){
 			return arreglo;
 		}
@@ -114,11 +105,23 @@ public class ComponenteSearch implements ICupiSearch {
 			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
 			for(int i = 0; i<arreglo.length;i++){
 				Recurso actual = (Recurso) arreglo[i];
-				if(actual.contiene(criterios[0])){
+				if(verificarValor(criterios[0],valor,actual)){
 					lista.agregar(actual);
 				}
 			}
-			return busquedaNormal(disminuirCriterios(criterios),lista.darArreglo());
+			return busquedaNormal(disminuirCriterios(criterios),lista.darArreglo(),valor);
+		}
+	}
+
+	private boolean verificarValor(String criterio,String valor,Recurso recurso) {
+		if(valor.equals("CONTIENE")){
+			return recurso.contiene(criterio);
+		}
+		else if(valor.equals("NO CONTIENE") ){
+			return !recurso.contiene(criterio);
+		}
+		else{
+			return recurso.igual(criterio);
 		}
 	}
 
@@ -128,40 +131,6 @@ public class ComponenteSearch implements ICupiSearch {
 			nueva[i-1] = criterios[i];
 		}
 		return nueva;
-	}
-
-	private Object[] buscarXNivel(String[] criterios, Object[] arreglo, int nivel) {
-		if(criterios.length == 0 || nivel == 0){
-			return arreglo;
-		}
-		else{
-			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
-			for(int i = 0; i<arreglo.length;i++){
-				Recurso actual = (Recurso) arreglo[i];
-				if(actual.contiene(criterios[0])){
-					lista.agregar(actual);
-				}
-			}
-			return buscarXNivel(disminuirCriterios(criterios), lista.darArreglo(),nivel-1);
-		}
-	}
-
-	private Object[] buscarXtiempo(String[] criterios, int segundos,Object[] arreglo, long inicio) {
-		long tiempoTranscurrido = (new Date()).getTime() - inicio;
-		if(criterios.length == 0 || tiempoTranscurrido > segundos*1000){
-			return arreglo;
-		}
-		else{
-			ListaEncadenada<Recurso> lista = new ListaEncadenada<Recurso>();
-			for(int i = 0; i<arreglo.length && tiempoTranscurrido < segundos*1000;i++){
-				Recurso actual = (Recurso) arreglo[i];
-				if(actual.contiene(criterios[0])){
-					lista.agregar(actual);
-				}
-				tiempoTranscurrido = (new Date()).getTime() - inicio;
-			}
-			return buscarXtiempo(disminuirCriterios(criterios), segundos,lista.darArreglo(),inicio);
-		}
 	}
 
 	/**
