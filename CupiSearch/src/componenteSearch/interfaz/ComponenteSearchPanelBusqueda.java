@@ -95,8 +95,6 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					int tem = (int)spinnerTiempo.getValue();
-					
 					String termino = txtTermino.getText();
 					String tipo = (String)comboFiltro.getSelectedItem();
 					String filtro = (String)comboTipo.getSelectedItem();
