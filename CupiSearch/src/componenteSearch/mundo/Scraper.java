@@ -53,14 +53,14 @@ public class Scraper {
 		}
 	}
 	
-	public Exploracion generarExploracion(long maxTime){
+	public Exploracion generarExploracion(long maxTime, int niveles){
 		long tempOr = System.currentTimeMillis(); 
 		Object[] fuentesUrl = fuentes.darArreglo();
 		
 		for (int i = 0; i < fuentesUrl.length; i++) {
 			long temp = System.currentTimeMillis();
 			String url = (String)fuentesUrl[i];
-			recorrerFuentePorProfundidad(url, arbolRecursos, 0, temp, maxTime);
+			recorrerFuentePorProfundidad(url, arbolRecursos, 1, temp, maxTime,niveles);
 			System.out.println("Exploracion de la url: " + url + " finalizada");
 			urlsPorVisitar = null;
 			urlsPorVisitar = new ListaEncadenada<String>();
@@ -71,16 +71,18 @@ public class Scraper {
 		return e;
 	}
 	
-	private void recorrerFuentePorProfundidad(String url, ArbolBinarioAVLOrdenado<Recurso> arbol,int nivel,long initialTime, long finalTime){
+	private void recorrerFuentePorProfundidad(String url, ArbolBinarioAVLOrdenado<Recurso> arbol,int nivel,long initialTime, long finalTime,int maxNiveles){
 		try {
-			nivel++;
 			
+//			nivel++;
 			if(System.currentTimeMillis() - initialTime > finalTime)
 				return;
-			
+			if(nivel == maxNiveles+1)
+				return;
+							
 			Document doc = Jsoup.connect(url).get();
 			urlsVisitadas.agregar(url);
-			System.out.println("Estoy en: " + url);
+			System.out.println("Estoy en: " + url + " nivel: " + nivel);
 			
 			Elements elementsP = doc.getAllElements();
 			for (Element element : elementsP) {
@@ -152,11 +154,12 @@ public class Scraper {
 					}
 				}
 			}
-			
 			for (String aVisitar : urlsPorVisitar) {
 				if(urlsVisitadas.buscar(aVisitar) == null)
-					recorrerFuentePorProfundidad(aVisitar, arbol, nivel, initialTime, finalTime);
+					recorrerFuentePorProfundidad(aVisitar, arbol, nivel+1, initialTime, finalTime,maxNiveles);
 			}
+			
+			
 		} catch (Exception e) {
 			System.out.println("Failed to parse url: " + url + " exploration level: " + nivel);
 			//e.printStackTrace();
@@ -222,12 +225,12 @@ public class Scraper {
 	public static void main(String[] args) {
 		Scraper escrapeador = new Scraper();
 		escrapeador.agregarURL("http://reddit.com");
-		Exploracion e = escrapeador.generarExploracion(10000);
+		Exploracion e = escrapeador.generarExploracion(10000,80);
 		System.out.println(e.darCantidadRecursos());
 	}
 
-	public Exploracion explorarSitios(long l) {
-		return generarExploracion(l);
+	public Exploracion explorarSitios(long l, int niveles) {
+		return generarExploracion(l,niveles);
 	}
 
 	

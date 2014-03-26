@@ -21,6 +21,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 
 import componenteSearch.mundo.ComponenteSearch;
+import componenteSearch.mundo.Exploracion;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -42,6 +43,8 @@ public class ComponenteSearchPanelHome extends JPanel {
 	
 	private static ComponenteSearchPanelHome self;
 	private JSpinner spinnerTiempo;
+	private JSpinner spinnerNivel;
+	private JLabel lblEstadisticas;
 	
     //-----------------------------------------------------------------
     // Constructor
@@ -96,18 +99,18 @@ public class ComponenteSearchPanelHome extends JPanel {
 		btnAgregar.setBounds(29, 310, 134, 29);
 		add(btnAgregar);
 		
-		JLabel lblNewLabel = new JLabel("Filleeer, filler, filleeer, filler");
-		lblNewLabel.setBackground(Color.ORANGE);
-		lblNewLabel.setBounds(29, 33, 265, 203);
-		add(lblNewLabel);
+		lblEstadisticas = new JLabel("Estadisticas");
+		lblEstadisticas.setBackground(Color.ORANGE);
+		lblEstadisticas.setBounds(29, 33, 265, 177);
+		add(lblEstadisticas);
 		
 		textField = new JTextField();
-		textField.setBounds(29, 236, 265, 28);
+		textField.setBounds(29, 222, 265, 28);
 		add(textField);
 		textField.setColumns(10);
 		
 		spinnerTiempo = new JSpinner();
-		spinnerTiempo.setModel(new SpinnerNumberModel(1,1,60,1));
+		spinnerTiempo.setModel(new SpinnerNumberModel(0,0,60,1));
 		spinnerTiempo.setBounds(165, 276, 129, 28);
 		add(spinnerTiempo);
 		
@@ -119,14 +122,30 @@ public class ComponenteSearchPanelHome extends JPanel {
 		btnExplorar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int spinnerVal = (int)spinnerTiempo.getValue();
-				mundo.explorarSitios(spinnerVal*1000);
+				int niveles = (int)spinnerNivel.getValue();
+				mundo.explorarSitios(spinnerVal*1000,niveles);
+				Exploracion exploracion = mundo.getExploracionActual();
+				lblEstadisticas.setText("Tiempo de busqueda: " + exploracion.getTiempoTotal() + "segundos \n" + "Total recursos: " + exploracion.darCantidadRecursos());
 			}
 		});
 		btnExplorar.setBounds(162, 310, 132, 29);
 		add(btnExplorar);
+		
+		JLabel lblNivelExploracion = new JLabel("Nivel Exploracion:");
+		lblNivelExploracion.setBounds(29, 254, 124, 16);
+		add(lblNivelExploracion);
+		
+		spinnerNivel = new JSpinner();
+		spinnerNivel.setModel(new SpinnerNumberModel(0,0,200,1));
+		spinnerNivel.setBounds(165, 248, 129, 28);
+		add(spinnerNivel);
 	}
 	
 	public void setSpinnerValue(int valor){
-		spinnerTiempo.setModel(new SpinnerNumberModel(valor,1,60,1));
+		spinnerTiempo.setModel(new SpinnerNumberModel(valor,0,60,1));
+	}
+
+	public void setSpinnerNivel(int nivel) {
+		spinnerNivel.setModel(new SpinnerNumberModel(nivel,0,200,1));
 	}
 }

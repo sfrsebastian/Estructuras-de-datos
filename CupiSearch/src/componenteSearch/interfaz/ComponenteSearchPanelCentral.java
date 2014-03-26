@@ -44,6 +44,8 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	
 	public int tiempoBusqueda;
 	
+	public int nivel;
+	
 	//-----------------------------------------------------------------
 	// Constructor
 	//-----------------------------------------------------------------
@@ -54,7 +56,8 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	 */
 	public ComponenteSearchPanelCentral(ComponenteSearch mundo){
 		componenteSearch = mundo;
-		tiempoBusqueda = 1;
+		tiempoBusqueda = 0;
+		nivel = 0;
 		
 		setLayout(new BorderLayout());
 		//setBorder(new TitledBorder("Componente Search"));
@@ -76,6 +79,7 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		remove(panel);
 		panelHome = new ComponenteSearchPanelHome(this, componenteSearch);
 		panelHome.setSpinnerValue(tiempoBusqueda);
+		panelHome.setSpinnerNivel(nivel);
 		add(panelHome,BorderLayout.CENTER);
 		revalidate();
 	}

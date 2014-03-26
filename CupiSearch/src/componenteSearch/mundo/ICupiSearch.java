@@ -9,7 +9,7 @@ public interface ICupiSearch {
 
 	public void agregarSitiosFuente(String url);
 
-	public void explorarSitios(long l);
+	public void explorarSitios(long l, int niveles);
 
 	public String mostrarEstadistica(Exploracion nExploracion);
 

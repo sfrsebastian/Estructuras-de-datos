@@ -61,10 +61,16 @@ public class ComponenteSearch implements ICupiSearch {
 
 	/**
 	 * @param l 
+	 * @param niveles 
 	 * @see package0.ICupiSearch#explorarSitios()
 	 */
-	public void explorarSitios(long l) {
-		exploracionActual = scraper.explorarSitios(l);
+	public void explorarSitios(long l, int niveles){
+		if(l == 0)
+			l = 600000;
+		else if (niveles == 0)
+			niveles = 100000;
+		
+		exploracionActual = scraper.explorarSitios(l,niveles);
 		exploraciones.agregar(exploracionActual);
 	}
 
@@ -235,5 +241,9 @@ public class ComponenteSearch implements ICupiSearch {
 		ois.writeObject(exploraciones);
 		ois.close();
 		System.out.println("guardo!");
+	}
+
+	public Exploracion getExploracionActual() {
+		return exploracionActual;
 	}
 }

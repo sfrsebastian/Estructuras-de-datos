@@ -49,4 +49,8 @@ public class Exploracion implements Comparable<Exploracion> {
 	public String toString(){
 		return null;
 	}
+
+	public long getTiempoTotal() {
+		return tiempoTotal/1000;
+	}
 }
