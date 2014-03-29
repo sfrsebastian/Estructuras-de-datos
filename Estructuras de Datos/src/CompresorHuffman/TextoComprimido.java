@@ -33,6 +33,11 @@ public class TextoComprimido {
 		numeroCaracteres = 0;
 	}
 	
+	public TextoComprimido(int num,String nMensaje,DatosCaracter[] datos){
+		numeroCaracteres = num;
+		tabla = datos;
+		mensaje = new BitString(nMensaje);
+	}
 	//------------------------------------------
 	// Metodos
 	//-----------------------------------------
