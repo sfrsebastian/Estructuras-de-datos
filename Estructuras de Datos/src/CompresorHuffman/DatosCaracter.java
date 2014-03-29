@@ -28,6 +28,15 @@ public class DatosCaracter {
 		codigo = null;
 	}
 	
+	/**
+	 * Crea un nuevo Dato caracter a partir del char y el codigo dado
+	 * @param c
+	 * @param nCodigo
+	 */
+	public DatosCaracter(char c,String nCodigo){
+		caracter = c;
+		codigo = new BitString(nCodigo);
+	}
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------
