@@ -61,4 +61,8 @@ public class DatosCaracter {
 		}
 		codigo.agregarBit(bit);
 	}
+	
+	public String toString(){
+		return caracter+codigo.toString();
+	}
 }

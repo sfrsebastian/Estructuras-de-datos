@@ -150,4 +150,12 @@ public class BitString {
 			}
 		}
 	}
+	
+	public String toString(){
+		String respuesta = "";
+		for(int i = 0; i<longitud;i++){
+			respuesta+= consultarBit(i)?1:0;
+		}
+		return respuesta;
+	}
 }
