@@ -36,6 +36,29 @@ public class TextoComprimido {
 	//------------------------------------------
 	// Metodos
 	//-----------------------------------------
+	/**
+	 * Retorna el bitstring con el mensaje
+	 * @return
+	 */
+	public BitString getMensaje() {
+		return mensaje;
+	}
+
+	/**
+	 * Retorna la tabla de caracteres
+	 * @return
+	 */
+	public DatosCaracter[] getTabla() {
+		return tabla;
+	}
+
+	/**
+	 * Retorna el numero de caracteres del mensaje
+	 * @return
+	 */
+	public int getNumeroCaracteres() {
+		return numeroCaracteres;
+	}
 	
 	/**
 	 * Agrega el dato a la tabla de caracteres
@@ -46,7 +69,7 @@ public class TextoComprimido {
 			tabla[numeroCaracteres++] = datos;
 		}
 	}
-	
+
 	/**
 	 * Agrega el bitstring al mensaje actual.
 	 * @param nMensaje El contenido a concatenar al mensaje.
