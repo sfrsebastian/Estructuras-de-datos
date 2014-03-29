@@ -57,6 +57,11 @@ public class BitString {
 		}
 	}
 
+	public BitString(byte[] nMensaje, int num) {
+		longitud = num;
+		bytes = nMensaje;
+	}
+
 	//------------------------------------------
 	// Metodos
 	//------------------------------------------

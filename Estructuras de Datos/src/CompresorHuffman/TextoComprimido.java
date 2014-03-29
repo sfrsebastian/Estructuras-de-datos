@@ -27,16 +27,26 @@ public class TextoComprimido {
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
+	/**
+	 * Crea un texto comprimido a partir de la cantidad de caracteres dada.
+	 * @param num
+	 */
 	public TextoComprimido(int num){
 		mensaje = new BitString();
 		tabla = new DatosCaracter[num];
 		numeroCaracteres = 0;
 	}
 	
-	public TextoComprimido(int num,String nMensaje,DatosCaracter[] datos){
-		numeroCaracteres = num;
+	/**
+	 * Crea un texto comprimido a partir de los datos dados por parametro
+	 * @param num
+	 * @param nMensaje
+	 * @param datos
+	 */
+	public TextoComprimido(int num,byte[] nMensaje,DatosCaracter[] datos){
+		numeroCaracteres = datos.length;
 		tabla = datos;
-		mensaje = new BitString(nMensaje);
+		mensaje = new BitString(nMensaje,num);
 	}
 	//------------------------------------------
 	// Metodos
