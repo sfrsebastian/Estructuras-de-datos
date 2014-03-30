@@ -1,9 +1,10 @@
 package componenteSearch.mundo;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Recurso implements Comparable<Recurso>{
+public class Recurso implements Comparable<Recurso>, Serializable{
 
 	public final static String IMAGEN = "Imagen";
 	
@@ -44,6 +45,20 @@ public class Recurso implements Comparable<Recurso>{
 		url = nUrl;
 		imgUrl = nimgUrl;
 		nivel = nNivel;
+	}
+	
+	public Recurso(String ruta){
+		tipo = ruta.contains("http://")?IMAGEN:TEXTO;
+		if(tipo.equals(IMAGEN)){
+			imgUrl = ruta;
+			descripcion = "";
+		}
+		else{
+			descripcion = ruta;
+			imgUrl="";
+		}
+		nivel = 0;
+		url = "Recurso obtenido de servidor se perdio el url porque el protocolo no deja";
 	}
 	
 	//-----------------------------------------------------------------

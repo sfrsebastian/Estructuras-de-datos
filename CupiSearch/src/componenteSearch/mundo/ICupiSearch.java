@@ -17,7 +17,7 @@ public interface ICupiSearch {
 
 	public Object[] buscarResultados(String[] criterios, String valor);
 
-	public void crearCategoria(String nombre);
+	public void crearCategoria(String nombre, String descripcion);
 
 	public boolean eliminarCategoria(Categoria categoria);
 
@@ -25,9 +25,9 @@ public interface ICupiSearch {
 
 	public void eliminarRecursoDeCategoria(Categoria categoria, Recurso recurso);
 
-	public void comprimirCategorias();
+	public void comprimirCategorias() throws Exception;
 
-	public void recuperarCategorias();
+	public void recuperarCategorias() throws Exception;
 
 	public String visualizarImagen(Recurso recurso) throws IOException;
 

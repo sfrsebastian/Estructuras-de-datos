@@ -2,6 +2,9 @@ package componenteSearch.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,7 +43,7 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	/**
 	 * La clase principal del mundo
 	 */
-	private ComponenteSearch componenteSearch;
+	private static ComponenteSearch componenteSearch;
 	
 	public int tiempoBusqueda;
 	
@@ -128,7 +131,7 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	// Main - Standalone
 	//-----------------------------------------------------------------
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		JFrame n = new JFrame();
         n.setMinimumSize(new Dimension(450, 650));
         n.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -138,11 +141,18 @@ public class ComponenteSearchPanelCentral extends JPanel {
         n.add(nuevo);  
         n.repaint();
         nuevo.setVisible(true);
-	}
-	
-	public void terminar() {
-		// TODO Auto-generated method stub
-		
+        n.addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent evt) {
+            	try {
+					componenteSearch.guardar();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+            }
+        });
+        
 	}
 
 }

@@ -1,19 +1,20 @@
 package componenteSearch.mundo;
 
+import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 
 public class Categoria implements Comparable <Categoria> {
 
 	private String nombre;
+	private String descripcion;
 
-	private Recurso[] recurso;
+	private IArbolBinarioOrdenado<Recurso> recursos;
 
-	private IArbolBinarioOrdenado recursos;
-
-	public Categoria(String nombre) {
-
+	public Categoria(String nNombre, String nDescripcion){
+		nombre = nNombre;
+		descripcion = nDescripcion;
+		recursos = new ArbolBinarioAVLOrdenado<Recurso>();
 	}
-
 	public boolean agregarRecurso(Recurso recurso) {
 		return false;
 	}
@@ -26,6 +27,17 @@ public class Categoria implements Comparable <Categoria> {
 	public int compareTo(Categoria o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public String toString(){
+		String respuesta = "[nombre:" + nombre + "_"+ "descripcion:"+descripcion+"_"+"recursos{";
+		for (Recurso actual : recursos) {
+			respuesta+= actual.getTipo()==Recurso.IMAGEN?actual.getImgUrl():actual.getDescripcion();
+			respuesta+="_";
+		}
+		respuesta = respuesta.substring(0,respuesta.length()-1);
+		respuesta+="}]";
+		return respuesta;
 	}
 
 }

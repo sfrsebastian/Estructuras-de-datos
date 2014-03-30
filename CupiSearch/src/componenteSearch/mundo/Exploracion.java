@@ -1,9 +1,11 @@
 package componenteSearch.mundo;
 
+import java.io.Serializable;
+
 import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 
-public class Exploracion implements Comparable<Exploracion> {
+public class Exploracion implements Comparable<Exploracion>, Serializable {
 
 	private int recursosExplorados;
 
@@ -17,6 +19,7 @@ public class Exploracion implements Comparable<Exploracion> {
 		recursos = arbolRecursos;
 		tiempoTotal = tiempo;
 		recursosExplorados = arbolRecursos.darPeso();
+		busquedasRealizadas = 0;
 	}
 
 	@Override

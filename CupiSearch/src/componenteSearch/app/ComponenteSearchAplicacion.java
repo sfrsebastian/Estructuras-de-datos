@@ -53,20 +53,23 @@ public class ComponenteSearchAplicacion implements IAplicacion {
 
 	@Override
 	public void iniciarEjecucion() {
-		mundo = new ComponenteSearch(core);
-		panel = new ComponenteSearchPanelCentral(mundo);
+		try {
+			mundo = new ComponenteSearch(core);
+			panel = new ComponenteSearchPanelCentral(mundo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
 	public void terminarEjecucion() {
 		try {
 			mundo.guardar();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("error de guardado");
-		}
+		} 
 	}
 	
 	/**

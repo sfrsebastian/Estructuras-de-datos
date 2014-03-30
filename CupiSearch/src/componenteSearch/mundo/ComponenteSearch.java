@@ -1,21 +1,27 @@
 package componenteSearch.mundo;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Timer;
 
+import co.edu.uniandes.cupi2.datos.cmpRegistro.compartido.Protocolo;
 import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
+import CompresorHuffman.CompresorHuffman;
 import ListaEncadenada.ListaEncadenada;
 import uniandes.cupi2.cupIphone.core.ICore;
 
 public class ComponenteSearch implements ICupiSearch {
+
+	private static final String RUTAEXPLORACIONES = "/datos/exploraciones.dat";
+
+	private static final String RUTAUID = "/datos/UID.dat";
 
 	//-----------------------------------------------------------------
 	// Atributos
@@ -32,28 +38,54 @@ public class ComponenteSearch implements ICupiSearch {
 	private ICore core;
 
 	private Scraper scraper;
+	
+	private static String UID;
 
+	private ThreadComunicacion thread;
 	/**
 	 * 
 	 * @param c
+	 * @throws Exception 
 	 */
-	public ComponenteSearch(ICore c) {
+	public ComponenteSearch(ICore c) throws Exception {
 		core = c;
 		categorias = new ArbolBinarioAVLOrdenado<Categoria>();
-		exploraciones = new ArbolBinarioAVLOrdenado<Exploracion>();
 		exploracionActual = null;
+		inicializarExploraciones();
+		recuperarCategorias();
 		scraper = new Scraper();
+		//UID = asignarUID();
+	}
+
+	private void inicializarExploraciones() throws Exception {
+		File ruta = new File(darRuta()+RUTAEXPLORACIONES);
+		if(!ruta.exists()){
+			exploraciones = new ArbolBinarioAVLOrdenado<Exploracion>();
+		}
+		else{
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ruta));
+			exploraciones = (IArbolBinarioOrdenado<Exploracion>) ois.readObject();
+		}
 	}
 
 	//-----------------------------------------------------------------
 	// Metodos
 	//-----------------------------------------------------------------
-	/**
-	 * @see package0.ICupiSearch#agregarSitiosFuente(URL)
-	 */
-//	public void agregarSitiosFuente(URL url) {
-//		scraper.agregarURL(url.getPath());
-//	}
+
+
+	private String asignarUID() throws Exception {
+		File ruta = new File(darRuta() + RUTAUID);
+		if(ruta.exists()){
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ruta));
+			String id =  (String) ois.readObject();
+			thread = new ThreadComunicacion(id);
+			return id;
+		}
+		else{
+			thread = new ThreadComunicacion();
+			return thread.registrarAplicacion();
+		}
+	}
 
 	public void agregarSitiosFuente(String url){
 		scraper.agregarURL(url);
@@ -94,6 +126,7 @@ public class ComponenteSearch implements ICupiSearch {
 	 */
 	@Override
 	public Object[] buscarResultados(String[] criterios, String valor) {
+		exploracionActual.aumentarBusqueda();
 		return busquedaNormal(criterios,exploracionActual.getRecursos().darArreglo(),valor);
 	}
 
@@ -136,8 +169,8 @@ public class ComponenteSearch implements ICupiSearch {
 	/**
 	 * @see package0.ICupiSearch#crearCategoria(java.lang.String)
 	 */
-	public void crearCategoria(String nombre) {
-		Categoria nueva = new Categoria(nombre);
+	public void crearCategoria(String nombre, String descripcion) {
+		Categoria nueva = new Categoria(nombre,descripcion);
 		categorias.agregar(nueva);
 	}
 
@@ -167,18 +200,26 @@ public class ComponenteSearch implements ICupiSearch {
 
 
 	/**
+	 * @throws Exception 
 	 * @see package0.ICupiSearch#comprimirCategorias()
 	 */
-	public void comprimirCategorias() {
-		
+	public void comprimirCategorias() throws Exception {
+		String aComprimir = "";
+		for (Categoria actual : categorias) {
+			aComprimir += actual.toString()+Protocolo.SEPARATOR; 
+		}
+		aComprimir = aComprimir.substring(0,aComprimir.length());
+		CompresorHuffman c = new CompresorHuffman(aComprimir);
+		thread.registrarCategorias(c.comprimir());
 	}
 
 
 	/**
+	 * @throws Exception 
 	 * @see package0.ICupiSearch#recuperarCategorias()
 	 */
-	public void recuperarCategorias() {
-
+	public void recuperarCategorias() throws Exception {
+		Iterator<Categoria> iterator = thread.recuperarCategorias();
 	}
 
 
@@ -187,31 +228,43 @@ public class ComponenteSearch implements ICupiSearch {
 	 * @see package0.ICupiSearch#visualizarResultado(package0.Recurso)
 	 */
 	public String visualizarImagen(Recurso recurso) throws IOException {
-		if(core != null){
-			return scraper.descargarImagen(recurso.getImgUrl(),core.darDirectorioDatos().getPath());
-		}
-		else{
-			return scraper.descargarImagen(recurso.getImgUrl(),"./data");
-		}
-		
+		return scraper.descargarImagen(recurso.getImgUrl(),darRuta());
 	}
 
-	public void guardar() throws FileNotFoundException, IOException {
-		File ruta;
-		if(core !=null){
-			ruta = new File(core.darDirectorioDatos().getPath() + "/datos/exploraciones.dat/");
-		}
-		else{
-			ruta = new File("./data/datos/exploraciones.dat/");
+	public void guardar() throws Exception {
+		File ubicacion = new File(darRuta() + "/datos");
+		File ruta = new File(darRuta() + RUTAEXPLORACIONES);
+		if(!ubicacion.exists()){
+			ubicacion.mkdir();
 		}
 		
-		exploraciones.agregar(exploracionActual);
-		ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(ruta));
-		ois.writeObject(exploraciones);
-		ois.close();
+		ObjectOutputStream ois;
+		if(exploracionActual!=null){
+			exploraciones.agregar(exploracionActual);
+			ois = new ObjectOutputStream(new FileOutputStream(ruta));
+			ois.writeObject(exploraciones);
+			ois.close();
+		}
+		
+		if(UID != null){
+			ruta = new File(darRuta() + RUTAUID);
+			ois = new ObjectOutputStream(new FileOutputStream(ruta));
+			ois.writeObject(UID);
+			ois.close();
+		}
+		
+		//comprimirCategorias();
 		System.out.println("guardo!");
 	}
 
+	public String darRuta(){
+		if(core !=null){
+			return core.darDirectorioDatos().getPath();// + "/datos/exploraciones.dat/");
+		}
+		else{
+			return "./data"; //  /datos/exploraciones.dat/");
+		}
+	}
 	public Exploracion getExploracionActual() {
 		return exploracionActual;
 	}
