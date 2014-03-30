@@ -1,12 +1,13 @@
 package ArbolBinOrdenado;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
-public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T> {
+public class ArbolBinarioOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T>,Serializable {
 
 	//------------------------------------------
 	// Atributos

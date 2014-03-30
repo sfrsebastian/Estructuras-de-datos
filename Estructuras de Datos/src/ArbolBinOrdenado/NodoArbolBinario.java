@@ -1,10 +1,11 @@
 package ArbolBinOrdenado;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import ListaEncadenada.ListaEncadenada;
 
-public class NodoArbolBinario<T extends Comparable<T>>{
+public class NodoArbolBinario<T extends Comparable<T>> implements Serializable{
 	//------------------------------------------
 	// Atributos
 	//------------------------------------------

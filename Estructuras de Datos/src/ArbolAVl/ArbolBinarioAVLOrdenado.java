@@ -1,5 +1,6 @@
 package ArbolAVl;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,7 +9,7 @@ import ArbolBinOrdenado.IArbolBinarioOrdenado;
 import Cola.Cola;
 import ListaEncadenada.ListaEncadenada;
 
-public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T>{
+public class ArbolBinarioAVLOrdenado<T extends Comparable<T>> implements IArbolBinarioOrdenado<T>,Serializable{
 
 	//------------------------------------------
 	// Atributos
