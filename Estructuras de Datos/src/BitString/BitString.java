@@ -49,9 +49,7 @@ public class BitString {
 	 * @param nCodigo
 	 */
 	public BitString(String nCodigo) {
-		longitud = nCodigo.length();
-		bytes = new byte[longitud];
-		for(int i = 0;i<longitud;i++){
+		for(int i = 0;i<nCodigo.length();i++){
 			boolean bit = nCodigo.charAt(i) == 1;
 			agregarBit(bit);
 		}
