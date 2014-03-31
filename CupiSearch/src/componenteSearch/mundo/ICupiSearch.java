@@ -17,7 +17,7 @@ public interface ICupiSearch {
 
 	public Object[] buscarResultados(String[] criterios, String valor);
 
-	public void crearCategoria(String nombre);
+	public void crearCategoria(String nombre,String descripcion);
 
 	public boolean eliminarCategoria(Categoria categoria);
 

@@ -2,14 +2,21 @@ package componenteSearch.interfaz;
 
 import java.awt.Dimension;
 
+import javax.print.attribute.standard.MediaSize.JIS;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import ArbolAVl.ArbolBinarioAVLOrdenado;
+import ArbolBinOrdenado.ArbolBinarioOrdenado;
+import ArbolBinOrdenado.IArbolBinarioOrdenado;
+import componenteSearch.mundo.Categoria;
 import componenteSearch.mundo.ComponenteSearch;
 
 import java.awt.event.ActionListener;
@@ -26,6 +33,8 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 	private ComponenteSearchPanelCentral padre;
 
 	private ComponenteSearch mundo;
+	
+	private JList listaCategorias;
 	
 	private static ComponenteSearchPanelCategoria self;
 	
@@ -70,11 +79,25 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 		lblNewLabel.setBounds(94, 32, 167, 16);
 		add(lblNewLabel);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		listaCategorias = new JList();
+		JScrollPane scrollPane = new JScrollPane(listaCategorias);
 		scrollPane.setBounds(25, 55, 268, 201);
 		add(scrollPane);
 		
 		JButton button = new JButton("+");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String nombre = textField.getText();
+					Categoria cat = new Categoria(nombre, "TODO DESC");
+					mundo.agregarCategoria(cat);
+					textField.setText("");
+					refrescarListaCategorias(mundo.getCategorias().darArreglo());
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		});
 		button.setBounds(25, 268, 34, 29);
 		add(button);
 		
@@ -90,5 +113,26 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 		JButton btnVerContenido = new JButton("Ver Contenido");
 		btnVerContenido.setBounds(25, 311, 268, 29);
 		add(btnVerContenido);
+		
+		ArbolBinarioAVLOrdenado<Categoria> cats = mundo.getCategorias();
+		if(cats.darPeso() > 0)
+			refrescarListaCategorias(mundo.getCategorias().darArreglo());
+		else
+			refrescarListaCategorias(null);
+	}
+	
+	private void refrescarListaCategorias(Object[] cats){
+		listaCategorias.removeAll();
+		DefaultListModel modelo = new DefaultListModel();
+		if(cats != null && cats.length > 0){
+			for (int i = 0; i < cats.length; i++) {
+				Categoria cat = (Categoria)cats[i];
+				modelo.addElement(cat);
+			}
+		}else{
+			modelo.addElement("No hay categorias");
+		}
+		listaCategorias.setModel(modelo);
+		revalidate();
 	}
 }

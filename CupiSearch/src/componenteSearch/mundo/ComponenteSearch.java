@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Timer;
 
 import ArbolAVl.ArbolBinarioAVLOrdenado;
+import ArbolBinOrdenado.ArbolBinarioOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 import ListaEncadenada.ListaEncadenada;
 import uniandes.cupi2.cupIphone.core.ICore;
@@ -21,9 +22,9 @@ public class ComponenteSearch implements ICupiSearch {
 	// Atributos
 	//-----------------------------------------------------------------
 
-	private IArbolBinarioOrdenado<Categoria> categorias;
+	private ArbolBinarioAVLOrdenado<Categoria> categorias;
 
-	private IArbolBinarioOrdenado<Exploracion> exploraciones;
+	private ArbolBinarioAVLOrdenado<Exploracion> exploraciones;
 
 	private Exploracion exploracionActual;
 	/**
@@ -136,8 +137,8 @@ public class ComponenteSearch implements ICupiSearch {
 	/**
 	 * @see package0.ICupiSearch#crearCategoria(java.lang.String)
 	 */
-	public void crearCategoria(String nombre) {
-		Categoria nueva = new Categoria(nombre);
+	public void crearCategoria(String nombre, String descripcion) {
+		Categoria nueva = new Categoria(nombre,descripcion);
 		categorias.agregar(nueva);
 	}
 
@@ -157,6 +158,9 @@ public class ComponenteSearch implements ICupiSearch {
 		categoria.agregarRecurso(recurso);
 	}
 
+	public boolean agregarCategoria(Categoria cat){
+		return categorias.agregar(cat);
+	}
 
 	/**
 	 * @see package0.ICupiSearch#eliminarRecursoDeCategoria(java.lang.String, package0.Recurso)
@@ -214,5 +218,9 @@ public class ComponenteSearch implements ICupiSearch {
 
 	public Exploracion getExploracionActual() {
 		return exploracionActual;
+	}
+
+	public ArbolBinarioAVLOrdenado<Categoria> getCategorias() {
+		return categorias;
 	}
 }

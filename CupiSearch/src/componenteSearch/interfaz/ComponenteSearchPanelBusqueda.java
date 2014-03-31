@@ -15,6 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
+import ArbolAVl.ArbolBinarioAVLOrdenado;
+import componenteSearch.mundo.Categoria;
 import componenteSearch.mundo.ComponenteSearch;
 import componenteSearch.mundo.Exploracion;
 import componenteSearch.mundo.Recurso;
@@ -44,6 +46,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 	private JList listaResultados;
 	
 	private static ComponenteSearchPanelBusqueda self;
+	private JComboBox comboAgregar;
 	
     //-----------------------------------------------------------------
     // Constructor
@@ -138,11 +141,23 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		scrollPane.setBounds(25, 145, 262, 156);
 		add(scrollPane);
 		
-		JComboBox comboAgregar = new JComboBox();
+		comboAgregar = new JComboBox();
+		inicializarComboCategoria(comboAgregar);
 		comboAgregar.setBounds(25, 313, 117, 27);
 		add(comboAgregar);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Categoria cat = (Categoria)comboAgregar.getSelectedItem();
+					Recurso rec = (Recurso)listaResultados.getSelectedValue();
+					cat.agregarRecurso(rec);
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		});
 		btnAgregar.setBounds(140, 312, 147, 29);
 		add(btnAgregar);
 		
@@ -158,6 +173,34 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		refrescarLista(null);
 	}
 	
+	private void inicializarComboCategoria(JComboBox caja) {
+		ArbolBinarioAVLOrdenado<Categoria> categorias = mundo.getCategorias();
+		Object[] cats = null;
+		if(categorias.darPeso() > 0)
+			cats = mundo.getCategorias().darArreglo();
+	
+		caja.removeAll();
+		DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+		
+		if(cats == null){
+			modelo.addElement("No hay categorias");
+			caja.setModel(modelo);
+			revalidate();
+			return;
+		}
+		
+		if(cats.length > 0 && cats != null){
+			for (int i = 0; i < cats.length; i++) {
+				Categoria cat = (Categoria)cats[i];
+				modelo.addElement(cat);
+			}
+		}else{
+			modelo.addElement("No hay categorias");
+		}
+		caja.setModel(modelo);
+		revalidate();
+	}
+
 	public void refrescarLista(Object[] objetos){
 		listaResultados.removeAll();
 		DefaultListModel modelo = new DefaultListModel();
