@@ -1,5 +1,6 @@
 package componenteSearch.mundo;
 
+
 import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 
@@ -7,16 +8,17 @@ public class Categoria implements Comparable <Categoria> {
 
 	private String nombre;
 	private String descripcion;
-
 	private IArbolBinarioOrdenado<Recurso> recursos;
+
+
 
 	public Categoria(String nNombre, String nDescripcion){
 		nombre = nNombre;
 		descripcion = nDescripcion;
 		recursos = new ArbolBinarioAVLOrdenado<Recurso>();
 	}
-	public boolean agregarRecurso(Recurso recurso) {
-		return false;
+	public boolean agregarRecurso(Recurso nrec) {
+		return recursos.agregar(nrec);
 	}
 
 	public boolean eliminarRecurso(Recurso recurso) {
@@ -25,10 +27,9 @@ public class Categoria implements Comparable <Categoria> {
 
 	@Override
 	public int compareTo(Categoria o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return nombre.compareTo(o.nombre);
+		//return 0;
 	}
-	
 	public String toString(){
 		String respuesta = "[nombre:" + nombre + "_"+ "descripcion:"+descripcion+"_"+"recursos{";
 		for (Recurso actual : recursos) {

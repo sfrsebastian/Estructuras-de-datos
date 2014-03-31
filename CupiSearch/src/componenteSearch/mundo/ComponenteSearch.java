@@ -12,6 +12,7 @@ import java.util.Timer;
 
 import co.edu.uniandes.cupi2.datos.cmpRegistro.compartido.Protocolo;
 import ArbolAVl.ArbolBinarioAVLOrdenado;
+import ArbolBinOrdenado.ArbolBinarioOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 import CompresorHuffman.CompresorHuffman;
 import ListaEncadenada.ListaEncadenada;
@@ -27,9 +28,9 @@ public class ComponenteSearch implements ICupiSearch {
 	// Atributos
 	//-----------------------------------------------------------------
 
-	private IArbolBinarioOrdenado<Categoria> categorias;
+	private ArbolBinarioAVLOrdenado<Categoria> categorias;
 
-	private IArbolBinarioOrdenado<Exploracion> exploraciones;
+	private ArbolBinarioAVLOrdenado<Exploracion> exploraciones;
 
 	private Exploracion exploracionActual;
 	/**
@@ -64,7 +65,7 @@ public class ComponenteSearch implements ICupiSearch {
 		}
 		else{
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ruta));
-			exploraciones = (IArbolBinarioOrdenado<Exploracion>) ois.readObject();
+			exploraciones = (ArbolBinarioAVLOrdenado<Exploracion>) ois.readObject();
 		}
 	}
 
@@ -190,6 +191,9 @@ public class ComponenteSearch implements ICupiSearch {
 		categoria.agregarRecurso(recurso);
 	}
 
+	public boolean agregarCategoria(Categoria cat){
+		return categorias.agregar(cat);
+	}
 
 	/**
 	 * @see package0.ICupiSearch#eliminarRecursoDeCategoria(java.lang.String, package0.Recurso)
@@ -267,5 +271,9 @@ public class ComponenteSearch implements ICupiSearch {
 	}
 	public Exploracion getExploracionActual() {
 		return exploracionActual;
+	}
+
+	public ArbolBinarioAVLOrdenado<Categoria> getCategorias() {
+		return categorias;
 	}
 }

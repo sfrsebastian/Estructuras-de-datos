@@ -90,6 +90,7 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	public void cargarPanelCategoria(JPanel panel){
 		remove(panel);
 		panelCategoria = new ComponenteSearchPanelCategoria(this, componenteSearch);
+		//panelCategoria.refrescarListaCategorias(componenteSearch.getCategorias().darArreglo());
 		add(panelCategoria,BorderLayout.CENTER);
 		revalidate();
 	}
