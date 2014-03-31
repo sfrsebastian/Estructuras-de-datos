@@ -29,8 +29,8 @@ public class Categoria implements Comparable <Categoria> {
 
 	@Override
 	public int compareTo(Categoria o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return nombre.compareTo(o.nombre);
+		//return 0;
 	}
 	
 	public String toString(){

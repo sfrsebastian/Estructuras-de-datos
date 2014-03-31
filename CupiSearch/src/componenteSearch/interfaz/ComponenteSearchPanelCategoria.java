@@ -89,8 +89,7 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String nombre = textField.getText();
-					Categoria cat = new Categoria(nombre, "TODO DESC");
-					mundo.agregarCategoria(cat);
+					mundo.crearCategoria(nombre, "TODO DESC");
 					textField.setText("");
 					refrescarListaCategorias(mundo.getCategorias().darArreglo());
 				} catch (Exception e2) {
@@ -102,6 +101,22 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 		add(button);
 		
 		JButton button_1 = new JButton("-");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Categoria cat = (Categoria)listaCategorias.getSelectedValue();
+					mundo.eliminarCategoria(cat);
+					ArbolBinarioAVLOrdenado<Categoria> cats = mundo.getCategorias();
+					if(cats.darPeso() > 0)
+						refrescarListaCategorias(mundo.getCategorias().darArreglo());
+					else
+						refrescarListaCategorias(null);
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		});
 		button_1.setBounds(71, 268, 34, 29);
 		add(button_1);
 		
