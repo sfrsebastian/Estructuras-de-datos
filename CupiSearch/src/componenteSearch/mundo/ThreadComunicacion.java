@@ -23,36 +23,31 @@ public class ThreadComunicacion extends Thread {
 	private static final String IP = "157.253.236.58";
 	private static final int PUERTO = 9898;
 	private Socket socket;
-	private ObjectInputStream inObject;
-	private ObjectOutputStream outObject;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
 	private String UID;
-	private PrintWriter out;
-	private BufferedReader in;
 	
 	public ThreadComunicacion() throws Exception{
 		socket = new Socket(IP,PUERTO);
-		outObject = new ObjectOutputStream( socket.getOutputStream());
-		inObject = new ObjectInputStream(socket.getInputStream( ));
-		out = new PrintWriter( socket.getOutputStream(),true);
-		in = new BufferedReader(new InputStreamReader( socket.getInputStream( )));
+		out = new ObjectOutputStream( socket.getOutputStream());
+		in = new ObjectInputStream(socket.getInputStream( ));
+	
 	}
 	
 	public ThreadComunicacion(String nUID) throws Exception{
 		socket = new Socket(IP,PUERTO);
-		outObject = new ObjectOutputStream( socket.getOutputStream());
-		inObject = new ObjectInputStream(socket.getInputStream( ));
-		out = new PrintWriter( socket.getOutputStream(),true);
-		in = new BufferedReader(new InputStreamReader( socket.getInputStream( )));
+		out = new ObjectOutputStream( socket.getOutputStream());
+		in = new ObjectInputStream(socket.getInputStream( ));
 		UID = nUID;
 	}
 
 	public boolean registrarCategorias(TextoComprimido comprimir) throws Exception {
 		boolean respuesta = false;
-		out.println(Protocolo.REGISTRAR_CATEGORIAS+";"+UID);
-		if(in.readLine().equals(Protocolo.OK))
-			outObject.writeObject(crearMensaje(comprimir));
+		out.writeObject(Protocolo.REGISTRAR_CATEGORIAS+";"+UID);
+		if(in.readObject().equals(Protocolo.OK))
+			out.writeObject(crearMensaje(comprimir));
 		
-		if(in.readLine().equals(Protocolo.OK))
+		if(in.readObject().equals(Protocolo.OK))
 			respuesta = true;
 		
 		return respuesta;
@@ -78,8 +73,8 @@ public class ThreadComunicacion extends Thread {
 
 	public Iterator<Categoria> recuperarCategorias() throws Exception{
 		ListaEncadenada<Categoria> lista = new ListaEncadenada<Categoria>();
-		out.println(Protocolo.OBTENER_CATEGORIAS_USUARIO+";"+UID);
-		Mensaje mensaje = (Mensaje) inObject.readObject();
+		out.writeObject(Protocolo.OBTENER_CATEGORIAS_USUARIO+";"+UID);
+		Mensaje mensaje = (Mensaje) in.readObject();
 		DatosCaracter[] datos = convertirADatos(mensaje.darCodificacion());
 		TextoComprimido comprimido = new TextoComprimido(mensaje.darNumeroDeBitsMensaje(),mensaje.darMensaje(),datos);	
 		String descomprimido = comprimido.descomprimir();
@@ -107,7 +102,7 @@ public class ThreadComunicacion extends Thread {
 	}
 
 	private DatosCaracter[] convertirADatos(String codigos) {
-		String[] split = codigos.split(Protocolo.SEPARATOR);
+		String[] split = codigos.split("_");
 		DatosCaracter[] respuesta = new DatosCaracter[split.length];
 		for (int i = 0; i<split.length;i++) {
 			String caracter = split[i];
@@ -117,9 +112,9 @@ public class ThreadComunicacion extends Thread {
 		return respuesta;
 	}
 
-	public String registrarAplicacion() throws IOException {
-		out.println(Protocolo.REGISTRAR_APLICACION+";"+CODIGO1+";"+NOMBRE_INTEGRANTE1+";"+CODIGO2+";"+NOMBRE_INTEGRANTE2);
-		UID =  in.readLine();
+	public String registrarAplicacion() throws Exception {
+		out.writeObject(Protocolo.REGISTRAR_APLICACION+";"+CODIGO1+";"+NOMBRE_INTEGRANTE1+";"+CODIGO2+";"+NOMBRE_INTEGRANTE2);
+		UID =  (String) in.readObject();
 		return UID;
 	}
 

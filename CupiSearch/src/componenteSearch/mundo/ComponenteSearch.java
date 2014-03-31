@@ -50,11 +50,11 @@ public class ComponenteSearch implements ICupiSearch {
 	public ComponenteSearch(ICore c) throws Exception {
 		core = c;
 		categorias = new ArbolBinarioAVLOrdenado<Categoria>();
+		UID = asignarUID();
 		exploracionActual = null;
 		inicializarExploraciones();
 		recuperarCategorias();
 		scraper = new Scraper();
-		//UID = asignarUID();
 	}
 
 	private void inicializarExploraciones() throws Exception {
