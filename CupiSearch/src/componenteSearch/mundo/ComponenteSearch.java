@@ -210,14 +210,16 @@ public class ComponenteSearch implements ICupiSearch {
 	 */
 	public void comprimirCategorias() throws Exception {
 		String aComprimir = "";
-		for (Categoria actual : categorias) {
-			aComprimir += actual.comprimir()+"_"; 
+		if(categorias.darPeso() != 0){
+			for (Categoria actual : categorias) {
+				aComprimir += actual.comprimir()+"_"; 
+			}
+			aComprimir = aComprimir.substring(0,aComprimir.length()-1);
+			CompresorHuffman c = new CompresorHuffman(aComprimir);
+			TextoComprimido a = c.comprimir();
+			System.out.println(c.comprimir().descomprimir());
+			thread.registrarCategorias(c.comprimir());
 		}
-		aComprimir = aComprimir.substring(0,aComprimir.length()-1);
-		CompresorHuffman c = new CompresorHuffman(aComprimir);
-		TextoComprimido a = c.comprimir();
-		System.out.println(c.comprimir().descomprimir());
-		thread.registrarCategorias(c.comprimir());
 	}
 
 

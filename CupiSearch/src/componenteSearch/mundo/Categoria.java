@@ -38,11 +38,13 @@ public class Categoria implements Comparable <Categoria> {
 	}
 	public String comprimir(){
 		String respuesta = "[nombre:" + nombre + "_"+ "descripcion:"+descripcion+"_"+"recursos{";
-		for (Recurso actual : recursos) {
-			respuesta+= actual.getTipo()==Recurso.IMAGEN?actual.getImgUrl():actual.getDescripcion();
-			respuesta+="_";
+		if(recursos.darPeso() != 0){
+			for (Recurso actual : recursos) {
+				respuesta+= actual.getTipo()==Recurso.IMAGEN?actual.getImgUrl():actual.getDescripcion();
+				respuesta+="_";
+			}
+			respuesta = respuesta.substring(0,respuesta.length()-1);
 		}
-		respuesta = respuesta.substring(0,respuesta.length()-1);
 		respuesta+="}]";
 		return respuesta;
 	}

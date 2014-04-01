@@ -37,7 +37,7 @@
         <jar destfile="${jar.dir}/${jar.name}" basedir="${classes.dir}">
         	<fileset dir="./" includes="${data.dir}/**"/>
 			<fileset dir="./" includes="${lib.dir}/**"/>
-			<fileset dir="./" excludes="${lib.dir}/cupiphoneSDK.jar, ${lib.dir}/Estructuras de Datos.jar, {lib.dir}/jsoup-1.7.3.jar"/>
+			<fileset dir="./" excludes="${lib.dir}/cupiphoneSDK.jar"/>
         </jar>
     </target>
 </project>

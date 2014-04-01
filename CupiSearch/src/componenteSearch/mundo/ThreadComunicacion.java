@@ -67,7 +67,9 @@ public class ThreadComunicacion extends Thread {
 		String respuesta = "";
 		for (int i = 0; i<tabla.length;i++) {
 			DatosCaracter datosCaracter = tabla[i];
-			respuesta+=datosCaracter.toString()+"_";
+			if(datosCaracter !=null ){
+				respuesta+=datosCaracter.toString()+"_";
+			}
 		}
 		respuesta = respuesta.substring(0,respuesta.length()-1);
 		return respuesta;
