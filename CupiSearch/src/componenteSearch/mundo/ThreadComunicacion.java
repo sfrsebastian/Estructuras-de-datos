@@ -45,11 +45,21 @@ public class ThreadComunicacion extends Thread {
 	public boolean registrarCategorias(TextoComprimido comprimir) throws Exception {
 		boolean respuesta = false;
 		out.writeObject(Protocolo.REGISTRAR_CATEGORIAS+";"+UID);
-		if(in.readObject().equals(Protocolo.OK))
-			out.writeObject(crearMensaje(comprimir));
 		
-		if(in.readObject().equals(Protocolo.OK))
+		Object ob = in.readObject();
+		System.out.println(ob);
+		if(ob.equals(Protocolo.OK)){
+			Mensaje mensaje = crearMensaje(comprimir);
+			out.writeObject(mensaje);
+			System.out.println("OK");
+		}
+		
+		Object ob2 = in.readObject();
+		System.out.println(ob2);
+		if(ob2.equals(Protocolo.OK)){
 			respuesta = true;
+			System.out.println("OK");
+		}
 		
 		return respuesta;
 	}

@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class PanelHistorial extends JPanel {
 	
@@ -27,6 +28,8 @@ public class PanelHistorial extends JPanel {
 	private PanelHistorial self;
 	
 	private JList listaExploraciones;
+	private JTextField txtTotRec;
+	private JTextField txtTemp;
 	
 	public PanelHistorial(ComponenteSearch componenteSearch, ComponenteSearchPanelCentral componenteSearchPanelCentral){
 		mundo = componenteSearch;
@@ -50,12 +53,30 @@ public class PanelHistorial extends JPanel {
 		listaExploraciones = new JList();
 		inicializarLista(listaExploraciones);
 		JScrollPane scrollPane = new JScrollPane(listaExploraciones);
-		scrollPane.setBounds(17, 69, 285, 295);
+		scrollPane.setBounds(17, 53, 285, 147);
 		add(scrollPane);
 		
 		JLabel lblHistorialDeOperaciones = new JLabel("Historial de Operaciones");
-		lblHistorialDeOperaciones.setBounds(78, 41, 178, 16);
+		lblHistorialDeOperaciones.setBounds(78, 28, 178, 16);
 		add(lblHistorialDeOperaciones);
+		
+		JLabel lblTotalRecursos = new JLabel("Total Recursos:");
+		lblTotalRecursos.setBounds(17, 211, 109, 16);
+		add(lblTotalRecursos);
+		
+		txtTotRec = new JTextField();
+		txtTotRec.setBounds(151, 205, 152, 28);
+		add(txtTotRec);
+		txtTotRec.setColumns(10);
+		
+		JLabel lblTiempoExp = new JLabel("Tiempo exp:");
+		lblTiempoExp.setBounds(17, 239, 109, 16);
+		add(lblTiempoExp);
+		
+		txtTemp = new JTextField();
+		txtTemp.setBounds(151, 233, 151, 28);
+		add(txtTemp);
+		txtTemp.setColumns(10);
 	}
 
 	private void inicializarLista(JList listaExploraciones2) {

@@ -25,19 +25,19 @@ public class Scraper {
 	
 	private String url;
 	
-	private ListaEncadenada<String> fuentes;
+	private ArbolBinarioAVLOrdenado<String> fuentes;
 	
-	private ListaEncadenada<String> urlsVisitadas;
+	private ArbolBinarioAVLOrdenado<String> urlsVisitadas;
 	
-	private ListaEncadenada<String> urlsPorVisitar;
+	private ArbolBinarioAVLOrdenado<String> urlsPorVisitar;
 	
 	private ArbolBinarioAVLOrdenado<Recurso> arbolRecursos;
 	
 	public Scraper(){
 		arbolRecursos = new ArbolBinarioAVLOrdenado<Recurso>();
-		fuentes = new ListaEncadenada<String>();
-		urlsVisitadas = new ListaEncadenada<String>();
-		urlsPorVisitar = new ListaEncadenada<String>();
+		fuentes = new ArbolBinarioAVLOrdenado<String>();
+		urlsVisitadas = new ArbolBinarioAVLOrdenado<String>();
+		urlsPorVisitar = new ArbolBinarioAVLOrdenado<String>();
 	}
 	
     //-----------------------------------------------------------------
@@ -63,7 +63,7 @@ public class Scraper {
 			recorrerFuentePorProfundidad(url, arbolRecursos, 1, temp, maxTime,niveles);
 			System.out.println("Exploracion de la url: " + url + " finalizada");
 			urlsPorVisitar = null;
-			urlsPorVisitar = new ListaEncadenada<String>();
+			urlsPorVisitar = new ArbolBinarioAVLOrdenado<String>();
 		}
 		Exploracion e = new Exploracion(arbolRecursos, System.currentTimeMillis() - tempOr);
 		
@@ -166,31 +166,6 @@ public class Scraper {
 		}
 	}
 	
-	public void recorrerPorNiveles(String url) throws IOException{
-		System.out.println("Soy: " + url);
-		Document doc = Jsoup.connect(url).get();
-		Elements elems = doc.getElementsByTag("a");
-		
-		for (Element element : elems) {
-			String pattern = "(http://).*";
-			String patternInner = "(/wiki/).*";
-			
-			String inner = element.attr("href");
-			if(inner.matches(pattern) && !inner.equals(url) && !visitoUrl(url)){
-				//lista.add(inner);
-				try{
-				recorrerPorNiveles(inner);
-				}catch(Exception e){
-					
-				}
-			}else if (inner.matches(patternInner)){
-//				String newUrl = "http://www.wikipedia.org" + inner;
-//				recorrerPorNiveles(inner);
-				//hola!
-			}
-		}
-	}
-	
 	public String descargarImagen(String url,String ruta) throws IOException{	
 			Response resultImageResponse = Jsoup.connect(url).cookie("hola","perro").ignoreContentType(true).execute();
 			System.out.println(resultImageResponse.url());
@@ -209,31 +184,14 @@ public class Scraper {
 	        return salida;
 	}
 	
-	public boolean visitoUrl(String url){
-		//return lista.contains(url);
-		return false;
-	}
-	
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public static void main(String[] args) {
-		Scraper escrapeador = new Scraper();
-		escrapeador.agregarURL("http://reddit.com");
-		Exploracion e = escrapeador.generarExploracion(10000,80);
-		System.out.println(e.darCantidadRecursos());
+	public ArbolBinarioAVLOrdenado<String> getFuentes(){
+		return fuentes;
 	}
 
 	public Exploracion explorarSitios(long l, int niveles) {
 		return generarExploracion(l,niveles);
 	}
 
-	
 	public void agregarURL(String path) {
 		fuentes.agregar(path);
 	}
