@@ -11,7 +11,7 @@ public class Categoria implements Comparable <Categoria> {
 	
 	private String descripcion;
 
-	private IArbolBinarioOrdenado recursos;
+	private ArbolBinarioOrdenado recursos;
 
 	public Categoria(String nNombre, String nDescrip) {
 		nombre = nNombre;
@@ -23,18 +23,36 @@ public class Categoria implements Comparable <Categoria> {
 		return recursos.agregar(nrec);
 	}
 
-	public boolean eliminarRecurso(Recurso recurso) {
-		return false;
+	public boolean eliminarRecurso(Recurso nrecurso) {
+		return recursos.eliminar(nrecurso);
+	}
+	
+	public ArbolBinarioOrdenado<Recurso> getRecursos(){
+		return recursos;
 	}
 
 	@Override
 	public int compareTo(Categoria o) {
 		return nombre.compareTo(o.nombre);
-		//return 0;
 	}
 	
 	public String toString(){
 		return nombre + " : " + descripcion;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDescripcion(){
+		return descripcion;
+	}
+	
+	public void setDescripcion(String nDeString){
+		descripcion = nDeString;
+	}
+	
+	public void setNombre(String nNombre){
+		nombre = nNombre;
+	}
 }

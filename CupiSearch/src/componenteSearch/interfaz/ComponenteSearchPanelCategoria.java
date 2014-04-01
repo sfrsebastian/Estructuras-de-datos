@@ -126,6 +126,16 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnVerContenido = new JButton("Ver Contenido");
+		btnVerContenido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Categoria cat = (Categoria)listaCategorias.getSelectedValue();
+					padre.cargarPanelVistaCategoria(self, cat);
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnVerContenido.setBounds(25, 311, 268, 29);
 		add(btnVerContenido);
 		
