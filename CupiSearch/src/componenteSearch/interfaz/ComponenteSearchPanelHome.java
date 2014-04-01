@@ -101,10 +101,10 @@ public class ComponenteSearchPanelHome extends JPanel {
 		
 		lblEstadisticas = new JLabel("Estadisticas");
 		lblEstadisticas.setBackground(Color.ORANGE);
-		lblEstadisticas.setBounds(29, 33, 265, 177);
+		lblEstadisticas.setBounds(29, 85, 265, 125);
 		add(lblEstadisticas);
 		
-		textField = new JTextField();
+		textField = new JTextField("http://");
 		textField.setBounds(29, 222, 265, 28);
 		add(textField);
 		textField.setColumns(10);
@@ -139,6 +139,15 @@ public class ComponenteSearchPanelHome extends JPanel {
 		spinnerNivel.setModel(new SpinnerNumberModel(0,0,200,1));
 		spinnerNivel.setBounds(165, 248, 129, 28);
 		add(spinnerNivel);
+		
+		JButton btnVerHistorial = new JButton("Ver Historial");
+		btnVerHistorial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				padre.cargarPanelVistaHistorial(self);
+			}
+		});
+		btnVerHistorial.setBounds(29, 38, 117, 29);
+		add(btnVerHistorial);
 	}
 	
 	public void setSpinnerValue(int valor){

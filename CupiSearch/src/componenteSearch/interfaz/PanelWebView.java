@@ -1,4 +1,5 @@
 package componenteSearch.interfaz;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,9 +13,11 @@ import componenteSearch.mundo.Scraper;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -57,15 +60,23 @@ public class PanelWebView extends JPanel {
 		txtDescrip.setColumns(10);
 		txtDescrip.setBounds(16, 127, 286, 28);
 		add(txtDescrip);
-		
+			
 		JLabel lblNewLabel = new JLabel();
+		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
+		lblNewLabel.setVerticalAlignment(JLabel.CENTER);
 		if(recurso.getTipo().equals(Recurso.IMAGEN)){
 			lblNewLabel.setIcon(new ImageIcon(descargarImagen(recurso)));
+			JScrollPane scrollPane = new JScrollPane(lblNewLabel);
+			scrollPane.setBounds(16, 167, 286, 211);
+			add(scrollPane);
 		}else{
 			lblNewLabel.setText("<html>" + recurso.getDescripcion() + "</html>");
+			lblNewLabel.setBounds(16, 167, 286, 211);
+			lblNewLabel.setBackground(Color.white);
+			lblNewLabel.setOpaque(true);
+			add(lblNewLabel);
+			repaint();
 		}
-		lblNewLabel.setBounds(16, 167, 286, 211);
-		add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Volver");
 		btnNewButton.addActionListener(new ActionListener() {

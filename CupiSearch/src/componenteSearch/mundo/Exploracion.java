@@ -1,6 +1,10 @@
 package componenteSearch.mundo;
 
 import java.io.Serializable;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
@@ -15,11 +19,18 @@ public class Exploracion implements Comparable<Exploracion>, Serializable {
 
 	private IArbolBinarioOrdenado<Recurso> recursos;
 	
+	private Date fecha;
+	
+	private static final long serialVersionUID = 7403297819295143360L;
+	
 	public Exploracion(ArbolBinarioAVLOrdenado<Recurso> arbolRecursos, long tiempo) {
 		recursos = arbolRecursos;
 		tiempoTotal = tiempo;
 		recursosExplorados = arbolRecursos.darPeso();
 		busquedasRealizadas = 0;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		fecha = new Date();
+		dateFormat.format(fecha);
 	}
 
 	@Override
@@ -50,7 +61,7 @@ public class Exploracion implements Comparable<Exploracion>, Serializable {
 	}
 
 	public String toString(){
-		return null;
+		return fecha + " -duracion de exploracion en segs: " + (int)tiempoTotal/1000 + " -numero de recursos explorados: " + darCantidadRecursos();
 	}
 
 	public long getTiempoTotal() {

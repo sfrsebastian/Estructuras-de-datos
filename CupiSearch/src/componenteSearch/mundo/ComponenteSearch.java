@@ -281,4 +281,8 @@ public class ComponenteSearch implements ICupiSearch {
 	public ArbolBinarioAVLOrdenado<Categoria> getCategorias() {
 		return categorias;
 	}
+
+	public ArbolBinarioAVLOrdenado<Exploracion> getExploraciones() {
+		return exploraciones;
+	}
 }
