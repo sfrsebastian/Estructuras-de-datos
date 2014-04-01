@@ -64,7 +64,7 @@ public class ComponenteSearchPanelHome extends JPanel {
 		btnCat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				padre.cargarPanelCategoria(self);
-				padre.tiempoBusqueda = (int)spinnerTiempo.getValue();
+				padre.tiempoBusqueda = (Integer)spinnerTiempo.getValue();
 			}
 		});
 		btnCat.setBounds(6, 364, 117, 53);
@@ -74,7 +74,7 @@ public class ComponenteSearchPanelHome extends JPanel {
 		btnBusq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				padre.cargarPanelBusqueda(self);
-				padre.tiempoBusqueda = (int)spinnerTiempo.getValue();
+				padre.tiempoBusqueda = (Integer)spinnerTiempo.getValue();
 			}
 		});
 		btnBusq.setBounds(197, 364, 117, 53);
@@ -121,8 +121,8 @@ public class ComponenteSearchPanelHome extends JPanel {
 		JButton btnExplorar = new JButton("Explorar");
 		btnExplorar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int spinnerVal = (int)spinnerTiempo.getValue();
-				int niveles = (int)spinnerNivel.getValue();
+				int spinnerVal = (Integer)spinnerTiempo.getValue();
+				int niveles = (Integer)spinnerNivel.getValue();
 				mundo.explorarSitios(spinnerVal*1000,niveles);
 				Exploracion exploracion = mundo.getExploracionActual();
 				lblEstadisticas.setText("<html>Tiempo de busqueda: " + exploracion.getTiempoTotal() + " segundos" + "<br>" + "Total recursos: " + exploracion.darCantidadRecursos()+"</html>");

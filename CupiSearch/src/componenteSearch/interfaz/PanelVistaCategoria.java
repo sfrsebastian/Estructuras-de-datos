@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.ArbolBinarioOrdenado;
 import componenteSearch.mundo.Categoria;
 import componenteSearch.mundo.ComponenteSearch;
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -129,7 +131,7 @@ public class PanelVistaCategoria extends JPanel {
 	}
 
 	private void inicializarLista(JList lista) {
-		ArbolBinarioOrdenado<Recurso> recs = categoria.getRecursos();
+		ArbolBinarioAVLOrdenado<Recurso> recs = categoria.getRecursos();
 		DefaultListModel modelo = new DefaultListModel();
 		if(recs.darPeso() > 0){
 			Object[] recursos = recs.darArreglo();
