@@ -74,31 +74,36 @@ public class ThreadComunicacion extends Thread {
 	public Iterator<Categoria> recuperarCategorias() throws Exception{
 		ListaEncadenada<Categoria> lista = new ListaEncadenada<Categoria>();
 		out.writeObject(Protocolo.OBTENER_CATEGORIAS_USUARIO+";"+UID);
-		Mensaje mensaje = (Mensaje) in.readObject();
-		DatosCaracter[] datos = convertirADatos(mensaje.darCodificacion());
-		TextoComprimido comprimido = new TextoComprimido(mensaje.darNumeroDeBitsMensaje(),mensaje.darMensaje(),datos);	
-		String descomprimido = comprimido.descomprimir();
-		//falta crear iterador de categorias
-		String[] split = descomprimido.split("]");
-		for (String actual : split) {
-			int punto = actual.indexOf(":");
-			int espacio = actual.indexOf("_");
-			String nombre = actual.substring(punto,espacio);
-			punto = actual.indexOf(":", punto);
-			espacio = actual.indexOf("_", espacio);
-			String descripcion =  actual.substring(punto,espacio);
-			Categoria nueva = new Categoria(nombre,descripcion);
-			int curlyA = actual.indexOf("{")+1;
-			int curlyB = actual.indexOf("}");
-			String recursos = actual.substring(curlyA,curlyB);
-			String[] recs = actual.split("_");
-			for (String rec: recs) {
-				Recurso nuevo = new Recurso(rec);
-				nueva.agregarRecurso(nuevo);
+		try{
+			Mensaje mensaje = (Mensaje) in.readObject();
+			DatosCaracter[] datos = convertirADatos(mensaje.darCodificacion());
+			TextoComprimido comprimido = new TextoComprimido(mensaje.darNumeroDeBitsMensaje(),mensaje.darMensaje(),datos);	
+			String descomprimido = comprimido.descomprimir();
+			//falta crear iterador de categorias
+			String[] split = descomprimido.split("]");
+			for (String actual : split) {
+				int punto = actual.indexOf(":");
+				int espacio = actual.indexOf("_");
+				String nombre = actual.substring(punto,espacio);
+				punto = actual.indexOf(":", punto);
+				espacio = actual.indexOf("_", espacio);
+				String descripcion =  actual.substring(punto,espacio);
+				Categoria nueva = new Categoria(nombre,descripcion);
+				int curlyA = actual.indexOf("{")+1;
+				int curlyB = actual.indexOf("}");
+				String recursos = actual.substring(curlyA,curlyB);
+				String[] recs = actual.split("_");
+				for (String rec: recs) {
+					Recurso nuevo = new Recurso(rec);
+					nueva.agregarRecurso(nuevo);
+				}
+				lista.agregar(nueva);
 			}
-			lista.agregar(nueva);
-		}
-		return lista.iterator();
+		}	
+			catch(ClassCastException e){
+				System.out.println("No hay categorias en el servidor");
+			}
+			return lista.iterator();
 	}
 
 	private DatosCaracter[] convertirADatos(String codigos) {
@@ -115,6 +120,7 @@ public class ThreadComunicacion extends Thread {
 	public String registrarAplicacion() throws Exception {
 		out.writeObject(Protocolo.REGISTRAR_APLICACION+";"+CODIGO1+";"+NOMBRE_INTEGRANTE1+";"+CODIGO2+";"+NOMBRE_INTEGRANTE2);
 		UID =  (String) in.readObject();
+		System.out.println(UID);
 		return UID;
 	}
 
