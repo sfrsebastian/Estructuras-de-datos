@@ -23,6 +23,8 @@ public class ComponenteSearch implements ICupiSearch {
 	private static final String RUTAEXPLORACIONES = "/datos/exploraciones.dat";
 
 	private static final String RUTAUID = "/datos/UID.dat";
+	
+	private static final String UID = "4622312e-7c98-4d73-b969-53fb409c170c";
 
 	//-----------------------------------------------------------------
 	// Atributos
@@ -39,8 +41,6 @@ public class ComponenteSearch implements ICupiSearch {
 	private ICore core;
 
 	private Scraper scraper;
-	
-	private static String UID;
 
 	private ThreadComunicacion thread;
 	/**
@@ -51,7 +51,7 @@ public class ComponenteSearch implements ICupiSearch {
 	public ComponenteSearch(ICore c) throws Exception {
 		core = c;
 		categorias = new ArbolBinarioAVLOrdenado<Categoria>();
-		UID = asignarUID();
+		thread = new ThreadComunicacion(UID);
 		exploracionActual = null;
 		inicializarExploraciones();
 		recuperarCategorias();
