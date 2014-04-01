@@ -32,7 +32,11 @@ public class Categoria implements Comparable <Categoria> {
 	public int compareTo(Categoria o) {
 		return nombre.compareTo(o.nombre);
 	}
+	
 	public String toString(){
+		return nombre;
+	}
+	public String comprimir(){
 		String respuesta = "[nombre:" + nombre + "_"+ "descripcion:"+descripcion+"_"+"recursos{";
 		for (Recurso actual : recursos) {
 			respuesta+= actual.getTipo()==Recurso.IMAGEN?actual.getImgUrl():actual.getDescripcion();

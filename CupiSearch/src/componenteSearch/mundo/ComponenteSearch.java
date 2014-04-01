@@ -15,6 +15,7 @@ import ArbolAVl.ArbolBinarioAVLOrdenado;
 import ArbolBinOrdenado.ArbolBinarioOrdenado;
 import ArbolBinOrdenado.IArbolBinarioOrdenado;
 import CompresorHuffman.CompresorHuffman;
+import CompresorHuffman.TextoComprimido;
 import ListaEncadenada.ListaEncadenada;
 import uniandes.cupi2.cupIphone.core.ICore;
 
@@ -210,10 +211,12 @@ public class ComponenteSearch implements ICupiSearch {
 	public void comprimirCategorias() throws Exception {
 		String aComprimir = "";
 		for (Categoria actual : categorias) {
-			aComprimir += actual.toString()+Protocolo.SEPARATOR; 
+			aComprimir += actual.comprimir()+"_"; 
 		}
-		aComprimir = aComprimir.substring(0,aComprimir.length());
+		aComprimir = aComprimir.substring(0,aComprimir.length()-1);
 		CompresorHuffman c = new CompresorHuffman(aComprimir);
+		TextoComprimido a = c.comprimir();
+		System.out.println(c.comprimir().descomprimir());
 		thread.registrarCategorias(c.comprimir());
 	}
 
@@ -249,15 +252,15 @@ public class ComponenteSearch implements ICupiSearch {
 			ois.writeObject(exploraciones);
 			ois.close();
 		}
+//		
+//		if(UID != null){
+//			ruta = new File(darRuta() + RUTAUID);
+//			ois = new ObjectOutputStream(new FileOutputStream(ruta));
+//			ois.writeObject(UID);
+//			ois.close();
+//		}
 		
-		if(UID != null){
-			ruta = new File(darRuta() + RUTAUID);
-			ois = new ObjectOutputStream(new FileOutputStream(ruta));
-			ois.writeObject(UID);
-			ois.close();
-		}
-		
-		//comprimirCategorias();
+		comprimirCategorias();
 		System.out.println("guardo!");
 	}
 

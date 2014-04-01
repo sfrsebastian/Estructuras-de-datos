@@ -39,6 +39,7 @@ public class ThreadComunicacion extends Thread {
 		out = new ObjectOutputStream( socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream( ));
 		UID = nUID;
+		System.out.println("Conectado a servidor");
 	}
 
 	public boolean registrarCategorias(TextoComprimido comprimir) throws Exception {
@@ -64,7 +65,8 @@ public class ThreadComunicacion extends Thread {
 
 	private String codigoAString(DatosCaracter[] tabla) {
 		String respuesta = "";
-		for (DatosCaracter datosCaracter : tabla) {
+		for (int i = 0; i<tabla.length;i++) {
+			DatosCaracter datosCaracter = tabla[i];
 			respuesta+=datosCaracter.toString()+"_";
 		}
 		respuesta = respuesta.substring(0,respuesta.length()-1);
