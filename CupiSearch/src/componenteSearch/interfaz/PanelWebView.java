@@ -62,7 +62,7 @@ public class PanelWebView extends JPanel {
 		if(recurso.getTipo().equals(Recurso.IMAGEN)){
 			lblNewLabel.setIcon(new ImageIcon(descargarImagen(recurso)));
 		}else{
-			lblNewLabel.setText(recurso.getDescripcion());
+			lblNewLabel.setText("<html>" + recurso.getDescripcion() + "</html>");
 		}
 		lblNewLabel.setBounds(16, 167, 286, 211);
 		add(lblNewLabel);

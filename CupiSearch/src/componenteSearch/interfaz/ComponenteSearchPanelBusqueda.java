@@ -199,6 +199,8 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		}
 		caja.setModel(modelo);
 		revalidate();
+		repaint();
+		revalidate();
 	}
 
 	public void refrescarLista(Object[] objetos){

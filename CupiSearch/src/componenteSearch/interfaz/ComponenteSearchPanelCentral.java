@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import componenteSearch.mundo.Categoria;
 import componenteSearch.mundo.ComponenteSearch;
 import componenteSearch.mundo.Recurso;
 
@@ -39,6 +40,8 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	 * El panel de busqueda de la informacion
 	 */
 	private ComponenteSearchPanelBusqueda panelBusqueda;
+	
+	private PanelVistaCategoria vistaCategoria;
 	
 	/**
 	 * La clase principal del mundo
@@ -99,6 +102,13 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		remove(panel);
 		panelBusqueda = new ComponenteSearchPanelBusqueda(this, componenteSearch);
 		add(panelBusqueda, BorderLayout.CENTER);
+		revalidate();
+	}
+	
+	public void cargarPanelVistaCategoria(JPanel panel, Categoria cat){
+		remove(panel);
+		vistaCategoria = new PanelVistaCategoria(componenteSearch, cat, this);
+		add(vistaCategoria, BorderLayout.CENTER);
 		revalidate();
 	}
 	
