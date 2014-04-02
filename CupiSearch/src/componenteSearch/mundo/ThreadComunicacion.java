@@ -12,24 +12,78 @@ import CompresorHuffman.TextoComprimido;
 import ListaEncadenada.ListaEncadenada;
 
 public class ThreadComunicacion extends Thread {
-	private static final String NOMBRE_INTEGRANTE1 = "Sebastian Florez" ;
-	private static final String NOMBRE_INTEGRANTE2 = "Felipe Otalora" ;
+	//-----------------------------------------------------------------
+    // Constantes
+    //-----------------------------------------------------------------
+	/**
+	 * Nombre integrante 1
+	 */
+	private static final String NOMBRE_INTEGRANTE1 = "Sebastian Florez";
+	
+	/**
+	 * Nombre integrante 2
+	 */
+	private static final String NOMBRE_INTEGRANTE2 = "Felipe Otalora";
+	
+	/**
+	 * Codigo del estudiante 1
+	 */
 	private static final String CODIGO1 = "201313903";
+	
+	/**
+	 * Codigo del estudiante 2
+	 */
 	private static final String CODIGO2 = "201224949";
+	
+	/**
+	 * Ip del servidor de persistencia
+	 */
 	private static final String IP = "157.253.236.58";
+	
+	/**
+	 * Puerto del servidor
+	 */
 	private static final int PUERTO = 9898;
+	
+	/**
+	 * Socket para conexion con el servidor
+	 */
 	private Socket socket;
+	
+	/**
+	 * Flujo de entrada de informacion
+	 */
 	private ObjectInputStream in;
+	
+	/**
+	 * Flujo de salida de informacion
+	 */
 	private ObjectOutputStream out;
+	
+	/**
+	 * UID de la aplicacion
+	 */
 	private String UID;
 
+	//-----------------------------------------------------------------
+    // Constructores
+    //-----------------------------------------------------------------
+	/**
+	 * Crea un nuevo thread para conexion con el servidor
+	 * @throws Exception
+	 */
 	public ThreadComunicacion() throws Exception{
 		socket = new Socket(IP,PUERTO);
 		out = new ObjectOutputStream( socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream( ));
-
+		System.out.println("Conectado a servidor");
 	}
 
+	/**
+	 * Crea un nuevo thread para conexion con el servidor
+	 * @param nUID
+	 * @throws Exception
+	 */
 	public ThreadComunicacion(String nUID) throws Exception{
 		socket = new Socket(IP,PUERTO);
 		out = new ObjectOutputStream( socket.getOutputStream());
@@ -38,6 +92,12 @@ public class ThreadComunicacion extends Thread {
 		System.out.println("Conectado a servidor");
 	}
 
+	/**
+	 * Registra las categorias en el servidor a partir del protocolo establecido
+	 * @param comprimir El texto comprimido con algoritmo Huffman
+	 * @return true si envio correctamente la informacion
+	 * @throws Exception
+	 */
 	public boolean registrarCategorias(TextoComprimido comprimir) throws Exception {
 		boolean respuesta = false;
 		out.writeObject(Protocolo.REGISTRAR_CATEGORIAS+Protocolo.SEPARATOR+UID);
@@ -59,6 +119,11 @@ public class ThreadComunicacion extends Thread {
 		return respuesta;
 	}
 
+	/**
+	 * Metodo auxiliar que crea el mensaje a partir del texto comprimido huffman
+	 * @param comprimir
+	 * @return
+	 */
 	private Mensaje crearMensaje(TextoComprimido comprimir) {
 		Mensaje respuesta = new Mensaje();
 		respuesta.asignarUID(UID);
@@ -68,6 +133,11 @@ public class ThreadComunicacion extends Thread {
 		return respuesta;
 	}
 
+	/**
+	 * Metodo auxiliar que convierte los datos de los caracter a string acorde al protocolo
+	 * @param tabla la tabla cond atos de caracter
+	 * @return
+	 */
 	private String codigoAString(DatosCaracter[] tabla) {
 		String respuesta = "";
 		for (int i = 0; i<tabla.length;i++) {
@@ -80,6 +150,11 @@ public class ThreadComunicacion extends Thread {
 		return respuesta;
 	}
 
+	/**
+	 * Metodo que recupera las categorias del servidor
+	 * @return Iterador con las categorias recuperadas
+	 * @throws Exception
+	 */
 	public Iterator<Categoria> recuperarCategorias() throws Exception{
 		ListaEncadenada<Categoria> lista = new ListaEncadenada<Categoria>();
 		out.writeObject(Protocolo.OBTENER_CATEGORIAS_USUARIO+Protocolo.SEPARATOR+UID);
@@ -115,6 +190,11 @@ public class ThreadComunicacion extends Thread {
 		return lista.iterator();
 	}
 
+	/**
+	 *Convierte a Datos de caracter un string de caracteres
+	 * @param codigos Los codigos obtenidos del servidor
+	 * @return Los datos de caracter
+	 */
 	private DatosCaracter[] convertirADatos(String codigos) {
 		String[] split = codigos.split("~");
 		DatosCaracter[] respuesta = new DatosCaracter[split.length];
@@ -128,6 +208,11 @@ public class ThreadComunicacion extends Thread {
 		return respuesta;
 	}
 
+	/**
+	 * Registra la aplicacion en el servidor
+	 * @return El UID unico de el compoennte
+	 * @throws Exception
+	 */
 	public String registrarAplicacion() throws Exception {
 		out.writeObject(Protocolo.REGISTRAR_APLICACION+Protocolo.SEPARATOR+CODIGO1+Protocolo.SEPARATOR+NOMBRE_INTEGRANTE1+Protocolo.SEPARATOR+CODIGO2+Protocolo.SEPARATOR+NOMBRE_INTEGRANTE2);
 		UID =  (String) in.readObject();
