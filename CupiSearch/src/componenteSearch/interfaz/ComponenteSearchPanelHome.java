@@ -97,7 +97,7 @@ public class ComponenteSearchPanelHome extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String fuente = textField.getText();
-					if(!fuente.equals("http://") && fuente.matches("(http://)(.)*(.com)")){
+					if(!fuente.equals("http://") && fuente.matches("(http://)(.)*")){
 						padre.agregarFuente(fuente);
 						inicializarLista(listaUrls);
 					}

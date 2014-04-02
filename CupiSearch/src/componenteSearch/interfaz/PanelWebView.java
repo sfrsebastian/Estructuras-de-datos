@@ -24,15 +24,22 @@ import java.awt.event.ActionEvent;
 
 public class PanelWebView extends JPanel {
 
+	public final static String CATEGORIA = "CATEGORIA";
+	
+	public final static String BUSQUEDA = "BUSQUEDA";
+	
 	private ComponenteSearchPanelCentral padre;
 	private JTextField txtUrl;
 	private JTextField txtDescrip;
 	
 	private static PanelWebView self;
 	
-	public PanelWebView(Recurso recurso, ComponenteSearchPanelCentral papa){
+	private String retorno;
+	
+	public PanelWebView(Recurso recurso, ComponenteSearchPanelCentral papa, String nretorno){
 		padre = papa;
 		self = this;
+		retorno = nretorno;
 		
 		setBorder(new TitledBorder(null, "Vista Recurso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(null);
@@ -81,7 +88,10 @@ public class PanelWebView extends JPanel {
 		JButton btnNewButton = new JButton("Volver");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				padre.cargarPanelHome(self);
+				if(retorno.equals(BUSQUEDA))
+					padre.cargarPanelBusqueda(self);
+				else
+					padre.cargarPanelCategoria(self);
 			}
 		});
 		btnNewButton.setBounds(6, 388, 308, 29);

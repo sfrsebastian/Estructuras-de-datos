@@ -119,13 +119,13 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		try {
 			componenteSearch.agregarSitiosFuente(fuente);
 		} catch (Exception e) {
-			mostrarError("No se pudo formar la url: ", e);
+			//mostrarError("No se pudo formar la url: ", e);
 		}
 	}
 	
-	public void cargarWebView(JPanel panel, Recurso rec){
+	public void cargarWebView(JPanel panel, Recurso rec, String retorno){
 		remove(panel);
-		PanelWebView panelsito = new PanelWebView(rec, this);
+		PanelWebView panelsito = new PanelWebView(rec, this,retorno);
 		add(panelsito,BorderLayout.CENTER);
 		revalidate();
 	}

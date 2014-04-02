@@ -19,6 +19,8 @@ public class Exploracion implements Comparable<Exploracion>, Serializable {
 
 	private IArbolBinarioOrdenado<Recurso> recursos;
 	
+	private ArbolBinarioAVLOrdenado<String> fuentes;
+	
 	private Date fecha;
 	
 	private static final long serialVersionUID = 7403297819295143360L;
@@ -31,6 +33,7 @@ public class Exploracion implements Comparable<Exploracion>, Serializable {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		fecha = new Date();
 		dateFormat.format(fecha);
+		fuentes = new ArbolBinarioAVLOrdenado<String>();
 	}
 
 	@Override
@@ -41,6 +44,10 @@ public class Exploracion implements Comparable<Exploracion>, Serializable {
 			return -1;
 		else
 			return 0;
+	}
+	
+	public void agregarFuente(String url){
+		fuentes.agregar(url);
 	}
 	
 	public int darCantidadRecursos(){
@@ -56,15 +63,31 @@ public class Exploracion implements Comparable<Exploracion>, Serializable {
 	}
 
 	public String darEstadistica() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String toString(){
-		return fecha + " -duracion de exploracion en segs: " + (int)tiempoTotal/1000 + " -numero de recursos explorados: " + darCantidadRecursos();
+		return fecha + "";
 	}
 
 	public long getTiempoTotal() {
 		return tiempoTotal/1000;
 	}
+
+	public int getBusquedasRealizadas() {
+		return busquedasRealizadas;
+	}
+
+	public void setBusquedasRealizadas(int busquedasRealizadas) {
+		this.busquedasRealizadas = busquedasRealizadas;
+	}
+
+	public void setTiempoTotal(long tiempoTotal) {
+		this.tiempoTotal = tiempoTotal;
+	}
+	
+	public ArbolBinarioAVLOrdenado<String> getFuentes(){
+		return fuentes;
+	}
 }
+

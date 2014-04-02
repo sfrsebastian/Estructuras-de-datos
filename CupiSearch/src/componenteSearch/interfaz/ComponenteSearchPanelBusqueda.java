@@ -108,7 +108,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 					refrescarLista(mundo.buscarResultados(criters,(String)comboFiltro.getSelectedItem()));
 				} catch (Exception e2) {
 					// TODO: handle exception
-					e2.printStackTrace();
+					//e2.printStackTrace();
 				}
 			}
 		});
@@ -130,7 +130,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		        if (evt.getClickCount() == 2) {
 		        	System.out.println("Double cliked!");
 		        	Recurso rec = (Recurso)listaResultados.getSelectedValue();
-		        	padre.cargarWebView(self, rec);	
+		        	padre.cargarWebView(self, rec,PanelWebView.BUSQUEDA);	
 		        } else if (evt.getClickCount() == 3) {   // Triple-click
 		            int index = list.locationToIndex(evt.getPoint());
 		        }
@@ -154,7 +154,7 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 					Recurso rec = (Recurso)listaResultados.getSelectedValue();
 					cat.agregarRecurso(rec);
 				} catch (Exception e2) {
-					e2.printStackTrace();
+					//e2.printStackTrace();
 				}
 			}
 		});

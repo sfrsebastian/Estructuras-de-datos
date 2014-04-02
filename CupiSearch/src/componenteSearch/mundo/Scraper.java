@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import org.jsoup.Connection.Response;
@@ -29,7 +30,7 @@ public class Scraper {
 	
 	private ArbolBinarioAVLOrdenado<String> urlsVisitadas;
 	
-	private ArbolBinarioAVLOrdenado<String> urlsPorVisitar;
+	private ListaEncadenada<String> urlsPorVisitar;
 	
 	private ArbolBinarioAVLOrdenado<Recurso> arbolRecursos;
 	
@@ -37,7 +38,7 @@ public class Scraper {
 		arbolRecursos = new ArbolBinarioAVLOrdenado<Recurso>();
 		fuentes = new ArbolBinarioAVLOrdenado<String>();
 		urlsVisitadas = new ArbolBinarioAVLOrdenado<String>();
-		urlsPorVisitar = new ArbolBinarioAVLOrdenado<String>();
+		urlsPorVisitar = new ListaEncadenada<String>();
 	}
 	
     //-----------------------------------------------------------------
@@ -63,9 +64,14 @@ public class Scraper {
 			recorrerFuentePorProfundidad(url, arbolRecursos, 1, temp, maxTime,niveles);
 			System.out.println("Exploracion de la url: " + url + " finalizada");
 			urlsPorVisitar = null;
-			urlsPorVisitar = new ArbolBinarioAVLOrdenado<String>();
+			urlsPorVisitar = new ListaEncadenada<String>();
 		}
 		Exploracion e = new Exploracion(arbolRecursos, System.currentTimeMillis() - tempOr);
+		Iterator<String> i = fuentes.recorrerInorden();
+		while(i.hasNext()){
+			String tempUrl = i.next();
+			e.agregarFuente(tempUrl);
+		}
 		
 		System.out.println(arbolRecursos.darPeso());
 		return e;
@@ -82,7 +88,7 @@ public class Scraper {
 							
 			Document doc = Jsoup.connect(url).get();
 			urlsVisitadas.agregar(url);
-			System.out.println("Estoy en: " + url + " nivel: " + nivel);
+			System.out.println("Estoy en: " + url);
 			
 			Elements elementsP = doc.getAllElements();
 			for (Element element : elementsP) {

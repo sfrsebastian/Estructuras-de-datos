@@ -129,8 +129,10 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 		btnVerContenido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Categoria cat = (Categoria)listaCategorias.getSelectedValue();
-					padre.cargarPanelVistaCategoria(self, cat);
+					if(mundo.getCategorias().darPeso() > 0){
+						Categoria cat = (Categoria)listaCategorias.getSelectedValue();
+						padre.cargarPanelVistaCategoria(self, cat);
+					}
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}

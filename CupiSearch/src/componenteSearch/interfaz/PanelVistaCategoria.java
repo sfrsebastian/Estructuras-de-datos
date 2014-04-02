@@ -21,6 +21,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelVistaCategoria extends JPanel {
 	
@@ -66,38 +68,24 @@ public class PanelVistaCategoria extends JPanel {
 		txtDesc.setColumns(10);
 		
 		listaRecursos = new JList();
+		listaRecursos.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {
+		        	System.out.println("Double cliked!");
+		        	Recurso rec = (Recurso)listaRecursos.getSelectedValue();
+		        	padre.cargarWebView(self, rec,PanelWebView.CATEGORIA);	
+		        }
+		    }	
+		});
 		inicializarLista(listaRecursos);
 		JScrollPane scrollPane = new JScrollPane(listaRecursos);
 		scrollPane.setBounds(20, 135, 281, 198);
 		add(scrollPane);
 		
-		JButton btnVerRecurso = new JButton("Ver Recurso");
-		btnVerRecurso.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Recurso rec = (Recurso)listaRecursos.getSelectedValue();
-					padre.cargarWebView(self, rec);
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
-			}
-		});
-		btnVerRecurso.setBounds(20, 376, 117, 29);
-		add(btnVerRecurso);
-		
 		JLabel lblRecursos = new JLabel("Recursos");
-		lblRecursos.setBounds(126, 102, 61, 16);
+		lblRecursos.setBounds(20, 117, 61, 16);
 		add(lblRecursos);
-		
-		JButton btnGuardar = new JButton("Guardar");
-		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				categoria.setDescripcion(txtDesc.getText());
-				categoria.setNombre(txtNombre.getText());
-			}
-		});
-		btnGuardar.setBounds(184, 376, 117, 29);
-		add(btnGuardar);
 		
 		JButton btnEliminarRecuso = new JButton("Eliminar Recuso");
 		btnEliminarRecuso.addActionListener(new ActionListener() {
@@ -113,20 +101,22 @@ public class PanelVistaCategoria extends JPanel {
 				}
 			}
 		});
-		btnEliminarRecuso.setBounds(20, 345, 138, 29);
+		btnEliminarRecuso.setBounds(20, 345, 281, 29);
 		add(btnEliminarRecuso);
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					categoria.setDescripcion(txtDesc.getText());
+					categoria.setNombre(txtNombre.getText());
 					padre.cargarPanelCategoria(self);
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
 			}
 		});
-		btnAtras.setBounds(184, 345, 117, 29);
+		btnAtras.setBounds(20, 377, 281, 29);
 		add(btnAtras);
 	}
 
