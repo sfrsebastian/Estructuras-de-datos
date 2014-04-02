@@ -1,6 +1,8 @@
 package componenteSearch.interfaz;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -20,6 +22,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
 
+import ArbolAVl.ArbolBinarioAVLOrdenado;
 import componenteSearch.mundo.ComponenteSearch;
 import componenteSearch.mundo.Exploracion;
 
@@ -28,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JSpinner;
+import javax.swing.JScrollPane;
 
 public class ComponenteSearchPanelHome extends JPanel {
 	
@@ -41,10 +45,13 @@ public class ComponenteSearchPanelHome extends JPanel {
 	
 	private ComponenteSearch mundo;
 	
+	private JList listaUrls;
+	
 	private static ComponenteSearchPanelHome self;
 	private JSpinner spinnerTiempo;
 	private JSpinner spinnerNivel;
 	private JLabel lblEstadisticas;
+	private JLabel lblFuentes;
 	
     //-----------------------------------------------------------------
     // Constructor
@@ -90,7 +97,11 @@ public class ComponenteSearchPanelHome extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String fuente = textField.getText();
-					padre.agregarFuente(fuente);
+					if(!fuente.equals("http://") && fuente.matches("(http://)(.)*(.com)")){
+						padre.agregarFuente(fuente);
+						inicializarLista(listaUrls);
+					}
+					inicializarLista(listaUrls);
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -101,10 +112,10 @@ public class ComponenteSearchPanelHome extends JPanel {
 		
 		lblEstadisticas = new JLabel("Estadisticas");
 		lblEstadisticas.setBackground(Color.ORANGE);
-		lblEstadisticas.setBounds(29, 33, 265, 177);
+		lblEstadisticas.setBounds(6, 343, 3, 3);
 		add(lblEstadisticas);
 		
-		textField = new JTextField();
+		textField = new JTextField("http://");
 		textField.setBounds(29, 222, 265, 28);
 		add(textField);
 		textField.setColumns(10);
@@ -139,8 +150,42 @@ public class ComponenteSearchPanelHome extends JPanel {
 		spinnerNivel.setModel(new SpinnerNumberModel(0,0,200,1));
 		spinnerNivel.setBounds(165, 248, 129, 28);
 		add(spinnerNivel);
+		
+		JButton btnVerHistorial = new JButton("Ver Historial/Estadisticas");
+		btnVerHistorial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				padre.cargarPanelVistaHistorial(self);
+			}
+		});
+		btnVerHistorial.setBounds(29, 38, 265, 29);
+		add(btnVerHistorial);
+		
+		lblFuentes = new JLabel("Fuentes");
+		lblFuentes.setBounds(135, 72, 61, 16);
+		add(lblFuentes);
+		
+		listaUrls = new JList();
+		inicializarLista(listaUrls);
+		JScrollPane scrollPane = new JScrollPane(listaUrls);
+		scrollPane.setBounds(29, 98, 265, 112);
+		add(scrollPane);
 	}
 	
+	private void inicializarLista(JList listaUrls2) {
+		DefaultListModel modelo = new DefaultListModel();
+		ArbolBinarioAVLOrdenado arbol = mundo.getScraper().getFuentes();
+		if(arbol.darPeso() > 0){
+			Object[] urls = arbol.darArreglo();
+			for (int i = 0; i < urls.length; i++) {
+				String url = (String)urls[i];
+				modelo.addElement(url);
+			}
+		}else{
+			modelo.addElement("No hay fuentes agregadas");
+		}
+		listaUrls2.setModel(modelo);
+	}
+
 	public void setSpinnerValue(int valor){
 		spinnerTiempo.setModel(new SpinnerNumberModel(valor,0,60,1));
 	}

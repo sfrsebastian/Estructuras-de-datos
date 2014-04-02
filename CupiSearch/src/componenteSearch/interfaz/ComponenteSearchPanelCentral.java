@@ -43,6 +43,8 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	
 	private PanelVistaCategoria vistaCategoria;
 	
+	private PanelHistorial panelHistorial;
+	
 	/**
 	 * La clase principal del mundo
 	 */
@@ -66,13 +68,8 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		nivel = 0;
 		
 		setLayout(new BorderLayout());
-		//setBorder(new TitledBorder("Componente Search"));
-		
 		panelHome = new ComponenteSearchPanelHome(this, componenteSearch);
 		add(panelHome,BorderLayout.CENTER);
-		
-		//JLabel lbl = new JLabel("hola");
-		//add(lbl,BorderLayout.SOUTH);
 		repaint();
 	}
 	
@@ -93,7 +90,6 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	public void cargarPanelCategoria(JPanel panel){
 		remove(panel);
 		panelCategoria = new ComponenteSearchPanelCategoria(this, componenteSearch);
-		//panelCategoria.refrescarListaCategorias(componenteSearch.getCategorias().darArreglo());
 		add(panelCategoria,BorderLayout.CENTER);
 		revalidate();
 	}
@@ -109,6 +105,13 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		remove(panel);
 		vistaCategoria = new PanelVistaCategoria(componenteSearch, cat, this);
 		add(vistaCategoria, BorderLayout.CENTER);
+		revalidate();
+	}
+	
+	public void cargarPanelVistaHistorial(JPanel panel){
+		remove(panel);
+		panelHistorial = new PanelHistorial(componenteSearch, this);
+		add(panelHistorial,BorderLayout.CENTER);
 		revalidate();
 	}
 	
