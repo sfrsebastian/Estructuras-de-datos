@@ -26,6 +26,8 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 	private String imgUrl;
 	
 	private int nivel;
+
+	private String id;
 	
 	//-----------------------------------------------------------------
 	// Constructores
@@ -36,6 +38,7 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 		descripcion = nDescripcion;
 		url = nurl;
 		nivel = nNivel;
+		id = descripcion;
 		//System.out.println(descripcion);
 	}
 	
@@ -45,6 +48,7 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 		url = nUrl;
 		imgUrl = nimgUrl;
 		nivel = nNivel;
+		id = url;
 	}
 	
 	public Recurso(String ruta){
@@ -57,8 +61,9 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 			descripcion = ruta;
 			imgUrl="";
 		}
+		id = ruta;
 		nivel = 0;
-		url = "Recurso obtenido de servidor se perdio el url porque el protocolo no deja";
+		url = "Recurso obtenido de servidor se perdio url en persistencia de datos";
 	}
 	
 	//-----------------------------------------------------------------
@@ -75,7 +80,7 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 
 	@Override
 	public int compareTo(Recurso o) {
-		return descripcion.compareTo(o.descripcion);
+		return id.compareTo(o.id);
 	}
 	
 	@Override

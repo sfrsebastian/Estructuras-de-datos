@@ -52,10 +52,10 @@ public class ComponenteSearch implements ICupiSearch {
 	public ComponenteSearch(ICore c) throws Exception {
 		core = c;
 		categorias = new ArbolBinarioAVLOrdenado<Categoria>();
-		thread = new ThreadComunicacion(UID);
+		//thread = new ThreadComunicacion(UID);
 		exploracionActual = null;
 		inicializarExploraciones();
-		recuperarCategorias();
+		//recuperarCategorias();
 		scraper = new Scraper();
 	}
 
@@ -212,7 +212,7 @@ public class ComponenteSearch implements ICupiSearch {
 		String aComprimir = "";
 		if(categorias.darPeso() != 0){
 			for (Categoria actual : categorias) {
-				aComprimir += actual.comprimir()+"_"; 
+				aComprimir += actual.comprimir()+"~"; 
 			}
 			aComprimir = aComprimir.substring(0,aComprimir.length()-1);
 			CompresorHuffman c = new CompresorHuffman(aComprimir);

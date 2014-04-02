@@ -1,11 +1,7 @@
 package componenteSearch.mundo;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Iterator;
 
@@ -26,14 +22,14 @@ public class ThreadComunicacion extends Thread {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private String UID;
-	
+
 	public ThreadComunicacion() throws Exception{
 		socket = new Socket(IP,PUERTO);
 		out = new ObjectOutputStream( socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream( ));
-	
+
 	}
-	
+
 	public ThreadComunicacion(String nUID) throws Exception{
 		socket = new Socket(IP,PUERTO);
 		out = new ObjectOutputStream( socket.getOutputStream());
@@ -44,13 +40,13 @@ public class ThreadComunicacion extends Thread {
 
 	public boolean registrarCategorias(TextoComprimido comprimir) throws Exception {
 		boolean respuesta = false;
-		out.writeObject(Protocolo.REGISTRAR_CATEGORIAS+";"+UID);
+		out.writeObject(Protocolo.REGISTRAR_CATEGORIAS+Protocolo.SEPARATOR+UID);
 		if(in.readObject().equals(Protocolo.OK))
 			out.writeObject(crearMensaje(comprimir));
-		
+
 		if(in.readObject().equals(Protocolo.OK))
 			respuesta = true;
-		
+
 		return respuesta;
 	}
 
@@ -68,7 +64,7 @@ public class ThreadComunicacion extends Thread {
 		for (int i = 0; i<tabla.length;i++) {
 			DatosCaracter datosCaracter = tabla[i];
 			if(datosCaracter !=null ){
-				respuesta+=datosCaracter.toString()+"_";
+				respuesta+=datosCaracter.toString()+"~";
 			}
 		}
 		respuesta = respuesta.substring(0,respuesta.length()-1);
@@ -77,7 +73,7 @@ public class ThreadComunicacion extends Thread {
 
 	public Iterator<Categoria> recuperarCategorias() throws Exception{
 		ListaEncadenada<Categoria> lista = new ListaEncadenada<Categoria>();
-		out.writeObject(Protocolo.OBTENER_CATEGORIAS_USUARIO+";"+UID);
+		out.writeObject(Protocolo.OBTENER_CATEGORIAS_USUARIO+Protocolo.SEPARATOR+UID);
 		try{
 			Mensaje mensaje = (Mensaje) in.readObject();
 			DatosCaracter[] datos = convertirADatos(mensaje.darCodificacion());
@@ -86,17 +82,17 @@ public class ThreadComunicacion extends Thread {
 			//falta crear iterador de categorias
 			String[] split = descomprimido.split("]");
 			for (String actual : split) {
-				int punto = actual.indexOf(":");
-				int espacio = actual.indexOf("_");
+				int punto = actual.indexOf(":")+1;
+				int espacio = actual.indexOf("~",2);
 				String nombre = actual.substring(punto,espacio);
-				punto = actual.indexOf(":", punto);
-				espacio = actual.indexOf("_", espacio);
+				punto = actual.indexOf(":", punto)+1;
+				espacio = actual.indexOf("~", espacio+1);
 				String descripcion =  actual.substring(punto,espacio);
 				Categoria nueva = new Categoria(nombre,descripcion);
 				int curlyA = actual.indexOf("{")+1;
 				int curlyB = actual.indexOf("}");
 				String recursos = actual.substring(curlyA,curlyB);
-				String[] recs = actual.split("_");
+				String[] recs = recursos.split("~");
 				for (String rec: recs) {
 					Recurso nuevo = new Recurso(rec);
 					nueva.agregarRecurso(nuevo);
@@ -104,25 +100,27 @@ public class ThreadComunicacion extends Thread {
 				lista.agregar(nueva);
 			}
 		}	
-			catch(ClassCastException e){
-				System.out.println("No hay categorias en el servidor");
-			}
-			return lista.iterator();
+		catch(ClassCastException e){
+			System.out.println("No hay categorias en el servidor");
+		}
+		return lista.iterator();
 	}
 
 	private DatosCaracter[] convertirADatos(String codigos) {
-		String[] split = codigos.split("_");
+		String[] split = codigos.split("~");
 		DatosCaracter[] respuesta = new DatosCaracter[split.length];
 		for (int i = 0; i<split.length;i++) {
 			String caracter = split[i];
-			DatosCaracter nuevo = new DatosCaracter(caracter.charAt(0),caracter.substring(1,caracter.length()));
-			respuesta[i] = nuevo;
+			if(caracter.length() != 1){
+				DatosCaracter nuevo = new DatosCaracter(caracter.charAt(0),caracter.substring(1,caracter.length()));
+				respuesta[i] = nuevo;
+			}
 		}
 		return respuesta;
 	}
 
 	public String registrarAplicacion() throws Exception {
-		out.writeObject(Protocolo.REGISTRAR_APLICACION+";"+CODIGO1+";"+NOMBRE_INTEGRANTE1+";"+CODIGO2+";"+NOMBRE_INTEGRANTE2);
+		out.writeObject(Protocolo.REGISTRAR_APLICACION+Protocolo.SEPARATOR+CODIGO1+Protocolo.SEPARATOR+NOMBRE_INTEGRANTE1+Protocolo.SEPARATOR+CODIGO2+Protocolo.SEPARATOR+NOMBRE_INTEGRANTE2);
 		UID =  (String) in.readObject();
 		System.out.println(UID);
 		return UID;
