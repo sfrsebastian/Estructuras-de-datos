@@ -69,8 +69,8 @@ public class PanelHistorial extends JPanel {
 		add(txtTotRec);
 		txtTotRec.setColumns(10);
 		
-		JLabel lblTiempoExp = new JLabel("Tiempo exp:");
-		lblTiempoExp.setBounds(17, 239, 109, 16);
+		JLabel lblTiempoExp = new JLabel("Tiempo exploracion:");
+		lblTiempoExp.setBounds(17, 239, 134, 16);
 		add(lblTiempoExp);
 		
 		txtTemp = new JTextField();
