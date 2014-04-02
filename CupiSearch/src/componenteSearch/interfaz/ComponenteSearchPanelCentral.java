@@ -41,8 +41,14 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	 */
 	private ComponenteSearchPanelBusqueda panelBusqueda;
 	
+	/**
+	 * El panel con la vista de las categorias
+	 */
 	private PanelVistaCategoria vistaCategoria;
 	
+	/**
+	 * El panel con el historial de operaciones y exploraciones
+	 */
 	private PanelHistorial panelHistorial;
 	
 	/**
@@ -50,8 +56,14 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	 */
 	private static ComponenteSearch componenteSearch;
 	
+	/**
+	 * El tiempo de busqueda inicial
+	 */
 	public int tiempoBusqueda;
 	
+	/**
+	 * El nivel de la exploracion
+	 */
 	public int nivel;
 	
 	//-----------------------------------------------------------------
@@ -59,8 +71,8 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	//-----------------------------------------------------------------
 	
 	/**
-	 * 
-	 * @param mundo
+	 * Crea un nuevo panel central que "aloja" a los otros paneles del mundo
+	 * @param mundo La clase principal del mundo
 	 */
 	public ComponenteSearchPanelCentral(ComponenteSearch mundo){
 		componenteSearch = mundo;
@@ -77,8 +89,12 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	// Metodos
 	//-----------------------------------------------------------------
 	
+	/**
+	 * Carga el panel principal, el panel home
+	 * @param panel El panel que se quiere desmontar
+	 * POST: Se ha cargado el nuevo panel
+	 */
 	public void cargarPanelHome(JPanel panel){
-		
 		remove(panel);
 		panelHome = new ComponenteSearchPanelHome(this, componenteSearch);
 		panelHome.setSpinnerValue(tiempoBusqueda);
@@ -87,6 +103,11 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		revalidate();
 	}
 	
+	/**
+	 * Carga el panel de las categorias
+	 * @param panel El panel que se quiere desmontar
+	 * POST: Se ha cargado el nuevo panel
+	 */
 	public void cargarPanelCategoria(JPanel panel){
 		remove(panel);
 		panelCategoria = new ComponenteSearchPanelCategoria(this, componenteSearch);
@@ -94,6 +115,11 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		revalidate();
 	}
 	
+	/**
+	 * Carga el panel de busqueda
+	 * @param panel El panel que se quiere desmontar
+	 * POST: Se ha cargado el nuevo panel
+	 */
 	public void cargarPanelBusqueda(JPanel panel){
 		remove(panel);
 		panelBusqueda = new ComponenteSearchPanelBusqueda(this, componenteSearch);
@@ -101,6 +127,12 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		revalidate();
 	}
 	
+	/**
+	 * Carga el panel de vista y edicion de las categorias
+	 * @param panel El panel que se quiere desmontar
+	 * @param cat La categoria que se quiere mostrar
+	 * POST: Se ha cargado el nuevo panel
+	 */
 	public void cargarPanelVistaCategoria(JPanel panel, Categoria cat){
 		remove(panel);
 		vistaCategoria = new PanelVistaCategoria(componenteSearch, cat, this);
@@ -108,6 +140,11 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		revalidate();
 	}
 	
+	/**
+	 * Carga el panel del historial de operaciones
+	 * @param panel El panel que se va a desmontar
+	 * POST: Se ha cargado el nuevo panel
+	 */
 	public void cargarPanelVistaHistorial(JPanel panel){
 		remove(panel);
 		panelHistorial = new PanelHistorial(componenteSearch, this);
@@ -115,14 +152,23 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		revalidate();
 	}
 	
+	/**
+	 * Agrega una fuente al scraper y la exploracion actual
+	 * @param fuente
+	 */
 	public void agregarFuente(String fuente){
 		try {
 			componenteSearch.agregarSitiosFuente(fuente);
 		} catch (Exception e) {
-			//mostrarError("No se pudo formar la url: ", e);
 		}
 	}
 	
+	/**
+	 * Carga el panel con la vista del recurso web
+	 * @param panel El panel que se va a desmontar de la aplicacion
+	 * @param rec El recurso que se va a visualizar
+	 * @param retorno El nombre del panel al que va a retornar despues del avance
+	 */
 	public void cargarWebView(JPanel panel, Recurso rec, String retorno){
 		remove(panel);
 		PanelWebView panelsito = new PanelWebView(rec, this,retorno);
@@ -130,6 +176,11 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		revalidate();
 	}
 	
+	/**
+	 * Muestra un mensaje de error al usuario
+	 * @param mensaje El mensaje que se quiere mostrar
+	 * @param exception El tipo de excepcion
+	 */
 	public void mostrarError(String mensaje, Exception exception){
 		String exceptionMessage = "";
 		if(exception != null)
@@ -137,6 +188,12 @@ public class ComponenteSearchPanelCentral extends JPanel {
 		JOptionPane.showMessageDialog(this, "Hola", mensaje + exceptionMessage, JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/**
+	 * Descarga la imagen para visualizarla mediante el componente search
+	 * @param r El recurso
+	 * @return Un string con la ruta de visualizacion
+	 * @throws IOException
+	 */
 	public String descargarImagen(Recurso r) throws IOException{
 		return componenteSearch.visualizarImagen(r);
 	}
@@ -145,6 +202,11 @@ public class ComponenteSearchPanelCentral extends JPanel {
 	// Main - Standalone
 	//-----------------------------------------------------------------
 	
+	/**
+	 * Ejecuta la aplicacion de forma standalone
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		JFrame n = new JFrame();
         n.setMinimumSize(new Dimension(450, 650));
