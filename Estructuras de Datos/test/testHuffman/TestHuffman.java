@@ -19,4 +19,11 @@ public class TestHuffman extends TestCase {
 		assertEquals("El mensaje debe ser el mismo",mensaje,comprimido.descomprimir());
 	}
 	
+	public void testTemp(){
+		CompresorHuffman c = new CompresorHuffman("Hi there");
+		TextoComprimido antiguo = c.comprimir();
+		TextoComprimido nuevo = new TextoComprimido(antiguo.getMensaje().getLongitud(), antiguo.getMensaje().getBytes(), antiguo.getTabla());
+		System.out.println(nuevo.descomprimir());
+	}
+	
 }

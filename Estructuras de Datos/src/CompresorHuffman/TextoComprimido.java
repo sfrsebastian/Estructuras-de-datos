@@ -44,7 +44,12 @@ public class TextoComprimido {
 	 * @param datos
 	 */
 	public TextoComprimido(int num,byte[] nMensaje,DatosCaracter[] datos){
-		numeroCaracteres = datos.length;
+		numeroCaracteres = 0;
+		for(int i = 0; i<datos.length;i++){
+			if(datos[i]!= null){
+				numeroCaracteres++;
+			}
+		}
 		tabla = datos;
 		mensaje = new BitString(nMensaje,num);
 	}
