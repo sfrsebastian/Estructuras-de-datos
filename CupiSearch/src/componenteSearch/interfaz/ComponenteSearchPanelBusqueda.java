@@ -178,14 +178,12 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 		Object[] cats = null;
 		if(categorias.darPeso() > 0)
 			cats = mundo.getCategorias().darArreglo();
-	
-		caja.removeAll();
+		
 		DefaultComboBoxModel modelo = new DefaultComboBoxModel();
 		
 		if(cats == null){
 			modelo.addElement("No hay categorias");
 			caja.setModel(modelo);
-			revalidate();
 			return;
 		}
 		
@@ -198,9 +196,6 @@ public class ComponenteSearchPanelBusqueda extends JPanel {
 			modelo.addElement("No hay categorias");
 		}
 		caja.setModel(modelo);
-		revalidate();
-		repaint();
-		revalidate();
 	}
 
 	public void refrescarLista(Object[] objetos){
