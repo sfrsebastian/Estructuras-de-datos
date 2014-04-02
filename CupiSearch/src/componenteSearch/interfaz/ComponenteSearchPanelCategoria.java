@@ -89,11 +89,13 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String nombre = textField.getText();
-					mundo.crearCategoria(nombre, "TODO DESC");
-					textField.setText("");
-					refrescarListaCategorias(mundo.getCategorias().darArreglo());
+					if(!nombre.equals("")){
+						mundo.crearCategoria(nombre, "TODO DESC");
+						textField.setText("");
+						refrescarListaCategorias(mundo.getCategorias().darArreglo());
+					}
 				} catch (Exception e2) {
-					e2.printStackTrace();
+					//e2.printStackTrace();
 				}
 			}
 		});
@@ -105,15 +107,15 @@ public class ComponenteSearchPanelCategoria extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Categoria cat = (Categoria)listaCategorias.getSelectedValue();
-					mundo.eliminarCategoria(cat);
-					ArbolBinarioAVLOrdenado<Categoria> cats = mundo.getCategorias();
-					if(cats.darPeso() > 0)
-						refrescarListaCategorias(mundo.getCategorias().darArreglo());
-					else
-						refrescarListaCategorias(null);
+						mundo.eliminarCategoria(cat);
+						ArbolBinarioAVLOrdenado<Categoria> cats = mundo.getCategorias();
+						if(cats.darPeso() > 0)
+							refrescarListaCategorias(mundo.getCategorias().darArreglo());
+						else
+							refrescarListaCategorias(null);
 				} catch (Exception e2) {
 					// TODO: handle exception
-					e2.printStackTrace();
+					//e2.printStackTrace();
 				}
 			}
 		});
