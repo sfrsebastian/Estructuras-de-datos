@@ -45,11 +45,6 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 	 * El nivel donde se encontro el recruso
 	 */
 	private int nivel;
-
-	/**
-	 * Identificador unico del recurso
-	 */
-	private String id;
 	
 	//-----------------------------------------------------------------
 	// Constructores
@@ -66,7 +61,6 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 		descripcion = nDescripcion;
 		url = nurl;
 		nivel = nNivel;
-		id = descripcion;
 	}
 	
 	/**
@@ -82,7 +76,6 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 		url = nUrl;
 		imgUrl = nimgUrl;
 		nivel = nNivel;
-		id = url;
 	}
 	
 	/**
@@ -93,13 +86,12 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 		tipo = ruta.contains("http://")?IMAGEN:TEXTO;
 		if(tipo.equals(IMAGEN)){
 			imgUrl = ruta;
-			descripcion = "";
+			descripcion = ruta;
 		}
 		else{
 			descripcion = ruta;
 			imgUrl="";
 		}
-		id = ruta;
 		nivel = 0;
 		url = "Recurso obtenido de servidor se perdio url en persistencia de datos";
 	}
@@ -164,10 +156,10 @@ public class Recurso implements Comparable<Recurso>, Serializable{
 	}
 
 	/**
-	 * Metodo que compara dos recursos a partir de su id
+	 * Metodo que compara dos recursos a partir de su descripcion
 	 */
 	public int compareTo(Recurso o) {
-		return id.compareTo(o.id);
+		return descripcion.compareTo(o.descripcion);
 	}
 
 	/**
