@@ -77,10 +77,10 @@ public class ComponenteSearch implements ICupiSearch {
 	public ComponenteSearch(ICore c) throws Exception {
 		core = c;
 		categorias = new ArbolBinarioAVLOrdenado<Categoria>();
-		//thread = new ThreadComunicacion(UID);
+		thread = new ThreadComunicacion(UID);
 		exploracionActual = null;
 		inicializarExploraciones();
-		//recuperarCategorias();
+		recuperarCategorias();
 		scraper = new Scraper();
 	}
 
