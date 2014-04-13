@@ -81,7 +81,7 @@ public class NodoTriario<T extends Comparable<T>> implements Serializable {
 	 * @return TRUE si se elimina correctamente, FALSE de lo contrario
 	 */
 	public boolean eliminar(T elemento){
-	
+		
 	}
 	
 	/**
@@ -89,7 +89,20 @@ public class NodoTriario<T extends Comparable<T>> implements Serializable {
 	 * @param lista La lista donde agregar los elementos
 	 */
 	public void recorrerInorden(ILista<T> lista) {
+		if(izquierda != null)
+			izquierda.recorrerInorden(lista);
 		
+		if(elementoIzquierdo != null)
+			lista.agregar(elementoIzquierdo);
+		
+		if(mitad != null)
+			mitad.recorrerInorden(lista);
+		
+		if(elementoDerecho != null)
+			lista.agregar(elementoDerecho);
+		
+		if(derecha != null)
+			derecha.recorrerInorden(lista);
 	}
 	
 	/**
