@@ -97,6 +97,18 @@ public class NodoTriario<T extends Comparable<T>> implements Serializable {
 	 * @return La altura del nodo.
 	 */
 	public int darAltura() {
+		int izq = 0;
+		int centro = 0;
+		int der = 0;
+		if(izquierda != null)
+			izq = izquierda.darAltura();
 		
+		if(mitad != null)
+			centro = mitad.darAltura();
+		
+		if(derecha != null)
+			der = derecha.darAltura();
+		
+		return Math.max(Math.max(izq, centro), der)+1;
 	}
 }
