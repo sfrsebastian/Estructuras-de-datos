@@ -72,7 +72,35 @@ public class NodoTriario<T extends Comparable<T>> implements Serializable {
 	 * @return El elemento encontrado, null de lo contrario.
 	 */
 	public T buscar(T elemento){
+		T respuesta = null;
+		int comparacionIzq = -1000;
+		int comparacionDer = -1000;
 		
+		if(elementoIzquierdo != null)
+			 comparacionIzq = elemento.compareTo(elementoIzquierdo);
+		
+		if(elementoDerecho != null)
+			comparacionDer = elemento.compareTo(elementoDerecho);
+		
+		if(comparacionIzq<0 && comparacionIzq != -1000){
+			if(izquierda != null)
+				respuesta = izquierda.buscar(elemento);
+		}
+		else if(comparacionIzq == 0){
+			respuesta = elementoIzquierdo;
+		}
+		else if(comparacionDer<0 && comparacionDer != -1000){
+			if(mitad != null)
+				respuesta = mitad.buscar(elemento);
+		}
+		else if(comparacionDer == 0){
+			respuesta = elementoDerecho;
+		}
+		else if(derecha != null && comparacionDer != -1000 && comparacionIzq != -1000){
+			respuesta = derecha.buscar(elemento);	
+		}
+	
+		return respuesta;
 	}
 	
 	/**
