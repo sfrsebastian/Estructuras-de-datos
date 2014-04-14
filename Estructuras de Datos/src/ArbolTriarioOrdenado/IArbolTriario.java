@@ -8,8 +8,9 @@ public interface IArbolTriario<T> extends Serializable, Iterable<T> {
 	 * Agrega un nuevo elemento al arbol
 	 * @param elemento El elemento que se quiere agregar
 	 * @return boolean TRUE si se pudo agregar, false en caso contrario
+	 * @throws Exception 
 	 */
-	public boolean agregar(T elemento);
+	public boolean agregar(T elemento) throws Exception;
 	
 	/**
 	 * Busca el elemento T dentro del arbol
