@@ -41,11 +41,11 @@ public class ArbolTriarioOrdenado<T extends Comparable<T>> implements IArbolTria
 	//METODOS
 	//--------------------
 	public boolean agregar(T elemento) {
-		boolean respuesta = false;
+		boolean respuesta = true;
 		if(raiz == null)
-			raiz = new NodoTriario<T>();
-		
-		respuesta = raiz.agregar(elemento);
+			raiz = new NodoTriario<T>(elemento);
+		else
+			respuesta = raiz.agregar(elemento);
 		
 		if(respuesta)
 			peso++;
