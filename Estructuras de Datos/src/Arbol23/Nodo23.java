@@ -136,7 +136,7 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 			}
 			else{
 				if(comparacionIzquierda>0){
-					
+					//Rotacion con mitad en elemento izquierdo
 					Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
 					Nodo23<T> izq = new Nodo23<T>(elemento);
 					nuevo.izquierda = izq;
@@ -152,7 +152,7 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 					respuesta = nuevo;
 				}
 				else if(comparacionDerecha>0){
-					
+					//Rotacion con mitad en elemento agregado
 					Nodo23<T> nuevo = new Nodo23<T>(elemento);
 					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
 					nuevo.derecha = this;
@@ -167,16 +167,15 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 				Nodo23<T> recibido = izquierda.agregar(elemento);
 				int h1 = derecha.darAltura();
 				int h2 = recibido.darAltura();
-				int h3 = izquierda.darAltura();
 				if(!estaLleno() && !recibido.estaLleno() && h1+1 == h2 ){
-					
+					//this No esta lleno, recibido no esta lleno y altura de recibido es mayor en 1 que derecha
 					agregarElemento(recibido.elementoIzquierdo);
 					izquierda = recibido.izquierda;
 					mitad = recibido.derecha;
 					respuesta = this;
 				}
 				else if(estaLleno() && !recibido.estaLleno() && h1+1 == h2 ){
-					
+					//esta lleno, recibido no esta lleno y altura de recibido supera altura de 
 					izquierda = recibido;
 					Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
 					nuevo.izquierda = mitad;
@@ -185,37 +184,41 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 					derecha = nuevo;
 					respuesta = this;
 				}
-				else if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.derecha == null && recibido.izquierda== null && recibido.mitad == null){//estaLleno() && !recibido.esHoja()){
-					
-					Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
-					izquierda = mitad;
-					mitad = null;
-					nuevo.izquierda= recibido;
-					nuevo.derecha = this;
-					respuesta = nuevo;
-				}
-				else if(!estaLleno() && recibido.estaLleno() && recibido.derecha != null && recibido.izquierda!=null && recibido.mitad == null &&!recibido.derecha.estaLleno() && !recibido.izquierda.estaLleno()){
-					
-					mitad = izquierda;
-					agregarElemento(recibido.eliminarElemento(recibido.elementoDerecho));
+				else if(h1 == h2){
+					//Caso1: this no esta lleno ,recibido es hoja llena , izquierda.altura == derecha.altura == recibido.altura -- Caso2: this no esta lleno, recibido es arbol sin llenar, recibido.altura==derecha.altura -- Caso3: this no esta lleno, recibido no es hoja pero esta lleno y recibido.altura == derecha.altura -- Caso 4: this esta lleno recibido es hoja llena y derecha.altura == recibido.altura
 					izquierda = recibido;
-					respuesta = this;
-				}
-				else if(estaLleno() && !recibido.estaLleno() && recibido.esHoja()){
-					
-					izquierda = recibido;
-					Nodo23<T> der = new Nodo23<T>(eliminarElemento(elementoDerecho));
-					der.derecha = derecha;
-					der.izquierda = mitad;
-					mitad = null;
-					derecha = der;
 					respuesta = this;
 				}
 				else{
-					//Caso1: izquierdo es hoja, this.altura izquierda == this.altura derecha
-					izquierda = recibido;
-					respuesta = this;
+					System.out.println("Caso no aplica: " + elemento);
 				}
+				
+//				else if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.derecha == null && recibido.izquierda== null && recibido.mitad == null){//estaLleno() && !recibido.esHoja()){
+//				
+//				Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+//				izquierda = mitad;
+//				mitad = null;
+//				nuevo.izquierda= recibido;
+//				nuevo.derecha = this;
+//				respuesta = nuevo;
+//			}
+//			else if(!estaLleno() && recibido.estaLleno() && recibido.derecha != null && recibido.izquierda!=null && recibido.mitad == null &&!recibido.derecha.estaLleno() && !recibido.izquierda.estaLleno()){
+//				
+//				mitad = izquierda;
+//				agregarElemento(recibido.eliminarElemento(recibido.elementoDerecho));
+//				izquierda = recibido;
+//				respuesta = this;
+//			}
+//			else if(estaLleno() && !recibido.estaLleno() && recibido.esHoja()){
+//				
+//				izquierda = recibido;
+//				Nodo23<T> der = new Nodo23<T>(eliminarElemento(elementoDerecho));
+//				der.derecha = derecha;
+//				der.izquierda = mitad;
+//				mitad = null;
+//				derecha = der;
+//				respuesta = this;
+//			}
 			}
 		}
 		else if(comparacionDerecha<0 || (comparacionDerecha == 0 && elementoDerecho == null)){
@@ -224,30 +227,14 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 				int h1 = izquierda.darAltura();
 				int h2 = recibido.darAltura();
 				if(!estaLleno() && !recibido.estaLleno() && h1+1 == h2){
-					
+					//this no esta lleno, recibido.altura es mayor en 1 que altura de izquierda
 					agregarElemento(recibido.elementoIzquierdo);
 					derecha = recibido.derecha;
 					mitad = recibido.izquierda;
 					respuesta = this;
 				}
-				else if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.izquierda == null && recibido.derecha== null && recibido.mitad == null){
-					
-					Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
-					derecha = mitad;
-					mitad = null;
-					nuevo.derecha= recibido;
-					nuevo.izquierda = this;
-					respuesta = nuevo;
-				}
-				else if(!estaLleno() && recibido.estaLleno() && recibido.izquierda != null && recibido.derecha!=null && recibido.mitad == null &&!recibido.izquierda.estaLleno() && !recibido.derecha.estaLleno()){
-					
-					mitad = derecha;
-					agregarElemento(recibido.eliminarElemento(recibido.elementoIzquierdo));
-					derecha = recibido;
-					respuesta = this;
-				}
-				else if(estaLleno() && !recibido.estaLleno()){
-					
+				else if(estaLleno() && !recibido.estaLleno() && h1+1 == h2){
+					//Caso 1: Izquierda y mitad tienen un elemento, this esta lleno,recibido no esta lleno, recibido.altura es mayor en 1 que izquierda y mitad
 					derecha = recibido;
 					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
 					izq.izquierda = izquierda;
@@ -256,32 +243,66 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 					izquierda = izq;
 					respuesta = this;
 				}
-				else{
-					
+				else if(h1==h2){
+					//Caso1: this no esta lleno ,recibido es hoja llena , izquierda.altura == derecha.altura == recibido.altura -- Caso2: this no esta lleno, recibido es arbol sin llenar, recibido.altura==izquierda.altura Caso3: this no esta lleno, recibido no es hoja pero esta lleno y recibido.altura == izquierdo.altura -- Caso 4: this esta lleno recibido es hoja llena y derecha.altura == recibido.altura
 					derecha = recibido;
 					respuesta = this;
 				}
+				else{
+					System.out.println("Caso no aplica " + elemento);
+				}
+				
+//				else if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.izquierda == null && recibido.derecha== null && recibido.mitad == null){
+//				
+//				Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
+//				derecha = mitad;
+//				mitad = null;
+//				nuevo.derecha= recibido;
+//				nuevo.izquierda = this;
+//				respuesta = nuevo;
+//			}
+//			else if(!estaLleno() && recibido.estaLleno() && recibido.izquierda != null && recibido.derecha!=null && recibido.mitad == null &&!recibido.izquierda.estaLleno() && !recibido.derecha.estaLleno()){
+//				
+//				mitad = derecha;
+//				agregarElemento(recibido.eliminarElemento(recibido.elementoIzquierdo));
+//				derecha = recibido;
+//				respuesta = this;
+//			}
 			}
 		}
 		else if(comparacionIzquierda<0 && comparacionDerecha>0){
 			if(mitad != null){
 				Nodo23<T> recibido = mitad.agregar(elemento);
-				if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.izquierda != null && !recibido.izquierda.esHoja() ){
-					Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
-					nuevo.derecha = derecha;
-					nuevo.izquierda= recibido.derecha;
-					nuevo.agregarElemento(recibido.elementoIzquierdo);
-					derecha = recibido.izquierda;
+				int h1 = izquierda.darAltura();
+				int h2 = derecha.darAltura();
+				int h3 = recibido.darAltura();
+				if(estaLleno() && !recibido.estaLleno() && h1+1==h3 && h2+1 == h3){
+					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+					izq.izquierda = izquierda;
+					izq.derecha = recibido.izquierda;
+					izquierda = recibido.derecha;
+					recibido.izquierda = izq;
 					mitad = null;
-					respuesta = nuevo;
+					recibido.derecha = this;
+					return recibido;
 				}
-				else if(estaLleno() && !recibido.esHoja() && !recibido.estaLleno() && recibido.izquierda != null && recibido.derecha != null && recibido.mitad == null){
-					System.out.println("entro "+ elemento);
-				}
-				else{
+				else if(h1 == h2 && h1 == h3){
 					mitad = recibido;
 					respuesta = this;
 				}
+				else{
+					System.out.println("Caso no aplica "+ elemento);
+				}
+//				if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.izquierda != null && !recibido.izquierda.esHoja() ){
+//				System.out.println("entro");
+//				Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
+//				nuevo.derecha = derecha;
+//				nuevo.izquierda= recibido.derecha;
+//				nuevo.agregarElemento(recibido.elementoIzquierdo);
+//				derecha = recibido.izquierda;
+//				mitad = null;
+//				respuesta = nuevo;
+//			}
 			}
 		}
 		return respuesta;
