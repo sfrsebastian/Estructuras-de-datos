@@ -1,9 +1,9 @@
-package ArbolTriarioOrdenado;
+package Arbol23;
 
 import java.io.Serializable;
 import java.util.Iterator;
 
-public interface IArbolTriario<T> extends Serializable, Iterable<T> {
+public interface IArbol23<T> extends Serializable, Iterable<T> {
 	/**
 	 * Agrega un nuevo elemento al arbol
 	 * @param elemento El elemento que se quiere agregar

@@ -1,10 +1,10 @@
-package ArbolTriarioOrdenado;
+package Arbol23;
 
 import java.util.Iterator;
 
 import ListaEncadenada.ListaEncadenada;
 
-public class ArbolTriarioOrdenado<T extends Comparable<T>> implements IArbolTriario<T> {
+public class Arbol23<T extends Comparable<T>> implements IArbol23<T> {
 
 	//--------------------
 	//ATRIBUTOS
@@ -17,7 +17,7 @@ public class ArbolTriarioOrdenado<T extends Comparable<T>> implements IArbolTria
 	/**
 	 * La raiz del arbol triario
 	 */
-	private NodoTriario<T> raiz;
+	private Nodo23<T> raiz;
 	
 	/**
 	 * La cantidad de elementos en el arbol
@@ -32,7 +32,7 @@ public class ArbolTriarioOrdenado<T extends Comparable<T>> implements IArbolTria
 	 * @pos El peso se inicia en 0
 	 * @pos La raiz es nula.
 	 */
-	public ArbolTriarioOrdenado(){
+	public Arbol23(){
 		raiz = null;
 		peso = 0;
 	}
@@ -40,12 +40,15 @@ public class ArbolTriarioOrdenado<T extends Comparable<T>> implements IArbolTria
 	//--------------------
 	//METODOS
 	//--------------------
-	public boolean agregar(T elemento) throws Exception {
-		boolean respuesta = true;
+	public boolean agregar(T elemento){
+		boolean respuesta = false;
+		if(buscar(elemento) == null){
+			respuesta = true;
+		}
 		if(raiz == null)
-			raiz = new NodoTriario<T>(elemento);
+			raiz = new Nodo23<T>(elemento);
 		else
-			respuesta = raiz.agregar(elemento);
+			raiz = raiz.agregar(elemento);
 		
 		if(respuesta)
 			peso++;
