@@ -332,11 +332,11 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 			if(izquierda != null)
 				respuesta = izquierda.buscar(elemento);
 		}
-		else if(comparacionDer>0){
+		else if(comparacionIzq<0 && comparacionDer>0){
 			if(mitad != null)
 				respuesta = mitad.buscar(elemento);
 		}
-		else if(comparacionDer<0){
+		else if(comparacionDer<0 || (comparacionIzq<0 && elementoDerecho == null)){
 			if(derecha!=null){
 				respuesta = derecha.buscar(elemento);
 			}	
