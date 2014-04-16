@@ -315,33 +315,32 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 	 */
 	public T buscar(T elemento){
 		T respuesta = null;
-		int comparacionIzq = -1000;
-		int comparacionDer = -1000;
+		int comparacionIzq = 0;
+		int comparacionDer = 0;
 		
-		if(elementoIzquierdo != null)
-			 comparacionIzq = elemento.compareTo(elementoIzquierdo);
+		if(elementoIzquierdo != null){
+			 comparacionIzq = elementoIzquierdo.compareTo(elemento);
+			 respuesta = comparacionIzq==0?elementoIzquierdo:null;
+		}
 		
-		if(elementoDerecho != null)
-			comparacionDer = elemento.compareTo(elementoDerecho);
+		if(elementoDerecho != null){
+			comparacionDer = elementoDerecho.compareTo(elemento);
+			respuesta = comparacionDer==0?elementoDerecho:null;
+		}
 		
-		if(comparacionIzq<0 && comparacionIzq != -1000){
+		if(comparacionIzq>0 ){
 			if(izquierda != null)
 				respuesta = izquierda.buscar(elemento);
 		}
-		else if(comparacionIzq == 0){
-			respuesta = elementoIzquierdo;
-		}
-		else if(comparacionDer<0 && comparacionDer != -1000){
+		else if(comparacionDer>0){
 			if(mitad != null)
 				respuesta = mitad.buscar(elemento);
 		}
-		else if(comparacionDer == 0){
-			respuesta = elementoDerecho;
+		else if(comparacionDer<0){
+			if(derecha!=null){
+				respuesta = derecha.buscar(elemento);
+			}	
 		}
-		else if(derecha != null && comparacionDer != -1000 && comparacionIzq != -1000){
-			respuesta = derecha.buscar(elemento);	
-		}
-	
 		return respuesta;
 	}
 	
