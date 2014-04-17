@@ -47,7 +47,9 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T> {
 
 	@Override
 	public boolean eliminar(String palabra) {
-		return raiz.eliminar(palabra);
+		boolean elim = raiz.eliminar(palabra);
+		raiz.eliminar2(palabra);
+		return elim;
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T> {
 
 	@Override
 	public boolean contienePrefijo(String prefijo) {
-		return false;
+		return raiz.contienePrefijo(prefijo);
 	}
 
 	@Override
