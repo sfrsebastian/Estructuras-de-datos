@@ -89,7 +89,46 @@ public class TestArbolTrie extends TestCase {
 			fail();
 		} catch (Exception e) {
 			// Deberia pasar por aqui
+			assertFalse("No deberia tener el prefijo",arbol.contienePrefijo("casa"));
+			assertTrue("Deberia tener el prefijo", arbol.contienePrefijo("ca"));
 		}
+		
+		arbol.eliminar("cosa");
+		try{
+			String elem = (arbol.buscar("cosa")).next();
+			fail();
+		}catch(Exception e){
+			// Deberia pasar por aqui
+			assertFalse("No deberia tener el prefijo",arbol.contienePrefijo("cosa"));
+			assertTrue("Deberia tener el prefijo", arbol.contienePrefijo("c"));
+		}
+		
+		arbol.eliminar("avion");
+		assertTrue("El prefijo deberia existir",arbol.contienePrefijo("avion"));
+		arbol.eliminar("avioneta");
+		assertFalse("No deberia existir", arbol.contienePrefijo("avioneta"));
+	}
+	
+	public void testContienePrefijo(){
+		setupScenario2();
+		
+		//Caso una sola letra
+		assertFalse("No deberia tener el prefijo", arbol.contienePrefijo("x"));
+		//Caso contiene el primer hijo
+		assertTrue("Deberia tener el prefijo", arbol.contienePrefijo("a"));
+		//Caso de una palabra incompleta
+		assertTrue("Deberia tener el prefijo", arbol.contienePrefijo("avio"));
+		
+		assertTrue("Deberia tener el prefijo", arbol.contienePrefijo("ceraf"));
+		
+		arbol.eliminar("casa");
+		//Se elimina casa, ca sigue existiendo
+		assertFalse("No deberia tener el prefijo",arbol.contienePrefijo("casa"));
+		assertTrue("Deberia tener el prefijo", arbol.contienePrefijo("ca"));
+		
+		arbol.eliminar("cosa");
+		assertTrue("La letra c deberia seguir existiendo", arbol.contienePrefijo("c"));
+		assertFalse("No deberia tener el prefijo",arbol.contienePrefijo("cosa"));
 	}
 	
 	public void testBuscarXPrefijo(){
@@ -109,5 +148,6 @@ public class TestArbolTrie extends TestCase {
 	public void testBuscarElemento(){
 		setupScenario2();
 		
+		assertEquals("Deberia encontrar el elemento","Felipe", arbol.buscarElemento("casa", "Felipe"));
 	}
 }
