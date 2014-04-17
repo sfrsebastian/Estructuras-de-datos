@@ -191,10 +191,7 @@ public class NodoTrie<T extends Comparable<T>> {
 	public boolean eliminar(String palabra) {
 		if(palabra.equals("")){
 			listaElementos = new ListaOrdenada<T>();
-			if(hijo == null && hermano == null)
-				return false;//return eliminarIndepenientes("");
-			else
-				return true;
+			return true;
 		}
 		char letra = palabra.charAt(0);
 		if(hijo != null){
@@ -208,6 +205,39 @@ public class NodoTrie<T extends Comparable<T>> {
 			return false;
 		}
 	}
+	
+	public boolean eliminar2(String palabra){
+		if(hermano != null){
+			if(hermano.hijo == null && hermano.hermano == null && hermano.listaElementos.darLongitud() == 0){
+				hermano = null;
+				return true;
+			}else{
+				boolean elim = hermano.eliminar2(palabra);
+				if(elim)
+					if(hermano.hijo == null && hermano.hermano == null && hermano.listaElementos.darLongitud() == 0){
+						hermano = null;
+						return true;
+					}else
+						return false;
+			}
+		}
+		if(hijo != null){
+			if(hijo.hijo == null && hijo.hermano == null && hijo.listaElementos.darLongitud() == 0){
+				hijo = null;
+				return true;
+			}else{
+				boolean elim = hijo.eliminar2(palabra);
+				if(elim)
+					if(hijo.hijo == null && hijo.hermano == null && hijo.listaElementos.darLongitud() == 0){
+						hijo = null;
+						return true;
+					}else
+						return false;
+			}
+		}
+		return true;
+	}
+	
 	/*
 	private boolean eliminarIndepenientes(String palabra) {
 		char letra = palabra.charAt(0);
@@ -256,5 +286,22 @@ public class NodoTrie<T extends Comparable<T>> {
 			hij = "" + hijo.getCaracter();
 		
 		return "Soy letra: " + caracter + ", hermano: " + herma + ", hijo: " + hij;
+	}
+
+	public boolean contienePrefijo(String prefijo) {
+		if(prefijo.equals("")){
+			return true;
+		}
+		char letra = prefijo.charAt(0);
+		if(hijo != null){
+			NodoTrie<T> nodo;
+			if((nodo=hijo.tieneLetra(letra)) != null){
+				return nodo.contienePrefijo(prefijo.substring(1));
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
 	}
 }
