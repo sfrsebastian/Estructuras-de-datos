@@ -22,9 +22,9 @@ public interface IArbol23<T> extends Serializable, Iterable<T> {
 	/**
 	 * Elimina un elemento del arbol 
 	 * @param elemento El elemento que se quiere eliminar
-	 * @return true si elimina correctamente,false de lo contrario.
+	 * @return El elemento eliminado,null de lo contrario.
 	 */
-	public boolean eliminar(T elemento);
+	public T eliminar(T elemento);
 	
 	/**
 	 * Da el peso del arbol (El numero total de elementos)
