@@ -48,7 +48,7 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T> {
 	@Override
 	public boolean eliminar(String palabra) {
 		boolean elim = raiz.eliminar(palabra);
-		raiz.eliminar2(palabra);
+		raiz.eliminarDependencias();
 		return elim;
 	}
 

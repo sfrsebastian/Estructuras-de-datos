@@ -206,13 +206,13 @@ public class NodoTrie<T extends Comparable<T>> {
 		}
 	}
 	
-	public boolean eliminar2(String palabra){
+	public boolean eliminarDependencias(){
 		if(hermano != null){
 			if(hermano.hijo == null && hermano.hermano == null && hermano.listaElementos.darLongitud() == 0){
 				hermano = null;
 				return true;
 			}else{
-				boolean elim = hermano.eliminar2(palabra);
+				boolean elim = hermano.eliminarDependencias();
 				if(elim)
 					if(hermano.hijo == null && hermano.hermano == null && hermano.listaElementos.darLongitud() == 0){
 						hermano = null;
@@ -226,7 +226,7 @@ public class NodoTrie<T extends Comparable<T>> {
 				hijo = null;
 				return true;
 			}else{
-				boolean elim = hijo.eliminar2(palabra);
+				boolean elim = hijo.eliminarDependencias();
 				if(elim)
 					if(hijo.hijo == null && hijo.hermano == null && hijo.listaElementos.darLongitud() == 0){
 						hijo = null;
