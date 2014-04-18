@@ -1,8 +1,6 @@
 package Arbol23;
 
 import java.io.Serializable;
-import java.util.Iterator;
-
 import Lista.ILista;
 
 public class Nodo23<T extends Comparable<T>> implements Serializable {
@@ -114,6 +112,20 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 		return respuesta;
 	}
 	
+	/**
+	 * Retorna el menor elemento del nodo
+	 * @return El menor elemento.
+	 */
+	private T darMenor() {
+		T respuesta = null;;
+		if(esHoja()){
+			respuesta = elementoIzquierdo;
+		}
+		else{
+			respuesta = izquierda.darMenor();
+		}
+		return respuesta;
+	}
 	//--------------------
 	//METODOS
 	//--------------------
@@ -190,35 +202,8 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 					respuesta = this;
 				}
 				else{
-					System.out.println("Caso no aplica: " + elemento);
+					System.out.println("Caso no aplica izquierda: " + elemento);
 				}
-				
-//				else if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.derecha == null && recibido.izquierda== null && recibido.mitad == null){//estaLleno() && !recibido.esHoja()){
-//				
-//				Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
-//				izquierda = mitad;
-//				mitad = null;
-//				nuevo.izquierda= recibido;
-//				nuevo.derecha = this;
-//				respuesta = nuevo;
-//			}
-//			else if(!estaLleno() && recibido.estaLleno() && recibido.derecha != null && recibido.izquierda!=null && recibido.mitad == null &&!recibido.derecha.estaLleno() && !recibido.izquierda.estaLleno()){
-//				
-//				mitad = izquierda;
-//				agregarElemento(recibido.eliminarElemento(recibido.elementoDerecho));
-//				izquierda = recibido;
-//				respuesta = this;
-//			}
-//			else if(estaLleno() && !recibido.estaLleno() && recibido.esHoja()){
-//				
-//				izquierda = recibido;
-//				Nodo23<T> der = new Nodo23<T>(eliminarElemento(elementoDerecho));
-//				der.derecha = derecha;
-//				der.izquierda = mitad;
-//				mitad = null;
-//				derecha = der;
-//				respuesta = this;
-//			}
 			}
 		}
 		else if(comparacionDerecha<0 || (comparacionDerecha == 0 && elementoDerecho == null)){
@@ -249,25 +234,8 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 					respuesta = this;
 				}
 				else{
-					System.out.println("Caso no aplica " + elemento);
+					System.out.println("Caso no aplica derecha: " + elemento);
 				}
-				
-//				else if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.izquierda == null && recibido.derecha== null && recibido.mitad == null){
-//				
-//				Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
-//				derecha = mitad;
-//				mitad = null;
-//				nuevo.derecha= recibido;
-//				nuevo.izquierda = this;
-//				respuesta = nuevo;
-//			}
-//			else if(!estaLleno() && recibido.estaLleno() && recibido.izquierda != null && recibido.derecha!=null && recibido.mitad == null &&!recibido.izquierda.estaLleno() && !recibido.derecha.estaLleno()){
-//				
-//				mitad = derecha;
-//				agregarElemento(recibido.eliminarElemento(recibido.elementoIzquierdo));
-//				derecha = recibido;
-//				respuesta = this;
-//			}
 			}
 		}
 		else if(comparacionIzquierda<0 && comparacionDerecha>0){
@@ -291,19 +259,278 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 					respuesta = this;
 				}
 				else{
-					System.out.println("Caso no aplica "+ elemento);
+					System.out.println("Caso no aplica mitad: "+ elemento);
 				}
-//				if(estaLleno() && !recibido.esHoja() && recibido.estaLleno() && recibido.izquierda != null && !recibido.izquierda.esHoja() ){
-//				System.out.println("entro");
-//				Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoDerecho));
-//				nuevo.derecha = derecha;
-//				nuevo.izquierda= recibido.derecha;
-//				nuevo.agregarElemento(recibido.elementoIzquierdo);
-//				derecha = recibido.izquierda;
-//				mitad = null;
-//				respuesta = nuevo;
-//			}
 			}
+		}
+		else{
+			System.out.println("Caso no aplica agregar: "+ elemento);
+		}
+		return respuesta;
+	}
+	
+	/**
+	 * Elimina el elemento dado por parametro
+	 * @param elemento El elemento a eliminar
+	 * @return TRUE si se elimina correctamente, FALSE de lo contrario
+	 */
+	public Nodo23<T> eliminar(T elemento){
+		Nodo23<T> respuesta = this;
+		int comparacionIzquierda = elementoIzquierdo.compareTo(elemento);
+		int comparacionDerecha = 0;
+		if(elementoDerecho != null){
+			comparacionDerecha = elementoDerecho.compareTo(elemento);
+		}
+		if(esHoja()){
+			if(estaLleno()){
+				eliminarElemento(elemento);
+				respuesta = this; 		
+			}
+			else if(comparacionIzquierda == 0){
+				respuesta = null;
+			}
+		}
+		else if(comparacionIzquierda == 0 && !estaLleno()){
+			if(!derecha.estaLleno() && !izquierda.estaLleno()){
+				//Revisado Twice
+				T menorDer = derecha.darMenor();
+				derecha.eliminar(menorDer);
+				izquierda.agregarElemento(menorDer);
+				izquierda.mitad = izquierda.derecha;
+				izquierda.derecha = derecha;
+				respuesta = izquierda;
+			}
+			else if(izquierda.estaLleno() && !derecha.estaLleno()){
+				//Revisado Twice
+				T menorDer = derecha.darMenor();
+				derecha.eliminar(menorDer);
+				Nodo23<T> der = new Nodo23<T>(menorDer);
+				der.derecha = derecha;
+				der.izquierda = izquierda.derecha;
+				izquierda.derecha = izquierda.mitad;
+				izquierda.mitad = null;
+				Nodo23<T> nuevo = new Nodo23<T>(izquierda.eliminarElemento(izquierda.elementoDerecho));
+				nuevo.izquierda = izquierda;
+				nuevo.derecha = der;
+				respuesta = nuevo;
+			}
+			else{
+				//Revisado twice
+				T menorDer = derecha.darMenor();
+				derecha.eliminar(menorDer);
+				Nodo23<T> nuevo = new Nodo23<T>(menorDer);
+				nuevo.izquierda = izquierda;
+				nuevo.derecha = derecha;
+				respuesta = nuevo;
+			}
+		}
+		else if(comparacionIzquierda == 0){
+			if(derecha.estaLleno() && !mitad.estaLleno()){
+				//Revisado twice
+				eliminarElemento(elemento);
+				T menorMit = mitad.darMenor();
+				mitad.eliminar(menorMit);
+				Nodo23<T> nuevo = new Nodo23<T>(menorMit);
+				nuevo.agregarElemento(derecha.eliminarElemento(derecha.elementoIzquierdo));
+				Nodo23<T>derizq = derecha.izquierda;
+				derecha.izquierda = derecha.mitad;
+				derecha.mitad = null;
+				nuevo.derecha = derecha;
+				nuevo.izquierda = izquierda;
+				izquierda = mitad;
+				derecha = derizq;
+				mitad = null;
+				nuevo.mitad = this;
+				respuesta = nuevo;
+			}
+			else{
+				//Revisado twice
+				T menorMit = mitad.darMenor();
+				mitad.eliminar(menorMit);
+				eliminarElemento(elemento);
+				agregarElemento(menorMit);
+				respuesta = this;
+			}
+		}
+		else if(comparacionDerecha == 0 && elementoDerecho!=null){
+			//if(derecha.estaLleno() && !mitad.estaLleno()){
+				//Revisado twice // guarda por mirar...
+				T menorDer = derecha.darMenor();
+				derecha.eliminar(menorDer);
+				eliminarElemento(elemento);
+				agregarElemento(menorDer);
+				respuesta = this;
+			//}
+		}
+		else if(comparacionIzquierda>0){
+			if(izquierda != null){
+				Nodo23<T> recibido = izquierda.eliminar(elemento);
+				int h1 = derecha.darAltura();
+				int h2 = recibido!=null?recibido.darAltura():0;
+				if(!estaLleno() && h1 == h2+1 && !derecha.estaLleno()){
+					//Revisado twice
+					agregarElemento(derecha.elementoIzquierdo);
+					izquierda = recibido;
+					mitad = derecha.izquierda;
+					derecha = derecha.derecha;
+					respuesta = this;
+				}
+				else if(!estaLleno() && h1 == h2+1 && derecha.estaLleno()){
+					//Revisado twice
+					agregarElemento(derecha.eliminarElemento(derecha.elementoIzquierdo));
+					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+					izq.izquierda = recibido;
+					izq.derecha = derecha.izquierda;
+					derecha.izquierda = derecha.mitad;
+					derecha.mitad = null;
+					izquierda = izq;
+					respuesta = this;
+				}
+				else if(estaLleno() && h1 == h2+1 && derecha.estaLleno() && !mitad.estaLleno()){
+					//Revisado Twice
+					Nodo23<T> mit = new Nodo23<T>(eliminarElemento(elementoDerecho));
+					agregarElemento(mitad.elementoIzquierdo);
+					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+					agregarElemento(derecha.eliminarElemento(derecha.elementoIzquierdo));
+					izq.izquierda = recibido;
+					izq.derecha = mitad.izquierda;
+					mit.izquierda = mitad.derecha;
+					mit.derecha = derecha.izquierda;
+					derecha.izquierda = derecha.mitad;
+					derecha.mitad = null;
+					izquierda = izq;
+					mitad = mit;
+					respuesta = this;
+				}
+				else if(estaLleno() && h1 == h2+1 && !derecha.estaLleno() && !mitad.estaLleno()){
+					//Revisado Twice 
+					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+					izq.izquierda = recibido;
+					izq.derecha = mitad.izquierda;
+					agregarElemento(mitad.elementoIzquierdo);
+					derecha.agregarElemento(eliminarElemento(elementoDerecho));
+					derecha.mitad = derecha.izquierda;
+					derecha.izquierda = mitad.derecha;
+					mitad = null;
+					izquierda = izq;
+					respuesta = this;
+				}	
+				else if(mitad != null && mitad.estaLleno() && h1 == h2+1 ){
+					//revisado twice
+					Nodo23<T> izq = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+					izq.izquierda = recibido;
+					izq.derecha = mitad.izquierda;
+					mitad.izquierda = mitad.mitad;
+					mitad.mitad = null;
+					agregarElemento(mitad.eliminarElemento(mitad.elementoIzquierdo));
+					izquierda = izq;
+					respuesta = this;
+				}
+				else if(h1 == h2){
+					//Revisado twice
+					izquierda = recibido;
+					respuesta = this;
+				}
+				else{
+					System.out.println("Caso no aplica izquierda: " + elemento);
+				}
+			}
+		}
+		else if(comparacionDerecha<0 || (comparacionDerecha == 0 && elementoDerecho == null)){
+			if(derecha != null){
+				Nodo23<T> recibido = derecha.eliminar(elemento);
+				int h1 = izquierda.darAltura();
+				int h2 = recibido!=null?recibido.darAltura():0;
+				if(!estaLleno() && h1 == h2+1 && !izquierda.estaLleno()){
+					//Revisado Twice
+					agregarElemento(izquierda.elementoIzquierdo);
+					derecha = recibido;
+					mitad = izquierda.derecha;
+					izquierda = izquierda.izquierda;
+					respuesta = this;
+				}
+				else if(!estaLleno() && h1 == h2+1 && izquierda.estaLleno()){
+					//Revisado twice
+					agregarElemento(izquierda.eliminarElemento(izquierda.elementoDerecho));
+					Nodo23<T> der = new Nodo23<T>(eliminarElemento(elementoDerecho));
+					der.derecha = recibido;
+					der.izquierda = izquierda.derecha;
+					izquierda.derecha = izquierda.mitad;
+					izquierda.mitad = null;
+					derecha = der;
+					respuesta = this;
+				}
+				else if(estaLleno() && h1 == h2+1 && izquierda.estaLleno() && !mitad.estaLleno()){
+					//Caso muy nuevo! revisado!!!
+					Nodo23<T> nuevo = new Nodo23<T>(eliminarElemento(elementoIzquierdo));
+					nuevo.izquierda = izquierda;
+					agregarElemento(mitad.elementoIzquierdo);
+					izquierda = mitad.izquierda;
+					mitad = mitad.derecha;
+					derecha = recibido;
+					nuevo.derecha = this;
+					respuesta = nuevo;
+				}
+				else if(estaLleno() && h1 == h2+1 && !izquierda.estaLleno() && !mitad.estaLleno()){
+					//Revisado Twice
+					Nodo23<T> der = new Nodo23<T>(eliminarElemento(elementoDerecho));
+					der.agregarElemento(mitad.elementoIzquierdo);
+					mitad = null;
+					derecha = der;
+					respuesta = this;
+				}	
+				else if(mitad != null && mitad.estaLleno() && h1 == h2+1){
+					//Revisado Twice
+					Nodo23<T> der = new Nodo23<T>(eliminarElemento(elementoDerecho));
+					der.derecha = recibido;
+					der.izquierda = mitad.derecha;
+					mitad.derecha = mitad.mitad;
+					mitad.mitad = null;
+					agregarElemento(mitad.eliminarElemento(mitad.elementoDerecho));
+					derecha = der;
+					respuesta = this;
+				}
+				else if(h1 == h2){
+					//Revisado Twice
+					derecha = recibido;
+					respuesta = this;
+				}
+				else{
+					System.out.println("Caso no aplica derecha: " + elemento);
+				}
+			}
+		}
+		else if(comparacionIzquierda<0 && comparacionDerecha>0){
+			if(mitad != null){
+				Nodo23<T> recibido = mitad.eliminar(elemento);
+				int h1 = izquierda.darAltura();
+				int h2 = derecha.darAltura();
+				int h3 = recibido!=null?recibido.darAltura():0;
+				if(h1==h3+1 && h2 == h3+1 && !derecha.estaLleno()){
+					//Revisado twice
+					derecha.agregarElemento(eliminarElemento(elementoDerecho));
+					mitad = recibido;
+					respuesta = this;
+				}
+				else if(h1==h3+1 && h2 == h3+1 && derecha.estaLleno()){
+					//Revisado twice
+					Nodo23<T> mit = new Nodo23<T>(eliminarElemento(elementoDerecho));
+					agregarElemento(derecha.eliminarElemento(derecha.elementoIzquierdo));
+					mitad = mit;
+					respuesta = this;
+				}
+				else if(h1 == h2 && h1 == h3){
+					//Revisado twice
+					mitad= recibido;
+					respuesta = this;
+				}
+				else{
+					System.out.println("Caso no aplica mitad: "+ elemento);
+				}
+			}
+		}
+		else{
+			System.out.println("Caso no aplica eliminar: " + elemento);
 		}
 		return respuesta;
 	}
@@ -342,15 +569,6 @@ public class Nodo23<T extends Comparable<T>> implements Serializable {
 			}	
 		}
 		return respuesta;
-	}
-	
-	/**
-	 * Elimina el elemento dado por parametro
-	 * @param elemento El elemento a eliminar
-	 * @return TRUE si se elimina correctamente, FALSE de lo contrario
-	 */
-	public boolean eliminar(T elemento){
-		return true;
 	}
 	
 	/**
