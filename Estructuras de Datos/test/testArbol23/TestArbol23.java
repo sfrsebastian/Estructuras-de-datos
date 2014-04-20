@@ -105,6 +105,12 @@ public class TestArbol23 extends TestCase {
 			if(arbol.buscar(generado) != null){
 				agregados.eliminar(generado);
 				assertEquals("El elemento eliminado debio ser el mismo",(Integer)generado,arbol.eliminar(generado));
+				Iterator<Integer> j = agregados.iterator();
+				//Verifica que no se este perdiendo informacion en el balanceo despues de eliminar
+				while(j.hasNext()){
+					int siguiente = j.next();
+					assertEquals("El elemento se debio haber encontrado", (Integer)siguiente,arbol.buscar(siguiente));
+				}
 			}
 		}
 		Iterator<Integer> i = agregados.iterator();
