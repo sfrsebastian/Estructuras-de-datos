@@ -62,6 +62,7 @@ public class TestArbol23 extends TestCase {
 			int peso = arbol.darPeso();
 			if(arbol.buscar(generado) == null){
 				assertTrue("El elemento se debio haber agregado",arbol.agregar(generado));
+				assertEquals("El elemento se debio haber encontrado", (Integer)generado,arbol.buscar(generado));
 				assertEquals("El peso del arbol debio aumentar",peso+1,arbol.darPeso());
 			}
 		}
@@ -96,6 +97,7 @@ public class TestArbol23 extends TestCase {
 			if(arbol.buscar(generado) == null){
 				agregados.agregar(generado);
 				assertTrue("Se debio agregar el elemento al arbol",arbol.agregar(generado));
+				assertEquals("El elemento se debio haber encontrado", (Integer)generado,arbol.buscar(generado));
 			}
 		}
 		for(int i = 0; i < 500; i++){
