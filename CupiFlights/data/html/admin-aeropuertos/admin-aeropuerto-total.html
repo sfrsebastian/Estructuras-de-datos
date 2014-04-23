@@ -1,0 +1,238 @@
+<html>
+<head>
+	<title>Page Title</title>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body {
+		  padding-top: 50px;
+		}
+
+		/*
+		 * Global add-ons
+		 */
+
+		.sub-header {
+		  padding-bottom: 10px;
+		  border-bottom: 1px solid #eee;
+		}
+
+		/*
+		 * Sidebar
+		 */
+
+		/* Hide for mobile, show later */
+		.sidebar {
+		  display: none;
+		}
+		@media (min-width: 768px) {
+		  .sidebar {
+		    position: fixed;
+		    top: 51px;
+		    bottom: 0;
+		    left: 0;
+		    z-index: 1000;
+		    display: block;
+		    padding: 20px;
+		    overflow-x: hidden;
+		    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+		    background-color: #f5f5f5;
+		    border-right: 1px solid #eee;
+		  }
+		}
+
+		/* Sidebar navigation */
+		.nav-sidebar {
+		  margin-right: -21px; /* 20px padding + 1px border */
+		  margin-bottom: 20px;
+		  margin-left: -20px;
+		}
+		.nav-sidebar > li > a {
+		  padding-right: 20px;
+		  padding-left: 20px;
+		}
+		.nav-sidebar > .active > a {
+		  color: #fff;
+		  background-color: #428bca;
+		}
+
+
+		/*
+		 * Main content
+		 */
+
+		.main {
+		  padding: 20px;
+		}
+		@media (min-width: 768px) {
+		  .main {
+		    padding-right: 40px;
+		    padding-left: 40px;
+		  }
+		}
+		.main .page-header {
+		  margin-top: 0;
+		}
+
+
+		/*
+		 * Placeholder dashboard ideas
+		 */
+
+		.placeholders {
+		  margin-bottom: 30px;
+		  text-align: center;
+		}
+		.placeholders h4 {
+		  margin-bottom: 0;
+		}
+		.placeholder {
+		  margin-bottom: 20px;
+		}
+		.placeholder img {
+		  display: inline-block;
+		  border-radius: 50%;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">CupiFlighs</a>
+          <ul class="nav navbar-nav">
+            <li><a href="login.html">Admin</a></li><!--class="active" for the active link page!-->
+            <li><a href="consulta.html">Consulta</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form" action="admin.html" method="POST">
+            <input type="hidden" name="cerrar" value="si">
+            <button type="submit" class="btn btn-success">Cerrar sesion</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="admin.html">General</a></li>
+            <li><a href="agregar.html">Agregar</a></li>
+            <li class="active"><a href="admin-aeropuertos.html">Aeropuertos</a></li>
+            <li><a href="admin_vuelos.html">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul>
+        </div>
+
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 style="padding-bottom: 9px; margin: 0px 0px 0px 0px;">Aeropuertos</h1>
+          <p>Permite visualizar la lista total de los aeropuertos agregados y la lista con respecto a un rango de tiempo.</p>
+          <hr>
+
+          <!--<h3 class="sub-header" style="margin-bottom:30px;">Vuelos Agregados</h3>-->
+
+        	<div class="row" style="margin-bottom:15px;">
+	            <form class="form-inline" role="form" method="POST" action="">
+	            <div class="col-md-2">
+	              <p>Buscar por fecha:</p>
+	            </div>
+	          <div class="form-group col-md-3">
+	              <label class="sr-only" for="fi">Fecha inicial</label>
+	              <input type="text" class="form-control" id="fi" placeholder="dd/mm/aaaa" style="width:100%" name="fecha">
+	          </div>
+	          <div class="form-group col-md-2">
+	            <p>Buscar por codigo:</p>
+	          </div>
+	          <div class="form-group col-md-3">
+	              <label class="sr-only" for="fi">Fecha inicial</label>
+	              <input type="text" class="form-control" id="fi" placeholder="codigo aeropuerto" style="width:100%" name="codigo">
+	          </div>
+	          <div class="col-md-2">
+	            <button type="submit" class="btn btn-info">Buscar info</button>
+	          </div>
+	          </form>
+	        </div>
+
+           <div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Vuelos basados en fecha y codigo del aeropuerto</h3>
+			  </div>
+			  <div class="panel-body">
+			    Seleccione una fecha para buscar aeropuertos. Despu&eacute;s, seleccione el codigo del aeropuerto. Se seleccionaran los vuelos 4 dias antes y despu&eacute;s de la fecha indicada del aeropuerto indicado.
+			  </div>
+			</div>
+
+           <div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Aeropuertos Totales</h3>
+			  </div>
+			  <div class="panel-body">
+			    <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Codigo</th>
+                  <th>Vuelo</th>
+                  <th>Aereolinea</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>MH370</td>
+                  <td>Kuala Lumpur-Beijing</td>
+                  <td>Malasya Airlines</td>
+                  <td>MIA</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>CH234</td>
+                  <td>Bogota-Cancun</td>
+                  <td>Copa Airlines</td>
+                  <td>DEPARTED</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>DS211</td>
+                  <td>London-Madrid</td>
+                  <td>Avianca</td>
+                  <td>DEPARTED</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+			  </div>
+			</div>
+
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>
