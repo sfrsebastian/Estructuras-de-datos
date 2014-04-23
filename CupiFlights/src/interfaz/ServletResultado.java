@@ -8,13 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mundo.CentralDeVuelos;
+
 public class ServletResultado extends HttpServlet {
 
 		//--------------------------------------------
 		// Atributos
 		//--------------------------------------------
 		
-		//private CentralCupiFlights central;
+		private CentralDeVuelos central;
 		
 		//--------------------------------------------
 		// Constructor
@@ -25,7 +27,7 @@ public class ServletResultado extends HttpServlet {
 		 */
 		public void init( ) throws ServletException
 	    {
-	        //central = CentralCupiFlights.getInstance( );
+	        central = CentralDeVuelos.getInstance( );
 	    }
 		
 		//--------------------------------------------
@@ -40,6 +42,17 @@ public class ServletResultado extends HttpServlet {
 		protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
 		{
 			
+		}
+		
+		@Override
+		public void destroy() {
+			try {
+				central.guardarCentral();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			super.destroy();
 		}
 		
 		private void imprimirEncabezado(HttpServletRequest request, HttpServletResponse response) throws IOException{

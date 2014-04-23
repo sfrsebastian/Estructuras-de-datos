@@ -18,10 +18,11 @@ import org.json.JSONObject;
 
 import Arbol23.Arbol23;
 import ArbolTrie.ArbolTrie;
+import ListaOrdenada.ListaOrdenada;
 
 public class CentralDeVuelos implements ICentralDeVuelos{
 	private static final String URLAEROPUERTOS = "https://api.flightstats.com/flex/airports/rest/v1/json/active?appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b";
-	public final static String RUTA_ARCHIVO_SERIALIZADO = "/Users/sfrsebastian/Desktop/CentralDeVuelos.dat/";
+	public final static String RUTA_ARCHIVO_SERIALIZADO = "/Users/FelipeOtalora/Desktop/CentralDeVuelos.dat/";
 	public static final String IDENTIFICADORES = "appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b&";
 	private static final long serialVersionUID = -2434025803582670357L;
 	private Arbol23<Aeropuerto> aeropuertos;
@@ -62,7 +63,6 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 					instancia = new CentralDeVuelos( );                    
 					System.out.println("Central Nueva");
 				}
-
 			}
 			catch( Exception e )
 			{
@@ -117,7 +117,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		String numero =  objeto.getString("flightNumber");
 		String codigoSalida = objeto.getString("departureAirportFsCode");
 		String codigoLlegada = objeto.getString("arrivalAirportFsCode");
-		Vuelo nuevo = new Vuelo(numero,codigoSalida,codigoLlegada,tipo);
+		String codigoAereolinea = objeto.getString("carrierFsCode");
+		Vuelo nuevo = new Vuelo(numero,codigoSalida,codigoLlegada,tipo,codigoAereolinea);
 		return nuevo;
 	}
 
@@ -161,11 +162,14 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	
 	@Override
 	public Aeropuerto agregarAeropuerto(String codigo) throws Exception {
-		String url = "https://api.flightstats.com/flex/airports/rest/v1/json/fs/" + codigo + "IDENTIFICADORES";
+		String url = "https://api.flightstats.com/flex/airports/rest/v1/json/cityCode/" + codigo + "?" + IDENTIFICADORES;
+		System.out.println(url);
 		JSONObject datos = darJSON(url);
+		JSONArray arreglo = datos.getJSONArray("airports");
 		try{
-			Aeropuerto nuevo = leerAeropuerto(datos);
+			Aeropuerto nuevo = leerAeropuerto((JSONObject) arreglo.get(0));
 			aeropuertos.agregar(nuevo);
+			System.out.println(nuevo);
 			cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.LLEGANDO);
 			cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.SALIENDO);
 			return nuevo;
@@ -241,11 +245,30 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		System.out.println("Guardo");
 	}
 	
-	public Iterator<Vuelo> consultarVuelos(Calendar cal, int horaDia,String codigo, String tipo) {
-		//TODO
-		Aeropuerto aeropuerto = new Aeropuerto(codigo);
-		aeropuerto = aeropuertos.buscar(aeropuerto);
-		return null;
+	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo) throws IOException {
+		ListaOrdenada<Vuelo> listaVuelos = new ListaOrdenada<Vuelo>();
+		
+		int dia = c.get(Calendar.DAY_OF_MONTH);
+		int mes = c.get(Calendar.MONTH);
+		int anio = c.get(Calendar.YEAR);
+		int hora = c.get(Calendar.HOUR_OF_DAY);
+		String url = "";
+		if(tipo.equals(Vuelo.LLEGANDO)){
+			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/" + codigo + "/arr/" + anio +"/"+mes+"/"+dia+"/" + hora +"?"+IDENTIFICADORES+"utc=false&numHours=1&maxFlights=10";
+		}
+		else{
+			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/" + codigo + "/dep/" + anio +"/"+mes+"/"+dia+"/" + hora+"?"+IDENTIFICADORES+"utc=false&numHours=1&maxFlights=10";
+		}
+		JSONObject principal = darJSON(url);
+		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
+		for(int i = 0; i<recibidos.length();i++){
+			JSONObject actual = recibidos.getJSONObject(i);
+			Vuelo nuevo = leerVuelo(actual,tipo);
+			listaVuelos.agregar(nuevo);
+			System.out.println("cargado vuelo: " + nuevo.getNumero());
+		}
+		
+		return listaVuelos.iterator();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package mundo;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -20,7 +21,7 @@ public interface ICentralDeVuelos extends Serializable{
 	
 	public Iterator<Aeropuerto> darAeropuertos();
 	
-	public Iterator<Vuelo> consultarVuelos(Calendar cal, int horaDia, String codigo, String tipo);
+	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo) throws Exception;
 	
 	//Para aeropuertos
 	public Iterator<Vuelo> consultarVuelosPorEstado(String constante,String codigo);

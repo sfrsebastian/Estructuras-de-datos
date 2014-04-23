@@ -13,11 +13,14 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 	private String codigoSalida;
 	private String codigoLlegada;
 	private String tipo;
-	public Vuelo(String nNumero, String nCodigoSalida, String nCodigoLlegada, String nTipo) {
+	private String codigoAereolinea;
+	
+	public Vuelo(String nNumero, String nCodigoSalida, String nCodigoLlegada, String nTipo, String nCodigoAereolinea) {
 		numero = nNumero;
 		codigoSalida = nCodigoSalida;
 		codigoLlegada = nCodigoLlegada;
 		tipo = nTipo;
+		codigoAereolinea = nCodigoAereolinea;
 	}
 	public String getNumero() {
 		return numero;
@@ -40,6 +43,12 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 		else{
 			return 0;
 		}
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public String getAerolinea() {
+		return codigoAereolinea;
 	}
 
 	

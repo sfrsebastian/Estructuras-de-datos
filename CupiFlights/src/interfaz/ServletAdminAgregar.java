@@ -61,7 +61,12 @@ public class ServletAdminAgregar extends HttpServlet {
 			if(tipo.equals("agregar-aeropuerto")){
 				String codigo = request.getParameter("codigo");
 				//TODO agregar los vuelos del aeropuerto
-				central.agregarAeropuerto(codigo);
+				try {
+					central.agregarAeropuerto(codigo);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//Mostrar mensaje de exito/error dependiendo del resultado
 				//TODO mostrar mensaje de exito
 				imprimirEncabezado(request, response);
@@ -71,6 +76,17 @@ public class ServletAdminAgregar extends HttpServlet {
 		}
 		
     }
+	
+	@Override
+	public void destroy() {
+		try {
+			central.guardarCentral();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.destroy();
+	}
 	
 	private void imprimirEncabezado(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		PrintWriter respuesta = response.getWriter();
@@ -211,7 +227,7 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li><a href=\"admin.html\">General</a></li>"); 
 		respuesta.println("            <li class=\"active\"><a href=\"agregar.html\">Agregar</a></li>"); 
-		respuesta.println("            <li><a href=\"admin_aeropuertos.html\">Aeropuertos</a></li>"); 
+		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
 		respuesta.println("            <li><a href=\"admin_vuelos.html\">Export</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
@@ -228,8 +244,8 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">"); 
-		respuesta.println("          <h1 style=\"padding-bottom: 9px; margin: 0px 0px 0px 0px;\">Agregar vuelos</h1>"); 
-		respuesta.println("          <p>Puede agregar vuelos seleccionado las opciones abajo</p>"); 
+		respuesta.println("          <h1 style=\"padding-bottom: 9px; margin: 0px 0px 0px 0px;\">Agregar aeropuertos</h1>"); 
+		respuesta.println("          <p>Puede agregar aeropuertos seleccionado las opciones abajo</p>"); 
 		respuesta.println("          <hr>"); 
 		respuesta.println(""); 
 		respuesta.println("          <!--<h3 class=\"sub-header\" style=\"margin-bottom:30px;\">Vuelos Agregados</h3>-->"); 

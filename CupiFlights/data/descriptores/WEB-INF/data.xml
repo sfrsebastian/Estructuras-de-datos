@@ -35,6 +35,14 @@ Autor: Pablo Barvo - 05-Mayo-2006
       <servlet-name>Admin-agregar</servlet-name>
       <servlet-class>interfaz.ServletAdminAgregar</servlet-class>
    </servlet>
+   <servlet>
+      <servlet-name>Admin-aeropuerto</servlet-name>
+      <servlet-class>interfaz.ServletAdminAeropuerto</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>Consulta</servlet-name>
+      <servlet-class>interfaz.ServletConsulta</servlet-class>
+   </servlet>
    <!-- MAPPING -->
    
    <servlet-mapping>
@@ -52,6 +60,14 @@ Autor: Pablo Barvo - 05-Mayo-2006
    <servlet-mapping>
       <servlet-name>Admin-agregar</servlet-name>
       <url-pattern>/agregar.html</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>Admin-aeropuerto</servlet-name>
+      <url-pattern>/admin-aeropuerto.html</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>Consulta</servlet-name>
+      <url-pattern>/consulta.html</url-pattern>
    </servlet-mapping>
 
 </web-app>

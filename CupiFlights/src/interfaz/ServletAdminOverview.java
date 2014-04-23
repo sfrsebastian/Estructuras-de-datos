@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mundo.Aeropuerto;
 import mundo.CentralDeVuelos;
 import mundo.Vuelo;
 
@@ -21,6 +22,8 @@ public class ServletAdminOverview extends HttpServlet {
 	
 	private CentralDeVuelos central;
 	
+	private String[] paises;
+	
 	//--------------------------------------------
 	// Constructor
 	//--------------------------------------------
@@ -31,6 +34,26 @@ public class ServletAdminOverview extends HttpServlet {
 	public void init( ) throws ServletException
     {
         central = CentralDeVuelos.getInstance( );
+        try {
+        	Iterator<Aeropuerto> i = central.darAeropuertos();
+        	if(i.hasNext()){      		
+        	}else{
+        		central.cargarAeropuertos();
+        	}
+        } catch (Exception e) {
+        	// TODO Auto-generated catch block
+        	e.printStackTrace();
+        }
+        paises = new String[8];
+        
+        paises[0] = "co";
+        paises[1] = "us";
+        paises[2] = "be";
+        paises[3] = "fr";
+        paises[4] = "nz";
+        paises[5] = "mx";
+        paises[6] = "ar";
+        paises[7] = "br";
     }
 	
 	//--------------------------------------------
@@ -82,6 +105,17 @@ public class ServletAdminOverview extends HttpServlet {
 		}
     }
 	
+	@Override
+	public void destroy() {
+		try {
+			central.guardarCentral();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.destroy();
+	}
+	
 	private void imprimirContenido(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter respuesta = response.getWriter();
 		
@@ -91,7 +125,7 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li class=\"active\"><a href=\"#\">General</a></li>"); 
 		respuesta.println("            <li><a href=\"agregar.html\">Agregar</a></li>"); 
-		respuesta.println("            <li><a href=\"#\">Analytics</a></li>"); 
+		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
 		respuesta.println("            <li><a href=\"#\">Export</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
@@ -112,22 +146,22 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println(""); 
 		respuesta.println("          <div class=\"row placeholders\">"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src=\"http://placehold.it/200x200\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
 		respuesta.println("              <h4>Label</h4>"); 
 		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src=\"http://placehold.it/200x200\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
 		respuesta.println("              <h4>Label</h4>"); 
 		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src=\"http://placehold.it/200x200\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
 		respuesta.println("              <h4>Label</h4>"); 
 		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src=\"http://placehold.it/200x200\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
 		respuesta.println("              <h4>Label</h4>"); 
 		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
 		respuesta.println("            </div>"); 
@@ -154,18 +188,13 @@ public class ServletAdminOverview extends HttpServlet {
 			
 			respuesta.println("                <tr>");
 			respuesta.println("                  <td>" + d +"</td>"); 
-			respuesta.println("                  <td>" + actual.getCodigo() + "</td>"); 
-			respuesta.println("                  <td>"+ actual.getRuta() + "</td>"); 
+			respuesta.println("                  <td>" + actual.getNumero() + "</td>"); 
+			respuesta.println("                  <td>"+ actual.getCodigoLlegada() + "</td>"); 
 			respuesta.println("                  <td>" + actual.getAerolinea() +"</td>"); 
-			respuesta.println("                  <td>" + actual.getEstado() + "</td>");
+			respuesta.println("                  <td>" + actual.getTipo() + "</td>");
 			respuesta.println("                </tr>");
 			d++;
 		}
-//		respuesta.println("                  <td>1</td>"); 
-//		respuesta.println("                  <td>MH370</td>"); 
-//		respuesta.println("                  <td>Kuala Lumpur-Beijing</td>"); 
-//		respuesta.println("                  <td>Malasya Airlines</td>"); 
-//		respuesta.println("                  <td>MIA</td>"); 
 		respuesta.println("              </tbody>"); 
 		respuesta.println("            </table>"); 
 		respuesta.println("          </div>"); 

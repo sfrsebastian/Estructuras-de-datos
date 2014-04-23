@@ -2,11 +2,16 @@ package interfaz;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import mundo.Aeropuerto;
+import mundo.CentralDeVuelos;
+import mundo.Vuelo;
 
 public class ServletCupiFlights extends HttpServlet {
 	
@@ -16,7 +21,7 @@ public class ServletCupiFlights extends HttpServlet {
 	// Atributos
 	//--------------------------------------------
 	
-	//private CentralCupiFlights central;
+	private CentralDeVuelos central;
 	
 	//--------------------------------------------
 	// Constructor
@@ -27,7 +32,17 @@ public class ServletCupiFlights extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
     {
-        //central = CentralCupiFlights.getInstance( );
+		central = CentralDeVuelos.getInstance( );
+        try {
+        	Iterator<Aeropuerto> i = central.darAeropuertos();
+        	if(i.hasNext()){      		
+        	}else{
+        		central.cargarAeropuertos();
+        	}
+        } catch (Exception e) {
+        	// TODO Auto-generated catch block
+        	e.printStackTrace();
+        }
     }
 	
 	//--------------------------------------------
@@ -49,6 +64,17 @@ public class ServletCupiFlights extends HttpServlet {
         imprimirContenido( request, response );    
         imprimirFooter( request, response );
     }
+	
+	@Override
+	public void destroy() {
+		try {
+			central.guardarCentral();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.destroy();
+	}
 	
 	private void imprimirFooter(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter respuesta = response.getWriter();
@@ -163,118 +189,22 @@ public class ServletCupiFlights extends HttpServlet {
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
 		respuesta.println("              <tbody>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1</td>"); 
-		respuesta.println("                  <td>MH370</td>"); 
-		respuesta.println("                  <td>Kuala Lumpur-Beijing</td>"); 
-		respuesta.println("                  <td>Malasya Airlines</td>"); 
-		respuesta.println("                  <td>MIA</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>2</td>"); 
-		respuesta.println("                  <td>CH234</td>"); 
-		respuesta.println("                  <td>Bogota-Cancun</td>"); 
-		respuesta.println("                  <td>Copa Airlines</td>"); 
-		respuesta.println("                  <td>DEPARTED</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>3</td>"); 
-		respuesta.println("                  <td>DS211</td>"); 
-		respuesta.println("                  <td>London-Madrid</td>"); 
-		respuesta.println("                  <td>Avianca</td>"); 
-		respuesta.println("                  <td>DEPARTED</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,003</td>"); 
-		respuesta.println("                  <td>libero</td>"); 
-		respuesta.println("                  <td>Sed</td>"); 
-		respuesta.println("                  <td>cursus</td>"); 
-		respuesta.println("                  <td>ante</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,004</td>"); 
-		respuesta.println("                  <td>dapibus</td>"); 
-		respuesta.println("                  <td>diam</td>"); 
-		respuesta.println("                  <td>Sed</td>"); 
-		respuesta.println("                  <td>nisi</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,005</td>"); 
-		respuesta.println("                  <td>Nulla</td>"); 
-		respuesta.println("                  <td>quis</td>"); 
-		respuesta.println("                  <td>sem</td>"); 
-		respuesta.println("                  <td>at</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,006</td>"); 
-		respuesta.println("                  <td>nibh</td>"); 
-		respuesta.println("                  <td>elementum</td>"); 
-		respuesta.println("                  <td>imperdiet</td>"); 
-		respuesta.println("                  <td>Duis</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,007</td>"); 
-		respuesta.println("                  <td>sagittis</td>"); 
-		respuesta.println("                  <td>ipsum</td>"); 
-		respuesta.println("                  <td>Praesent</td>"); 
-		respuesta.println("                  <td>mauris</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,008</td>"); 
-		respuesta.println("                  <td>Fusce</td>"); 
-		respuesta.println("                  <td>nec</td>"); 
-		respuesta.println("                  <td>tellus</td>"); 
-		respuesta.println("                  <td>sed</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,009</td>"); 
-		respuesta.println("                  <td>augue</td>"); 
-		respuesta.println("                  <td>semper</td>"); 
-		respuesta.println("                  <td>porta</td>"); 
-		respuesta.println("                  <td>Mauris</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,010</td>"); 
-		respuesta.println("                  <td>massa</td>"); 
-		respuesta.println("                  <td>Vestibulum</td>"); 
-		respuesta.println("                  <td>lacinia</td>"); 
-		respuesta.println("                  <td>arcu</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,011</td>"); 
-		respuesta.println("                  <td>eget</td>"); 
-		respuesta.println("                  <td>nulla</td>"); 
-		respuesta.println("                  <td>Class</td>"); 
-		respuesta.println("                  <td>aptent</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,012</td>"); 
-		respuesta.println("                  <td>taciti</td>"); 
-		respuesta.println("                  <td>sociosqu</td>"); 
-		respuesta.println("                  <td>ad</td>"); 
-		respuesta.println("                  <td>litora</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,013</td>"); 
-		respuesta.println("                  <td>torquent</td>"); 
-		respuesta.println("                  <td>per</td>"); 
-		respuesta.println("                  <td>conubia</td>"); 
-		respuesta.println("                  <td>nostra</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,014</td>"); 
-		respuesta.println("                  <td>per</td>"); 
-		respuesta.println("                  <td>inceptos</td>"); 
-		respuesta.println("                  <td>himenaeos</td>"); 
-		respuesta.println("                  <td>Curabitur</td>"); 
-		respuesta.println("                </tr>"); 
-		respuesta.println("                <tr>"); 
-		respuesta.println("                  <td>1,015</td>"); 
-		respuesta.println("                  <td>sodales</td>"); 
-		respuesta.println("                  <td>ligula</td>"); 
-		respuesta.println("                  <td>in</td>"); 
-		respuesta.println("                  <td>libero</td>"); 
-		respuesta.println("                </tr>"); 
+		
+		Iterator<Vuelo> i = central.darVuelos();
+		int d = 1;
+		while(i.hasNext() && d < 51){
+			Vuelo actual = i.next();
+			
+			respuesta.println("                <tr>");
+			respuesta.println("                  <td>" + d +"</td>"); 
+			respuesta.println("                  <td>" + actual.getNumero() + "</td>"); 
+			respuesta.println("                  <td>"+ actual.getCodigoLlegada() + "</td>"); 
+			respuesta.println("                  <td>" + actual.getAerolinea() +"</td>"); 
+			respuesta.println("                  <td>" + actual.getTipo() + "</td>");
+			respuesta.println("                </tr>");
+			d++;
+		}
+		
 		respuesta.println("              </tbody>"); 
 		respuesta.println("            </table>"); 
 		respuesta.println("          </div>");

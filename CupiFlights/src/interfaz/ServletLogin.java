@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mundo.CentralDeVuelos;
+
 public class ServletLogin extends HttpServlet {
 
 	//--------------------------------------------
 	// Atributos
 	//--------------------------------------------
 	
-	//private CentralCupiFlights central;
+	private CentralDeVuelos central;
 	
 	//--------------------------------------------
 	// Constructor
@@ -26,7 +28,7 @@ public class ServletLogin extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
     {
-        //central = CentralCupiFlights.getInstance( );
+        central = CentralDeVuelos.getInstance( );
     }
 	
 	//--------------------------------------------
@@ -48,6 +50,17 @@ public class ServletLogin extends HttpServlet {
 		imprimirEncabezado(request, response);
 		imprimirContenido(request, response);
     }
+	
+	@Override
+	public void destroy() {
+		try {
+			central.guardarCentral();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.destroy();
+	}
 
 	private void imprimirEncabezado(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		PrintWriter respuesta = response.getWriter();
