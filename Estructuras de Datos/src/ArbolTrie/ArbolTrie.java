@@ -1,10 +1,11 @@
 package ArbolTrie;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import ListaOrdenada.ListaOrdenada;
 
-public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T> {
+public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Serializable {
 
 	//------------------------------------------------------------
 	// Atributos
