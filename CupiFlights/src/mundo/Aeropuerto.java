@@ -1,6 +1,9 @@
 package mundo;
 
 import java.io.Serializable;
+import java.util.Iterator;
+
+import Arbol23.Arbol23;
 
 public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 
@@ -11,11 +14,15 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	private String ciudad;
 	private String pais;
 	private double tardanza;
-	
+	//TODO darvuelos
 	/**
 	 * Codigo flightstats
 	 */
 	private String codigo;
+	
+	private Arbol23<Vuelo> vuelosEntrada;
+	
+	private Arbol23<Vuelo> vuelosSalida;
 	public Aeropuerto(String nNombre, String nCiudad,String nPais, String nCodigoCiudad,String nCodigoPais,String nCodigo, double nTardanza){
 		nombre = nNombre;
 		ciudad = nCiudad;
@@ -24,6 +31,8 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		codigoPais = nCodigoPais;
 		codigo = nCodigo;
 		tardanza = nTardanza;
+		vuelosEntrada = new Arbol23<Vuelo>();
+		vuelosSalida = new Arbol23<Vuelo>();
 	}
 	
 	
@@ -31,6 +40,53 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		codigo = nCodigo;
 	}
 
+	public boolean agregarVueloEntrada(Vuelo vuelo) throws Exception{
+		return vuelosEntrada.agregar(vuelo);
+	}
+	
+	public boolean agregarVueloSalida(Vuelo vuelo) throws Exception{
+		return vuelosSalida.agregar(vuelo);
+	}
+	public Iterator<Vuelo> darVuelosEntrada(){
+		return vuelosEntrada.iterator();
+	}
+	
+	public Iterator<Vuelo> darVuelosSalida(){
+		return vuelosSalida.iterator();
+	}
+	public String getCodigoCiudad() {
+		return codigoCiudad;
+	}
+
+
+	public String getCodigoPais() {
+		return codigoPais;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
+
+	public String getPais() {
+		return pais;
+	}
+
+
+	public double getTardanza() {
+		return tardanza;
+	}
+
+
+	public String getCodigo() {
+		return codigo;
+	}
 
 	@Override
 	public int compareTo(Aeropuerto o) {
