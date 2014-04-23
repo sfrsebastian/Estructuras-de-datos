@@ -24,6 +24,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	private static final String URLAEROPUERTOS = "https://api.flightstats.com/flex/airports/rest/v1/json/active?appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b";
 	public final static String RUTA_ARCHIVO_SERIALIZADO = "/Users/sfrsebastian/Desktop/CentralDeVuelos.dat/";
 	public static final String IDENTIFICADORES = "appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b&";
+	
 	private static final long serialVersionUID = -2434025803582670357L;
 	private Arbol23<Aeropuerto> aeropuertos;
 	private Arbol23<Fecha> fechas;
