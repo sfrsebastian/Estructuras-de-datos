@@ -7,7 +7,7 @@ import java.util.Iterator;
 public interface ICentralDeVuelos extends Serializable{
 	
 	
-	public Aeropuerto agregarAeropuerto(String codigo);
+	public Aeropuerto agregarAeropuerto(String codigo) throws Exception;
 	
 	public Aeropuerto eliminarAeropuerto(String codigo);
 	
@@ -18,7 +18,7 @@ public interface ICentralDeVuelos extends Serializable{
 	
 	public Iterator<Fecha> consultarFechas();
 	
-	public Iterator<Aeropuerto> consultarAeropuertos();
+	public Iterator<Aeropuerto> darAeropuertos();
 	
 	public Iterator<Vuelo> consultarVuelos(Calendar cal, int horaDia, String codigo, String tipo);
 	
@@ -27,9 +27,9 @@ public interface ICentralDeVuelos extends Serializable{
 	
 	public Iterator<Vuelo> buscarVuelosPorCalificacion(int calificacion);
 	
-	public Aerolinea darMayorRetraso();
+	public Aeropuerto darMayorRetraso();
 	
-	public Aerolinea darMenorRetraso();
+	public Aeropuerto darMenorRetraso();
 	
 	public Iterator<Aeropuerto> buscarPorIndice();
 	
