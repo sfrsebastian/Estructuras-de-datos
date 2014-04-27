@@ -21,7 +21,7 @@ public interface ICentralDeVuelos extends Serializable{
 	
 	public Iterator<Aeropuerto> darAeropuertos();
 	
-	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo) throws Exception;
+	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo,int nHora) throws Exception;
 	
 	//Para aeropuertos
 	public Iterator<Vuelo> consultarVuelosPorEstado(String constante,String codigo);

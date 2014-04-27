@@ -246,13 +246,13 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		System.out.println("Guardo");
 	}
 	
-	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo) throws IOException {
+	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo,int nHora) throws IOException {
 		ListaOrdenada<Vuelo> listaVuelos = new ListaOrdenada<Vuelo>();
 		
 		int dia = c.get(Calendar.DAY_OF_MONTH);
 		int mes = c.get(Calendar.MONTH);
 		int anio = c.get(Calendar.YEAR);
-		int hora = c.get(Calendar.HOUR_OF_DAY);
+		int hora = nHora;
 		String url = "";
 		if(tipo.equals(Vuelo.LLEGANDO)){
 			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/" + codigo + "/arr/" + anio +"/"+mes+"/"+dia+"/" + hora +"?"+IDENTIFICADORES+"utc=false&numHours=1&maxFlights=10";
@@ -266,7 +266,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			JSONObject actual = recibidos.getJSONObject(i);
 			Vuelo nuevo = leerVuelo(actual,tipo);
 			listaVuelos.agregar(nuevo);
-			System.out.println("cargado vuelo: " + nuevo.getNumero());
+			System.out.println("cargado vuelo: " + nuevo.getNumero() + tipo);
 		}
 		
 		return listaVuelos.iterator();
