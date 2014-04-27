@@ -22,7 +22,7 @@ import ListaOrdenada.ListaOrdenada;
 
 public class CentralDeVuelos implements ICentralDeVuelos{
 	private static final String URLAEROPUERTOS = "https://api.flightstats.com/flex/airports/rest/v1/json/active?appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b";
-	public final static String RUTA_ARCHIVO_SERIALIZADO = "/Users/sfrsebastian/Desktop/CentralDeVuelos.dat/";
+	public final static String RUTA_ARCHIVO_SERIALIZADO = "/CentralDeVuelos.dat/";
 	public static final String IDENTIFICADORES = "appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b&";
 	
 	private static final long serialVersionUID = -2434025803582670357L;
@@ -44,9 +44,10 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			System.out.println("Creando instancia");
 			try
 			{
-//				ServerConfig config = ServerConfigLocator.locate( );
-//				File dataDir = config.getServerDataDir();
-				File tmp = new File(RUTA_ARCHIVO_SERIALIZADO);
+				
+				File dataDir = new File(System.getProperty("jboss.server.data.dir"));
+				System.out.println("entro3");
+				File tmp = new File(dataDir + RUTA_ARCHIVO_SERIALIZADO);
 				System.out.println("Nombre=" + tmp.getName( ));
 				System.out.println("Path=" + tmp.getPath( ));
 				System.out.println("Abs. Path=" + tmp.getAbsolutePath( ));
@@ -155,8 +156,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			JSONObject actual = recibidos.getJSONObject(random);
 			Aeropuerto nuevo = leerAeropuerto(actual);
 			aeropuertos.agregar(nuevo);
-			cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.LLEGANDO);
-			cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.SALIENDO);
+			//cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.LLEGANDO);
+			//cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.SALIENDO);
 			System.out.println("agregado " + nuevo.getNombre() + "\n ------------------------");
 		}
 	}
@@ -239,7 +240,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	public static void guardarCentral() throws Exception{
-		File f = new File(RUTA_ARCHIVO_SERIALIZADO);
+		File dataDir = new File(System.getProperty("jboss.server.data.dir"));
+		File f = new File(dataDir + RUTA_ARCHIVO_SERIALIZADO);
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
 		oos.writeObject(getInstance());
 		oos.close();
