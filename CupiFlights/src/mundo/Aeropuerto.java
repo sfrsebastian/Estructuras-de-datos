@@ -14,7 +14,8 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	private String ciudad;
 	private String pais;
 	private double tardanza;
-	//TODO darvuelos
+	private String latitud;
+	private String longitud;
 	/**
 	 * Codigo flightstats
 	 */
@@ -23,7 +24,7 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	private Arbol23<Vuelo> vuelosEntrada;
 	
 	private Arbol23<Vuelo> vuelosSalida;
-	public Aeropuerto(String nNombre, String nCiudad,String nPais, String nCodigoCiudad,String nCodigoPais,String nCodigo, double nTardanza){
+	public Aeropuerto(String nNombre, String nCiudad,String nPais, String nCodigoCiudad,String nCodigoPais,String nCodigo, double nTardanza,String nLatitud, String nLongitud){
 		nombre = nNombre;
 		ciudad = nCiudad;
 		pais = nPais;
@@ -33,13 +34,14 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		tardanza = nTardanza;
 		vuelosEntrada = new Arbol23<Vuelo>();
 		vuelosSalida = new Arbol23<Vuelo>();
+		latitud = nLatitud;
+		longitud = nLongitud;
 	}
 	
-	
-	public Aeropuerto(String nCodigo) {
+	public Aeropuerto(String nCodigo){
 		codigo = nCodigo;
 	}
-
+	
 	public boolean agregarVueloEntrada(Vuelo vuelo) throws Exception{
 		return vuelosEntrada.agregar(vuelo);
 	}
@@ -53,6 +55,14 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	
 	public Iterator<Vuelo> darVuelosSalida(){
 		return vuelosSalida.iterator();
+	}
+	
+	public Arbol23<Vuelo> getVuelosEntrada(){
+		return vuelosEntrada;
+	}
+	
+	public Arbol23<Vuelo> getVuelosSalida(){
+		return vuelosSalida;
 	}
 	public String getCodigoCiudad() {
 		return codigoCiudad;
@@ -88,6 +98,16 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		return codigo;
 	}
 
+	public String getLatitud(){
+		return latitud;
+	}
+	public String getLongitud(){
+		return longitud;
+	}
+	
+	public String toString(){
+		return nombre;
+	}
 	@Override
 	public int compareTo(Aeropuerto o) {
 		int comparacion = codigo.compareTo(o.codigo);
