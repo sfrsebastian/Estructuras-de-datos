@@ -57,7 +57,6 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		if(sesion.getAttribute("usuario") == null){
 		response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
 		}else{
-			String fecha = request.getParameter("fecha");
 			
 			imprimirEncabezado(request, response);
 			imprimirContenidoPost(request, response);
@@ -162,8 +161,9 @@ public class ServletAdminAeropuerto extends HttpServlet {
 				
 		Calendar c = Calendar.getInstance();
 		c.set(Integer.parseInt(fechas[2]), Integer.parseInt(fechas[1]), Integer.parseInt(fechas[0]));
+		String tipo = request.getParameter("tipo");
 		
-		Iterator<Vuelo> i = central.consultarVuelos(c, codigo, "TODO");
+		Iterator<Vuelo> i = central.consultarVuelos(c, codigo, tipo,Integer.parseInt(fechas[3]));
 		int d = 1;
 		while(i.hasNext() && d < 51){
 			Vuelo actual = i.next();
@@ -395,17 +395,27 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("              <div class=\"col-md-2\">"); 
 		respuesta.println("                <p>Buscar por fecha:</p>"); 
 		respuesta.println("              </div>"); 
-		respuesta.println("            <div class=\"form-group col-md-3\">"); 
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("                <label class=\"sr-only\" for=\"fi\">Fecha inicial</label>"); 
 		respuesta.println("                <input type=\"text\" class=\"form-control\" id=\"fi\" placeholder=\"dd/mm/aaaa\" style=\"width:100%\" name=\"fecha\">"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("              <p>Buscar por codigo:</p>"); 
 		respuesta.println("            </div>"); 
-		respuesta.println("            <div class=\"form-group col-md-3\">"); 
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("                <label class=\"sr-only\" for=\"fi\">Fecha inicial</label>"); 
 		respuesta.println("                <input type=\"text\" class=\"form-control\" id=\"fi\" placeholder=\"codigo aeropuerto\" style=\"width:100%\" name=\"codigo\">"); 
 		respuesta.println("            </div>"); 
+		//
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
+		respuesta.println("                <label class=\"sr-only\" for=\"tipo\">Tipo</label>"); 
+		respuesta.println("                <select name='tipo'>"); 
+		respuesta.println("                	<option value='" + Vuelo.LLEGANDO + "'>" + Vuelo.LLEGANDO + "</option>");
+		respuesta.println("                	<option value='" + Vuelo.SALIENDO + "'>" + Vuelo.SALIENDO + "</option>");
+		respuesta.println("                </select>"); 
+		respuesta.println("            </div>"); 
+		//
+		
 		respuesta.println("            <div class=\"col-md-2\">"); 
 		respuesta.println("              <button type=\"submit\" class=\"btn btn-info\">Buscar info</button>"); 
 		respuesta.println("            </div>"); 
