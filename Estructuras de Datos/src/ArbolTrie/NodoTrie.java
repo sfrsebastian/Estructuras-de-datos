@@ -135,10 +135,9 @@ public class NodoTrie<T extends Comparable<T>> implements Serializable {
 				this.hermano = nuevoHermano;
 				return nuevoHermano;
 			}else{
-				this.hermano.acomodarLetraMayor(letra);
+				return this.hermano.acomodarLetraMayor(letra);
 			}
 		}
-		return null;
 	}
 
 	private NodoTrie<T> tieneLetra(char c){

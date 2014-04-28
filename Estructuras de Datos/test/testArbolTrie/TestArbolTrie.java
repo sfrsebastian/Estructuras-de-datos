@@ -27,6 +27,32 @@ public class TestArbolTrie extends TestCase {
 		arbol.agregar("avioneta", "e2");
 	}
 	
+	public void testAgregarFecha(){
+		setupScenario1();
+		
+		arbol.agregar("2014/04/26", "Hola");
+		Iterator i1 = arbol.buscar("2014/04/26");
+		System.out.println(i1.next());
+		arbol.agregar("2014/04/26", "Perro");
+		arbol.agregar("2014/04/23", "Casa");
+		Iterator i2 = arbol.buscar("2014/04/23");
+		System.out.println(i2.next());
+		arbol.agregar("2014/04/25", "Arbol");
+		Iterator i3 = arbol.buscar("2014/04/25");
+		System.out.println(i3.next());
+		arbol.agregar("2014/04/28", "Llanta");
+		Iterator i4 = arbol.buscar("2014/04/28");
+		System.out.println(i4.next());
+		arbol.agregar("2014/04/30", "Mama");
+		Iterator i5 = arbol.buscar("2014/04/30");
+		System.out.println(i5.next());
+		
+		Iterator d = arbol.buscarXPrefijo("");
+		while(d.hasNext()){
+			System.out.println(d.next());
+		}
+	}
+	
 	public void testAgregar(){
 		setupScenario1();
 		
