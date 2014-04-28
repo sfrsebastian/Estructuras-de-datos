@@ -16,12 +16,18 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Seriali
 	 */
 	private NodoTrie raiz;
 	
+	/**
+	 * La lista ordenada de palabras
+	 */
+	private ListaOrdenada<String> palabras;
+	
 	//------------------------------------------------------------
 	// Constructores
 	//------------------------------------------------------------
 	
 	public ArbolTrie(){
 		raiz = new NodoTrie('*');
+		palabras = new ListaOrdenada<String>();
 	}
 	
 	//------------------------------------------------------------
@@ -32,8 +38,11 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Seriali
 	public boolean agregar(String palabra, T elemento) {
 		if(elemento == null)
 			return false;
-		else
+		else{
+			if(palabras.buscar(palabra) == null)
+				palabras.agregar(palabra);
 			return raiz.agregar(palabra, elemento);
+		}
 	}
 
 	@Override
@@ -45,9 +54,14 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Seriali
 	public Iterator<T> buscar(String palabra) {
 		return raiz.buscar(palabra);
 	}
+	
+	public Iterator<String> darPalabras(){
+		return palabras.iterator();
+	}
 
 	@Override
 	public boolean eliminar(String palabra) {
+		palabras.eliminar(palabra);
 		boolean elim = raiz.eliminar(palabra);
 		raiz.eliminarDependencias();
 		return elim;
