@@ -32,25 +32,55 @@ public class TestArbolTrie extends TestCase {
 		
 		arbol.agregar("2014/04/26", "Hola");
 		Iterator i1 = arbol.buscar("2014/04/26");
-		System.out.println(i1.next());
+		//System.out.println(i1.next());
 		arbol.agregar("2014/04/26", "Perro");
 		arbol.agregar("2014/04/23", "Casa");
 		Iterator i2 = arbol.buscar("2014/04/23");
-		System.out.println(i2.next());
+		//System.out.println(i2.next());
 		arbol.agregar("2014/04/25", "Arbol");
 		Iterator i3 = arbol.buscar("2014/04/25");
-		System.out.println(i3.next());
-		arbol.agregar("2014/04/28", "Llanta");
+		//arbol.agregar("2014/04/28", "Llanta");
 		Iterator i4 = arbol.buscar("2014/04/28");
-		System.out.println(i4.next());
+		//System.out.println(i4.next());
 		arbol.agregar("2014/04/30", "Mama");
 		Iterator i5 = arbol.buscar("2014/04/30");
-		System.out.println(i5.next());
+		//System.out.println(i5.next());
 		
 		Iterator d = arbol.buscarXPrefijo("");
 		while(d.hasNext()){
-			System.out.println(d.next());
+			//System.out.println(d.next());
+			d.next();
 		}
+	}
+	
+	public void testDarPalabras(){
+		setupScenario1();
+		
+		String pals[] = {"ajiaco","arevalo","arreboles","caja","goma","otra","zapato"};
+		
+		arbol.agregar("ajiaco", "hola");
+		arbol.agregar("ajiaco", "perro");
+		arbol.agregar("goma", "mama");
+		arbol.agregar("arevalo", "oso");
+		arbol.agregar("arreboles", "casa");
+		arbol.agregar("caja", "queso");
+		arbol.agregar("zapato", "perri");
+		arbol.agregar("otra", "nuevo");
+		
+		Iterator<String> i = arbol.darPalabras();
+		int d = 0;
+		while(i.hasNext()){
+			assertEquals("Deberia ser otro valor", pals[d], i.next());
+			d++;
+		}
+		
+		arbol.eliminar("ajiaco");
+		Iterator<String> f = arbol.darPalabras();
+		int q = 1;
+		while(f.hasNext()){
+			assertEquals("Deberia ser otro valor", pals[q], f.next());
+			q++;
+		}	
 	}
 	
 	public void testAgregar(){
@@ -59,7 +89,7 @@ public class TestArbolTrie extends TestCase {
 		//Caso: arbol, vacio, se agregan todas las letras
 		arbol.agregar("casa", "Felipe");
 		assertEquals("Se debe encontrar el elemento", "Felipe", (arbol.buscar("casa")).next());
-		System.out.println((arbol.buscar("casa")).next());
+		//System.out.println((arbol.buscar("casa")).next());
 		//Caso: primera letra repetida, se agregan los elementos
 		arbol.agregar("cosa", "Life-Savers");
 		assertEquals("Se debe encontrar el elemento", "Life-Savers", (arbol.buscar("cosa")).next());
