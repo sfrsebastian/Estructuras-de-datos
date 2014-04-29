@@ -74,10 +74,14 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	private ArbolTrie<Vuelo> vuelosEntrada;
 
 	/**
-	 * vuelos de salida del aeropuerto, organizados por fecha
+	 * Vuelos de salida del aeropuerto, organizados por fecha
 	 */
 	private ArbolTrie<Vuelo> vuelosSalida;
-
+	
+	/**
+	 * La calificacion del aeropuerto
+	 */
+	private double calificacion;
 	//--------------------
 	//CONSTRUCTORES
 	//--------------------
@@ -106,6 +110,7 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		vuelosSalida = new ArbolTrie<Vuelo>();
 		latitud = nLatitud;
 		longitud = nLongitud;
+		calificacion = 0;
 	}
 
 	/**
@@ -281,6 +286,21 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		return longitud;
 	}
 
+	/**
+	 * Retorna la calificacion del aeropuerto
+	 * @return
+	 */
+	public double getCalificacion(){
+		return calificacion;
+	}
+	
+	/**
+	 * Cambia la calificacion a la dada por parametro
+	 */
+	public double setCalificacion(double nCalificacion){
+		return calificacion = nCalificacion;
+	}
+	
 	/**
 	 * Metodo toString del aeropuerto<br>
 	 * Retorna el nombre del aeropuerto

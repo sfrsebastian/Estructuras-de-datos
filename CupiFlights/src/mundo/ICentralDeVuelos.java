@@ -46,6 +46,21 @@ public interface ICentralDeVuelos extends Serializable{
 	public double actualizarCalificacion(String codigo, double valor);
 
 	/**
+	 * Retorna la calificacion del aeropuerto con codigo dado
+	 * @param codigo El codigo del aeropuerto
+	 * @return La calificacion del aeropuerto
+	 */
+	public double consultarCalificacionAeropuerto(String codigo);
+	
+	/**
+	 * Actualiza la calificacion del aeropuerto con codigo dado.
+	 * @param codigo El codigo del aeropuerto
+	 * @param valor El valor de calificacion
+	 * @return La nueva calificacion del aeropuerto.
+	 */
+	public double ActualizarCalificacionAeropuerto(String codigo, double calificacion);
+	
+	/**
 	 * Retorna las fechas contenidas en la central.
 	 * @return Iterador de fechas
 	 */
