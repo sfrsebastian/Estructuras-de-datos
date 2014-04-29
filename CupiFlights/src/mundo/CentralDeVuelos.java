@@ -243,10 +243,10 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		System.out.println(dateFormat.format(c.getTime()));
 		String url = "";
 		if(tipo.equals(Vuelo.LLEGANDO)){
-			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";//TODO
+			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
 		}
 		else{
-			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a1.getCodigo() + "/" + a2.getCodigo() +"/dep/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";//TODO
+			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a1.getCodigo() + "/" + a2.getCodigo() +"/dep/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
 		}
 		JSONObject principal = darJSON(url);
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
@@ -401,7 +401,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		Iterator<Aeropuerto> it2 = aeropuertos.iterator();
 		int i = 0;
 		Random r = new Random();
-		while(it2.hasNext() && i<2){//TODO
+		while(it2.hasNext() && i<20){
 			Aeropuerto a2 = it2.next();
 			if(!vuelo.equals(a2) && r.nextBoolean()){
 				//Fecha actual
