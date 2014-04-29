@@ -1,6 +1,7 @@
 package mundo;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import ArbolTrie.ArbolTrie;
@@ -138,6 +139,45 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	 */
 	public boolean agregarVueloSalida(String fecha, Vuelo vuelo) throws Exception{
 		return vuelosSalida.agregar(fecha, vuelo);
+	}
+	
+	/**
+	 * Retorna la suma de tardanzas de los vuelos que se encuentran entre la fecha dada.
+	 * @param c1 La fecha inferior
+	 * @param c2 La fecha superior
+	 * @return El arreglo con la suma de tardanzas de vuelos entre las fechas dadas
+	 */
+	public int[] darTardanzasPorFecha(Calendar c1, Calendar c2) {
+		int l15 = 0;
+		int l30 = 0;
+		int l45 = 0;
+		int cancelados = 0;
+		Iterator <Vuelo> it1 = vuelosEntrada.buscarXPrefijo("");
+		Iterator<Vuelo> it2 = vuelosSalida.buscarXPrefijo("");
+		while(it1.hasNext()){
+			Vuelo actual = it1.next();
+			if(actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c2)<0){
+				l15 += actual.getL15();
+				l30 += actual.getL30();
+				l45 += actual.getL45();
+				cancelados += actual.getCancelados();
+			}
+		}
+		while(it2.hasNext()){
+			Vuelo actual = it2.next();
+			if(actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c2)<0){
+				l15 += actual.getL15();
+				l30 += actual.getL30();
+				l45 += actual.getL45();
+				cancelados += actual.getCancelados();
+			}
+		}
+		int[] respuesta = new int[4];
+		respuesta[0] = l15;
+		respuesta[1] = l30;
+		respuesta[2] = l45;
+		respuesta[3] = cancelados;
+		return respuesta;
 	}
 
 	/**

@@ -524,7 +524,10 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		}
 	}
 
-	//TODO Requerimiento 8
+	public int[] darTardanzasAeropuertoPorFecha(String codigo, Calendar c1, Calendar c2) throws Exception{
+		Aeropuerto aeropuerto = manejarAeropuerto(codigo);
+		return aeropuerto.darTardanzasPorFecha(c1,c2);
+	}
 
 	public Iterator<Vuelo> buscarVuelosPorCalificacion(int calificacion, Calendar c1, Calendar c2) {
 		ListaOrdenada<Vuelo> respuesta = new ListaOrdenada<Vuelo>();

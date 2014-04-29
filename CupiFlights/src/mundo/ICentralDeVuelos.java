@@ -67,7 +67,16 @@ public interface ICentralDeVuelos extends Serializable{
 	 */
 	public Iterator<Vuelo> darVuelosAeropuertoFecha(String codigo, Calendar c, String tipo) throws Exception;
 
-	//TODO Req 8
+	/**
+	 * Retorna las cantidades de tardanzas acumuladas del aeropeurto con codigo dado
+	 * @param codigo El codigo del aeropuerto
+	 * @param c1 La fecha de limite inferior
+	 * @param c2 La fecha de limite superior
+	 * @return Arreglo con los valores acumulados de tardanza.
+	 * @throws Exception 
+	 */
+	public int[] darTardanzasAeropuertoPorFecha(String codigo, Calendar c1, Calendar c2) throws Exception;
+	
 	/**
 	 * Retorna los vuelos en el rango de la calificacion dada.
 	 * @param calificacion La calificacion de 1-5
