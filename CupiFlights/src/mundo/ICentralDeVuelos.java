@@ -88,8 +88,8 @@ public interface ICentralDeVuelos extends Serializable{
 	public Aerolinea darMenorRetraso();
 
 	/**
-	 * Retorna la ruta del mapa con los aeropuertos organizados por indice de tardanza.
+	 * Retorna la ruta del mapa con los aeropuertos y el arbol con los indices de los aeropuertos agregados organizados por indice de tardanza.
 	 * @return La ruta del mapa
 	 */
-	public String darURLMapa();
+	public Object[] darURLMapa();
 }

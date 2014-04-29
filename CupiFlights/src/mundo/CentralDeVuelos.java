@@ -386,11 +386,13 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		while(salidas.hasNext()){
 			Vuelo actual = salidas.next();
 			vuelos.eliminar(actual);
+			//TODO eliminar de trie
 			actual.getAereolinea().eliminarVuelo(actual);
 		}
 		while(entradas.hasNext()){
 			Vuelo actual = entradas.next();
 			vuelos.eliminar(actual);
+			//TODO eliminar de trie
 			actual.getAereolinea().eliminarVuelo(actual);
 		}
 	}
@@ -566,7 +568,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return respuesta;
 	}
 
-	public String darURLMapa(){
+	public Object[] darURLMapa(){
+		ArbolTrie<Aeropuerto> arbol = new ArbolTrie<Aeropuerto>();
 		String url = "http://maps.googleapis.com/maps/api/staticmap?size=700x430";
 		Iterator<Aeropuerto> i = aeropuertos.iterator();
 		char indice = 65;
@@ -578,13 +581,17 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			if(next){
 				String armado = "&markers=color:red%7Clabel:" + indice + "%7C" + actual.getLatitud()+ ","+actual.getLongitud();
 				url += armado;
+				arbol.agregar(indice+"", actual);
 				indice++;
 			}
 			j++;
 		}
 		url+= "&sensor=false";
 		System.out.println(url);
-		return url;
+		Object[] respuesta = new Object[2];
+		respuesta[0] = url;
+		respuesta[1] = arbol;
+		return respuesta;
 	}
 
 	public static void guardarCentral() throws Exception{
