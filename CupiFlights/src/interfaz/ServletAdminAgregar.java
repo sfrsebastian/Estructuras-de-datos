@@ -19,6 +19,8 @@ public class ServletAdminAgregar extends HttpServlet {
 	
 	private CentralDeVuelos central;
 	
+	private String tituloPagina;
+	
 	//--------------------------------------------
 	// Constructor
 	//--------------------------------------------
@@ -29,6 +31,7 @@ public class ServletAdminAgregar extends HttpServlet {
 	public void init( ) throws ServletException
     {
         central = CentralDeVuelos.getInstance( );
+        tituloPagina = "Admin Agregar";
     }
 	
 	//--------------------------------------------
@@ -58,13 +61,25 @@ public class ServletAdminAgregar extends HttpServlet {
 			response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
 		}else{
 			String tipo = request.getParameter("tipo");
-			if(tipo.equals("agregar-aeropuerto")){
+			if(tipo.equals("agregar")){
 				String codigo = request.getParameter("codigo");
-				//TODO agregar los vuelos del aeropuerto
 				try {
 					central.agregarAeropuerto(codigo);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					System.out.println("Areopuerto agregado");
+					e.printStackTrace();
+				}
+				//Mostrar mensaje de exito/error dependiendo del resultado
+				//TODO mostrar mensaje de exito
+				imprimirEncabezado(request, response);
+				imprimirContenido(request, response);
+				imprimirFooter(request, response);
+			}else if (tipo.equals("eliminar")) {
+				String codigo = request.getParameter("codigo");
+				try {
+					central.eliminarAeropuerto(codigo);
+				} catch (Exception e) {
+					System.out.println("Areopuerto eliminado");
 					e.printStackTrace();
 				}
 				//Mostrar mensaje de exito/error dependiendo del resultado
@@ -93,7 +108,7 @@ public class ServletAdminAgregar extends HttpServlet {
 		
 		respuesta.println("<html>"); 
 		respuesta.println("<head>"); 
-		respuesta.println("	<title>Page Title</title>"); 
+		respuesta.println("	<title>" + tituloPagina + "</title>"); 
 		respuesta.println("	<script src=\"http://code.jquery.com/jquery-1.11.0.min.js\"></script>"); 
 		respuesta.println("	<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css\">"); 
 		respuesta.println("	<script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js\"></script>"); 
@@ -190,13 +205,9 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println(""); 
 		respuesta.println("	</style>"); 
 		respuesta.println("</head>"); 
-	}
-	
-	private void imprimirContenido(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		PrintWriter respuesta = response.getWriter();
-		
+		respuesta.println(""); 
 		respuesta.println("<body>"); 
-		respuesta.println("  <div class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">"); 
+		respuesta.println("	<div class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">"); 
 		respuesta.println("      <div class=\"container\">"); 
 		respuesta.println("        <div class=\"navbar-header\">"); 
 		respuesta.println("          <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">"); 
@@ -208,7 +219,7 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("          <a class=\"navbar-brand\" href=\"index.html\">CupiFlighs</a>"); 
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
-		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
+		respuesta.println("            <li><a href=\"#about\">About</a></li>"); 
 		respuesta.println("            <li><a href=\"#contact\">Contact</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
@@ -220,42 +231,33 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("        </div><!--/.navbar-collapse -->"); 
 		respuesta.println("      </div>"); 
 		respuesta.println("    </div>"); 
-		respuesta.println(""); 
+	}
+	
+	private void imprimirContenido(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PrintWriter respuesta = response.getWriter();
+		
 		respuesta.println("    <div class=\"container-fluid\">"); 
 		respuesta.println("      <div class=\"row\">"); 
 		respuesta.println("        <div class=\"col-sm-3 col-md-2 sidebar\">"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li><a href=\"admin.html\">General</a></li>"); 
 		respuesta.println("            <li class=\"active\"><a href=\"agregar.html\">Agregar</a></li>"); 
-		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
+		respuesta.println("            <li><a href=\"admin_aeropuertos.html\">Aeropuertos</a></li>"); 
 		respuesta.println("            <li><a href=\"admin_vuelos.html\">Export</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">More navigation</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">"); 
-		respuesta.println("          <h1 style=\"padding-bottom: 9px; margin: 0px 0px 0px 0px;\">Agregar aeropuertos</h1>"); 
+		respuesta.println("          <h1 style=\"padding-bottom: 9px; margin: 0px 0px 0px 0px;\">Agregar aeropuerto</h1>"); 
 		respuesta.println("          <p>Puede agregar aeropuertos seleccionado las opciones abajo</p>"); 
 		respuesta.println("          <hr>"); 
 		respuesta.println(""); 
 		respuesta.println("          <!--<h3 class=\"sub-header\" style=\"margin-bottom:30px;\">Vuelos Agregados</h3>-->"); 
 		respuesta.println("            <div>"); 
 		respuesta.println("                <form class=\"form-horizontal\" role=\"form\" action=\"\" method=\"POST\">"); 
-		respuesta.println("                  <input type=\"hidden\" name=\"tipo\" value=\"agregar-aeropuerto\">"); 
 		respuesta.println("                  <div class=\"form-group\">"); 
-		respuesta.println("                    <label for=\"inputEmail3\" class=\"col-sm-3 control-label\">Codigo del Aeropuerto</label>"); 
+		respuesta.println("                    <label for=\"agregar\" class=\"col-sm-3 control-label\">Codigo del Aeropuerto</label>"); 
 		respuesta.println("                    <div class=\"col-sm-9\">"); 
-		respuesta.println("                      <input type=\"text\" class=\"form-control\" id=\"inputEmail3\" placeholder=\"Codigo\" name=\"codigo\">"); 
+		respuesta.println("                      <input type=\"text\" class=\"form-control\" id=\"agregar\" placeholder=\"Codigo agregar\" name=\"codigo\">"); 
 		respuesta.println("                    </div>"); 
 		respuesta.println("                  </div>"); 
 		respuesta.println("                  <div class=\"form-group\">"); 
@@ -263,7 +265,24 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("                      <button type=\"submit\" class=\"btn btn-info\">Agregar</button>"); 
 		respuesta.println("                    </div>"); 
 		respuesta.println("                  </div>"); 
+		respuesta.println("                  <input type=\"hidden\" name=\"tipo\" value=\"agregar\">"); 
 		respuesta.println("                </form>"); 
+		respuesta.println(""); 
+		respuesta.println("                <form class=\"form-horizontal\" role=\"form\" action=\"\" method=\"POST\">"); 
+		respuesta.println("                  <div class=\"form-group\">"); 
+		respuesta.println("                    <label for=\"elim\" class=\"col-sm-3 control-label\">Codigo del Aeropuerto</label>"); 
+		respuesta.println("                    <div class=\"col-sm-9\">"); 
+		respuesta.println("                      <input type=\"text\" class=\"form-control\" id=\"elim\" placeholder=\"Codigo eliminar\" name=\"codigo\">"); 
+		respuesta.println("                    </div>"); 
+		respuesta.println("                  </div>"); 
+		respuesta.println("                  <div class=\"form-group\">"); 
+		respuesta.println("                    <div class=\"col-sm-offset-3 col-sm-9\">"); 
+		respuesta.println("                      <button type=\"submit\" class=\"btn btn-danger\">Eliminar</button>"); 
+		respuesta.println("                    </div>"); 
+		respuesta.println("                  </div>"); 
+		respuesta.println("                  <input type=\"hidden\" name=\"tipo\" value=\"eliminar\">"); 
+		respuesta.println("                </form>"); 
+		respuesta.println(""); 
 		respuesta.println("            </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("      </div>"); 

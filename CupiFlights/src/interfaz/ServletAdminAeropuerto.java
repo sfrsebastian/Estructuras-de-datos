@@ -69,7 +69,6 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		try {
 			central.guardarCentral();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.destroy();
@@ -155,7 +154,6 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		String codigo = request.getParameter("codigo");
 				
 		String fechas[] = posted.split("/");
-		//TODO fix
 		if(posted == null || codigo == null)
 			response.sendRedirect(ServletCupiFlights.RUTA + "./index.html");
 				
@@ -163,15 +161,21 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		c.set(Integer.parseInt(fechas[2]), Integer.parseInt(fechas[1]), Integer.parseInt(fechas[0]));
 		String tipo = request.getParameter("tipo");
 		
-		Iterator<Vuelo> i = central.consultarVuelos(c, codigo, tipo,Integer.parseInt(fechas[3]));
+		Iterator<Vuelo> i = null;
+		try {
+			i = central.consultarVuelos(c, codigo, tipo,Integer.parseInt(fechas[3]));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
 		int d = 1;
 		while(i.hasNext() && d < 51){
 			Vuelo actual = i.next();
 			respuesta.println("                <tr>"); 
 			respuesta.println("                  <td>" + d + "</td>"); 
 			respuesta.println("                  <td>" + actual.getNumero() + "</td>"); 
-			respuesta.println("                  <td>"+ actual.getCodigoLlegada() +"</td>"); 
-			respuesta.println("                  <td>"+ actual.getAerolinea() +"</td>"); 
+			respuesta.println("                  <td>"+ /*actual.get()*/"" +"</td>"); 
+			respuesta.println("                  <td>"+ /*actual.getAerolinea()*/"" +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getTipo() +"</td>");
 			respuesta.println("                </tr>");
 			d++;
@@ -367,18 +371,6 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("            <li><a href=\"agregar.html\">Agregar</a></li>"); 
 		respuesta.println("            <li class=\"active\"><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
 		respuesta.println("            <li><a href=\"admin_vuelos.html\">Export</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">More navigation</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println(""); 

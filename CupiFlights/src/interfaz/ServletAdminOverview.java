@@ -128,18 +128,6 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
 		respuesta.println("            <li><a href=\"#\">Export</a></li>"); 
 		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">More navigation</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">"); 
 		respuesta.println("          <h1 class=\"page-header\">Cupi-Admin</h1>"); 
@@ -173,28 +161,29 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("              <thead>"); 
 		respuesta.println("                <tr>"); 
 		respuesta.println("                  <th>#</th>"); 
-		respuesta.println("                  <th>Codigo</th>"); 
-		respuesta.println("                  <th>Vuelo</th>"); 
+		respuesta.println("                  <th>Salida</th>"); 
+		respuesta.println("                  <th>Llegada</th>"); 
 		respuesta.println("                  <th>Aereolinea</th>"); 
-		respuesta.println("                  <th>Estado</th>"); 
+		respuesta.println("                  <th>Rating</th>"); 
+		respuesta.println("                  <th>Tipo</th>"); 
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
 		respuesta.println("              <tbody>"); 
-		
-		Iterator<Vuelo> i = central.darVuelos();
-		int d = 1;
-		while(i.hasNext() && d < 51){
-			Vuelo actual = i.next();
 			
-			respuesta.println("                <tr>");
-			respuesta.println("                  <td>" + d +"</td>"); 
-			respuesta.println("                  <td>" + actual.getNumero() + "</td>"); 
-			respuesta.println("                  <td>"+ actual.getCodigoLlegada() + "</td>"); 
-			respuesta.println("                  <td>" + actual.getAerolinea() +"</td>"); 
-			respuesta.println("                  <td>" + actual.getTipo() + "</td>");
-			respuesta.println("                </tr>");
-			d++;
+		Iterator<Vuelo> vuelos = central.darVuelos();
+		while(vuelos.hasNext()){
+			Vuelo actual = vuelos.next();
+			
+			respuesta.println("                <tr>"); 
+			respuesta.println("                  <td><a href=\"vuelo.html?codigo="+actual.getNumero()+"\">"+actual.getNumero()+"</a></td>"); 
+			respuesta.println("                  <td>"+actual.getSalida().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getLlegada().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
+			respuesta.println("                  <td>"+actual.getRating()+"</td>");
+			respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
+			respuesta.println("                </tr>"); 
 		}
+		
 		respuesta.println("              </tbody>"); 
 		respuesta.println("            </table>"); 
 		respuesta.println("          </div>"); 

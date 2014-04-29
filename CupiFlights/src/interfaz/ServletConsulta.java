@@ -18,6 +18,8 @@ public class ServletConsulta extends HttpServlet {
 	
 	private CentralDeVuelos central;
 	
+	private String tituloPagina;
+	
 	//--------------------------------------------
 	// Constructor
 	//--------------------------------------------
@@ -27,6 +29,7 @@ public class ServletConsulta extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
     {
+		tituloPagina = "Consulta";
         central = CentralDeVuelos.getInstance( );
     }
 	
@@ -64,17 +67,10 @@ public class ServletConsulta extends HttpServlet {
 		
 		respuesta.println("<html>"); 
 		respuesta.println("<head>"); 
-		respuesta.println("  <title>Page Title</title>"); 
+		respuesta.println("  <title>Consulta</title>"); 
 		respuesta.println("  <script src=\"http://code.jquery.com/jquery-1.11.0.min.js\"></script>"); 
 		respuesta.println("  <link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css\">"); 
 		respuesta.println("  <script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js\"></script>"); 
-		respuesta.println("  <script type=\"text/javascript\">"); 
-		respuesta.println("      $( document ).ready(function() {"); 
-		respuesta.println("          $(\"h2\").click(function(){"); 
-		respuesta.println("          alert(\"Hello human!\");"); 
-		respuesta.println("        });"); 
-		respuesta.println("      });"); 
-		respuesta.println("  </script>"); 
 		respuesta.println("  <style type=\"text/css\">"); 
 		respuesta.println("    body{"); 
 		respuesta.println("      padding-top: 50px;"); 
@@ -96,17 +92,17 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li class=\"active\"><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"#contact\">Contact</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("      </div>"); 
-		respuesta.println("    </div>");
+		respuesta.println("    </div>"); 
 	}
 	
 	private void imprimirContenido(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter respuesta = response.getWriter();
 		
-		respuesta.println("<div class=\"container\">"); 
+		respuesta.println("    <div class=\"container\">"); 
 		respuesta.println("      <h2>Consultas</h2>"); 
 		respuesta.println("      <hr>"); 
 		respuesta.println("      <h4 style=\"margin-bottom:30px;\">Consultar por Aeropuerto</h4>"); 
@@ -114,17 +110,13 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <label for=\"codigoAeropuerto\" class=\"col-sm-2 control-label\">Codigo</label>"); 
 		respuesta.println("          <div class=\"col-sm-10\">"); 
-		respuesta.println("            <input type=\"email\" class=\"form-control\" id=\"codigoAeropuerto\" placeholder=\"Codigo del Aeropuerto\">"); 
+		respuesta.println("            <input type=\"text\" class=\"form-control\" name=\"codigoAeropuerto\" id=\"codigoAeropuerto\" placeholder=\"Codigo del Aeropuerto\">"); 
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
-		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha inicial</label>"); 
+		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha</label>"); 
 		respuesta.println("          <div class=\"col-sm-4\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" placeholder=\"Fecha inicial\">"); 
-		respuesta.println("          </div>"); 
-		respuesta.println("          <label for=\"fechaFinalA\" class=\"col-sm-2 control-label\">Fecha final</label>"); 
-		respuesta.println("          <div class=\"col-sm-4\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaFinalA\" placeholder=\"Fecha final\">"); 
+		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" name=\"fecha\" placeholder=\"Fecha: DD/MM/AAAA\">"); 
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
@@ -150,6 +142,23 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <input type=\"hidden\" name=\"pedido\" value=\"vuelo\">"); 
+		respuesta.println("      </form>"); 
+		respuesta.println(""); 
+		respuesta.println("      <hr>"); 
+		respuesta.println("      <h4 style=\"margin-bottom:30px;\">Consultar vuelos por calificacion</h4>"); 
+		respuesta.println("      <form class=\"form-horizontal\" role=\"form\" action=\"resultado.html\">"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"inputEmail3\" class=\"col-sm-2 control-label\">Calificacion:</label>"); 
+		respuesta.println("          <div class=\"col-sm-10\">"); 
+		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"inputEmail3\" placeholder=\"Rango de calificacion\">"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <div class=\"col-sm-offset-2 col-sm-10\">"); 
+		respuesta.println("            <button type=\"submit\" class=\"btn btn-info\">Consultar!</button>"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <input type=\"hidden\" name=\"pedido\" value=\"calificacion\">"); 
 		respuesta.println("      </form>"); 
 		respuesta.println(""); 
 		respuesta.println("      <hr>"); 
@@ -202,7 +211,6 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("            <td class=\"success\">18</td>"); 
 		respuesta.println("          </tr>"); 
 		respuesta.println("        </table>"); 
-		respuesta.println("      </form>"); 
 	}
 	
 	private void imprimirFooter(HttpServletRequest request, HttpServletResponse response) throws IOException {
