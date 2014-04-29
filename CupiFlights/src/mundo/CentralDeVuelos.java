@@ -510,6 +510,18 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return vuelo.actualizarRating(valor);
 	}
 
+	public double consultarCalificacionAeropuerto(String codigo) {
+		Aeropuerto aeropuerto = new Aeropuerto(codigo);
+		aeropuerto = aeropuertos.buscar(aeropuerto);
+		return aeropuerto.getCalificacion();
+	}
+
+	public double ActualizarCalificacionAeropuerto(String codigo, double calificacion) {
+		Aeropuerto aeropuerto = new Aeropuerto(codigo);
+		aeropuerto = aeropuertos.buscar(aeropuerto);
+		return aeropuerto.setCalificacion(calificacion);
+	}
+	
 	public Iterator<String> darFechas() {
 		return fechas.darPalabras();
 	}
@@ -602,6 +614,10 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return respuesta;
 	}
 
+	/**
+	 * Serializa la central en la ruta dada
+	 * @throws Exception
+	 */
 	public static void guardarCentral() throws Exception{
 		File f = new File(darRuta() + RUTA_ARCHIVO_SERIALIZADO);
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
@@ -610,14 +626,39 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		System.out.println("Guardo");
 	}
 
+	/**
+	 * Retorna un iterador de los vuelos de la central
+	 * @return iterador de vuelos
+	 */
 	public Iterator<Vuelo> darVuelos() {
 		return vuelos.iterator();
 	}
 	
-	public Aeropuerto darAeropuerto(String cod) throws Exception{
-		return manejarAeropuerto(cod);
+	/**
+	 * Retorna el aeropuerto con el codigo dado.
+	 * @param codigo El codigo del aeropuerto
+	 * @return el Aeropuerto encontrado
+	 * @throws Exception
+	 */
+	public Aeropuerto darAeropuerto(String codigo) throws Exception{
+		return manejarAeropuerto(codigo);
 	}
-
+	
+	/**
+	 * Retorna el vuelo con el codigo dado.
+	 * @param codigo El codigo del vuelo
+	 * @return el vuelo encontrado
+	 */
+	public Vuelo darVuelo(String numero){
+		Vuelo vuelo = new Vuelo(numero);
+		return vuelos.buscar(vuelo);
+	}
+	
+	/**
+	 * Retorna el url de imagen entre dos vuelos
+	 * @param codigo El codigo del vuelo
+	 * @return
+	 */
 	public String darUrlVuelo(String codigo){
 		Vuelo vuelo = new Vuelo(codigo);
 		vuelo = vuelos.buscar(vuelo);
