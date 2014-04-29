@@ -6,5 +6,5 @@
 	<classpathentry kind="lib" path="lib/Json.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-system.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jar"/>
-	<classpathentry kind="output" path="source"/>
+	<classpathentry kind="output" path="classes"/>
 </classpath>

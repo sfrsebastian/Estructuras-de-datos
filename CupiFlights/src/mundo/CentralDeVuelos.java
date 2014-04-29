@@ -14,6 +14,7 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,30 +27,30 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	//--------------------
 	//CONSTANTES
 	//--------------------
-	/**
-	 * Listado de codigos (ICAO) aeropuertos mas visitados.
-	 */
-	private static final String[] CODIGOS = {"KATL","ZBAA","EGLL","RJTT","KORD","KLAX","OMDB","LFPG","KDFW","WIII"
-														,"VHHH","EDDF","WSSS","EHAM","KDEN","ZGGG","VTBS","LTBA","KJFK","WMKK"
-														,"ZSPD","KSFO","KCLT","KLAS","RKSI","KMIA","KPHX","KIAH","LEMD","EDDM"
-														,"YSSY","VIDP","SBGR","LIRF","CYYZ","ZSSS","EGKK","RJAA","LEBL","KEWR"
-														,"KMCO","KSEA","KMSP","ZUUU","RPLL","KDTW","ZGSZ","VABB","MMMX","UUDD"};
-	
+	//	/**
+	//	 * Listado de codigos (ICAO) aeropuertos mas visitados.
+	//	 */
+	//	private static final String[] CODIGOS = {"KATL","ZBAA","EGLL","RJTT","KORD","KLAX","OMDB","LFPG","KDFW","WIII"
+	//														,"VHHH","EDDF","WSSS","EHAM","KDEN","ZGGG","VTBS","LTBA","KJFK","WMKK"
+	//														,"ZSPD","KSFO","KCLT","KLAS","RKSI","KMIA","KPHX","KIAH","LEMD","EDDM"
+	//														,"YSSY","VIDP","SBGR","LIRF","CYYZ","ZSSS","EGKK","RJAA","LEBL","KEWR"
+	//														,"KMCO","KSEA","KMSP","ZUUU","RPLL","KDTW","ZGSZ","VABB","MMMX","UUDD"};
+
 	/**
 	 * Nombre del archivo para serializar la central
 	 */
 	public final static String RUTA_ARCHIVO_SERIALIZADO = "/CentralDeVuelos.dat/";
-	
+
 	/**
 	 * Identificador unico para hacer uso del api de flightstats
 	 */
-	public static final String IDENTIFICADORES = "appId=3723b96f&appKey=d6e053700776ffb5b91cd46f8c88722b&";
-	
+	public static final String IDENTIFICADORES = "appId=ddb807c4&appKey=5712433a4c35dd349e361c6c2210f3d2&";
+
 	/**
 	 * Identificador de la clase
 	 */
 	private static final long serialVersionUID = -2434025803582670357L;
-	
+
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
@@ -57,28 +58,28 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 * Los aeropuertos de la central
 	 */
 	private Arbol23<Aeropuerto> aeropuertos;
-	
+
 	/**
 	 * Arbol con clasificacion de vuelos por fecha.
 	 */
 	private ArbolTrie<Vuelo> fechas;
-	
+
 	/**
 	 * Los vuelos de la central.
 	 */
 	private Arbol23<Vuelo> vuelos;
-	
+
 	/**
 	 * Las aerolineas de la central
 	 */
 	private Arbol23<Aerolinea> aerolineas;
-	
+
 	private SimpleDateFormat dateFormat;
 	/**
 	 * La instancia de la clase
 	 */
 	private static CentralDeVuelos instancia = null;
-	
+
 	//--------------------
 	//Constructor
 	//--------------------
@@ -133,13 +134,13 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		}
 		return instancia;
 	}
-	
+
 	//--------------------
 	//METODOS AUXILIARES
 	//--------------------
 	/**
-	 * Retorna la ruta de guardado segun el caso<b>
-	 * Puede ser la ruta de datos del servidor o la ruta de data local en su defecto.
+	 * Retorna la ruta de guardado segun el caso<br>
+	 * Puede ser la ruta de datos del servidor o la ruta de data local.
 	 * @return
 	 */
 	private static File darRuta(){
@@ -151,7 +152,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		}
 	}
 	/**
-	 * Arma el objeto JSON del url dado.
+	 * Arma el objeto JSON del url dado.<br>
 	 * Retorna el objeto JSON obtenido.
 	 * @param url El url de la solicitud.
 	 * @return El objeto JSON obtenido.
@@ -174,7 +175,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	/**
-	 * Crea un nuevo vuelo a partir de el objeto JSON recibido y el tipo de vuelo<b>
+	 * Crea un nuevo vuelo a partir de el objeto JSON recibido y el tipo de vuelo<br>
 	 * Agrega a la aerolinea el vuelo creado
 	 * @param objeto El objeto JSON para la lectura de atributos
 	 * @param tipo El tipo de vuelo Vuelo.LLEGANDO || Vuelo.SALIENDO
@@ -196,7 +197,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	/**
-	 * Crea un nuevo aeropuerto a partir de el objeto JSON recibido<b>
+	 * Crea un nuevo aeropuerto a partir de el objeto JSON recibido<br>
 	 * @param objeto El objeto JSON para la lectura de atributos
 	 * @return El aeropuerto creado.
 	 * @throws Exception
@@ -213,7 +214,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		}
 		catch(Exception e){
 		}
-		
+
 		String codigoPais = objeto.getString("countryCode");
 		String codigo = objeto.getString("fs");
 		String urlTardanza = objeto.getString("delayIndexUrl");
@@ -235,16 +236,17 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 * @throws Exception
 	 */
 	private void cargarVuelosPorFecha(Calendar c, Aeropuerto a1, Aeropuerto a2, String tipo) throws Exception{
+		String date = dateFormat.format(c.getTime());
 		int dia = c.get(Calendar.DAY_OF_MONTH);
 		int mes = c.get(Calendar.MONTH)+1;
 		int anio = c.get(Calendar.YEAR);
 		System.out.println(dateFormat.format(c.getTime()));
 		String url = "";
 		if(tipo.equals(Vuelo.LLEGANDO)){
-			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
+			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";//TODO
 		}
 		else{
-			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a1.getCodigo() + "/" + a2.getCodigo() +"/dep/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
+			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a1.getCodigo() + "/" + a2.getCodigo() +"/dep/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";//TODO
 		}
 		JSONObject principal = darJSON(url);
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
@@ -252,19 +254,19 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			JSONObject actual = recibidos.getJSONObject(i);
 			Vuelo nuevo = leerVuelo(c,actual,tipo);
 			if(tipo.equals(Vuelo.LLEGANDO)){
-				if(a1.getVuelosEntrada().buscar(nuevo)==null){
-					a1.agregarVueloEntrada(nuevo);
+				if(a1.getVuelosEntrada().buscarElemento(date, nuevo)==null){
+					a1.agregarVueloEntrada(date, nuevo);
 				}
-				if(a2.getVuelosSalida().buscar(nuevo) == null){
-					a2.agregarVueloSalida(nuevo);
+				if(a2.getVuelosSalida().buscarElemento(date, nuevo) == null){
+					a2.agregarVueloSalida(date,nuevo);
 				}
 			}
 			else if(tipo.equals(Vuelo.SALIENDO)){
-				if(a1.getVuelosSalida().buscar(nuevo)==null){
-					a1.agregarVueloSalida(nuevo);
+				if(a1.getVuelosSalida().buscarElemento(date, nuevo)==null){
+					a1.agregarVueloSalida(date,nuevo);
 				}
-				if(a2.getVuelosEntrada().buscar(nuevo) == null){
-					a2.agregarVueloEntrada(nuevo);
+				if(a2.getVuelosEntrada().buscarElemento(date, nuevo) == null){
+					a2.agregarVueloEntrada(date,nuevo);
 				}
 			}
 			if(vuelos.buscar(nuevo)==null){
@@ -281,7 +283,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	/**
-	 * Retorna la aereolinea del codigo dado por parametro<b>
+	 * Retorna la aereolinea del codigo dado por parametro<br>
 	 * Busca la aereolinea en el arbol, la crea de lo contrario
 	 * @param codigo El codigo de la aereolinea
 	 * @return La aereolinea del codigo dado por parametro
@@ -301,7 +303,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	/**
-	 * Retorna el aeropuerto del codigo dado por parametro<b>
+	 * Retorna el aeropuerto del codigo dado por parametro<br>
 	 * Busca el aeropuerto en el arbol, la crea de lo contrario
 	 * @param codigo El codigo del aeropuerto
 	 * @return El aeropuerto del codigo dado por parametro
@@ -320,7 +322,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		else
 			return buscado;	
 	}
-	
+
 	/**
 	 * Retorna un arreglo con la informacion de ratings a partir de la informacion recibida
 	 * @param codigoAereolinea El codigo de la aereolinea
@@ -348,7 +350,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			cancelados = datos.getInt("cancelled");
 		}
 		catch(Exception e){
-			
+
 		}
 		valores[0] = rating;
 		valores[1] = num15;
@@ -372,7 +374,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		System.out.println("aereolinea leida: " + nombre);
 		return nombre; 
 	}
-	
+
 	/**
 	 * Elimina los vuelos del aeropuerto dado por parametro
 	 * @param eliminar
@@ -393,11 +395,13 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		}
 	}
 
-	private void consultarVuelo(Aeropuerto vuelo) throws Exception {
+	private void buscarVuelosComun(Aeropuerto vuelo) throws Exception {
 		Iterator<Aeropuerto> it2 = aeropuertos.iterator();
-		while(it2.hasNext()){
+		int i = 0;
+		Random r = new Random();
+		while(it2.hasNext() && i<2){//TODO
 			Aeropuerto a2 = it2.next();
-			if(!vuelo.equals(a2)){
+			if(!vuelo.equals(a2) && r.nextBoolean()){
 				//Fecha actual
 				Calendar c = Calendar.getInstance();
 				c.setTimeInMillis(System.currentTimeMillis());
@@ -406,27 +410,30 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 
 				//Hace 4 dias
+				a2 = it2.next();
 				if(c.get(Calendar.DAY_OF_MONTH)<=4){
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, 30-(c.get(Calendar.DAY_OF_MONTH)-4));
+					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, 30-(c.get(Calendar.DAY_OF_MONTH)-3));
 				}
 				else{
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)-4));
+					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)-3));
 				}
-				//System.out.println(dateFormat.format(c.getTime()));
+				System.out.println(dateFormat.format(c.getTime()));
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 
 				//Cuatro dias adelante
+				a2 = it2.next();
 				c.setTimeInMillis(System.currentTimeMillis());
 				if(c.get(Calendar.DAY_OF_MONTH)>=27){
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, 1+(c.get(Calendar.DAY_OF_MONTH)-27));
+					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, 1+(c.get(Calendar.DAY_OF_MONTH)-28));
 				}
 				else{
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)+4));
+					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)+3));
 				}
 				//System.out.println(dateFormat.format(c.getTime()));
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
+				i++;
 			}
 		}
 	}
@@ -434,10 +441,6 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	//--------------------
 	//METODOS
 	//--------------------
-	/**
-	 * Carga 10 aeropuerto al azar de la lista general de aeropuertos
-	 * @throws Exception
-	 */
 	public void cargarAeropuertos() throws Exception{
 		String json = "";
 		File f = new File(darRuta() + "/aeropuertos.json");
@@ -458,10 +461,9 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
 		}
 		Iterator<Aeropuerto> i = aeropuertos.iterator();
-		consultarVuelo(i.next());
+		buscarVuelosComun(i.next());
 	}
-	
-	
+
 	public Aeropuerto agregarAeropuerto(String codigo) throws Exception {
 		String url = "https://api.flightstats.com/flex/airports/rest/v1/json/cityCode/" + codigo + "?" + IDENTIFICADORES;
 		System.out.println(url);
@@ -471,21 +473,12 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			Aeropuerto nuevo = leerAeropuerto((JSONObject) arreglo.get(0));
 			aeropuertos.agregar(nuevo);
 			System.out.println(nuevo);
-			//cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.LLEGANDO);
-			//cargarVuelosActuales(nuevo.getCodigo(),nuevo,Vuelo.SALIENDO);
+			buscarVuelosComun(nuevo);
 			return nuevo;
 		}
 		catch(Exception e){
 			return null;
 		}
-	}
-
-	public Iterator<Aeropuerto> darAeropuertos() {
-		return aeropuertos.iterator();
-	}
-
-	public Iterator<Vuelo> darVuelos() {
-		return vuelos.iterator();
 	}
 
 	public Aeropuerto eliminarAeropuerto(String codigo) throws Exception {
@@ -498,18 +491,134 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return aeropuertos.eliminar(eliminar);//se elimina el aeropuerto
 	}
 
+	public double consultarCalificacion(String codigo) {
+		Vuelo vuelo = new Vuelo(codigo);
+		vuelo = vuelos.buscar(vuelo);
+		return vuelo.getRating();
+	}
+
+	public double actualizarCalificacion(String codigo, double valor) {
+		Vuelo vuelo = new Vuelo(codigo);
+		vuelo = vuelos.buscar(vuelo);
+		return vuelo.actualizarRating(valor);
+	}
+
+	public Iterator<String> darFechas() {
+		return fechas.darPalabras();
+	}
+
+	public Iterator<Aeropuerto> darAeropuertos() {
+		return aeropuertos.iterator();
+	}
+
+	public Iterator<Vuelo> darVuelosAeropuertoFecha(String codigo, Calendar c, String tipo) throws Exception{
+		Aeropuerto aeropuerto = manejarAeropuerto(codigo);
+		String date = dateFormat.format(c.getTime());
+		if(tipo.equals(Vuelo.LLEGANDO)){
+			return aeropuerto.getVuelosEntrada().buscar(date);
+		}
+		else{
+			return aeropuerto.getVuelosSalida().buscar(date);
+		}
+	}
+
+	//TODO Requerimiento 8
+
+	public Iterator<Vuelo> buscarVuelosPorCalificacion(int calificacion, Calendar c1, Calendar c2) {
+		ListaOrdenada<Vuelo> respuesta = new ListaOrdenada<Vuelo>();
+		Iterator<Vuelo> i = vuelos.iterator();
+		while(i.hasNext()){
+			Vuelo actual = i.next();
+			if((int)actual.getRating() == calificacion && actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c1)<0){
+				respuesta.agregar(actual);
+			}
+		}
+		return respuesta.iterator();
+	}
+
+	public Aerolinea darMayorRetraso() {
+		Aerolinea respuesta = null;
+		Iterator<Aerolinea> i = aerolineas.iterator();
+		while(i.hasNext()){
+			Aerolinea actual = i.next();
+			if(respuesta == null){
+				respuesta = actual;
+			}
+			else if(actual.getRetrasoTotal()>respuesta.getRetrasoTotal()){
+				respuesta = actual;
+			}
+		}
+		return respuesta;
+	}
+
+	public Aerolinea darMenorRetraso() {
+		Aerolinea respuesta = null;
+		Iterator<Aerolinea> i = aerolineas.iterator();
+		while(i.hasNext()){
+			Aerolinea actual = i.next();
+			if(respuesta == null){
+				respuesta = actual;
+			}
+			else if(actual.getRetrasoTotal()<respuesta.getRetrasoTotal()){
+				respuesta = actual;
+			}
+		}
+		return respuesta;
+	}
+
+	public String darURLMapa(){
+		String url = "http://maps.googleapis.com/maps/api/staticmap?size=700x430";
+		Iterator<Aeropuerto> i = aeropuertos.iterator();
+		char indice = 65;
+		Random r = new Random();
+		int j = 0;
+		while(i.hasNext() && j<30){
+			boolean next = r.nextBoolean();
+			Aeropuerto actual = i.next();
+			if(next){
+				String armado = "&markers=color:red%7Clabel:" + indice + "%7C" + actual.getLatitud()+ ","+actual.getLongitud();
+				url += armado;
+				indice++;
+			}
+			j++;
+		}
+		url+= "&sensor=false";
+		System.out.println(url);
+		return url;
+	}
+
 	public static void guardarCentral() throws Exception{
-		File dataDir = new File(System.getProperty("jboss.server.data.dir"));
-		File f = new File(dataDir + RUTA_ARCHIVO_SERIALIZADO);
+		File f = new File(darRuta() + RUTA_ARCHIVO_SERIALIZADO);
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
 		oos.writeObject(getInstance());
 		oos.close();
 		System.out.println("Guardo");
 	}
-	
+
+	public Iterator<Vuelo> darVuelos() {
+		return vuelos.iterator();
+	}
+
+	public String darUrlVuelo(String codigo){
+		Vuelo vuelo = new Vuelo(codigo);
+		vuelo = vuelos.buscar(vuelo);
+		String url = "http://maps.googleapis.com/maps/api/staticmap?path=color:0xff0000ff%7Cweight:5%7C" + vuelo.getSalida().getLatitud() + "," + vuelo.getSalida().getLongitud() + "%7C" + vuelo.getLlegada().getLatitud() + "," + vuelo.getLlegada().getLongitud() +"&size=512x512&sensor=false";
+		return url;
+	}
+
+	///////METODO PARA CONSULTAR VUELO DEL API
+	/**
+	 * Consulta los vuelos en la fecha y hora dada del aeropuerto con codigo y tipo dados.
+	 * @param c Contenedor de la fecha.
+	 * @param codigo El codigo del aereopuerto
+	 * @param tipo El tipo de vuelos a consultar. Vuelo.LLEGANDO || Vuelo.SALIENDO.
+	 * @param nHora La hora de la busqueda.
+	 * @return Iterador de vuelos que cumplen con los criterios
+	 * @throws Exception
+	 */
+	@Deprecated
 	public Iterator<Vuelo> consultarVuelos(Calendar c, String codigo, String tipo,int nHora) throws Exception {
 		ListaOrdenada<Vuelo> listaVuelos = new ListaOrdenada<Vuelo>();
-		
 		int dia = c.get(Calendar.DAY_OF_MONTH);
 		int mes = c.get(Calendar.MONTH);
 		int anio = c.get(Calendar.YEAR);
@@ -529,109 +638,18 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			listaVuelos.agregar(nuevo);
 			System.out.println("cargado vuelo: " + nuevo.getNumero() + tipo);
 		}
-		
 		return listaVuelos.iterator();
 	}
 
-	private void cargarVueloATL() throws Exception{
-		Aeropuerto aeropuerto = new Aeropuerto("Hartsfield-Jackson Atlanta International Airport", "Atlanta", "United States", "ATL", "US", "ATL", 0.0, "33.640067", "-84.44403");
-		aeropuertos.agregar(aeropuerto);
-		String json = "";
-		//File dataDir = new File(System.getProperty("jboss.server.data.dir"));
-		File dataDir = new File("./data");
-		File f = new File(dataDir + "/ATL.json");
-		BufferedReader in = new BufferedReader(new FileReader(f));
-		StringBuilder sBuilder = new StringBuilder();
-		String line = null;
-		while ((line = in.readLine()) != null) {
-			sBuilder.append(line + "\n");
-		}
-		in.close();
-		json = sBuilder.toString();
-		JSONObject principal = new JSONObject(json);
-		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
-		for(int i = 0; i<recibidos.length();i++){
-			JSONObject actual = recibidos.getJSONObject(i);
-			Calendar c = Calendar.getInstance();
-			c.setTimeInMillis(System.currentTimeMillis());
-			Vuelo nuevo = leerVuelo(c, actual,Vuelo.SALIENDO);
-			vuelos.agregar(nuevo);
-			aeropuerto.agregarVueloEntrada(nuevo);
-			System.out.println("cargado vuelo: " + nuevo.getNumero()+ "\n------------------------");
-		}
-		System.out.println();
-		
-	}
-	public String darURLMapa(){
-		String url = "http://maps.googleapis.com/maps/api/staticmap?size=700x430";
-		Iterator<Aeropuerto> i = aeropuertos.iterator();
-		char indice = 65;
-		while(i.hasNext()){
-			Aeropuerto actual = i.next();
-			String armado = "&markers=color:red%7Clabel:" + indice + "%7C" + actual.getLatitud()+ ","+actual.getLongitud();
-			url += armado;
-			indice++;
-		}
-		url+= "&sensor=false";
-		System.out.println(url);
-		return url;
-		
-	}
-	
-	public String darUrlVuelo(String codigo){
-		Vuelo vuelo = new Vuelo(codigo);
-		vuelo = vuelos.buscar(vuelo);
-		String url = "http://maps.googleapis.com/maps/api/staticmap?path=color:0xff0000ff%7Cweight:5%7C" + vuelo.getSalida().getLatitud() + "," + vuelo.getSalida().getLongitud() + "%7C" + vuelo.getLlegada().getLatitud() + "," + vuelo.getLlegada().getLongitud() +"&size=512x512&sensor=false";
-		return url;
-	}
-	
 	public static void main(String[] args) throws Exception {
 		CentralDeVuelos central = getInstance();
-		central.cargarAeropuertos();
+		//central.cargarAeropuertos();
+		Iterator<String> fechas = central.fechas.darPalabras();
+		while(fechas.hasNext()){
+			System.out.println("La fecha es " + fechas.next());
+		}
 		central.darURLMapa();		
-	//	guardarCentral();
-	}
-
-	@Override
-	public double consultarCalificacion(String codigo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean ActualizarCalificacion(String codigo, double valor) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Iterator<Fecha> consultarFechas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Iterator<Vuelo> consultarVuelosPorEstado(String tipo, String codigo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Iterator<Vuelo> buscarVuelosPorCalificacion(int calificacion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Aerolinea darMayorRetraso() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Aerolinea darMenorRetraso() {
-		// TODO Auto-generated method stub
-		return null;
+		guardarCentral();
 	}
 
 }
