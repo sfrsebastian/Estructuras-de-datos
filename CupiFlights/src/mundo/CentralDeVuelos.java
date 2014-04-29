@@ -50,6 +50,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 * Identificador de la clase
 	 */
 	private static final long serialVersionUID = -2434025803582670357L;
+	
 
 	//--------------------
 	//ATRIBUTOS
@@ -74,7 +75,11 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 */
 	private Arbol23<Aerolinea> aerolineas;
 
+	/**
+	 * Formateador fechas
+	 */
 	private SimpleDateFormat dateFormat;
+	
 	/**
 	 * La instancia de la clase
 	 */
@@ -607,6 +612,10 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	public Iterator<Vuelo> darVuelos() {
 		return vuelos.iterator();
+	}
+	
+	public Aeropuerto darAeropuerto(String cod) throws Exception{
+		return manejarAeropuerto(cod);
 	}
 
 	public String darUrlVuelo(String codigo){
