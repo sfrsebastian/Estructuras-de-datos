@@ -28,7 +28,12 @@ public class ServletLogin extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
     {
-        central = CentralDeVuelos.getInstance( );
+        try {
+			central = CentralDeVuelos.getInstance( );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	
 	//--------------------------------------------

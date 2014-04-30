@@ -33,7 +33,12 @@ public class ServletAdminOverview extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
     {
-        central = CentralDeVuelos.getInstance( );
+        try {
+			central = CentralDeVuelos.getInstance( );
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try {
         	Iterator<Aeropuerto> i = central.darAeropuertos();
         	if(i.hasNext()){      		

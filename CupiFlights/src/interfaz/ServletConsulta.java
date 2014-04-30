@@ -30,7 +30,12 @@ public class ServletConsulta extends HttpServlet {
 	public void init( ) throws ServletException
     {
 		tituloPagina = "Consulta";
-        central = CentralDeVuelos.getInstance( );
+        try {
+			central = CentralDeVuelos.getInstance( );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	
 	//--------------------------------------------
@@ -154,10 +159,22 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha Inicial</label>"); 
+		respuesta.println("          <div class=\"col-sm-4\">"); 
+		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" name=\"fechaInicial\" placeholder=\"Fecha: AAAA/MM/DD\">"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha Final</label>"); 
+		respuesta.println("          <div class=\"col-sm-4\">"); 
+		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" name=\"fechaFinal\" placeholder=\"Fecha: AAAA/MM/DD\">"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <div class=\"col-sm-offset-2 col-sm-10\">"); 
 		respuesta.println("            <button type=\"submit\" class=\"btn btn-info\">Consultar!</button>"); 
 		respuesta.println("          </div>"); 
-		respuesta.println("        </div>"); 
+		respuesta.println("        </div>");
 		respuesta.println("        <input type=\"hidden\" name=\"pedido\" value=\"calificacion\">"); 
 		respuesta.println("      </form>"); 
 		respuesta.println(""); 
