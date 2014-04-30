@@ -352,7 +352,7 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"#contact\">Contact</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"navbar-collapse collapse\">"); 
@@ -442,6 +442,7 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("                  <th>Nombre</th>"); 
 		respuesta.println("                  <th>Aereolinea</th>"); 
 		respuesta.println("                  <th>Tardanza</th>");
+		respuesta.println("                  <th>Calificacion</th>");
 		respuesta.println("                  <th>Bandera</th>");
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
@@ -457,6 +458,7 @@ public class ServletAdminAeropuerto extends HttpServlet {
 			respuesta.println("                  <td>"+ actual.getNombre() +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getCodigoPais() +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getTardanza() +"</td>");
+			respuesta.println("                  <td>"+ actual.getCalificacion() +"</td>");
 			respuesta.println("                  <td><img src='http://flagpedia.net/data/flags/mini/" + (actual.getCodigoPais()).toLowerCase() + ".png'></td>");
 			respuesta.println("                </tr>");
 			d++;

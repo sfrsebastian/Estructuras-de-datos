@@ -133,7 +133,6 @@ public class ServletVuelo extends HttpServlet {
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"mapa.html\">Mapa</a></li>"); 
 		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
@@ -203,5 +202,14 @@ public class ServletVuelo extends HttpServlet {
 
 	private void imprimirFooter(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter respuesta = response.getWriter();
+		
+		respuesta.println("<hr>"); 
+		respuesta.println(""); 
+		respuesta.println("<footer>"); 
+		respuesta.println("        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>"); 
+		respuesta.println("      </footer>"); 
+		respuesta.println("    </div> <!-- /container -->"); 
+		respuesta.println("</body>"); 
+		respuesta.println("</html>"); 
 	}
 }

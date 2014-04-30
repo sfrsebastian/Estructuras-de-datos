@@ -93,6 +93,18 @@ public class ServletAdminAgregar extends HttpServlet {
 				imprimirEncabezado(request, response);
 				imprimirContenido(request, response);
 				imprimirFooter(request, response);
+			}else if(tipo.equals("actualizar")){
+				String codigo = request.getParameter("codigo");
+				String calificacion = request.getParameter("calificacion");
+				System.out.println(codigo + " " + calificacion);
+				try {
+					central.ActualizarCalificacionAeropuerto(codigo, Integer.parseInt(calificacion));
+				} catch (Exception e) {
+					
+				}
+				imprimirEncabezado(request, response);
+				imprimirContenido(request, response);
+				imprimirFooter(request, response);
 			}
 		}
 		
@@ -225,8 +237,8 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("          <a class=\"navbar-brand\" href=\"index.html\">CupiFlighs</a>"); 
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
-		respuesta.println("            <li><a href=\"#about\">About</a></li>"); 
-		respuesta.println("            <li><a href=\"#contact\">Contact</a></li>"); 
+		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"navbar-collapse collapse\">"); 
@@ -248,8 +260,7 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li><a href=\"admin.html\">General</a></li>"); 
 		respuesta.println("            <li class=\"active\"><a href=\"agregar.html\">Agregar</a></li>"); 
-		respuesta.println("            <li><a href=\"admin_aeropuertos.html\">Aeropuertos</a></li>"); 
-		respuesta.println("            <li><a href=\"admin_vuelos.html\">Export</a></li>"); 
+		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>");  
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">"); 
@@ -287,7 +298,31 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("                    </div>"); 
 		respuesta.println("                  </div>"); 
 		respuesta.println("                  <input type=\"hidden\" name=\"tipo\" value=\"eliminar\">"); 
-		respuesta.println("                </form>"); 
+		respuesta.println("                </form>");
+		
+		//TODO boton feo
+		
+		respuesta.println("                <form class=\"form-horizontal\" role=\"form\" action=\"\" method=\"POST\">"); 
+		respuesta.println("                  <div class=\"form-group\">"); 
+		respuesta.println("                    <label for=\"elim\" class=\"col-sm-3 control-label\">Codigo</label>"); 
+		respuesta.println("                    <div class=\"col-sm-9\">"); 
+		respuesta.println("                      <input type=\"text\" class=\"form-control\" id=\"elim\" placeholder=\"Codigo Aeropuerto\" name=\"codigo\">"); 
+		respuesta.println("                    </div>"); 
+		respuesta.println("                  </div>"); 
+		respuesta.println("                  <div class=\"form-group\">"); 
+		respuesta.println("                    <label for=\"elim\" class=\"col-sm-3 control-label\">Calificacion </label>"); 
+		respuesta.println("                    <div class=\"col-sm-9\">"); 
+		respuesta.println("                      <input type=\"text\" class=\"form-control\" id=\"elim\" placeholder=\"Nueva Calificacion\" name=\"calificacion\">"); 
+		respuesta.println("                    </div>"); 
+		respuesta.println("                  </div>"); 
+		respuesta.println("                  <div class=\"form-group\">"); 
+		respuesta.println("                    <div class=\"col-sm-offset-3 col-sm-9\">"); 
+		respuesta.println("                      <button type=\"submit\" class=\"btn btn-warning\">Actualizar Calificacion</button>"); 
+		respuesta.println("                    </div>"); 
+		respuesta.println("                  </div>"); 
+		respuesta.println("                  <input type=\"hidden\" name=\"tipo\" value=\"actualizar\">"); 
+		respuesta.println("                </form>");
+		
 		respuesta.println(""); 
 		respuesta.println("            </div>"); 
 		respuesta.println("        </div>"); 

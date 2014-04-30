@@ -394,13 +394,13 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		while(salidas.hasNext()){
 			Vuelo actual = salidas.next();
 			vuelos.eliminar(actual);
-			//TODO eliminar de trie
+			fechas.eliminarElemento(actual.getFechaString(), actual);
 			actual.getAereolinea().eliminarVuelo(actual);
 		}
 		while(entradas.hasNext()){
 			Vuelo actual = entradas.next();
 			vuelos.eliminar(actual);
-			//TODO eliminar de trie
+			fechas.eliminarElemento(actual.getFechaString(), actual);
 			actual.getAereolinea().eliminarVuelo(actual);
 		}
 	}
@@ -470,11 +470,17 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		for(int i = 0; i<recibidos.length();i++){
 			JSONObject actual = recibidos.getJSONObject(i);
 			Aeropuerto nuevo = leerAeropuerto(actual);
-			aeropuertos.agregar(nuevo);
-			System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
+			if(aeropuertos.agregar(nuevo)){
+				System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
+			}
 		}
 		Iterator<Aeropuerto> i = aeropuertos.iterator();
-		buscarVuelosComun(i.next());
+		Random r = new Random();
+		Aeropuerto actual = i.next();
+		while(((r.nextBoolean() && r.nextBoolean()&& r.nextBoolean()) == false) && i.hasNext()){
+			i.next();
+		}
+		buscarVuelosComun(actual);
 	}
 
 	public Aeropuerto agregarAeropuerto(String codigo) throws Exception {
@@ -538,6 +544,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	public Iterator<Vuelo> darVuelosAeropuertoFecha(String codigo, Calendar c, String tipo) throws Exception{
+		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, c.get(Calendar.DAY_OF_MONTH));
 		Aeropuerto aeropuerto = manejarAeropuerto(codigo);
 		String date = dateFormat.format(c.getTime());
 		if(tipo.equals(Vuelo.LLEGANDO)){
@@ -549,16 +556,20 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	public int[] darTardanzasAeropuertoPorFecha(String codigo, Calendar c1, Calendar c2) throws Exception{
+		c1.set(c1.get(Calendar.YEAR), c1.get(Calendar.MONTH)-1, c1.get(Calendar.DAY_OF_MONTH));
+		c2.set(c2.get(Calendar.YEAR), c2.get(Calendar.MONTH)-1, c2.get(Calendar.DAY_OF_MONTH));
 		Aeropuerto aeropuerto = manejarAeropuerto(codigo);
 		return aeropuerto.darTardanzasPorFecha(c1,c2);
 	}
 
 	public Iterator<Vuelo> buscarVuelosPorCalificacion(int calificacion, Calendar c1, Calendar c2) {
+		c1.set(c1.get(Calendar.YEAR), c1.get(Calendar.MONTH)-1, c1.get(Calendar.DAY_OF_MONTH));
+		c2.set(c2.get(Calendar.YEAR), c2.get(Calendar.MONTH)-1, c2.get(Calendar.DAY_OF_MONTH));
 		ListaOrdenada<Vuelo> respuesta = new ListaOrdenada<Vuelo>();
 		Iterator<Vuelo> i = vuelos.iterator();
 		while(i.hasNext()){
 			Vuelo actual = i.next();
-			if((int)actual.getRating() == calificacion && actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c1)<0){
+			if((int)actual.getRating() == calificacion && actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c2)<0){
 				respuesta.agregar(actual);
 			}
 		}

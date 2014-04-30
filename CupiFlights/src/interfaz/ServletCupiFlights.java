@@ -85,7 +85,7 @@ public class ServletCupiFlights extends HttpServlet {
 		PrintWriter respuesta = response.getWriter();
 		
 		respuesta.println("      <footer>"); 
-		respuesta.println("        <p>&copy; Company 2014</p>"); 
+		respuesta.println("        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>"); 
 		respuesta.println("      </footer>"); 
 		respuesta.println("    </div> <!-- /container -->"); 
 		respuesta.println("</body>"); 
@@ -97,7 +97,7 @@ public class ServletCupiFlights extends HttpServlet {
 		
 		respuesta.println("<html>"); 
 		respuesta.println("<head>"); 
-		respuesta.println("  <title>Page Title</title>"); 
+		respuesta.println("  <title>CupiFlights</title>"); 
 		respuesta.println("  <script src=\"http://code.jquery.com/jquery-1.11.0.min.js\"></script>"); 
 		respuesta.println("  <link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css\">"); 
 		respuesta.println("  <script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js\"></script>"); 
@@ -132,17 +132,6 @@ public class ServletCupiFlights extends HttpServlet {
 		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
-		respuesta.println("        <div class=\"navbar-collapse collapse\">"); 
-		respuesta.println("          <form class=\"navbar-form navbar-right\" role=\"form\">"); 
-		respuesta.println("            <div class=\"form-group\">"); 
-		respuesta.println("              <input type=\"text\" placeholder=\"Email\" class=\"form-control\">"); 
-		respuesta.println("            </div>"); 
-		respuesta.println("            <div class=\"form-group\">"); 
-		respuesta.println("              <input type=\"password\" placeholder=\"Password\" class=\"form-control\">"); 
-		respuesta.println("            </div>"); 
-		respuesta.println("            <button type=\"submit\" class=\"btn btn-success\">Sign in</button>"); 
-		respuesta.println("          </form>"); 
-		respuesta.println("        </div><!--/.navbar-collapse -->"); 
 		respuesta.println("      </div>"); 
 		respuesta.println("    </div>"); 
 	}
@@ -160,24 +149,6 @@ public class ServletCupiFlights extends HttpServlet {
 		respuesta.println("  </div>"); 
 		respuesta.println(""); 
 		respuesta.println("  <div class=\"container\">"); 
-		respuesta.println("    <!-- Example row of columns -->"); 
-		respuesta.println("    <div class=\"row\">"); 
-		respuesta.println("      <div class=\"col-md-4\">"); 
-		respuesta.println("        <h2>Ver General</h2>"); 
-		respuesta.println("        <p>Aqui puedes encontrar toda la informaci&oacute;n del servicio.</p>"); 
-		respuesta.println("        <p><a class=\"btn btn-default\" href=\"general.html\" role=\"button\">General</a></p>"); 
-		respuesta.println("      </div>"); 
-		respuesta.println("      <div class=\"col-md-4\">"); 
-		respuesta.println("        <h2>Heading</h2>"); 
-		respuesta.println("        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>"); 
-		respuesta.println("        <p><a class=\"btn btn-default\" href=\"#\" role=\"button\">View details &raquo;</a></p>"); 
-		respuesta.println("     </div>"); 
-		respuesta.println("      <div class=\"col-md-4\">"); 
-		respuesta.println("        <h2>Heading</h2>"); 
-		respuesta.println("        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>"); 
-		respuesta.println("        <p><a class=\"btn btn-default\" href=\"#\" role=\"button\">View details &raquo;</a></p>"); 
-		respuesta.println("      </div>"); 
-		respuesta.println("    </div>"); 
 		respuesta.println(""); 
 		respuesta.println("    <h3 class=\"sub-header\" style=\"margin-bottom:0px;\">Vuelos Recientes</h3>"); 
 		respuesta.println("    <hr>"); 

@@ -224,73 +224,22 @@ public class ServletGeneral extends HttpServlet {
 		respuesta.println(""); 
 		respuesta.println("          </div><!--/vuelos-->"); 
 		respuesta.println(""); 
-		respuesta.println("          <div id=\"calendario\">"); 
-		respuesta.println("            <h2>Calendario</h2>"); 
-		respuesta.println("            <hr>"); 
-		
-		Iterator<String> i = central.darFechas();
-		int dia = 28;
-		int p = 0;
-		while(i.hasNext()){
-			String fecha = i.next();
-			String[] diaFecha = fecha.split("/");
-			int diaFechaIte = Integer.parseInt(diaFecha[2]);
-			//TODO 
-		}
-		
-		respuesta.println("            <table class=\"table table-bordered\">"); 
-		respuesta.println("              <tbody><tr>"); 
-		respuesta.println("                <th>Lunes</th>"); 
-		respuesta.println("                <th>Martes</th>"); 
-		respuesta.println("                <th>Miercoles</th>"); 
-		respuesta.println("                <th>Jueves</th>"); 
-		respuesta.println("                <th>Viernes</th>"); 
-		respuesta.println("                <th>Sabado</th>"); 
-		respuesta.println("                <th>Domingo</th>"); 
-		respuesta.println("              </tr>"); 
-		respuesta.println("              <tr>"); 
-		respuesta.println("                <td class=\"success\">21</td>"); 
-		respuesta.println("                <td>22</td>"); 
-		respuesta.println("                <td>23</td>"); 
-		respuesta.println("                <td>24</td>"); 
-		respuesta.println("                <td class=\"success\">25</td>"); 
-		respuesta.println("                <td>26</td>"); 
-		respuesta.println("                <td>27</td>"); 
-		respuesta.println(""); 
-		respuesta.println("              </tr>"); 
-		respuesta.println("              <tr>"); 
-		respuesta.println("                <td>28</td>"); 
-		respuesta.println("                <td>29</td>"); 
-		respuesta.println("                <td class=\"success\">30</td>"); 
-		respuesta.println("                <td>1</td>"); 
-		respuesta.println("                <td class=\"success\">2</td>"); 
-		respuesta.println("                <td class=\"success\">3</td>"); 
-		respuesta.println("                <td>4</td>"); 
-		respuesta.println("              </tr>"); 
-		respuesta.println("              <tr>"); 
-		respuesta.println("                <td class=\"success\">5</td>"); 
-		respuesta.println("                <td>6</td>"); 
-		respuesta.println("                <td>7</td>"); 
-		respuesta.println("                <td>8</td>"); 
-		respuesta.println("                <td class=\"success\">9</td>"); 
-		respuesta.println("                <td>10</td>"); 
-		respuesta.println("                <td>11</td>"); 
-		respuesta.println("              </tr>"); 
-		respuesta.println("              <tr>"); 
-		respuesta.println("                <td>12</td>"); 
-		respuesta.println("                <td class=\"success\">13</td>"); 
-		respuesta.println("                <td>14</td>"); 
-		respuesta.println("                <td>15</td>"); 
-		respuesta.println("                <td>16</td>"); 
-		respuesta.println("                <td class=\"success\">17</td>"); 
-		respuesta.println("                <td class=\"success\">18</td>"); 
-		respuesta.println("              </tr>"); 
-		respuesta.println("            </tbody></table>"); 
-		respuesta.println("          </div><!--/calendario-->"); 
-		respuesta.println(""); 
 		respuesta.println("          <div id=\"mapa\">"); 
 		respuesta.println("            <h2>Mapa</h2>"); 
 		respuesta.println("            <hr>"); 
+		
+		respuesta.println("            <div class=\"table-responsive\">"); 
+		respuesta.println("            <table class=\"table table-striped\">"); 
+		respuesta.println("              <thead>"); 
+		respuesta.println("                <tr>"); 
+		respuesta.println("                  <th>Letra</th>"); 
+		respuesta.println("                  <th>Nombre</th>"); 
+		respuesta.println("                  <th>Ciudad</th>"); 
+		respuesta.println("                  <th>Pais</th>"); 
+		respuesta.println("                  <th>Indice de tardanza</th>"); 
+		respuesta.println("                </tr>"); 
+		respuesta.println("              </thead>"); 
+		respuesta.println("              <tbody>"); 
 		
 		Object[] aer = central.darURLMapa();
 		String url = (String) aer[0];
@@ -299,10 +248,26 @@ public class ServletGeneral extends HttpServlet {
 		respuesta.println("            <img style=\"-webkit-user-select: none\" src=\""+url+"\" class=\"img-responsive\">");
 		//Va la tabla con los indices
 		for (char j = 65; j < 92; j++) {
-			//Iterator<Aeropuerto> ite = indices.buscar(""+j);
-			//Aeropuerto actual = ite.next();
-			//TODO imprimir indice tardanza tabla
+			try{
+				Iterator<Aeropuerto> ite = indices.buscar(""+j);
+				if(ite.hasNext()){
+					Aeropuerto actual = ite.next();
+					respuesta.println("                <tr>"); 
+					respuesta.println("                  <td>" + j +"</td>"); 
+					respuesta.println("                  <td>"+actual.getNombre()+"</td>"); 
+					respuesta.println("                  <td>"+actual.getCiudad()+"</td>"); 
+					respuesta.println("                  <td>"+actual.getPais()+"</td>"); 
+					respuesta.println("                  <td>"+actual.getTardanza()+"</td>");  
+					respuesta.println("                </tr>");
+				}
+			}catch(Exception e){
+
+			}
 		}
+		
+		respuesta.println("              </tbody>"); 
+		respuesta.println("            </table>"); 
+		respuesta.println("          </div>");
 		
 		respuesta.println("          </div><!--/mapa-->");  
 		respuesta.println("          <div id=\"aerolineas\">"); 
@@ -353,11 +318,24 @@ public class ServletGeneral extends HttpServlet {
 		respuesta.println("        <div class=\"col-xs-6 col-sm-3 sidebar-offcanvas\" id=\"sidebar\" role=\"navigation\">"); 
 		respuesta.println("          <div class=\"list-group\">"); 
 		respuesta.println("            <a href=\"#aeropuertos\" class=\"list-group-item active\">Aeropuertos</a>"); 
-		respuesta.println("            <a href=\"#vuelos\" class=\"list-group-item\">Vuelos</a>"); 
-		respuesta.println("            <a href=\"#calendario\" class=\"list-group-item\">Calendario</a>"); 
+		respuesta.println("            <a href=\"#vuelos\" class=\"list-group-item\">Vuelos</a>");  
 		respuesta.println("            <a href=\"#mapa\" class=\"list-group-item\">Mapa de Aeropuertos</a>"); 
 		respuesta.println("            <a href=\"#aerolineas\" class=\"list-group-item\">Aerolineas</a>"); 
 		respuesta.println("          </div>"); 
+		
+		respuesta.println("          <div>");
+		respuesta.println("          <h4 style=\"text-align:center;\">Fechas disponibles</h4>");
+		respuesta.println("          <ul class=\"list-group\">");
+		
+		Iterator<String> fechas = central.darFechas();
+		while(fechas.hasNext()){
+			String actual = fechas.next();
+			respuesta.println("          <li style=\"text-align:center;list-style-type: none;\">"+actual+"</li>");
+		}
+		
+		respuesta.println("          </ul>");
+		respuesta.println("          </div>");
+		
 		respuesta.println("        </div><!--/span-->"); 
 		respuesta.println("      </div><!--/row-->"); 
 	}
@@ -368,7 +346,7 @@ public class ServletGeneral extends HttpServlet {
 		respuesta.println("<hr>"); 
 		respuesta.println(""); 
 		respuesta.println("<footer>"); 
-		respuesta.println("        <p>&copy; Company 2014</p>"); 
+		respuesta.println("        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>"); 
 		respuesta.println("      </footer>"); 
 		respuesta.println("    </div> <!-- /container -->"); 
 		respuesta.println("</body>"); 

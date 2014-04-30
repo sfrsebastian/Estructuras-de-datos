@@ -2,6 +2,7 @@ package interfaz;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mundo.CentralDeVuelos;
+import mundo.Vuelo;
 
 public class ServletConsulta extends HttpServlet { 
 	
@@ -121,9 +123,28 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha</label>"); 
 		respuesta.println("          <div class=\"col-sm-4\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" name=\"fecha\" placeholder=\"Fecha: DD/MM/AAAA\">"); 
+		
+		respuesta.println("            <select name=\"fecha\" class=\"form-control\">"); 
+		Iterator<String> fechas = central.darFechas();
+		while(fechas.hasNext()){
+			String actual = fechas.next();
+			respuesta.println("            <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("            </select>");
+		
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
+		
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"tipo\" class=\"col-sm-2 control-label\">Tipo</label>"); 
+		respuesta.println("          <div class=\"col-sm-4\">"); 
+		respuesta.println("            <select name=\"tipo\" class=\"form-control\" id=\"tipo\">");
+		respuesta.println("            <option value=\""+Vuelo.LLEGANDO+"\">"+Vuelo.LLEGANDO+"</option>");
+		respuesta.println("            <option value=\""+Vuelo.SALIENDO+"\">"+Vuelo.SALIENDO+"</option>");
+		respuesta.println("            </select>"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>");
+		
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <div class=\"col-sm-offset-2 col-sm-10\">"); 
 		respuesta.println("            <button type=\"submit\" class=\"btn btn-info\">Consultar!</button>"); 
@@ -134,11 +155,11 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println(""); 
 		respuesta.println("      <hr>"); 
 		respuesta.println("      <h4 style=\"margin-bottom:30px;\">Consultar por Vuelo</h4>"); 
-		respuesta.println("      <form class=\"form-horizontal\" role=\"form\">"); 
+		respuesta.println("      <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"resultado.html\">"); 
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <label for=\"inputEmail3\" class=\"col-sm-2 control-label\">Codigo</label>"); 
 		respuesta.println("          <div class=\"col-sm-10\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"inputEmail3\" placeholder=\"Codigo del vuelo\">"); 
+		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"inputEmail3\" name=\"codigo\" placeholder=\"Codigo del vuelo\">"); 
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
@@ -151,23 +172,39 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println(""); 
 		respuesta.println("      <hr>"); 
 		respuesta.println("      <h4 style=\"margin-bottom:30px;\">Consultar vuelos por calificacion</h4>"); 
-		respuesta.println("      <form class=\"form-horizontal\" role=\"form\" action=\"resultado.html\">"); 
+		respuesta.println("      <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"resultado.html\">"); 
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <label for=\"inputEmail3\" class=\"col-sm-2 control-label\">Calificacion:</label>"); 
 		respuesta.println("          <div class=\"col-sm-10\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"inputEmail3\" placeholder=\"Rango de calificacion\">"); 
+		respuesta.println("            <input type=\"text\" name=\"calificacion\" class=\"form-control\" id=\"inputEmail3\" placeholder=\"Rango de calificacion\">"); 
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha Inicial</label>"); 
-		respuesta.println("          <div class=\"col-sm-4\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" name=\"fechaInicial\" placeholder=\"Fecha: AAAA/MM/DD\">"); 
+		respuesta.println("          <div class=\"col-sm-4\">");  
+		
+		respuesta.println("            <select name=\"fechaInicial\" class=\"form-control\">"); 
+		fechas = central.darFechas();
+		while(fechas.hasNext()){
+			String actual = fechas.next();
+			respuesta.println("            <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("            </select>"); 
+		
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
 		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha Final</label>"); 
 		respuesta.println("          <div class=\"col-sm-4\">"); 
-		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"fechaInicialA\" name=\"fechaFinal\" placeholder=\"Fecha: AAAA/MM/DD\">"); 
+		
+		respuesta.println("            <select name=\"fechaFinal\" class=\"form-control\">"); 
+		Iterator<String> i = central.darFechas();
+		while(i.hasNext()){
+			String actual = i.next();
+			respuesta.println("            <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("            </select>"); 
+		
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"form-group\">"); 
@@ -178,56 +215,55 @@ public class ServletConsulta extends HttpServlet {
 		respuesta.println("        <input type=\"hidden\" name=\"pedido\" value=\"calificacion\">"); 
 		respuesta.println("      </form>"); 
 		respuesta.println(""); 
+		
+		
+		//Consulta de los vuelos tardios
+		
 		respuesta.println("      <hr>"); 
-		respuesta.println("      <h4 style=\"margin-bottom:30px;\">Fechas Disponibles</h4>"); 
-		respuesta.println("        <table class=\"table table-bordered\">"); 
-		respuesta.println("          <tr>"); 
-		respuesta.println("            <th>Lunes</th>"); 
-		respuesta.println("            <th>Martes</th>"); 
-		respuesta.println("            <th>Miercoles</th>"); 
-		respuesta.println("            <th>Jueves</th>"); 
-		respuesta.println("            <th>Viernes</th>"); 
-		respuesta.println("            <th>Sabado</th>"); 
-		respuesta.println("            <th>Domingo</th>"); 
-		respuesta.println("          </tr>"); 
-		respuesta.println("          <tr>"); 
-		respuesta.println("            <td class=\"success\">21</td>"); 
-		respuesta.println("            <td>22</td>"); 
-		respuesta.println("            <td>23</td>"); 
-		respuesta.println("            <td>24</td>"); 
-		respuesta.println("            <td class=\"success\">25</td>"); 
-		respuesta.println("            <td>26</td>"); 
-		respuesta.println("            <td>27</td>"); 
+		respuesta.println("      <h4 style=\"margin-bottom:30px;\">Consultar vuelos tardios de un aeropuerto</h4>"); 
+		respuesta.println("      <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"resultado.html\">"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"inputEmail3\" class=\"col-sm-2 control-label\">Codigo:</label>"); 
+		respuesta.println("          <div class=\"col-sm-10\">"); 
+		respuesta.println("            <input type=\"text\" name=\"codigo\" class=\"form-control\" id=\"inputEmail3\" placeholder=\"Codigo\">"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha Inicial</label>"); 
+		respuesta.println("          <div class=\"col-sm-4\">");  
+		
+		respuesta.println("            <select name=\"fechaInicial\" class=\"form-control\">"); 
+		fechas = central.darFechas();
+		while(fechas.hasNext()){
+			String actual = fechas.next();
+			respuesta.println("            <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("            </select>"); 
+		
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"fechaInicialA\" class=\"col-sm-2 control-label\">Fecha Final</label>"); 
+		respuesta.println("          <div class=\"col-sm-4\">"); 
+		
+		respuesta.println("            <select name=\"fechaFinal\" class=\"form-control\">"); 
+		Iterator<String> i1 = central.darFechas();
+		while(i1.hasNext()){
+			String actual = i1.next();
+			respuesta.println("            <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("            </select>"); 
+		
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <div class=\"col-sm-offset-2 col-sm-10\">"); 
+		respuesta.println("            <button type=\"submit\" class=\"btn btn-info\">Consultar!</button>"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>");
+		respuesta.println("        <input type=\"hidden\" name=\"pedido\" value=\"tardios\">"); 
+		respuesta.println("      </form>"); 
 		respuesta.println(""); 
-		respuesta.println("          </tr>"); 
-		respuesta.println("          <tr>"); 
-		respuesta.println("            <td>28</td>"); 
-		respuesta.println("            <td>29</td>"); 
-		respuesta.println("            <td class=\"success\">30</td>"); 
-		respuesta.println("            <td>1</td>"); 
-		respuesta.println("            <td class=\"success\">2</td>"); 
-		respuesta.println("            <td class=\"success\">3</td>"); 
-		respuesta.println("            <td>4</td>"); 
-		respuesta.println("          </tr>"); 
-		respuesta.println("          <tr>"); 
-		respuesta.println("            <td class=\"success\">5</td>"); 
-		respuesta.println("            <td>6</td>"); 
-		respuesta.println("            <td>7</td>"); 
-		respuesta.println("            <td>8</td>"); 
-		respuesta.println("            <td class=\"success\">9</td>"); 
-		respuesta.println("            <td>10</td>"); 
-		respuesta.println("            <td>11</td>"); 
-		respuesta.println("          </tr>"); 
-		respuesta.println("          <tr>"); 
-		respuesta.println("            <td>12</td>"); 
-		respuesta.println("            <td class=\"success\">13</td>"); 
-		respuesta.println("            <td>14</td>"); 
-		respuesta.println("            <td>15</td>"); 
-		respuesta.println("            <td>16</td>"); 
-		respuesta.println("            <td class=\"success\">17</td>"); 
-		respuesta.println("            <td class=\"success\">18</td>"); 
-		respuesta.println("          </tr>"); 
-		respuesta.println("        </table>"); 
 	}
 	
 	private void imprimirFooter(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -235,8 +271,8 @@ public class ServletConsulta extends HttpServlet {
 		
 		respuesta.println("<hr>"); 
 		respuesta.println(""); 
-		respuesta.println("    <footer>"); 
-		respuesta.println("        <p>&copy; Company 2014</p>"); 
+		respuesta.println("<footer>"); 
+		respuesta.println("        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>"); 
 		respuesta.println("      </footer>"); 
 		respuesta.println("    </div> <!-- /container -->"); 
 		respuesta.println("</body>"); 

@@ -33,7 +33,6 @@ public class ServletResultado extends HttpServlet {
 	        try {
 				central = CentralDeVuelos.getInstance( );
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    }
@@ -55,31 +54,34 @@ public class ServletResultado extends HttpServlet {
 				response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
 			}else{
 				if(pedido.equals("aeropuerto")){
-					String codigo = request.getParameter("codigo");
+					String codigo = request.getParameter("codigoAeropuerto");
 					String fecha = request.getParameter("fecha");
+					String tipo = request.getParameter("tipo");
+					System.out.println(codigo + " : " + fecha);
 					String string[] = fecha.split("/");
 					
 					Calendar c = Calendar.getInstance();
 					c.set(Integer.parseInt(string[0]), Integer.parseInt(string[1]), Integer.parseInt(string[2]));
 					
-					
 					Iterator<Vuelo> vuelos = null;
 					try {
-						vuelos = central.darVuelosAeropuertoFecha(codigo, c, Vuelo.LLEGANDO);
+						vuelos = central.darVuelosAeropuertoFecha(codigo, c, tipo);
 					} catch (Exception e) {
-						
+						System.out.println("Excepcion al dar vuelos aeropuerto fecha");
+						e.printStackTrace();
 					}
 					
 					imprimirRequerimientoAeropuerto(request, response, vuelos);
 				}else if(pedido.equals("vuelo")){
 					String codigo = request.getParameter("codigo");
 					Vuelo vuelo = central.darVuelo(codigo);
-					//TODO 
+					imprimirRequerimientoUnico(request, response, vuelo);
 				}else if(pedido.equals("calificacion")){
 					String calificacion = request.getParameter("calificacion");
-					
 					String fechaInicial = request.getParameter("fechaInicial");
 					String fechaFinal = request.getParameter("fechaFinal");
+					
+					System.out.println(calificacion + " " + fechaInicial + " " + fechaFinal );
 					
 					String fechasi[] = fechaInicial.split("/");
 					String fechasf[] = fechaFinal.split("/");
@@ -90,13 +92,116 @@ public class ServletResultado extends HttpServlet {
 					Calendar c2 = Calendar.getInstance();
 					c2.set(Integer.parseInt(fechasf[0]), Integer.parseInt(fechasf[1]), Integer.parseInt(fechasf[2]));
 					
-					Iterator<Vuelo> i = central.buscarVuelosPorCalificacion(Integer.parseInt(calificacion), c1, c2);
+					Iterator<Vuelo> i = central.buscarVuelosPorCalificacion(Integer.parseInt(calificacion), c1, c2);//TODO revisar metodo calificacion consultas
 					imprimirRequerimientoVuelo(request, response, i);
+				}else if(pedido.equals("tardios")){
+					String codigo = request.getParameter("codigo");
+					String fechaInicial = request.getParameter("fechaInicial");
+					String fechaFinal = request.getParameter("fechaFinal");
+					
+					System.out.println(codigo + " " + fechaFinal + " " + fechaInicial );
+					
+					String fechasi[] = fechaInicial.split("/");
+					String fechasf[] = fechaFinal.split("/");
+					
+					Calendar c1 = Calendar.getInstance();
+					c1.set(Integer.parseInt(fechasi[0]), Integer.parseInt(fechasi[1]), Integer.parseInt(fechasi[2]));
+					
+					Calendar c2 = Calendar.getInstance();
+					c2.set(Integer.parseInt(fechasf[0]), Integer.parseInt(fechasf[1]), Integer.parseInt(fechasf[2]));
+					
+					int[] nums = null;
+					try {
+						nums = central.darTardanzasAeropuertoPorFecha(codigo, c1, c2);//TODO revisar vuelos tardios por aeropuerto
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					imprimirRequerimientoTardios(request,response,nums);
 				}
 			}
 			imprimirFooter(request, response);
 		}
 		
+		private void imprimirRequerimientoTardios(HttpServletRequest request, HttpServletResponse response, int[] nums) throws IOException {
+			PrintWriter respuesta = response.getWriter();
+			
+			respuesta.println("<div class=\"container\">");
+			
+			if(nums != null){
+			
+			respuesta.println("            <div class=\"table-responsive\">"); 
+			respuesta.println("            <table class=\"table table-striped\">"); 
+			respuesta.println("              <thead>"); 
+			respuesta.println("                <tr>"); 
+			respuesta.println("                  <th>Retrasados 15</th>"); 
+			respuesta.println("                  <th>Retrasados 30</th>"); 
+			respuesta.println("                  <th>Retrasados 45</th>"); 
+			respuesta.println("                  <th>Cancelados</th>"); 
+			respuesta.println("                </tr>"); 
+			respuesta.println("              </thead>"); 
+			respuesta.println("              <tbody>"); 		
+			
+			respuesta.println("                <tr>");  
+			respuesta.println("                  <td>"+nums[0]+"</td>"); 
+			respuesta.println("                  <td>"+nums[1]+"</td>"); 
+			respuesta.println("                  <td>"+nums[2]+"</td>");
+			respuesta.println("                  <td>"+nums[3]+"</td>");
+			respuesta.println("                </tr>"); 
+			
+			respuesta.println("              </tbody>"); 
+			respuesta.println("            </table>"); 
+			respuesta.println("          </div>"); 
+			
+			}else{
+				respuesta.println("<h1>No hay resultados</h1>");
+			}
+			
+			respuesta.println("</div>");
+		}
+
+		private void imprimirRequerimientoUnico(HttpServletRequest request, HttpServletResponse response, Vuelo vuelo) throws IOException {
+			PrintWriter respuesta = response.getWriter();
+			
+			respuesta.println("<div class=\"container\">");
+			
+			respuesta.println("            <div class=\"table-responsive\">"); 
+			respuesta.println("            <table class=\"table table-striped\">"); 
+			respuesta.println("              <thead>"); 
+			respuesta.println("                <tr>"); 
+			respuesta.println("                  <th>Numero</th>"); 
+			respuesta.println("                  <th>Salida</th>"); 
+			respuesta.println("                  <th>Llegada</th>"); 
+			respuesta.println("                  <th>Aereolinea</th>"); 
+			respuesta.println("                  <th>Rating</th>");
+			respuesta.println("                  <th>Tipo</th>");
+			respuesta.println("                </tr>"); 
+			respuesta.println("              </thead>"); 
+			respuesta.println("              <tbody>"); 
+			
+			if(vuelo != null){	
+				
+			respuesta.println("                <tr>"); 
+			respuesta.println("                  <td><a href=\"vuelo.html?codigo="+vuelo.getNumero()+"\">"+vuelo.getNumero()+"</a></td>"); 
+			respuesta.println("                  <td>"+vuelo.getSalida().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+vuelo.getLlegada().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+vuelo.getAereolinea()+"</td>");
+			respuesta.println("                  <td>"+vuelo.getRating()+"</td>");
+			respuesta.println("                  <td>"+vuelo.getTipo()+"</td>"); 
+			respuesta.println("                </tr>"); 
+			
+			}else{
+				respuesta.println("<h1>No hay resultados</h1>");
+			}
+			
+			respuesta.println("              </tbody>"); 
+			respuesta.println("            </table>"); 
+			respuesta.println("          </div>"); 
+			
+			respuesta.println("</div>");
+			
+		}
+
 		@Override
 		public void destroy() {
 			try {
@@ -172,7 +277,7 @@ public class ServletResultado extends HttpServlet {
 			respuesta.println("<hr>"); 
 			respuesta.println(""); 
 			respuesta.println("<footer>"); 
-			respuesta.println("        <p>&copy; Company 2014</p>"); 
+			respuesta.println("        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>"); 
 			respuesta.println("      </footer>"); 
 			respuesta.println("    </div> <!-- /container -->"); 
 			respuesta.println("</body>"); 
@@ -198,6 +303,7 @@ public class ServletResultado extends HttpServlet {
 			respuesta.println("              </thead>"); 
 			respuesta.println("              <tbody>"); 
 			
+			if(i != null){
 			while(i.hasNext()){
 				Vuelo actual = i.next();
 				
@@ -209,6 +315,11 @@ public class ServletResultado extends HttpServlet {
 				respuesta.println("                  <td>"+actual.getRating()+"</td>");
 				respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
 				respuesta.println("                </tr>"); 
+			}
+			}else{
+				respuesta.println("<div class=\"container\">");
+				respuesta.println("<h1>No hay resultados</h1>");
+				respuesta.println("</div>");
 			}
 			
 			respuesta.println("              </tbody>"); 
@@ -236,25 +347,30 @@ public class ServletResultado extends HttpServlet {
 			respuesta.println("                </tr>"); 
 			respuesta.println("              </thead>"); 
 			respuesta.println("              <tbody>"); 
-			
-			while(i.hasNext()){
-				Vuelo actual = i.next();
-				
-				respuesta.println("                <tr>"); 
-				respuesta.println("                  <td><a href=\"vuelo.html?codigo="+actual.getNumero()+"\">"+actual.getNumero()+"</a></td>"); 
-				respuesta.println("                  <td>"+actual.getSalida().getNombre()+"</td>"); 
-				respuesta.println("                  <td>"+actual.getLlegada().getNombre()+"</td>"); 
-				respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
-				respuesta.println("                  <td>"+actual.getRating()+"</td>");
-				respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
-				respuesta.println("                </tr>"); 
+
+			if(i != null){
+				while(i.hasNext()){
+					Vuelo actual = i.next();
+					respuesta.println("                <tr>"); 
+					respuesta.println("                  <td><a href=\"vuelo.html?codigo="+actual.getNumero()+"\">"+actual.getNumero()+"</a></td>"); 
+					respuesta.println("                  <td>"+actual.getSalida().getNombre()+"</td>"); 
+					respuesta.println("                  <td>"+actual.getLlegada().getNombre()+"</td>"); 
+					respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
+					respuesta.println("                  <td>"+actual.getRating()+"</td>");
+					respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
+					respuesta.println("                </tr>"); 
+				}
+
+				respuesta.println("              </tbody>"); 
+				respuesta.println("            </table>"); 
+				respuesta.println("          </div>"); 
+
+				respuesta.println("</div>");
+			}else{
+				respuesta.println("<div class=\"container\">");
+				respuesta.println("<h1>No hay resultados</h1>");
+				respuesta.println("</div>");
 			}
-			
-			respuesta.println("              </tbody>"); 
-			respuesta.println("            </table>"); 
-			respuesta.println("          </div>"); 
-			
-			respuesta.println("</div>");
+
 		}
-		
 }

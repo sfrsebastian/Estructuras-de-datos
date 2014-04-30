@@ -142,7 +142,10 @@ public class ServletLogin extends HttpServlet {
 		respuesta.println("      </form>"); 
 		respuesta.println(""); 
 		respuesta.println("    </div> <!-- /container -->"); 
-		respuesta.println(""); 
+		respuesta.println("");
+		respuesta.println("<footer>");
+		respuesta.println("<p>Para iniciar sesion usar usuario: admin pass: 123</p>");
+		respuesta.println("</footer>");
 		respuesta.println("</body>"); 
 		respuesta.println("</html>"); 
 	}

@@ -175,6 +175,7 @@ public class ServletAeropuerto extends HttpServlet {
 		respuesta.println("              <li class=\"list-group-item\">Indice de tardanza: " + aeropuerto.getTardanza() + "</li>"); 
 		respuesta.println("              <li class=\"list-group-item\">Ciudad: " + aeropuerto.getCiudad() + "</li>"); 
 		respuesta.println("              <li class=\"list-group-item\">Pais: " + aeropuerto.getPais() + "</li>"); 
+		respuesta.println("              <li class=\"list-group-item\">Califiacion: " + aeropuerto.getCalificacion() + "</li>"); 
 		respuesta.println("            </ul>"); 
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
@@ -239,7 +240,7 @@ public class ServletAeropuerto extends HttpServlet {
 		respuesta.println("<hr>"); 
 		respuesta.println(""); 
 		respuesta.println("<footer>"); 
-		respuesta.println("        <p>&copy; Company 2014</p>"); 
+		respuesta.println("        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>"); 
 		respuesta.println("      </footer>"); 
 		respuesta.println("    </div> <!-- /container -->"); 
 		respuesta.println("</body>"); 
