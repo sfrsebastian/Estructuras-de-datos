@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import ListaOrdenada.ListaOrdenada;
 
+@SuppressWarnings("serial")
 public class NodoTrie<T extends Comparable<T>> implements Serializable {
 
 	//------------------------------------------------------------
@@ -14,17 +15,17 @@ public class NodoTrie<T extends Comparable<T>> implements Serializable {
 	/**
 	 * La lista de elementos que contiene el nodo
 	 */
-	private ListaOrdenada listaElementos;
+	private ListaOrdenada<T> listaElementos;
 	
 	/**
 	 * El nodo hermano 
 	 */
-	private NodoTrie hermano;
+	private NodoTrie<T> hermano;
 	
 	/**
 	 * El nodo hijo
 	 */
-	private NodoTrie hijo;
+	private NodoTrie<T> hijo;
 	
 	/**
 	 * El caracte que contiene el nodo
@@ -135,10 +136,9 @@ public class NodoTrie<T extends Comparable<T>> implements Serializable {
 				this.hermano = nuevoHermano;
 				return nuevoHermano;
 			}else{
-				this.hermano.acomodarLetraMayor(letra);
+				return this.hermano.acomodarLetraMayor(letra);
 			}
 		}
-		return null;
 	}
 
 	private NodoTrie<T> tieneLetra(char c){
@@ -204,6 +204,24 @@ public class NodoTrie<T extends Comparable<T>> implements Serializable {
 			}
 		}else{
 			return false;
+		}
+	}
+	
+	public T eliminarElemento(String palabra, T elemento){
+		if(palabra.equals("")){
+			T elem = listaElementos.eliminar(elemento);
+			return elem;
+		}
+		char letra = palabra.charAt(0);
+		if(hijo != null){
+			NodoTrie<T> nodo;
+			if((nodo=hijo.tieneLetra(letra)) != null){
+				return nodo.eliminarElemento(palabra.substring(1), elemento);
+			}else{
+				return null;
+			}
+		}else{
+			return null;
 		}
 	}
 	

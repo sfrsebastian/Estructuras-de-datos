@@ -1,0 +1,322 @@
+<html>
+<head>
+	<title>General</title>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body{
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
+    .sidebar{
+      background-color: gray;
+      padding: 20px;
+    }
+    .sidebar h2{
+      color: white;
+    }
+    .sidebar h4{
+      color: white;
+    }
+    .menor{
+      color: white;
+      border-bottom: 1px solid;
+      text-align: center;
+    }
+
+	</style>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">CupiFlighs</a>
+          <ul class="nav navbar-nav">
+            <li><a href="login.html">Admin</a></li><!--class="active" for the active link page!-->
+            <li><a href="consulta.html">Consulta</a></li>
+            <li><a href="mapa.html">Mapa</a></li>
+            <li><a href="general.html">General</a></li>
+          </ul>
+        </div>
+<!--/.navbar-collapse -->
+      </div>
+    </div>
+
+
+   <!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="container">
+      <div class="row row-offcanvas row-offcanvas-right" style="margin-top: 30px;">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>CupiFlights General</h1>
+            <p>Permite mostrar toda la informaci&oacute;n que tiene el servicio CupiFlights: fechas, vuelos, aeropuertos y el mapa general. Utilice la barra de navegaci&oacute;n a la derecha para continuar.</p>
+          </div>
+
+          <div id="aeropuertos">
+            <h2>Aeropuertos</h2>
+            <hr>
+            <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Codigo</th>
+                  <th>Vuelo</th>
+                  <th>Aereolinea</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>MH370</td>
+                  <td>Kuala Lumpur-Beijing</td>
+                  <td>Malasya Airlines</td>
+                  <td>MIA</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>CH234</td>
+                  <td>Bogota-Cancun</td>
+                  <td>Copa Airlines</td>
+                  <td>DEPARTED</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>DS211</td>
+                  <td>London-Madrid</td>
+                  <td>Avianca</td>
+                  <td>DEPARTED</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div><!--/aeropuertos-->
+
+          <div id="vuelos">
+            <h2>Vuelos</h2>
+            <hr>
+
+            <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Codigo</th>
+                  <th>Vuelo</th>
+                  <th>Aereolinea</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>MH370</td>
+                  <td>Kuala Lumpur-Beijing</td>
+                  <td>Malasya Airlines</td>
+                  <td>MIA</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>CH234</td>
+                  <td>Bogota-Cancun</td>
+                  <td>Copa Airlines</td>
+                  <td>DEPARTED</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>DS211</td>
+                  <td>London-Madrid</td>
+                  <td>Avianca</td>
+                  <td>DEPARTED</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          </div><!--/vuelos-->
+
+          <div id="calendario">
+            <h2>Calendario</h2>
+            <hr>
+            <table class="table table-bordered">
+              <tbody><tr>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miercoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sabado</th>
+                <th>Domingo</th>
+              </tr>
+              <tr>
+                <td class="success">21</td>
+                <td>22</td>
+                <td>23</td>
+                <td>24</td>
+                <td class="success">25</td>
+                <td>26</td>
+                <td>27</td>
+
+              </tr>
+              <tr>
+                <td>28</td>
+                <td>29</td>
+                <td class="success">30</td>
+                <td>1</td>
+                <td class="success">2</td>
+                <td class="success">3</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td class="success">5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td class="success">9</td>
+                <td>10</td>
+                <td>11</td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td class="success">13</td>
+                <td>14</td>
+                <td>15</td>
+                <td>16</td>
+                <td class="success">17</td>
+                <td class="success">18</td>
+              </tr>
+            </tbody></table>
+          </div><!--/calendario-->
+
+          <div id="mapa">
+            <h2>Mapa</h2>
+            <hr>
+            <img style="-webkit-user-select: none" src="http://maps.googleapis.com/maps/api/staticmap?size=2000x430&amp;markers=color:blue%7Clabel:0%7C38.514944,-91.953167&amp;markers=color:blue%7Clabel:0%7C6.333333,124.766667&amp;markers=color:blue%7Clabel:0%7C33.640067,-84.44403&amp;markers=color:blue%7Clabel:0%7C59.283333,38.066667&amp;markers=color:blue%7Clabel:0%7C-1.598552,20.65&amp;markers=color:blue%7Clabel:0%7C33.425521,-112.35527&amp;markers=color:blue%7Clabel:0%7C-37.3975,-72.422778&amp;markers=color:blue%7Clabel:0%7C48.433333,17.15&amp;markers=color:blue%7Clabel:0%7C13.755365,101.394933&amp;markers=color:blue%7Clabel:0%7C36.6,-6.216667&amp;markers=color:blue%7Clabel:0%7C6.333333,-76.183333&amp;sensor=false" class="img-responsive">
+          </div><!--/mapa-->
+
+          <div id="aerolineas">
+            <h2>Aerolineas por Tardanza</h2>
+            <hr>
+            <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Nombre</th>
+                  <th>Tardanza 15-min</th>
+                  <th>Tardanza 30-min</th>
+                  <th>Tardanza 45-min</th>
+                  <th>Cancelados</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mayor Tardanza</td>
+                  <td>1</td>
+                  <td>MH370</td>
+                  <td>Kuala Lumpur-Beijing</td>
+                  <td>Malasya Airlines</td>
+                  <td>MIA</td>
+                </tr>
+                <tr>
+                  <td>Menor Tardanza</td>
+                  <td>2</td>
+                  <td>CH234</td>
+                  <td>Bogota-Cancun</td>
+                  <td>Copa Airlines</td>
+                  <td>DEPARTED</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+      
+        </div><!--/cierra todo!-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="list-group">
+            <a href="#aeropuertos" class="list-group-item active">Aeropuertos</a>
+            <a href="#vuelos" class="list-group-item">Vuelos</a>
+            <a href="#calendario" class="list-group-item">Calendario</a>
+            <a href="#mapa" class="list-group-item">Mapa de Aeropuertos</a>
+            <a href="#aerolineas" class="list-group-item">Aerolineas</a>
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+
+<hr>
+
+<footer>
+        <p>&copy; Company 2014</p>
+      </footer>
+    </div> <!-- /container -->
+</body>
+</html>

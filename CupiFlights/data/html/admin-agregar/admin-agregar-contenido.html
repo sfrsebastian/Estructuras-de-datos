@@ -1,64 +1,25 @@
-<body>
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">CupiFlighs</a>
-          <ul class="nav navbar-nav">
-            <li><a href="login.html">Admin</a></li><!--class="active" for the active link page!-->
-            <li><a href="consulta.html">Consulta</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div>
-        <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form" action="admin.html" method="POST">
-            <input type="hidden" name="cerrar" value="si">
-            <button type="submit" class="btn btn-success">Cerrar sesion</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </div>
-
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><a href="admin.html">General</a></li>
-            <li><a href="agregar.html">Agregar</a></li>
-            <li class="active"><a href="admin-aeropuertos.html">Aeropuertos</a></li>
+            <li class="active"><a href="agregar.html">Agregar</a></li>
+            <li><a href="admin_aeropuertos.html">Aeropuertos</a></li>
             <li><a href="admin_vuelos.html">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 style="padding-bottom: 9px; margin: 0px 0px 0px 0px;">Agregar aeropuertos</h1>
+          <h1 style="padding-bottom: 9px; margin: 0px 0px 0px 0px;">Agregar aeropuerto</h1>
           <p>Puede agregar aeropuertos seleccionado las opciones abajo</p>
           <hr>
 
           <!--<h3 class="sub-header" style="margin-bottom:30px;">Vuelos Agregados</h3>-->
             <div>
                 <form class="form-horizontal" role="form" action="" method="POST">
-                  <input type="hidden" name="tipo" value="agregar-aeropuerto">
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-3 control-label">Codigo del Aeropuerto</label>
+                    <label for="agregar" class="col-sm-3 control-label">Codigo del Aeropuerto</label>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="Codigo" name="codigo">
+                      <input type="text" class="form-control" id="agregar" placeholder="Codigo agregar" name="codigo">
                     </div>
                   </div>
                   <div class="form-group">
@@ -66,7 +27,24 @@
                       <button type="submit" class="btn btn-info">Agregar</button>
                     </div>
                   </div>
+                  <input type="hidden" name="tipo" value="agregar">
                 </form>
+
+                <form class="form-horizontal" role="form" action="" method="POST">
+                  <div class="form-group">
+                    <label for="elim" class="col-sm-3 control-label">Codigo del Aeropuerto</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="elim" placeholder="Codigo eliminar" name="codigo">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                      <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                  </div>
+                  <input type="hidden" name="tipo" value="eliminar">
+                </form>
+
             </div>
         </div>
       </div>

@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="lib/javax.servlet.jar"/>
 	<classpathentry kind="lib" path="lib/Estructuras de Datos.jar"/>
 	<classpathentry kind="lib" path="lib/Json.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-system.jar"/>
-	<classpathentry kind="output" path="source"/>
+	<classpathentry kind="lib" path="lib/javax.servlet.jar"/>
+	<classpathentry kind="output" path="classes"/>
 </classpath>

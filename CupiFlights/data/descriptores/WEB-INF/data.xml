@@ -43,6 +43,22 @@ Autor: Pablo Barvo - 05-Mayo-2006
       <servlet-name>Consulta</servlet-name>
       <servlet-class>interfaz.ServletConsulta</servlet-class>
    </servlet>
+   <servlet>
+      <servlet-name>Aeropuerto</servlet-name>
+      <servlet-class>interfaz.ServletAeropuerto</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>General</servlet-name>
+      <servlet-class>interfaz.ServletGeneral</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>Resultado</servlet-name>
+      <servlet-class>interfaz.ServletResultado</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>Vuelo</servlet-name>
+      <servlet-class>interfaz.ServletVuelo</servlet-class>
+   </servlet>
    <!-- MAPPING -->
    
    <servlet-mapping>
@@ -68,6 +84,22 @@ Autor: Pablo Barvo - 05-Mayo-2006
    <servlet-mapping>
       <servlet-name>Consulta</servlet-name>
       <url-pattern>/consulta.html</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>Aeropuerto</servlet-name>
+      <url-pattern>/aeropuerto.html</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>General</servlet-name>
+      <url-pattern>/general.html</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>Resultado</servlet-name>
+      <url-pattern>/resultado.html</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>Vuelo</servlet-name>
+      <url-pattern>/vuelo.html</url-pattern>
    </servlet-mapping>
 
 </web-app>

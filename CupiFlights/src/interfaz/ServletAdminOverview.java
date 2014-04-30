@@ -3,6 +3,7 @@ package interfaz;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +23,7 @@ public class ServletAdminOverview extends HttpServlet {
 	
 	private CentralDeVuelos central;
 	
-	private String[] paises;
+	private Aeropuerto[] paises;
 	
 	//--------------------------------------------
 	// Constructor
@@ -33,27 +34,13 @@ public class ServletAdminOverview extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
     {
-        central = CentralDeVuelos.getInstance( );
         try {
-        	Iterator<Aeropuerto> i = central.darAeropuertos();
-        	if(i.hasNext()){      		
-        	}else{
-        		central.cargarAeropuertos();
-        	}
-        } catch (Exception e) {
-        	// TODO Auto-generated catch block
-        	e.printStackTrace();
-        }
-        paises = new String[8];
-        
-        paises[0] = "co";
-        paises[1] = "us";
-        paises[2] = "be";
-        paises[3] = "fr";
-        paises[4] = "nz";
-        paises[5] = "mx";
-        paises[6] = "ar";
-        paises[7] = "br";
+			central = CentralDeVuelos.getInstance( );
+		} catch (Exception e1) {
+
+			e1.printStackTrace();
+		}
+       randomizar();
     }
 	
 	//--------------------------------------------
@@ -62,11 +49,17 @@ public class ServletAdminOverview extends HttpServlet {
 	
 	protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
 	{
-		//TODO Fix this type of redirect
 		HttpSession sesion = request.getSession();
 		if(sesion.getAttribute("usuario") == null){
-		response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
+			response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
 		}else{
+			if(request.getParameter("cargar") != null)
+				try {
+					central.cargarAeropuertos();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
 			imprimirEncabezado(request, response);
 			imprimirContenido(request, response);
 			imprimirFooter(request, response);
@@ -86,7 +79,7 @@ public class ServletAdminOverview extends HttpServlet {
 			String usuario = request.getParameter( "usuario" );
 			String contrasenia = request.getParameter( "contrasena" );
 			if(usuario != null && contrasenia != null){
-				if(!usuario.equals("romsearcher") && !contrasenia.equals("12345")){
+				if(!usuario.equals("admin") || !contrasenia.equals("123")){
 					response.sendRedirect(ServletCupiFlights.RUTA + "/login.html?error=si");
 				}else{
 					//Usuario autenticado
@@ -110,7 +103,6 @@ public class ServletAdminOverview extends HttpServlet {
 		try {
 			central.guardarCentral();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.destroy();
@@ -124,46 +116,31 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("        <div class=\"col-sm-3 col-md-2 sidebar\">"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li class=\"active\"><a href=\"#\">General</a></li>"); 
-		respuesta.println("            <li><a href=\"agregar.html\">Agregar</a></li>"); 
+		respuesta.println("            <li><a href=\"agregar.html\">Funciones</a></li>"); 
 		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
-		respuesta.println("            <li><a href=\"#\">Export</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">More navigation</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
+		respuesta.println("            <li><a href=\"admin.html?cargar=si\">Actualizar/Cargar</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">"); 
 		respuesta.println("          <h1 class=\"page-header\">Cupi-Admin</h1>"); 
 		respuesta.println(""); 
+		randomizar();
 		respuesta.println("          <div class=\"row placeholders\">"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
-		respuesta.println("              <h4>Label</h4>"); 
-		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[0].getCodigoPais().toLowerCase() + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <h4><a href=\"aeropuerto.html?codigo="+paises[0].getCodigo()+"\"</a>"+ paises[0].getNombre() +"</h4>"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
-		respuesta.println("              <h4>Label</h4>"); 
-		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[1].getCodigoPais().toLowerCase() + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <h4><a href=\"aeropuerto.html?codigo="+paises[1].getCodigo()+"\"</a>"+ paises[1].getNombre() +"</h4>"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
-		respuesta.println("              <h4>Label</h4>"); 
-		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
+		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[2].getCodigoPais().toLowerCase() + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <h4><a href=\"aeropuerto.html?codigo="+paises[2].getCodigo()+"\"</a>"+ paises[2].getNombre() +"</h4>");   
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"col-xs-6 col-sm-3 placeholder\">"); 
-		respuesta.println("              <img src='http://flagpedia.net/data/flags/normal/"+ paises[(int)(Math.random()*7)] + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
-		respuesta.println("              <h4>Label</h4>"); 
-		respuesta.println("              <span class=\"text-muted\">Something else</span>"); 
+		respuesta.println("           	 <img src='http://flagpedia.net/data/flags/normal/"+ paises[3].getCodigoPais().toLowerCase() + ".png' style='height:200px;' width='200px' class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">"); 
+		respuesta.println("              <h4><a href=\"aeropuerto.html?codigo="+paises[3].getCodigo()+"\"</a>"+ paises[3].getNombre() +"</h4>"); 
 		respuesta.println("            </div>"); 
 		respuesta.println("          </div>"); 
 		respuesta.println(""); 
@@ -173,34 +150,61 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("              <thead>"); 
 		respuesta.println("                <tr>"); 
 		respuesta.println("                  <th>#</th>"); 
-		respuesta.println("                  <th>Codigo</th>"); 
-		respuesta.println("                  <th>Vuelo</th>"); 
+		respuesta.println("                  <th>Salida</th>"); 
+		respuesta.println("                  <th>Llegada</th>"); 
 		respuesta.println("                  <th>Aereolinea</th>"); 
-		respuesta.println("                  <th>Estado</th>"); 
+		respuesta.println("                  <th>Rating</th>"); 
+		respuesta.println("                  <th>Tipo</th>"); 
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
 		respuesta.println("              <tbody>"); 
-		
-		Iterator<Vuelo> i = central.darVuelos();
-		int d = 1;
-		while(i.hasNext() && d < 51){
-			Vuelo actual = i.next();
 			
-			respuesta.println("                <tr>");
-			respuesta.println("                  <td>" + d +"</td>"); 
-			respuesta.println("                  <td>" + actual.getNumero() + "</td>"); 
-			respuesta.println("                  <td>"+ actual.getCodigoLlegada() + "</td>"); 
-			respuesta.println("                  <td>" + actual.getAerolinea() +"</td>"); 
-			respuesta.println("                  <td>" + actual.getTipo() + "</td>");
-			respuesta.println("                </tr>");
-			d++;
+		Iterator<Vuelo> vuelos = central.darVuelos();
+		while(vuelos.hasNext()){
+			Vuelo actual = vuelos.next();
+			
+			respuesta.println("                <tr>"); 
+			respuesta.println("                  <td><a href=\"vuelo.html?codigo="+actual.getNumero()+"\">"+actual.getNumero()+"</a></td>"); 
+			respuesta.println("                  <td>"+actual.getSalida().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getLlegada().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
+			respuesta.println("                  <td>"+actual.getRating()+"</td>");
+			respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
+			respuesta.println("                </tr>"); 
 		}
+		
 		respuesta.println("              </tbody>"); 
 		respuesta.println("            </table>"); 
 		respuesta.println("          </div>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("      </div>"); 
 		respuesta.println("    </div>");
+	}
+
+	private void randomizar() {
+		 paises = new Aeropuerto[4];
+		 Iterator<Aeropuerto> i = central.darAeropuertos();
+		 paises[0] = i.next();
+		 paises[1] = i.next();
+		 paises[2] = i.next();
+		 paises[3] = i.next();
+	        try {
+	        	Random r = new Random();
+	        	i = central.darAeropuertos();
+	        	int pos = 0;
+	        	while(i.hasNext() && pos<4){
+	        		if(i.hasNext() && r.nextBoolean() && r.nextBoolean() && r.nextBoolean()){
+	            		paises[pos] = i.next();
+	            		pos++;
+	            	}
+	        		else{
+	            		i.next();
+	            	}
+	        	}
+	        } catch (Exception e) {
+
+	        	e.printStackTrace();
+	        }
 	}
 
 	private void imprimirPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -222,7 +226,7 @@ public class ServletAdminOverview extends HttpServlet {
 		
 		respuesta.println("<html>"); 
 		respuesta.println("<head>"); 
-		respuesta.println("	<title>Page Title</title>"); 
+		respuesta.println("	<title>Admin</title>"); 
 		respuesta.println("	<script src=\"http://code.jquery.com/jquery-1.11.0.min.js\"></script>"); 
 		respuesta.println("	<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css\">"); 
 		respuesta.println("	<script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js\"></script>"); 
@@ -341,7 +345,7 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"#contact\">Contact</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"navbar-collapse collapse\">"); 

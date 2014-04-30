@@ -1,0 +1,126 @@
+<html>
+<head>
+	<title>Aeropuerto</title>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body{
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
+    .sidebar{
+      background-color: gray;
+      padding: 20px;
+    }
+    .sidebar h2{
+      color: white;
+    }
+    .sidebar h4{
+      color: white;
+    }
+
+	</style>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">CupiFlighs</a>
+          <ul class="nav navbar-nav">
+            <li><a href="login.html">Admin</a></li><!--class="active" for the active link page!-->
+            <li><a href="consutla.html">Consulta</a></li>
+            <li><a href="mapa.html">Mapa</a></li>
+            <li><a href="aeropuerto.html">Mapa</a></li>
+          </ul>
+        </div>
+<!--/.navbar-collapse -->
+      </div>
+    </div>
+
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="sidebar">
+            <h2>Aeropuerto Internacional el Dorado</h2>
+            <hr>
+            <img src="http://flagpedia.net/data/flags/normal/co.png" class="img-responsive">
+            <h3><b>Codigo: </b>BOG</h3>
+            <hr>
+            <div class="btn-group" style="width:100%">
+              <button type="button" class="btn btn-default"> Calificacion: </button>
+              <button type="button" class="btn btn-default">
+                <span class='glyphicon glyphicon-star'></span>
+                <span class='glyphicon glyphicon-star'></span>
+                <span class='glyphicon glyphicon-star'></span>
+                <span class='glyphicon glyphicon-star-empty'></span>
+                <span class='glyphicon glyphicon-star-empty'></span>
+              </button>
+            </div>
+            <h4>Mas Informacion</h4>
+            <ul class="list-group">
+              <li class="list-group-item">Indice de tardanza: 5</li>
+              <li class="list-group-item">Ciudad: Bogot&aacute;</li>
+              <li class="list-group-item">Pais: Colombia</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="main content">
+            <h2>Vuelos del aeropuerto</h2>
+            <hr>
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Codigo</th>
+                    <th>Vuelo</th>
+                    <th>Aereolinea</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>MH370</td>
+                    <td>Kuala Lumpur-Beijing</td>
+                    <td>Malasya Airlines</td>
+                    <td>MIA</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>CH234</td>
+                    <td>Bogota-Cancun</td>
+                    <td>Copa Airlines</td>
+                    <td>DEPARTED</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>DS211</td>
+                    <td>London-Madrid</td>
+                    <td>Avianca</td>
+                    <td>DEPARTED</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          </div>
+        </div>
+      </div>
+<hr>
+
+<footer>
+        <p>&copy; Company 2014</p>
+      </footer>
+    </div> <!-- /container -->
+</body>
+</html>

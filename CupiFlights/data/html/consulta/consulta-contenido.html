@@ -1,4 +1,4 @@
-<div class="container">
+    <div class="container">
       <h2>Consultas</h2>
       <hr>
       <h4 style="margin-bottom:30px;">Consultar por Aeropuerto</h4>
@@ -6,17 +6,13 @@
         <div class="form-group">
           <label for="codigoAeropuerto" class="col-sm-2 control-label">Codigo</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="codigoAeropuerto" placeholder="Codigo del Aeropuerto">
+            <input type="text" class="form-control" name="codigoAeropuerto" id="codigoAeropuerto" placeholder="Codigo del Aeropuerto">
           </div>
         </div>
         <div class="form-group">
-          <label for="fechaInicialA" class="col-sm-2 control-label">Fecha inicial</label>
+          <label for="fechaInicialA" class="col-sm-2 control-label">Fecha</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="fechaInicialA" placeholder="Fecha inicial">
-          </div>
-          <label for="fechaFinalA" class="col-sm-2 control-label">Fecha final</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="fechaFinalA" placeholder="Fecha final">
+            <input type="text" class="form-control" id="fechaInicialA" name="fecha" placeholder="Fecha: DD/MM/AAAA">
           </div>
         </div>
         <div class="form-group">
@@ -37,13 +33,20 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="fechaInicial" class="col-sm-2 control-label">Fecha inicial</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="fechaInicial" placeholder="Fecha inicial">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-info">Consultar!</button>
           </div>
-          <label for="fechaFinal" class="col-sm-2 control-label">Fecha final</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="fechaFinal" placeholder="Fecha final">
+        </div>
+        <input type="hidden" name="pedido" value="vuelo">
+      </form>
+
+      <hr>
+      <h4 style="margin-bottom:30px;">Consultar vuelos por calificacion</h4>
+      <form class="form-horizontal" role="form" action="resultado.html">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Calificacion:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputEmail3" placeholder="Rango de calificacion">
           </div>
         </div>
         <div class="form-group">
@@ -51,7 +54,7 @@
             <button type="submit" class="btn btn-info">Consultar!</button>
           </div>
         </div>
-        <input type="hidden" name="pedido" value="vuelo">
+        <input type="hidden" name="pedido" value="calificacion">
       </form>
 
       <hr>
@@ -104,4 +107,3 @@
             <td class="success">18</td>
           </tr>
         </table>
-      </form>
