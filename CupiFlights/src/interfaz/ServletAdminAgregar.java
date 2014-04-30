@@ -65,6 +65,7 @@ public class ServletAdminAgregar extends HttpServlet {
 				String codigo = request.getParameter("codigo");
 				try {
 					central.agregarAeropuerto(codigo);
+					System.out.println(codigo);
 				} catch (Exception e) {
 					System.out.println("Areopuerto agregado");
 					e.printStackTrace();

@@ -472,15 +472,15 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	public Aeropuerto agregarAeropuerto(String codigo) throws Exception {
-		String url = "https://api.flightstats.com/flex/airports/rest/v1/json/cityCode/" + codigo + "?" + IDENTIFICADORES;
+		String url = "https://api.flightstats.com/flex/airports/rest/v1/json/fs/" + codigo + "?" + IDENTIFICADORES;
 		System.out.println(url);
 		JSONObject datos = darJSON(url);
-		JSONArray arreglo = datos.getJSONArray("airports");
+		JSONObject arreglo = datos.getJSONObject("airport");
 		try{
-			Aeropuerto nuevo = leerAeropuerto((JSONObject) arreglo.get(0));
+			Aeropuerto nuevo = leerAeropuerto((JSONObject) arreglo);
 			aeropuertos.agregar(nuevo);
-			System.out.println(nuevo);
 			buscarVuelosComun(nuevo);
+			System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
 			return nuevo;
 		}
 		catch(Exception e){
@@ -495,6 +495,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			throw new Exception("El aeropuerto no existe");
 		}
 		eliminarVuelos(eliminar);//Se eliminan los vuelos de la clase principal
+		System.out.println("Aeropuerto eliminado: " + eliminar.getNombre() + "\n------------------------");
 		return aeropuertos.eliminar(eliminar);//se elimina el aeropuerto
 	}
 

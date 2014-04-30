@@ -68,7 +68,7 @@ public class ServletResultado extends HttpServlet {
 					imprimirRequerimientoAeropuerto(request, response, vuelos);
 				}else if(pedido.equals("vuelo")){
 					String codigo = request.getParameter("codigo");
-					Iterator<Vuelo> vuelos = central.darVuelos();
+					Vuelo vuelo = central.darVuelo(codigo);
 					//TODO 
 				}else if(pedido.equals("calificacion")){
 					String calificacion = request.getParameter("calificacion");
