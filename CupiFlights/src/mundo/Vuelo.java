@@ -107,6 +107,7 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 	 */
 	public Vuelo(String nNumero, Aeropuerto nSalida, Aeropuerto nLlegada, Aerolinea nAereolinea, String nTipo, Object[] nRating, Calendar c) {
 		fecha = c;
+		fecha.set(fecha.get(Calendar.YEAR), fecha.get(Calendar.MONTH)-1, fecha.get(Calendar.DAY_OF_MONTH));
 		numero = nNumero;
 		salida = nSalida;
 		llegada = nLlegada;

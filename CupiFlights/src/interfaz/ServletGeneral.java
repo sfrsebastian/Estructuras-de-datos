@@ -200,6 +200,7 @@ public class ServletGeneral extends HttpServlet {
 		respuesta.println("                  <th>Aereolinea</th>"); 
 		respuesta.println("                  <th>Rating</th>");
 		respuesta.println("                  <th>Tipo</th>");
+		respuesta.println("                  <th>Fecha</th>");
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
 		respuesta.println("              <tbody>"); 
@@ -214,7 +215,8 @@ public class ServletGeneral extends HttpServlet {
 			respuesta.println("                  <td>"+actual.getLlegada().getNombre()+"</td>"); 
 			respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
 			respuesta.println("                  <td>"+actual.getRating()+"</td>");
-			respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getTipo()+"</td>");
+			respuesta.println("                  <td>"+actual.getFechaString()+"</td>");
 			respuesta.println("                </tr>"); 
 		}
 		

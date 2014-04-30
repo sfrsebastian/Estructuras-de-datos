@@ -248,7 +248,6 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		int dia = c.get(Calendar.DAY_OF_MONTH);
 		int mes = c.get(Calendar.MONTH)+1;
 		int anio = c.get(Calendar.YEAR);
-		System.out.println(dateFormat.format(c.getTime()));
 		String url = "";
 		if(tipo.equals(Vuelo.LLEGANDO)){
 			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
@@ -278,6 +277,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 				}
 			}
 			if(vuelos.buscar(nuevo)==null){
+				c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DAY_OF_MONTH));
+				System.out.println("La fecha es: " + dateFormat.format(c.getTime()) );
 				vuelos.agregar(nuevo);
 				fechas.agregar(dateFormat.format(c.getTime()), nuevo);
 				if(tipo.equals(Vuelo.SALIENDO)){
@@ -427,7 +428,6 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 					else{
 						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)-3));
 					}
-					System.out.println(dateFormat.format(c.getTime()));
 					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
 					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 				}
@@ -478,7 +478,11 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		Random r = new Random();
 		Aeropuerto actual = i.next();
 		while(((r.nextBoolean() && r.nextBoolean()&& r.nextBoolean()) == false) && i.hasNext()){
-			i.next();
+			actual = i.next();
+		}
+		buscarVuelosComun(actual);
+		while(((r.nextBoolean() && r.nextBoolean()&& r.nextBoolean()) == false) && i.hasNext()){
+			actual = i.next();
 		}
 		buscarVuelosComun(actual);
 	}
@@ -569,7 +573,9 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		Iterator<Vuelo> i = vuelos.iterator();
 		while(i.hasNext()){
 			Vuelo actual = i.next();
-			if((int)actual.getRating() == calificacion && actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c2)<0){
+			boolean mayor = actual.getFecha().get(Calendar.DAY_OF_MONTH)>=c1.get(Calendar.DAY_OF_MONTH) && actual.getFecha().get(Calendar.MONTH) == c1.get(Calendar.MONTH) || actual.getFecha().get(Calendar.MONTH) > c1.get(Calendar.MONTH);
+			boolean menor = actual.getFecha().get(Calendar.DAY_OF_MONTH)<=c2.get(Calendar.DAY_OF_MONTH) && actual.getFecha().get(Calendar.MONTH) == c2.get(Calendar.MONTH) || actual.getFecha().get(Calendar.MONTH) < c2.get(Calendar.MONTH);
+			if((int)actual.getRating() == calificacion && mayor && menor){
 				respuesta.agregar(actual);
 			}
 		}

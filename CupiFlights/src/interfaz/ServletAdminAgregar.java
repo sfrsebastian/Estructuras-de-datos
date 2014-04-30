@@ -259,8 +259,9 @@ public class ServletAdminAgregar extends HttpServlet {
 		respuesta.println("        <div class=\"col-sm-3 col-md-2 sidebar\">"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li><a href=\"admin.html\">General</a></li>"); 
-		respuesta.println("            <li class=\"active\"><a href=\"agregar.html\">Agregar</a></li>"); 
-		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>");  
+		respuesta.println("            <li class=\"active\"><a href=\"agregar.html\">Funciones</a></li>"); 
+		respuesta.println("            <li><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
+		respuesta.println("            <li><a href=\"admin.html?cargar=si\">Actualizar/Cargar</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">"); 

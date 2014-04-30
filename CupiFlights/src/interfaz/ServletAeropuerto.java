@@ -162,11 +162,16 @@ public class ServletAeropuerto extends HttpServlet {
 		respuesta.println("              <button type=\"button\" class=\"btn btn-default\"> Calificacion: </button>"); 
 		respuesta.println("              <button type=\"button\" class=\"btn btn-default\">");
 		
-		respuesta.println("                <span class='glyphicon glyphicon-star'></span>"); 
-		respuesta.println("                <span class='glyphicon glyphicon-star'></span>"); 
-		respuesta.println("                <span class='glyphicon glyphicon-star'></span>"); 
-		respuesta.println("                <span class='glyphicon glyphicon-star-empty'></span>"); 
-		respuesta.println("                <span class='glyphicon glyphicon-star-empty'></span>"); 
+		int calificacion = (int)aeropuerto.getCalificacion();
+		int pos = calificacion;
+		int neg = 5 - pos;
+		
+		for (int i = 0; i <pos; i++) {
+			respuesta.println("                <span class='glyphicon glyphicon-star'></span>");
+		}
+		for (int i = 0; i < neg; i++) {
+			respuesta.println("                <span class='glyphicon glyphicon-star-empty'></span>");
+		}
 		
 		respuesta.println("              </button>"); 
 		respuesta.println("            </div>"); 
@@ -223,6 +228,7 @@ public class ServletAeropuerto extends HttpServlet {
 			respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
 			respuesta.println("                  <td>"+actual.getRating()+"</td>");
 			respuesta.println("                  <td>"+actual.getTipo()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getFechaString()+"</td>");
 			respuesta.println("                </tr>"); 
 		}		
 

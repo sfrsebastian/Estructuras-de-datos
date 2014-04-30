@@ -161,7 +161,9 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 		Iterator<Vuelo> it2 = vuelosSalida.buscarXPrefijo("");
 		while(it1.hasNext()){
 			Vuelo actual = it1.next();
-			if(actual.getFecha().compareTo(c1)>0 && actual.getFecha().compareTo(c2)<0){
+			boolean mayor = actual.getFecha().get(Calendar.DAY_OF_MONTH)>=c1.get(Calendar.DAY_OF_MONTH) && actual.getFecha().get(Calendar.MONTH) == c1.get(Calendar.MONTH) || actual.getFecha().get(Calendar.MONTH) > c1.get(Calendar.MONTH);
+			boolean menor = actual.getFecha().get(Calendar.DAY_OF_MONTH)<=c2.get(Calendar.DAY_OF_MONTH) && actual.getFecha().get(Calendar.MONTH) == c2.get(Calendar.MONTH) || actual.getFecha().get(Calendar.MONTH) < c2.get(Calendar.MONTH);
+			if(mayor && menor){
 				l15 += actual.getL15();
 				l30 += actual.getL30();
 				l45 += actual.getL45();

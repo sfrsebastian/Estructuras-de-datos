@@ -157,7 +157,7 @@ public class ServletVuelo extends HttpServlet {
 		respuesta.println("                <div class=\"panel panel-warning\">"); 
 		respuesta.println("                  <div class=\"panel-heading\">Salida</div>"); 
 		respuesta.println("                  <div class=\"panel-body\">"); 
-		respuesta.println("                    <b>"+vuelo.getSalida().getCodigo()+"</b><p>"+vuelo.getSalida().getCodigo()+"</p>"); 
+		respuesta.println("                    <b><a href=\"aeropuerto.html?codigo="+vuelo.getSalida().getCodigo()+"\">"+vuelo.getSalida().getCodigo()+"</a></b><p>"+vuelo.getSalida().getNombre()+"</p>"); 
 		respuesta.println("                  </div>"); 
 		respuesta.println("                  <div class=\"panel-footer\">"); 
 		respuesta.println("                    <img src=\"http://flagpedia.net/data/flags/normal/"+(vuelo.getSalida().getCodigoPais()).toLowerCase()+".png\" class=\"img-responsive\">"); 
@@ -169,7 +169,7 @@ public class ServletVuelo extends HttpServlet {
 		respuesta.println("                <div class=\"panel panel-success\">"); 
 		respuesta.println("                  <div class=\"panel-heading\">Llegada</div>"); 
 		respuesta.println("                  <div class=\"panel-body\">"); 
-		respuesta.println("                    <b>"+vuelo.getLlegada().getCodigo()+"</b><p>"+vuelo.getLlegada().getCodigo()+"</p>"); 
+		respuesta.println("                    <b><a href=\"aeropuerto.html?codigo="+vuelo.getLlegada().getCodigo()+"\">"+vuelo.getLlegada().getCodigo()+"</a></b><p>"+vuelo.getLlegada().getNombre()+"</p>"); 
 		respuesta.println("                  </div>"); 
 		respuesta.println("                  <div class=\"panel-footer\">"); 
 		respuesta.println("                    <img src=\"http://flagpedia.net/data/flags/normal/"+(vuelo.getLlegada().getCodigoPais()).toLowerCase()+".png\" class=\"img-responsive\">"); 
