@@ -90,21 +90,24 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	//--------------------
 	/**
 	 * Construye una nueva central de vuelos
+	 * @throws Exception 
 	 * @pos Se inicializan los atrbutos de la clase
 	 */
-	private CentralDeVuelos(){
+	private CentralDeVuelos() throws Exception{
 		aeropuertos = new Arbol23<Aeropuerto>();
 		fechas = new ArbolTrie<Vuelo>();
 		vuelos = new Arbol23<Vuelo>();
 		aerolineas = new Arbol23<Aerolinea>();
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		cargarAeropuertos();
 	}
 
 	/**
 	 * Retorna la instancia actual de la central
 	 * @return La instancia actual, de lo contrario una instancia nueva.
+	 * @throws Exception 
 	 */
-	public static CentralDeVuelos getInstance(){
+	public static CentralDeVuelos getInstance() throws Exception{
 		System.out.println("getInstance");
 		if( instancia == null )
 		{
@@ -412,34 +415,37 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 				//Fecha actual
 				Calendar c = Calendar.getInstance();
 				c.setTimeInMillis(System.currentTimeMillis());
-				//System.out.println(dateFormat.format(c.getTime()));
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
 				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 
 				//Hace 4 dias
-				a2 = it2.next();
-				if(c.get(Calendar.DAY_OF_MONTH)<=4){
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, 30-(c.get(Calendar.DAY_OF_MONTH)-3));
+				if(it2.hasNext()){
+					a2 = it2.next();
+					if(c.get(Calendar.DAY_OF_MONTH)<=4){
+						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, 30-(c.get(Calendar.DAY_OF_MONTH)-3));
+					}
+					else{
+						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)-3));
+					}
+					System.out.println(dateFormat.format(c.getTime()));
+					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
+					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 				}
-				else{
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)-3));
-				}
-				System.out.println(dateFormat.format(c.getTime()));
-				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
-				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
+				
 
 				//Cuatro dias adelante
-				a2 = it2.next();
-				c.setTimeInMillis(System.currentTimeMillis());
-				if(c.get(Calendar.DAY_OF_MONTH)>=27){
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, 1+(c.get(Calendar.DAY_OF_MONTH)-28));
+				if(it2.hasNext()){
+					a2 = it2.next();
+					c.setTimeInMillis(System.currentTimeMillis());
+					if(c.get(Calendar.DAY_OF_MONTH)>=27){
+						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, 1+(c.get(Calendar.DAY_OF_MONTH)-28));
+					}
+					else{
+						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)+3));
+					}
+					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
+					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 				}
-				else{
-					c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), (c.get(Calendar.DAY_OF_MONTH)+3));
-				}
-				//System.out.println(dateFormat.format(c.getTime()));
-				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
-				cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 				i++;
 			}
 		}
@@ -608,7 +614,6 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			j++;
 		}
 		url+= "&sensor=false";
-		System.out.println(url);
 		Object[] respuesta = new Object[2];
 		respuesta[0] = url;
 		respuesta[1] = arbol;
@@ -619,7 +624,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 * Serializa la central en la ruta dada
 	 * @throws Exception
 	 */
-	public static void guardarCentral() throws Exception{
+	public void guardarCentral() throws Exception{
 		File f = new File(darRuta() + RUTA_ARCHIVO_SERIALIZADO);
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
 		oos.writeObject(getInstance());
@@ -704,13 +709,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	public static void main(String[] args) throws Exception {
 		CentralDeVuelos central = getInstance();
-		//central.cargarAeropuertos();
-		Iterator<String> fechas = central.fechas.darPalabras();
-		while(fechas.hasNext()){
-			System.out.println("La fecha es " + fechas.next());
-		}
-		central.darURLMapa();		
-		guardarCentral();
+		central.guardarCentral();
 	}
 
 }
