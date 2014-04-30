@@ -1,14 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
-Universidad de los Andes (Bogotá - Colombia)
-Departamento de Ingeniería de Sistemas y Computación 
-Licenciado bajo el esquema Academic Free License version 2.1 
 
-Proyecto Cupi2 (http://cupi2.uniandes.edu.clocao)
-Ejercicio: n18_calculadoraWeb
-Autor: Pablo Barvo - Mayo 4/2006 
-Autor: Jorge Villalobos - Noviembre 13/2006
--->
 <project name="cupiflights" default="deploy" basedir="../">
 	<!--
 	*******************************************************
