@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import ListaOrdenada.ListaOrdenada;
 
+@SuppressWarnings("serial")
 public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Serializable {
 
 	//------------------------------------------------------------
@@ -14,7 +15,7 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Seriali
 	/**
 	 * La raiz del arbol trie
 	 */
-	private NodoTrie raiz;
+	private NodoTrie<T> raiz;
 	
 	/**
 	 * La lista ordenada de palabras
@@ -26,7 +27,7 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Seriali
 	//------------------------------------------------------------
 	
 	public ArbolTrie(){
-		raiz = new NodoTrie('*');
+		raiz = new NodoTrie<T>('*');
 		palabras = new ListaOrdenada<String>();
 	}
 	
@@ -65,6 +66,12 @@ public class ArbolTrie<T extends Comparable<T>> implements IArbolTrie<T>,Seriali
 		boolean elim = raiz.eliminar(palabra);
 		raiz.eliminarDependencias();
 		return elim;
+	}
+	
+	public T eliminarElemento(String palabra, T elemento){
+		T elem = raiz.eliminarElemento(palabra, elemento);
+		raiz.eliminarDependencias();
+		return elem;
 	}
 
 	@Override
