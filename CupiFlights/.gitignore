@@ -1,5 +1,4 @@
 /classes
 .settings
-/dist
 /docs/api
-/source
+/bin

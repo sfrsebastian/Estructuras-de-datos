@@ -32,7 +32,12 @@ public class ServletAdminAeropuerto extends HttpServlet {
 	 */
 	public void init( ) throws ServletException
 	{
-		central = CentralDeVuelos.getInstance( );
+		try {
+			central = CentralDeVuelos.getInstance( );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	//--------------------------------------------
@@ -57,7 +62,6 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		if(sesion.getAttribute("usuario") == null){
 		response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
 		}else{
-			String fecha = request.getParameter("fecha");
 			
 			imprimirEncabezado(request, response);
 			imprimirContenidoPost(request, response);
@@ -70,7 +74,6 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		try {
 			central.guardarCentral();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.destroy();
@@ -84,21 +87,9 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("        <div class=\"col-sm-3 col-md-2 sidebar\">"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li><a href=\"admin.html\">General</a></li>"); 
-		respuesta.println("            <li><a href=\"agregar.html\">Agregar</a></li>"); 
+		respuesta.println("            <li><a href=\"agregar.html\">Funciones</a></li>"); 
 		respuesta.println("            <li class=\"active\"><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
-		respuesta.println("            <li><a href=\"admin_vuelos.html\">Export</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">More navigation</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
+		respuesta.println("            <li><a href=\"admin.html?cargar=si\">Actualizar/Cargar</a></li>");
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println(""); 
@@ -115,17 +106,34 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("              <div class=\"col-md-2\">"); 
 		respuesta.println("                <p>Buscar por fecha:</p>"); 
 		respuesta.println("              </div>"); 
-		respuesta.println("            <div class=\"form-group col-md-3\">"); 
-		respuesta.println("                <label class=\"sr-only\" for=\"fi\">Fecha inicial</label>"); 
-		respuesta.println("                <input type=\"text\" class=\"form-control\" id=\"fi\" placeholder=\"dd/mm/aaaa\" style=\"width:100%\" name=\"fecha\">"); 
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
+		
+		Iterator<String> ifechas = central.darFechas();
+		respuesta.println("              <select class=\"form-control\" name=\"fecha\">");
+		while(ifechas.hasNext()){
+			String actual = ifechas.next();
+			respuesta.println("              <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("              </select>");
+		
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("              <p>Buscar por codigo:</p>"); 
 		respuesta.println("            </div>"); 
-		respuesta.println("            <div class=\"form-group col-md-3\">"); 
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("                <label class=\"sr-only\" for=\"fi\">Fecha inicial</label>"); 
 		respuesta.println("                <input type=\"text\" class=\"form-control\" id=\"fi\" placeholder=\"codigo aeropuerto\" style=\"width:100%\" name=\"codigo\">"); 
 		respuesta.println("            </div>"); 
+		//
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
+		respuesta.println("                <label class=\"sr-only\" for=\"tipo\">Tipo</label>"); 
+		respuesta.println("                <select class=\"form-control\" name='tipo'>"); 
+		respuesta.println("                	<option value='" + Vuelo.LLEGANDO + "'>" + Vuelo.LLEGANDO + "</option>");
+		respuesta.println("                	<option value='" + Vuelo.SALIENDO + "'>" + Vuelo.SALIENDO + "</option>");
+		respuesta.println("                </select>"); 
+		respuesta.println("            </div>"); 
+		//
+		
 		respuesta.println("            <div class=\"col-md-2\">"); 
 		respuesta.println("              <button type=\"submit\" class=\"btn btn-info\">Buscar info</button>"); 
 		respuesta.println("            </div>"); 
@@ -141,11 +149,13 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("            <table class=\"table table-striped\">"); 
 		respuesta.println("              <thead>"); 
 		respuesta.println("                <tr>"); 
-		respuesta.println("                  <th>#</th>"); 
-		respuesta.println("                  <th>Codigo</th>"); 
-		respuesta.println("                  <th>Nombre</th>"); 
+		respuesta.println("                  <th>Numero</th>"); 
+		respuesta.println("                  <th>Salida</th>"); 
+		respuesta.println("                  <th>Llegada</th>"); 
 		respuesta.println("                  <th>Aereolinea</th>"); 
-		respuesta.println("                  <th>Estado</th>"); 
+		respuesta.println("                  <th>Rating</th>");
+		respuesta.println("                  <th>Tipo</th>");
+		respuesta.println("                  <th>Fecha</th>");
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
 		respuesta.println("              <tbody>");  
@@ -156,25 +166,31 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		String codigo = request.getParameter("codigo");
 				
 		String fechas[] = posted.split("/");
-		//TODO fix
 		if(posted == null || codigo == null)
 			response.sendRedirect(ServletCupiFlights.RUTA + "./index.html");
 				
 		Calendar c = Calendar.getInstance();
-		c.set(Integer.parseInt(fechas[2]), Integer.parseInt(fechas[1]), Integer.parseInt(fechas[0]));
+		c.set(Integer.parseInt(fechas[0]), Integer.parseInt(fechas[1]), Integer.parseInt(fechas[2]));
+		String tipo = request.getParameter("tipo");
 		
-		Iterator<Vuelo> i = central.consultarVuelos(c, codigo, "TODO");
-		int d = 1;
-		while(i.hasNext() && d < 51){
+		Iterator<Vuelo> i = null;
+		try {
+			i = central.darVuelosAeropuertoFecha(codigo, c, tipo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		while(i.hasNext()){
 			Vuelo actual = i.next();
 			respuesta.println("                <tr>"); 
-			respuesta.println("                  <td>" + d + "</td>"); 
-			respuesta.println("                  <td>" + actual.getNumero() + "</td>"); 
-			respuesta.println("                  <td>"+ actual.getCodigoLlegada() +"</td>"); 
-			respuesta.println("                  <td>"+ actual.getAerolinea() +"</td>"); 
-			respuesta.println("                  <td>"+ actual.getTipo() +"</td>");
-			respuesta.println("                </tr>");
-			d++;
+			respuesta.println("                  <td><a href=\"vuelo.html?codigo="+actual.getNumero()+"\">"+actual.getNumero()+"</a></td>"); 
+			respuesta.println("                  <td>"+actual.getSalida().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getLlegada().getNombre()+"</td>"); 
+			respuesta.println("                  <td>"+actual.getAereolinea()+"</td>");
+			respuesta.println("                  <td>"+actual.getRating()+"</td>");
+			respuesta.println("                  <td>"+actual.getTipo()+"</td>");
+			respuesta.println("                  <td>"+actual.getFechaString()+"</td>");
+			respuesta.println("                </tr>"); 
 		}
 		
 		respuesta.println("              </tbody>"); 
@@ -208,7 +224,7 @@ public class ServletAdminAeropuerto extends HttpServlet {
 			Aeropuerto actual = i1.next();
 			respuesta.println("                <tr>"); 
 			respuesta.println("                  <td>" + d1 + "</td>"); 
-			respuesta.println("                  <td>" + actual.getCodigo() + "</td>"); 
+			respuesta.println("                  <td><a href=\"aeropuerto.html?codigo="+actual.getCodigo()+"\">"+actual.getCodigo()+"</a></td>"); 
 			respuesta.println("                  <td>"+ actual.getNombre() +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getCodigoPais() +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getTardanza() +"</td>");
@@ -343,7 +359,7 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"#contact\">Contact</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"navbar-collapse collapse\">"); 
@@ -364,21 +380,9 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("        <div class=\"col-sm-3 col-md-2 sidebar\">"); 
 		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
 		respuesta.println("            <li><a href=\"admin.html\">General</a></li>"); 
-		respuesta.println("            <li><a href=\"agregar.html\">Agregar</a></li>"); 
+		respuesta.println("            <li><a href=\"agregar.html\">Funciones</a></li>"); 
 		respuesta.println("            <li class=\"active\"><a href=\"admin-aeropuerto.html\">Aeropuertos</a></li>"); 
-		respuesta.println("            <li><a href=\"admin_vuelos.html\">Export</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
-		respuesta.println("            <li><a href=\"\">More navigation</a></li>"); 
-		respuesta.println("          </ul>"); 
-		respuesta.println("          <ul class=\"nav nav-sidebar\">"); 
-		respuesta.println("            <li><a href=\"\">Nav item again</a></li>"); 
-		respuesta.println("            <li><a href=\"\">One more nav</a></li>"); 
-		respuesta.println("            <li><a href=\"\">Another nav item</a></li>"); 
+		respuesta.println("            <li><a href=\"admin.html?cargar=si\">Actualizar/Cargar</a></li>");
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println(""); 
@@ -395,17 +399,34 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("              <div class=\"col-md-2\">"); 
 		respuesta.println("                <p>Buscar por fecha:</p>"); 
 		respuesta.println("              </div>"); 
-		respuesta.println("            <div class=\"form-group col-md-3\">"); 
-		respuesta.println("                <label class=\"sr-only\" for=\"fi\">Fecha inicial</label>"); 
-		respuesta.println("                <input type=\"text\" class=\"form-control\" id=\"fi\" placeholder=\"dd/mm/aaaa\" style=\"width:100%\" name=\"fecha\">"); 
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
+		
+		Iterator<String> ifechas = central.darFechas();
+		respuesta.println("              <select class=\"form-control\" name=\"fecha\">");
+		while(ifechas.hasNext()){
+			String actual = ifechas.next();
+			respuesta.println("              <option value=\""+actual+"\">"+actual+"</option>");
+		}
+		respuesta.println("              </select>");
+		
 		respuesta.println("            </div>"); 
 		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("              <p>Buscar por codigo:</p>"); 
 		respuesta.println("            </div>"); 
-		respuesta.println("            <div class=\"form-group col-md-3\">"); 
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
 		respuesta.println("                <label class=\"sr-only\" for=\"fi\">Fecha inicial</label>"); 
 		respuesta.println("                <input type=\"text\" class=\"form-control\" id=\"fi\" placeholder=\"codigo aeropuerto\" style=\"width:100%\" name=\"codigo\">"); 
 		respuesta.println("            </div>"); 
+		//
+		respuesta.println("            <div class=\"form-group col-md-2\">"); 
+		respuesta.println("                <label class=\"sr-only\" for=\"tipo\">Tipo</label>"); 
+		respuesta.println("                <select class=\"form-control\" name='tipo'>"); 
+		respuesta.println("                	<option value='" + Vuelo.LLEGANDO + "'>" + Vuelo.LLEGANDO + "</option>");
+		respuesta.println("                	<option value='" + Vuelo.SALIENDO + "'>" + Vuelo.SALIENDO + "</option>");
+		respuesta.println("                </select>"); 
+		respuesta.println("            </div>"); 
+		//
+		
 		respuesta.println("            <div class=\"col-md-2\">"); 
 		respuesta.println("              <button type=\"submit\" class=\"btn btn-info\">Buscar info</button>"); 
 		respuesta.println("            </div>"); 
@@ -435,6 +456,7 @@ public class ServletAdminAeropuerto extends HttpServlet {
 		respuesta.println("                  <th>Nombre</th>"); 
 		respuesta.println("                  <th>Aereolinea</th>"); 
 		respuesta.println("                  <th>Tardanza</th>");
+		respuesta.println("                  <th>Calificacion</th>");
 		respuesta.println("                  <th>Bandera</th>");
 		respuesta.println("                </tr>"); 
 		respuesta.println("              </thead>"); 
@@ -446,10 +468,11 @@ public class ServletAdminAeropuerto extends HttpServlet {
 			Aeropuerto actual = i.next();
 			respuesta.println("                <tr>"); 
 			respuesta.println("                  <td>" + d + "</td>"); 
-			respuesta.println("                  <td>" + actual.getCodigo() + "</td>"); 
+			respuesta.println("                  <td><a href=\"aeropuerto.html?codigo="+actual.getCodigo()+"\">"+actual.getCodigo()+"</a></td>"); 
 			respuesta.println("                  <td>"+ actual.getNombre() +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getCodigoPais() +"</td>"); 
 			respuesta.println("                  <td>"+ actual.getTardanza() +"</td>");
+			respuesta.println("                  <td>"+ actual.getCalificacion() +"</td>");
 			respuesta.println("                  <td><img src='http://flagpedia.net/data/flags/mini/" + (actual.getCodigoPais()).toLowerCase() + ".png'></td>");
 			respuesta.println("                </tr>");
 			d++;
