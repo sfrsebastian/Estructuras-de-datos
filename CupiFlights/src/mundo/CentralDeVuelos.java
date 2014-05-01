@@ -248,6 +248,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		int dia = c.get(Calendar.DAY_OF_MONTH);
 		int mes = c.get(Calendar.MONTH)+1;
 		int anio = c.get(Calendar.YEAR);
+		System.out.println(dia + "- " + mes);
 		String url = "";
 		if(tipo.equals(Vuelo.LLEGANDO)){
 			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
@@ -277,10 +278,9 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 				}
 			}
 			if(vuelos.buscar(nuevo)==null){
-				c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DAY_OF_MONTH));
-				System.out.println("La fecha es: " + dateFormat.format(c.getTime()) );
+				System.out.println("La fecha es: " + date );
 				vuelos.agregar(nuevo);
-				fechas.agregar(dateFormat.format(c.getTime()), nuevo);
+				fechas.agregar(date, nuevo);
 				if(tipo.equals(Vuelo.SALIENDO)){
 					System.out.println("Agregado vuelo # " +  nuevo.getNumero() + " fecha:" + dateFormat.format(c.getTime()) +  " - " + a1.getNombre() + " - "+ a2.getNombre() + "\n-------------------");
 				}
@@ -422,6 +422,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 				//Hace 4 dias
 				if(it2.hasNext()){
 					a2 = it2.next();
+					c = Calendar.getInstance();
+					c.setTimeInMillis(System.currentTimeMillis());
 					if(c.get(Calendar.DAY_OF_MONTH)<=4){
 						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)-1, 30-(c.get(Calendar.DAY_OF_MONTH)-3));
 					}
@@ -436,6 +438,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 				//Cuatro dias adelante
 				if(it2.hasNext()){
 					a2 = it2.next();
+					c = Calendar.getInstance();
 					c.setTimeInMillis(System.currentTimeMillis());
 					if(c.get(Calendar.DAY_OF_MONTH)>=27){
 						c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, 1+(c.get(Calendar.DAY_OF_MONTH)-28));
@@ -726,7 +729,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	public static void main(String[] args) throws Exception {
 		CentralDeVuelos central = getInstance();
-		central.guardarCentral();
+		central.agregarAeropuerto("BOG");
+		//central.guardarCentral();
 	}
 
 }
