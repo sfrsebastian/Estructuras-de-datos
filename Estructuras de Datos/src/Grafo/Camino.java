@@ -79,7 +79,7 @@ public class Camino<K, V, A> implements Serializable {
 	 * Agrega un arco al final del camino
 	 * @param arco El arco que se quiere agregar
 	 */
-	void agregarArcoFinal(Arco<K, V, A> arco){
+	public void agregarArcoFinal(Arco<K, V, A> arco){
 		//TODO 
 	}
 	
@@ -87,7 +87,7 @@ public class Camino<K, V, A> implements Serializable {
 	 * Agrega un arco al final del camino
 	 * @param arco El arco que se quiere agregar al final
 	 */
-	void agregarArcoComienzo(Arco<K, V, A> arco){
+	public void agregarArcoComienzo(Arco<K, V, A> arco){
 		//TODO
 	}
 }
