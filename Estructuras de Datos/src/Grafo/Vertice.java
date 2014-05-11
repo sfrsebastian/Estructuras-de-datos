@@ -1,5 +1,8 @@
 package Grafo;
 
+import Lista.Lista;
+import ListaOrdenada.ListaOrdenada;
+
 public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 
 	//---------------------------------------
@@ -21,6 +24,16 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	 */
 	private boolean marcado;
 	
+	/**
+	 * La lista de arcos sucesores del vertice
+	 */
+	private Lista<Arco<K,V,A>> sucesores;
+	
+	/**
+	 * La lista de arcos predecesores del vertice
+	 */
+	private Lista<Arco<K, V, A>> predecesores;
+	
 	//---------------------------------------
 	// Constructor
 	//---------------------------------------
@@ -34,6 +47,9 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		idVertice = id;
 		infoVertice = info;
 		marcado = false;
+		sucesores = new ListaOrdenada<Arco<K,V,A>>();
+		predecesores = new ListaOrdenada<Arco<K,V,A>>();
+				
 	}
 	
 	//---------------------------------------
