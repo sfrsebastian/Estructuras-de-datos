@@ -110,7 +110,7 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	public Arco<K,V,A>darArcoSucesorHacia(K idDestino){
 		Arco<K,V,A> respuesta = null;
 		Iterator<Arco<K,V,A>> it = sucesores.iterator();
-		while(it.hasNext() && !respuesta){
+		while(it.hasNext() && respuesta!=null){
 			Arco<K,V,A> actual = it.next();
 			if(actual.getDestino().getId().equals(idDestino)){
 				respuesta = actual;
@@ -118,7 +118,31 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		}
 		return respuesta;
 	}
+
+	/**
+	 * Agrega el arco dado por parametro a la lista de predecesores
+	 * @param arco El arco a agregar
+	 */
+	public void agregarArcoPredecesor(Arco<K,V,A> arco){
+		predecesores.agregar(arco);
+	}
 	
+	/**
+	 * Elimina el arco con origen en el vertice dado por parametro
+	 * @param idOrigen El vertice de origen
+	 * @return El arco eliminado
+	 */
+	public Arco<K,V,A> eliminarArcoPredecesor(K idOrigen){
+		Arco<K,V,A> respuesta = null;
+		Iterator<Arco<K,V,A>> it = predecesores.iterator();
+		while(it.hasNext() && respuesta!=null){
+			Arco<K,V,A> actual = it.next();
+			if(actual.getOrigen().getId().equals(idOrigen)){
+				respuesta = predecesores.eliminar(actual);
+			}
+		}
+		return respuesta;
+	}
 	
 	/**
 	 * Marca el nodo
