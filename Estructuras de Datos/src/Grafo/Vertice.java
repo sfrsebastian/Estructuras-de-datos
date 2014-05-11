@@ -101,6 +101,25 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		}
 		return respuesta;
 	}
+	
+	/**
+	 * Indica si el vertice tiene un arco con destino en el vertice con codigo dado.
+	 * @param idDestino El codigo del vertice de origen
+	 * @return El arco sucesor, null de lo contrario.
+	 */
+	public Arco<K,V,A>darArcoSucesorHacia(K idDestino){
+		Arco<K,V,A> respuesta = null;
+		Iterator<Arco<K,V,A>> it = sucesores.iterator();
+		while(it.hasNext() && !respuesta){
+			Arco<K,V,A> actual = it.next();
+			if(actual.getDestino().getId().equals(idDestino)){
+				respuesta = actual;
+			}
+		}
+		return respuesta;
+	}
+	
+	
 	/**
 	 * Marca el nodo
 	 */
