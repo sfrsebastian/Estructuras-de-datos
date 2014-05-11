@@ -188,6 +188,45 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		}
 		return respuesta;
 	}
+	
+	/**
+	 * Retorna el camino simple de menor costo entre los dos vertices dados.
+	 * @param idDestino El vertice de destino
+	 * @return El camino de menor costo
+	 */
+	public Camino<K,V,A> darCaminoSimpleMasBaratoA(K idDestino){
+		Camino<K,V,A> respuesta = null;
+		if(!marcado){
+			marcar();
+			if(idVertice.compareTo(idDestino)==0){
+				respuesta = new Camino<K,V,A>(this,false);
+			}
+			else{
+				Arco<K,V,A> arco = null;
+				Iterator<Arco<K,V,A>> itsucesores = sucesores.iterator(); 
+				while (itsucesores.hasNext() && respuesta == null){
+					arco = itsucesores.next( );
+					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
+					Camino<K,V,A> camino = vtceSucesor.darCaminoSimpleMasBaratoA(idDestino);
+					if(camino!=null){
+						camino.agregarArcoComienzo(arco);
+						if(respuesta == null){
+							respuesta = camino;
+						}
+						else if(respuesta.getCosto()>camino.getCosto()){
+							respuesta = camino;
+						}
+					}
+				}
+				if(respuesta!=null){
+					respuesta.agregarArcoComienzo(arco);
+				}
+			} 
+			desmarcar();
+		}
+		return respuesta;
+	}
+	
 	/**
 	 * Marca el nodo
 	 */
