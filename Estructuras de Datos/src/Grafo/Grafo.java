@@ -58,8 +58,25 @@ public class Grafo<K, V, A> {
 	 * @return El arco que los conecta, NULL en caso contrario
 	 */
 	public Arco<K, V, A> darArco(K idOrigen, K idDestino){
-		return null;
-		//TODO terminar el metodo segun la doc
+		Vertice<K, V, A> vorigen = vertices.buscar(idOrigen);
+		Vertice<K, V, A> vdestino = vertices.buscar(idDestino);
+		if(vorigen != null && vdestino != null){
+			
+		}else{
+			return null;
+		}
+	}
+	
+	public boolean agregarArco(K idOrigen, K idDestino, A info){
+		Vertice<K, V, A> vorigen = vertices.buscar(idOrigen);
+		Vertice<K, V, A> vdestino = vertices.buscar(idDestino);
+		if(vorigen != null && vdestino != null){
+			Arco<K, V, A> arco = new Arco<K, V, A>(vorigen,vdestino,info);
+			
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**
