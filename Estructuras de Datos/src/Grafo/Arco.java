@@ -1,6 +1,6 @@
 package Grafo;
 
-public class Arco<K, V, A> implements Comparable<Arco<K, V, A>> {
+public class Arco<K extends Comparable<K>, V, A> implements Comparable<Arco<K, V, A>> {
 
 	//---------------------------------------
 	// Atributos
@@ -45,6 +45,14 @@ public class Arco<K, V, A> implements Comparable<Arco<K, V, A>> {
 	public int compareTo(Arco<K, V, A> o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/**
+	 * Retorna el vertice de destino del arco
+	 * @return Vertice el vertice de destino del arco
+	 */
+	public Vertice<K, V, A> darDestino() {
+		return destino;
 	}
 
 }

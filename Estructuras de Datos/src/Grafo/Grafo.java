@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import HashTable.TablaHashing;
 
-public class Grafo<K, V, A> {
+public class Grafo<K extends Comparable<K>, V, A> {
 	
 	//---------------------------------------
 	// Atributos
@@ -65,14 +65,23 @@ public class Grafo<K, V, A> {
 		}else{
 			return null;
 		}
+		return null;
 	}
 	
+	/**
+	 * Agrega un nuevo arco al grafo dado un vertice de origen y otro de destino
+	 * @param idOrigen
+	 * @param idDestino
+	 * @param info
+	 * @return
+	 */
 	public boolean agregarArco(K idOrigen, K idDestino, A info){
 		Vertice<K, V, A> vorigen = vertices.buscar(idOrigen);
 		Vertice<K, V, A> vdestino = vertices.buscar(idDestino);
 		if(vorigen != null && vdestino != null){
 			Arco<K, V, A> arco = new Arco<K, V, A>(vorigen,vdestino,info);
-			
+			vorigen.agregarArcoSucesor(arco);
+			vdestino.agregarArcoPredecesor(arco); //TODO revisar orden del arco
 			return true;
 		}else{
 			return false;

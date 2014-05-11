@@ -3,7 +3,7 @@ package Grafo;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class Camino<K, V, A> implements Serializable {
+public class Camino<K extends Comparable<K>, V, A> implements Serializable {
 
 	//---------------------------------------
 	// Atributos
