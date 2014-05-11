@@ -145,6 +145,23 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	}
 	
 	/**
+	 * Indica si el vertice pertences a un ciclo simple
+	 * @return TRUE si pertenece, FALSE de lo contrario.
+	 */
+	public boolean pertenezcoACicloSimple(){
+		boolean respuesta = false;
+		Iterator<Arco<K,V,A>> it = sucesores.iterator(); 
+		while (it.hasNext() && !respuesta){
+			Arco<K,V,A> actual = it.next();
+			Vertice<K,V,A> destino = actual.getDestino();
+			if (destino.hayCaminoSimpleA(idVertice)){
+				respuesta = true;
+			}
+		}
+		return respuesta;
+	}
+	
+	/**
 	 * Marca el nodo
 	 */
 	public void marcar(){
