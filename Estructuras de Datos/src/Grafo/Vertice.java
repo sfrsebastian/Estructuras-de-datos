@@ -109,18 +109,14 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 	 */
 	public boolean hayCaminoSimpleA(K idDest){
 		boolean encontro = false;
-		if ( !marcado )
-		{
+		if ( !marcado ){
 			marcar( );
 			if ( this.darId().compareTo( idDest ) == 0) {
 				encontro = true; 
 			}
-		}
-		else
-		{
+		}else{
 			Iterator<Arco<K,V,A>> itsucesores = darSucesores(); 
-			while ( itsucesores.hasNext() && !encontro)
-			{
+			while ( itsucesores.hasNext() && !encontro){
 				Arco<K,V,A> arco = itsucesores.next();
 				Vertice<K,V,A> vtceSucesor = arco.darDestino(); 
 				encontro = vtceSucesor.hayCaminoSimpleA( idDest );
@@ -128,7 +124,39 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 		}
 		return encontro;
 	}
-	
+
+	/**
+	 * Retorna el camino simple mas barato a un vertice de destino
+	 * @param idDest la llave del vertice de destino
+	 * @return Camino, el camino mas corto, NULL en caso contrario
+	 */
+	public Camino<K,V,A> darCaminoSimpleMasCorto(K idDest){
+		Camino<K,V,A> masCorto = null; 
+		{
+			marcar( );
+			if ( this.darId().compareTo( idDest ) == 0 ) { 
+				masCorto = new Camino(this, false); 
+			}else{
+				Iterator<Arco<K,V,A>> itsucesores = darSucesores(); while ( itsucesores.hasNext() )
+				{
+					Arco<K,V,A> arco = itsucesores.next();
+					Vertice<K,V,A> vtceSucesor = arco.darDestino();
+					Camino<K,V,A> camino = vtceSucesor.darCaminoSimpleMasCorto( idDest );
+					if ( camino != null ){ 
+						camino.agregarArcoComienzo( arco ); 
+						if(masCorto == null){ 
+							masCorto = camino; }
+						else if ( masCorto.darLongitud() > camino.darLongitud() ) { 
+							masCorto = camino; 
+						}
+					} 
+				}
+			}
+			desmarcar( );
+		}
+		return masCorto;
+	}
+
 	/**
 	 * Retorna el iterador de los arcos sucesores
 	 * @return

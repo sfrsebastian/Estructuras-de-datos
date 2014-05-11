@@ -101,6 +101,34 @@ public class Grafo<K extends Comparable<K>, V, A> {
 	}
 	
 	/**
+	 * Retorna el camino simple mas corto entre dos vertices
+	 * @param idOrigen La llave del vertice de origen
+	 * @param idDestino La llave del vertice de destino
+	 * @return Camino, el camino mas corto entre dos vertices
+	 */
+	public Camino<K, V, A> darCaminoSimpleMasCorto(K idOrigen, K idDestino){
+		Vertice<K, V, A> vert = vertices.buscar(idOrigen);
+		if(vert != null)
+			return vert.darCaminoSimpleMasCorto(idDestino);
+		else
+			return null;
+	}
+	
+	/**
+	 * Verifica si existe un camino simple entre un vertice de origen a un destino
+	 * @param idOrigen La llave del vertice de origen
+	 * @param idDestino La llave del vertice de destino
+	 * @return TRUE si existe un camino, FALSE en caso contrario
+	 */
+	public boolean hayCaminoSimple(K idOrigen, K idDestino){
+		Vertice<K, V, A> vert = vertices.buscar(idOrigen);
+		if(vert != null)
+			return vert.hayCaminoSimpleA(idDestino);
+		else
+			return false;
+	}
+	
+	/**
 	 * Desmarca todos los vertices del grafo 
 	 */
 	private void desmarcarVertices(){
