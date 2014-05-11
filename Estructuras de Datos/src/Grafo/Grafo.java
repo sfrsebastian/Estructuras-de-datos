@@ -171,6 +171,7 @@ public class Grafo<K, V, A> {
 	 * @return Iterador de los nodos del grafo.
 	 */
 	Iterator<NodoNivel<K,V,A>> recorridoXNiveles(K idOrigen){
+		desmarcarVertices();
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
 		if(origen!=null){
 			return origen.recorridoXNiveles();

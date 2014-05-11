@@ -1,7 +1,9 @@
 package Grafo;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
+import Cola.Cola;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 
@@ -225,6 +227,34 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 			desmarcar();
 		}
 		return respuesta;
+	}
+	
+	/**
+	 * Recorre el nodo por niveles
+	 * @return Iterador con los nodos del vertice organizados por nivel
+	 */
+	public Iterator<NodoNivel<K,V,A>> recorridoXNiveles(){
+		ListaEncadenada<NodoNivel<K,V,A>> lista = new ListaEncadenada<NodoNivel<K,V,A>>();
+		Cola<NodoNivel<K,V,A>> cola = new Cola<NodoNivel<K,V,A>>();
+		NodoNivel<K,V,A> nodo = new NodoNivel<K,V,A>(this,null,1);
+		cola.agregar(nodo);
+		try{
+			while(true){
+				NodoNivel<K,V,A> actual = cola.dar();
+				Vertice<K,V,A> v = actual.getVertice();
+				Iterator<Arco<K,V,A>> arcos = v.sucesores.iterator();
+				while(arcos.hasNext()){
+					Arco<K,V,A> arco = arcos.next();
+					Vertice<K,V,A> destino = arco.getDestino();
+					NodoNivel<K,V,A> nuevo = new NodoNivel<K,V,A>(destino,arco,actual.getNivel()+1); 
+					cola.agregar(nuevo);
+				}
+				lista.agregar(actual);
+			}
+		}
+		catch(NoSuchElementException e){
+			return lista.iterator();
+		}
 	}
 	
 	/**
