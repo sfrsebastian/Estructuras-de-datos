@@ -162,6 +162,33 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	}
 	
 	/**
+	 * Retorna un camino simple al vertice con codigo dado
+	 * @param idDestino El codigo del vertice de destino
+	 * @return El camino entre this y el vertice destino
+	 */
+	public Camino<K,V,A> darCaminoSimpleA(K idDestino){
+		Camino<K,V,A> respuesta = null;
+		if(!marcado){
+			marcar();
+			if(idVertice.compareTo(idDestino)==0){
+				respuesta = new Camino<K,V,A>(this,false);
+			}
+			else{
+				Arco<K,V,A> arco = null; 
+				Iterator<Arco<K,V,A>> itsucesores = sucesores.iterator(); 
+				while (itsucesores.hasNext() && respuesta == null){
+					arco = itsucesores.next( );
+					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
+					respuesta = vtceSucesor.darCaminoSimpleA(idDestino);
+				}
+				if(respuesta!=null){
+					respuesta.agregarArcoComienzo(arco);
+				}
+			} 
+		}
+		return respuesta;
+	}
+	/**
 	 * Marca el nodo
 	 */
 	public void marcar(){
