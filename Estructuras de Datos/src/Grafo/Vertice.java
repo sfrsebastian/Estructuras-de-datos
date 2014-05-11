@@ -86,6 +86,22 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	}
 	
 	/**
+	 * Indica si el vertice tiene un arco con origen en el nodo con el codigo dado.
+	 * @param idOrigen El codigo del vertice de origen
+	 * @return TRUE si contiene el predecesor, FALSE de lo contrario.
+	 */
+	public boolean tengoPredecesorDesde(K idOrigen){
+		boolean respuesta = false;
+		Iterator<Arco<K,V,A>> it = predecesores.iterator();
+		while(it.hasNext() && !respuesta){
+			Arco<K,V,A> actual = it.next();
+			if(actual.getOrigen().getId().equals(idOrigen)){
+				respuesta = true;
+			}
+		}
+		return respuesta;
+	}
+	/**
 	 * Marca el nodo
 	 */
 	public void marcar(){
