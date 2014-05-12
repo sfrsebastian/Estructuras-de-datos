@@ -204,13 +204,14 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 		boolean hayCadena = false;
 		if ( !marcado ){
 			marcar( );
-		}else{
 			Iterator<Arco<K,V,A>> itsucesores = darSucesores(); 
-			while ( itsucesores.hasNext() && !encontro){
+			while ( itsucesores.hasNext()){
 				Arco<K,V,A> arco = itsucesores.next();
 				Vertice<K,V,A> vtceSucesor = arco.darDestino(); 
-				encontro = vtceSucesor.hayCaminoSimpleA( idDest );
+				hayCadena = vtceSucesor.hayCadena( destino );
 			}
+		}else{
+			hayCadena = true;
 		}
 		return hayCadena;
 	}
