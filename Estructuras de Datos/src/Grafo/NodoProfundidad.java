@@ -1,6 +1,6 @@
 package Grafo;
 
-public class NodoProfundidad<K extends Comparable<K>,V,A> extends Nodo<K,V,A> {
+public class NodoProfundidad<K extends Comparable<K>,V,A> extends Nodo<K,V,A> implements Comparable<NodoProfundidad<K, V, A>>{
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
@@ -32,5 +32,11 @@ public class NodoProfundidad<K extends Comparable<K>,V,A> extends Nodo<K,V,A> {
 	 */
 	public int getProfundidad() {
 		return profundidad;
+	}
+
+	@Override
+	public int compareTo(NodoProfundidad<K, V, A> o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

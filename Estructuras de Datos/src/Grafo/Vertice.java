@@ -176,6 +176,26 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 	}
 	
 	/**
+	 * Realiza la busqueda por profundidad del vertice 
+	 * @param rta La lista que almacena la respuesta
+	 * @param profundidad La profundidad del recorrido 
+	 * @param arco El arco predecesor
+	 */
+	public void recorridoXProfundidad(Lista<NodoProfundidad<K, V, A>> rta, int profundidad, Arco<K, V, A> arco){
+		if(!marcado){
+			marcar();
+			NodoProfundidad<K, V, A> nuevo = new NodoProfundidad<K,V,A>(this, arco, profundidad);
+			rta.agregar(nuevo);
+			Iterator<Arco<K, V, A>> as = sucesores.iterator();
+			while(as.hasNext()){
+				Arco<K, V, A> actual = as.next();
+				Vertice<K, V, A> vec = actual.darDestino();
+				vec.recorridoXProfundidad(rta, profundidad + 1, arco);
+			}
+		}
+	}
+	
+	/**
 	 * Verifica si existe una cadena entre este vertice y otro de destino
 	 * @param destino El vertice de destino al que se quiere llegar
 	 * @return TRUE si es cierto, FALSE en caso contrario

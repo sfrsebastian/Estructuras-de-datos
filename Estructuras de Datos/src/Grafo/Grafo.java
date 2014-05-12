@@ -3,6 +3,8 @@ package Grafo;
 import java.util.Iterator;
 
 import HashTable.TablaHashing;
+import Lista.Lista;
+import ListaEncadenada.ListaEncadenada;
 
 public class Grafo<K extends Comparable<K>, V, A> {
 	
@@ -143,6 +145,21 @@ public class Grafo<K extends Comparable<K>, V, A> {
 			return vert.hayCadena(idDestino);
 		else
 			return false;
+	}
+	
+	/**
+	 * Retorna el iterador con la busqueda por profunidad del grafo
+	 * @param idOrig El Vertice de origen de la busqueda
+	 * @return Iterator El iterador de la busqueda
+	 */
+	public Iterator<NodoProfundidad<K, V, A>> recorridoXProfundidad(K idOrig){
+		Lista<NodoProfundidad<K,V,A>> rta = new ListaEncadenada<NodoProfundidad<K,V,A>>();
+		Vertice origen = darVertice(idOrig);
+		if(origen != null){
+			desmarcarVertices();
+			origen.recorridoXProfundidad(rta,0,null);//TODO revisar arco
+		}
+		return rta.iterator();
 	}
 	
 	/**
