@@ -14,6 +14,8 @@ public class NodoDijkstra<K extends Comparable<K>, V, A extends IInfoArco> exten
 	 */
 	public float costo;
 	
+	private boolean marcado;
+	
 	//--------------------
 	//CONSTRUCTOR
 	//--------------------
@@ -26,6 +28,7 @@ public class NodoDijkstra<K extends Comparable<K>, V, A extends IInfoArco> exten
 	public NodoDijkstra(Vertice<K, V, A> nVertice, Arco<K, V, A> nArco,float nCosto) {
 		super(nVertice, nArco);
 		costo = nCosto;
+		marcado = nVertice.getMarca();
 	}
 	
 	//--------------------
@@ -50,5 +53,13 @@ public class NodoDijkstra<K extends Comparable<K>, V, A extends IInfoArco> exten
 		else{
 			return 0;
 		}
+	}
+
+	public boolean getMarca() {
+		return marcado;
+	}
+
+	public void marcar() {
+		marcado = true;
 	}
 }

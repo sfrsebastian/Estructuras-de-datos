@@ -2,9 +2,11 @@ package Grafo;
 
 import java.io.Serializable;
 import java.util.Iterator;
+
 import HashTable.TablaHashing;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
+import ListaOrdenada.ListaOrdenada;
 
 public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements Serializable {
 	
@@ -245,7 +247,7 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * Retorna todos los vertices del grafo
 	 * @return
 	 */
-	Iterator<Vertice<K,V,A>> recorridoPlano(){
+	public Iterator<Vertice<K,V,A>> recorridoPlano(){
 		return vertices.iterator();
 	}
 	
@@ -269,11 +271,22 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * @param idOrigen El codigo del vertice de partida
 	 * @return Iterador de los nodos del grafo.
 	 */
-	Iterator<NodoNivel<K,V,A>> recorridoXNiveles(K idOrigen){
+	public Iterator<NodoNivel<K,V,A>> recorridoXNiveles(K idOrigen){
 		desmarcarVertices();
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
 		if(origen!=null){
 			return origen.recorridoXNiveles();
+		}
+		return null;
+	}
+	
+	public Iterator<NodoProfundidad<K, V, A>> Dijkstra(K idOrigen){
+		desmarcarVertices();
+		Vertice<K, V, A> origen = vertices.buscar(idOrigen);
+		if(origen!=null){
+			ListaOrdenada<NodoDijkstra<K, V, A>> rta = new ListaOrdenada<NodoDijkstra<K,V,A>>();
+			ListaOrdenada<NodoDijkstra<K, V, A>> frente = new ListaOrdenada<NodoDijkstra<K,V,A>>();
+			origen.Dijkstra(frente,rta);
 		}
 		return null;
 	}

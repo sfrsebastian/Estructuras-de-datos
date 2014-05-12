@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import Cola.Cola;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
+import ListaOrdenada.ListaOrdenada;
 
 public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements Comparable<Vertice<K, V, A>>{
 
@@ -496,5 +497,34 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 		else{
 			return 0;
 		}
+	}
+
+	public void Dijkstra(ListaOrdenada<NodoDijkstra<K, V, A>> frenteExploracion, ListaOrdenada<NodoDijkstra<K, V, A>> rta) {
+		frenteExploracion.agregar(new NodoDijkstra<K,V,A>(this, null, 0)); 
+
+		NodoDijkstra<K, V, A> nodo;
+		while((nodo = frenteExploracion.darPrimero()) != null){
+			if(nodo.getMarca()){
+				Vertice<K, V, A> vert = nodo.getVertice();
+				Iterator<Arco<K, V, A>> suc = vert.getSucesores();
+				while(suc.hasNext()){
+					Arco<K, V, A> actual = suc.next();
+					Vertice<K, V, A> v = actual.getDestino();
+					NodoDijkstra<K, V, A> nod = new NodoDijkstra<K, V, A>(v, actual,nodo.getCosto() + actual.getInfo().getCosto());
+					if(frenteExploracion.buscar(nod) == null){	
+						frenteExploracion.agregar(nod);
+					}else{
+						NodoDijkstra<K, V, A> buscado = rta.buscar(nod);
+						if(buscado.compareTo(nod) < 0){
+							frenteExploracion.eliminar(buscado);
+							frenteExploracion.agregar(nod);
+						}
+					}
+				}
+				rta.agregar(nodo);
+				nodo.marcar();
+			}
+		}
+
 	}
 }
