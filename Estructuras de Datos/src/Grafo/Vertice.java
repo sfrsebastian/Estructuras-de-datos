@@ -72,13 +72,28 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 		marcado = false;
 	}
 	
+	/**
+	 * Retorna el id del vertice
+	 * @return K el id del vertices
+	 */
 	public K darId(){
 		return idVertice;
 	}
 	
+	/**
+	 * Verifica si existe un arco sucesor a un vertice de destino
+	 * @param idDestino
+	 * @return
+	 */
 	public boolean tengoSucesorA(K idDestino){
+		//TODO revisar
+		Iterator<Arco<K, V, A>> i = sucesores.iterator();
+		while(i.hasNext()){
+			Arco<K, V, A> actual = i.next();
+			if(actual.darDestino().darId().compareTo(idDestino) == 0)
+				return true;
+		}		
 		return false;
-		//TODO terminar segun doc
 	}
 	
 	/**
@@ -118,6 +133,14 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 	}
 	
 	/**
+	 * Elimina un arco sucesor del grafo
+	 * @param arcoSucesor El arco a eliminar
+	 */
+	public void eliminarArcoSucesor(Arco<K, V, A> arcoSucesor){
+		sucesores.eliminar(arcoSucesor);
+	}
+	
+	/**
 	 * Agrega un arco predecesor al vertice
 	 * @param arcoPredecesor El arco predecesorx
 	 */
@@ -152,8 +175,24 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 		return encontro;
 	}
 	
+	/**
+	 * Verifica si existe una cadena entre este vertice y otro de destino
+	 * @param destino El vertice de destino al que se quiere llegar
+	 * @return TRUE si es cierto, FALSE en caso contrario
+	 */
 	public boolean hayCadena(K destino){
-		
+		boolean hayCadena = false;
+		if ( !marcado ){
+			marcar( );
+		}else{
+			Iterator<Arco<K,V,A>> itsucesores = darSucesores(); 
+			while ( itsucesores.hasNext() && !encontro){
+				Arco<K,V,A> arco = itsucesores.next();
+				Vertice<K,V,A> vtceSucesor = arco.darDestino(); 
+				encontro = vtceSucesor.hayCaminoSimpleA( idDest );
+			}
+		}
+		return hayCadena;
 	}
 
 	/**
