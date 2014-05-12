@@ -1,9 +1,14 @@
 package Grafo;
 
-public class NodoDijkstra<K,V,A> extends Nodo<K,V,A> {
+public class NodoDijkstra<K extends Comparable<K>, V, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoDijkstra<K,V,A>>{
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
+	/**
+	 * Identificador de la clase
+	 */
+	private static final long serialVersionUID = 5330103687213876080L;
+	
 	/**
 	 * El costo acumulado en el Nodo
 	 */
@@ -32,5 +37,18 @@ public class NodoDijkstra<K,V,A> extends Nodo<K,V,A> {
 	 */
 	public float getCosto() {
 		return costo;
+	}
+
+	@Override
+	public int compareTo(NodoDijkstra<K, V, A> o) {
+		if(costo>o.getCosto()){
+			return 1;
+		}
+		else if(costo<o.getCosto()){
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
 }

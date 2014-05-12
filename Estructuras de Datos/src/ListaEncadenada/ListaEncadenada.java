@@ -72,6 +72,17 @@ public class ListaEncadenada<T extends Comparable<?super T>> extends Lista<T> im
 		
 	}
 	
+	/**
+	 * Asigna un nuevo nodo al inicio de la lista
+	 * @param elemento El elemento a agregar
+	 */
+	public void agregarInicio(T elemento){
+		NodoLista<T> nuevo = new NodoLista<T>(elemento);
+		nuevo.cambiarSiguiente(primero);
+		primero.cambiarAnterior(nuevo);
+		primero = nuevo;
+	}
+	
 	public T darUltimo(){
 		return ultimo.darElemento();
 	}

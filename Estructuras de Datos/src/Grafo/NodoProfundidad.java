@@ -1,9 +1,14 @@
 package Grafo;
 
-public class NodoProfundidad<K,V,A> extends Nodo<K,V,A> {
+public class NodoProfundidad<K extends Comparable<K>, V, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoProfundidad<K, V, A>>{
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
+	/**
+	 * Identificador de clase
+	 */
+	private static final long serialVersionUID = 99675820239880077L;
+	
 	/**
 	 * La profundidad del nodo
 	 */
@@ -32,5 +37,18 @@ public class NodoProfundidad<K,V,A> extends Nodo<K,V,A> {
 	 */
 	public int getProfundidad() {
 		return profundidad;
+	}
+
+	@Override
+	public int compareTo(NodoProfundidad<K, V, A> o) {
+		if(profundidad>o.getProfundidad()){
+			return 1;
+		}
+		else if(profundidad<o.getProfundidad()){
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
 }

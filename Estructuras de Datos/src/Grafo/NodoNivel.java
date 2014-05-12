@@ -1,9 +1,14 @@
 package Grafo;
 
-public class NodoNivel<K,V,A> extends Nodo<K,V,A> {
+public class NodoNivel<K extends Comparable<K>, V, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoNivel<K,V,A>> {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
+	/**
+	 * Identificador de la clase
+	 */
+	private static final long serialVersionUID = 2662241137223799096L;
+	
 	/**
 	 * El nivel del nodo
 	 */
@@ -32,5 +37,18 @@ public class NodoNivel<K,V,A> extends Nodo<K,V,A> {
 	 */
 	public int getNivel() {
 		return nivel;
+	}
+
+	@Override
+	public int compareTo(NodoNivel<K, V, A> o) {
+		if(nivel>o.getNivel()){
+			return 1;
+		}
+		else if(nivel<o.getNivel()){
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
 }

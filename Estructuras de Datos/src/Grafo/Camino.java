@@ -3,12 +3,19 @@ package Grafo;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class Camino<K, V, A> implements Serializable {
+import ListaEncadenada.ListaEncadenada;
+
+public class Camino<K extends Comparable<K>, V, A extends IInfoArco> implements Serializable {
 
 	//---------------------------------------
 	// Atributos
 	//---------------------------------------
 	
+	/**
+	 * Identificador de clase
+	 */
+	private static final long serialVersionUID = -1414255173674084284L;
+
 	/**
 	 * El costo del camino
 	 */
@@ -22,19 +29,34 @@ public class Camino<K, V, A> implements Serializable {
 	/**
 	 * El vertice de inicio del camino
 	 */
-	private Vertice<K, V, A> inicio;
+	private Vertice<K, V, A> origen;
 	
 	/**
 	 * El vertice de destino del camino
 	 */
 	private Vertice<K, V, A> destino;
 	
+	/**
+	 * La lista de arcos que tiene el camino
+	 */
+	private ListaEncadenada<Arco<K, V, A>> arcos;
+	
 	//---------------------------------------
 	// Constructor
 	//---------------------------------------
 	
-	public Camino(Vertice<K,V,A> vtce, boolean es_vtc_inicio){
-		//TODO 
+	public Camino(Vertice<K,V,A> vertice, boolean esInicio){
+		if(!esInicio){
+			destino = vertice;
+			origen = null;
+		}
+		else{
+			origen = vertice;
+			destino = null;
+		}
+		costo = 0;
+		arcos = new ListaEncadenada<Arco<K,V,A>>();
+		longitud = 0;
 	}
 	
 	//---------------------------------------
@@ -45,7 +67,7 @@ public class Camino<K, V, A> implements Serializable {
 	 * Da la longitud del camino
 	 * @return int La longitud del camino
 	 */
-	public int darLongitud(){
+	public int getLongitud(){
 		return longitud;
 	}
 	
@@ -53,8 +75,24 @@ public class Camino<K, V, A> implements Serializable {
 	 * Da el costo del camino
 	 * @return float El costo del camino
 	 */
-	public float darCosto(){
+	public float getCosto(){
 		return costo;
+	}
+	
+	/**
+	 * Retorna el vertice de origen
+	 * @return El vertice de origen.
+	 */
+	public Vertice<K,V,A> getOrigen(){
+		return origen;
+	}
+	
+	/**
+	 * Retorna el vertice de destino
+	 * @return El vertice de destino
+	 */
+	public Vertice<K,V,A> getDestino(){
+		return destino;
 	}
 	
 	/**
@@ -62,17 +100,26 @@ public class Camino<K, V, A> implements Serializable {
 	 * @return Iterator iterador de los vertices del camino
 	 */
 	public Iterator<Vertice<K, V, A>> darVertices(){
-		//TODO 
-		return null;
+		ListaEncadenada<Vertice<K,V,A>>lista = new ListaEncadenada<Vertice<K,V,A>>();
+		Iterator<Arco<K,V,A>> it = arcos.iterator();
+		while(it.hasNext()){
+			Arco<K,V,A> actual = it.next();
+			if(lista.buscar(actual.getOrigen()) == null){
+				lista.agregar(actual.getOrigen());
+			}
+			if(lista.buscar(actual.getDestino()) == null){
+				lista.agregar(actual.getDestino());
+			}
+		}
+		return lista.iterator();
 	}
 	
 	/**
 	 * Retorna iterador de los arcos del camino
 	 * @return Iterator iterador de los arcos del camino
 	 */
-	public Iterator<Arco<K, V, A>> darArcos(){
-		//TODO 
-		return null;
+	public Iterator<Arco<K, V, A>> darArcos(){ 
+		return arcos.iterator();
 	}
 	
 	/**
@@ -80,7 +127,8 @@ public class Camino<K, V, A> implements Serializable {
 	 * @param arco El arco que se quiere agregar
 	 */
 	public void agregarArcoFinal(Arco<K, V, A> arco){
-		//TODO 
+		arcos.agregar(arco);
+		destino = arco.getDestino();
 	}
 	
 	/**
@@ -88,6 +136,7 @@ public class Camino<K, V, A> implements Serializable {
 	 * @param arco El arco que se quiere agregar al final
 	 */
 	public void agregarArcoComienzo(Arco<K, V, A> arco){
-		//TODO
+		arcos.agregarInicio(arco);
+		origen = arco.getOrigen();
 	}
 }

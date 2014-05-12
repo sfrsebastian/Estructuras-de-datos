@@ -7,12 +7,11 @@ import Cola.Cola;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 
-public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
+public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements Comparable<Vertice<K, V, A>>{
 
 	//---------------------------------------
 	// Atributos
 	//---------------------------------------
-	
 	/**
 	 * El representador unico del vertice
 	 */
@@ -34,7 +33,7 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	private boolean marcado;
 	
 	/**
-	 * Los arcos sucesores del vertice
+	 *  La lista de arcos sucesores del vertice
 	 */
 	private Lista<Arco<K,V,A>> sucesores;
 	
@@ -42,10 +41,10 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	 * Los arcos sucesores del vertice
 	 */
 	private Lista<Arco<K,V,A>> predecesores;
+	
 	//---------------------------------------
 	// Constructor
 	//---------------------------------------
-	
 	/**
 	 * Contruye un nuevo vertice con su id y con su informacion
 	 * @param id El identificador del vertice
@@ -57,9 +56,25 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		infoVertice = info;
 		sucesores = new ListaEncadenada<Arco<K,V,A>>();
 		predecesores = new ListaEncadenada<Arco<K,V,A>>();
-		marcado = false;
+		marcado = false;	
 	}
 	
+	/**
+	 * Retorna el id del vertice
+	 * @return K el id del vertices
+	 */
+	public K getId(){
+		return idVertice;
+	}
+
+	/**
+	 * Retorna el elemento del vertice
+	 * @return
+	 */
+	public V getElemento(){
+		return elemento;
+	}
+
 	//---------------------------------------
 	// Metodos
 	//---------------------------------------
@@ -75,7 +90,7 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	 * Indica si el vertice esta marcado o no.
 	 * @return TRUE si esta marcado, FALSE de lo contrario.
 	 */
-	public boolean darMarca(){
+	public boolean getMarca(){
 		return marcado;
 	}
 	
@@ -83,10 +98,33 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	 * Retorna un iterador de los sucedores del vertice.
 	 * @return Los sucesores del vertice.
 	 */
-	public Iterator<Arco<K,V,A>> darSucesores(){
+	public Iterator<Arco<K,V,A>> getSucesores(){
 		return sucesores.iterator();
 	}
 	
+	/**
+	 * Retorna un iterador de los predecesores del vertice.
+	 * @return Los predecesores del vertice.
+	 */
+	public Iterator<Arco<K,V,A>> getPredecesores(){
+		return predecesores.iterator();
+	}
+	
+	/**
+	 * Verifica si existe un arco sucesor a un vertice de destino
+	 * @param idDestino
+	 * @return
+	 */
+	public boolean tengoSucesorA(K idDestino){
+		Iterator<Arco<K, V, A>> i = sucesores.iterator();
+		while(i.hasNext()){
+			Arco<K, V, A> actual = i.next();
+			if(actual.getDestino().getId().compareTo(idDestino) == 0)
+				return true;
+		}		
+		return false;
+	}
+
 	/**
 	 * Indica si el vertice tiene un arco con origen en el nodo con el codigo dado.
 	 * @param idOrigen El codigo del vertice de origen
@@ -105,6 +143,31 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	}
 	
 	/**
+	 * Verifica si existe un solo arco entre este vertice y el buscado
+	 * @param idDestino El vertice de destino que se quiere verificar
+	 * @return TRUE si son adyacentes, FALSE en caso contrario
+	 */
+	public boolean somosAdyacentes(K idDestino){
+		boolean loSomos = false;
+		
+		Iterator<Arco<K, V, A>> suceIterator = sucesores.iterator();
+		while(suceIterator.hasNext()){
+			Arco<K, V, A> actual = suceIterator.next();
+			if(actual.getDestino().getId().compareTo(idDestino) == 0)
+				loSomos = true;
+		}
+		if(!loSomos){
+			Iterator<Arco<K, V, A>> suIterator = predecesores.iterator();
+			while(suceIterator.hasNext()){
+				Arco<K, V, A> actual = suIterator.next();
+				if(actual.getOrigen().getId().compareTo(idDestino) == 0)
+					loSomos = true;
+			}
+		}
+		return loSomos;
+	}
+
+	/**
 	 * Indica si el vertice tiene un arco con destino en el vertice con codigo dado.
 	 * @param idDestino El codigo del vertice de origen
 	 * @return El arco sucesor, null de lo contrario.
@@ -122,6 +185,45 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 	}
 
 	/**
+	 * Retorna el arco que tiene como origen el dado por parametro.
+	 * @param idOrigen El codigo del vertice origen
+	 * @return El arco con el origen.
+	 */
+	public Arco<K, V, A> darArcoPredecesorDesde(K idOrigen){
+		Arco<K,V,A> respuesta = null;
+		Iterator<Arco<K,V,A>> it = predecesores.iterator();
+		while(it.hasNext() && respuesta == null){
+			Arco<K,V,A> actual = it.next();
+			if(actual.getOrigen().getId().equals(idOrigen)){
+				respuesta = actual;
+			}
+		}
+		return respuesta;
+	}
+
+	/**
+	 * Marca el nodo
+	 */
+	public void marcar(){
+		marcado = true;
+	}
+
+	/**
+	 * Desmarca el nodo
+	 */
+	public void desmarcar(){
+		marcado = false;
+	}
+
+	/**
+	 * Agrega un arco sucesor al vertice
+	 * @param arcoSucesor El arco sucesor
+	 */
+	public void agregarArcoSucesor(Arco<K, V, A> arcoSucesor){
+		sucesores.agregar(arcoSucesor);
+	}
+
+	/**
 	 * Agrega el arco dado por parametro a la lista de predecesores
 	 * @param arco El arco a agregar
 	 */
@@ -129,6 +231,22 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		predecesores.agregar(arco);
 	}
 	
+	/**
+	 * Elimina un arco sucesor del grafo
+	 * @param idDestino El arco a eliminar
+	 */
+	public Arco<K,V,A> eliminarArcoSucesor(K idDestino){
+		Arco<K,V,A> respuesta = null;
+		Iterator<Arco<K,V,A>> it = sucesores.iterator();
+		while(it.hasNext() && respuesta!=null){
+			Arco<K,V,A> actual = it.next();
+			if(actual.getDestino().getId().equals(idDestino)){
+				respuesta = predecesores.eliminar(actual);
+			}
+		}
+		return respuesta;
+	}
+
 	/**
 	 * Elimina el arco con origen en el vertice dado por parametro
 	 * @param idOrigen El vertice de origen
@@ -145,7 +263,31 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		}
 		return respuesta;
 	}
-	
+
+	/**
+	 * Verifica si existe un camino simple desde un vertice de salida
+	 * @param idDest El id vertice al que se quiere llegar
+	 * @return TRUE si hay camino, FALSE en caso contrario
+	 */
+	public boolean hayCaminoSimpleA(K idDest){
+		boolean encontro = false;
+		if (!marcado){
+			marcar( );
+			if (this.getId().compareTo(idDest) == 0) {
+				encontro = true; 
+			}
+			else{
+				Iterator<Arco<K,V,A>> itsucesores = getSucesores(); 
+				while ( itsucesores.hasNext() && !encontro){
+					Arco<K,V,A> arco = itsucesores.next();
+					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
+					encontro = vtceSucesor.hayCaminoSimpleA( idDest );
+				}
+			}
+		}
+		return encontro;
+	}
+
 	/**
 	 * Indica si el vertice pertences a un ciclo simple
 	 * @return TRUE si pertenece, FALSE de lo contrario.
@@ -162,7 +304,42 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		}
 		return respuesta;
 	}
-	
+
+	/**
+	 * Verifica si existe una cadena entre este vertice y otro de destino
+	 * @param destino El vertice de destino al que se quiere llegar
+	 * @return TRUE si es cierto, FALSE en caso contrario
+	 */
+	public boolean hayCadenaA(K destino){
+		boolean hayCadena = false;
+		if (!marcado){
+			if(idVertice.compareTo(destino)==0){
+				hayCadena = true;
+			}
+			else{
+				Iterator<Arco<K,V,A>> itsucesores = sucesores.iterator(); 
+				while ( itsucesores.hasNext() && !hayCadena){
+					marcar();
+					Arco<K,V,A> arco = itsucesores.next();
+					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
+					hayCadena = vtceSucesor.hayCadenaA(destino);
+					desmarcar();
+				}
+				if(!hayCadena){
+					Iterator<Arco<K,V,A>> itpredecesores = predecesores.iterator(); 
+					while ( itpredecesores.hasNext() && !hayCadena){
+						marcar();
+						Arco<K,V,A> arco = itpredecesores.next();
+						Vertice<K,V,A> vtcePredecesor = arco.getDestino(); 
+						hayCadena = vtcePredecesor.hayCadenaA(destino);
+						desmarcar();
+					}
+				}
+			}
+		}
+		return hayCadena;
+	}
+
 	/**
 	 * Retorna un camino simple al vertice con codigo dado
 	 * @param idDestino El codigo del vertice de destino
@@ -190,7 +367,40 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 		}
 		return respuesta;
 	}
-	
+
+	/**
+	 * Retorna el camino simple mas barato a un vertice de destino
+	 * @param idDest la llave del vertice de destino
+	 * @return Camino, el camino mas corto, NULL en caso contrario
+	 */
+	public Camino<K,V,A> darCaminoSimpleMasCortoA(K idDest){
+		Camino<K,V,A> masCorto = null; 
+		if(!marcado){
+			marcar( );
+			if(this.getId().compareTo(idDest) == 0){ 
+				masCorto = new Camino<K,V,A>(this, false); 
+			}
+			else{
+				Iterator<Arco<K,V,A>> itsucesores = getSucesores(); 
+				while (itsucesores.hasNext()){
+					Arco<K,V,A> arco = itsucesores.next();
+					Vertice<K,V,A> vtceSucesor = arco.getDestino();
+					Camino<K,V,A> camino = vtceSucesor.darCaminoSimpleMasCortoA(idDest);
+					if (camino != null){ 
+						camino.agregarArcoComienzo(arco); 
+						if(masCorto == null){ 
+							masCorto = camino; }
+						else if ( masCorto.getLongitud() > camino.getLongitud() ) { 
+							masCorto = camino; 
+						}
+					} 
+				}
+			}
+			desmarcar( );
+		}
+		return masCorto;
+	}
+
 	/**
 	 * Retorna el camino simple de menor costo entre los dos vertices dados.
 	 * @param idDestino El vertice de destino
@@ -204,31 +414,49 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 				respuesta = new Camino<K,V,A>(this,false);
 			}
 			else{
-				Arco<K,V,A> arco = null;
 				Iterator<Arco<K,V,A>> itsucesores = sucesores.iterator(); 
-				while (itsucesores.hasNext() && respuesta == null){
-					arco = itsucesores.next( );
+				while (itsucesores.hasNext()){
+					Arco<K,V,A> arco = itsucesores.next( );
 					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
 					Camino<K,V,A> camino = vtceSucesor.darCaminoSimpleMasBaratoA(idDestino);
 					if(camino!=null){
 						camino.agregarArcoComienzo(arco);
-						if(respuesta == null){
-							respuesta = camino;
-						}
-						else if(respuesta.getCosto()>camino.getCosto()){
-							respuesta = camino;
-						}
+						if (camino != null){ 
+							camino.agregarArcoComienzo(arco); 
+							if(respuesta == null){ 
+								respuesta = camino; }
+							else if ( respuesta.getCosto() > camino.getCosto() ) { 
+								respuesta = camino; 
+							}
+						} 
 					}
-				}
-				if(respuesta!=null){
-					respuesta.agregarArcoComienzo(arco);
 				}
 			} 
 			desmarcar();
 		}
 		return respuesta;
 	}
-	
+
+	/**
+	 * Realiza la busqueda por profundidad del vertice 
+	 * @param rta La lista que almacena la respuesta
+	 * @param profundidad La profundidad del recorrido 
+	 * @param arco El arco predecesor
+	 */
+	public void recorridoXProfundidad(Lista<NodoProfundidad<K, V, A>> rta, int profundidad, Arco<K, V, A> arco){
+		if(!marcado){
+			marcar();
+			NodoProfundidad<K, V, A> nuevo = new NodoProfundidad<K,V,A>(this, arco, profundidad);
+			rta.agregar(nuevo);
+			Iterator<Arco<K, V, A>> as = sucesores.iterator();
+			while(as.hasNext()){
+				Arco<K, V, A> actual = as.next();
+				Vertice<K, V, A> vec = actual.getDestino();
+				vec.recorridoXProfundidad(rta, profundidad + 1, arco);
+			}
+		}
+	}
+
 	/**
 	 * Recorre el nodo por niveles
 	 * @return Iterador con los nodos del vertice organizados por nivel
@@ -256,26 +484,17 @@ public class Vertice<K, V, A> implements Comparable<Vertice<K, V, A>>{
 			return lista.iterator();
 		}
 	}
-	
-	/**
-	 * Marca el nodo
-	 */
-	public void marcar(){
-		marcado = true;
-	}
-	
-	/**
-	 * Desmarca el nodo
-	 */
-	public void desmarcar(){
-		marcado = false;
-	}
-	
+
 	@Override
 	public int compareTo(Vertice<K, V, A> o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(idVertice.compareTo(o.getId())>0){
+			return 1;
+		}
+		else if(idVertice.compareTo(o.getId())<0){
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
-
-	
 }

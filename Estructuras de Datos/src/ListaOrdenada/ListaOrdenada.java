@@ -62,4 +62,16 @@ public class ListaOrdenada<T extends Comparable <?super T>> extends Lista<T> imp
 		longitud++;
 		return elemento;
 	}
+	
+	/**
+	 * Retorna el primer elemento de la lista<br>
+	 * Elimina el elemento de la lista.
+	 * @return
+	 */
+	public T darPrimero(){
+		T respuesta = primero.darElemento();
+		primero = primero.darSiguiente();
+		primero.cambiarAnterior(null);
+		return respuesta;
+	}
 }

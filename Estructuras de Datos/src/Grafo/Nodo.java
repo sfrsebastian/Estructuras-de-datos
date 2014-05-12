@@ -2,10 +2,15 @@ package Grafo;
 
 import java.io.Serializable;
 
-public abstract class Nodo<K,V,A> implements Serializable {
+public abstract class Nodo<K extends Comparable<K>, V, A extends IInfoArco> implements Serializable {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
+	/**
+	 * Identificador de la clase
+	 */
+	private static final long serialVersionUID = -4744515075748760878L;
+	
 	/**
 	 * El vertice que le pertenece al nodo
 	 */
