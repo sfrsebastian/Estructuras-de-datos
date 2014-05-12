@@ -2,7 +2,7 @@ package Grafo;
 
 import java.io.Serializable;
 
-public abstract class Nodo<K,V,A> implements Serializable {
+public abstract class Nodo<K extends Comparable<K>,V,A> implements Serializable {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------

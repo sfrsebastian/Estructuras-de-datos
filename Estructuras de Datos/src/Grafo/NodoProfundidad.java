@@ -1,6 +1,6 @@
 package Grafo;
 
-public class NodoProfundidad<K,V,A> extends Nodo<K,V,A> {
+public class NodoProfundidad<K extends Comparable<K>,V,A> extends Nodo<K,V,A> {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------

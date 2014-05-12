@@ -107,6 +107,7 @@ public class Grafo<K extends Comparable<K>, V, A> {
 	 * @return Camino, el camino mas corto entre dos vertices
 	 */
 	public Camino<K, V, A> darCaminoSimpleMasCorto(K idOrigen, K idDestino){
+		desmarcarVertices();
 		Vertice<K, V, A> vert = vertices.buscar(idOrigen);
 		if(vert != null)
 			return vert.darCaminoSimpleMasCorto(idDestino);
@@ -121,9 +122,25 @@ public class Grafo<K extends Comparable<K>, V, A> {
 	 * @return TRUE si existe un camino, FALSE en caso contrario
 	 */
 	public boolean hayCaminoSimple(K idOrigen, K idDestino){
+		desmarcarVertices();
 		Vertice<K, V, A> vert = vertices.buscar(idOrigen);
 		if(vert != null)
 			return vert.hayCaminoSimpleA(idDestino);
+		else
+			return false;
+	}
+	
+	/**
+	 * Verifica si existe una cadena entre un vertice de origen y destino
+	 * @param idOrigen La llave del vertice de origen
+	 * @param idDestino La llave del vertice de destino
+	 * @return TRUE si existe una cadena, FALSE en caso contrario
+	 */
+	public boolean hayCadena(K idOrigen, K idDestino){
+		desmarcarVertices();
+		Vertice<K, V, A> vert = vertices.buscar(idOrigen);
+		if(vert != null)
+			return vert.hayCadena(idDestino);
 		else
 			return false;
 	}

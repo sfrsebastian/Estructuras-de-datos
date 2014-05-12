@@ -3,6 +3,8 @@ package Grafo;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import Lista.Lista;
+
 public class Camino<K extends Comparable<K>, V, A> implements Serializable {
 
 	//---------------------------------------
@@ -28,6 +30,11 @@ public class Camino<K extends Comparable<K>, V, A> implements Serializable {
 	 * El vertice de destino del camino
 	 */
 	private Vertice<K, V, A> destino;
+	
+	/**
+	 * La lista de arcos que tiene el camino
+	 */
+	private Lista<Arco<K, V, A>> arcos;
 	
 	//---------------------------------------
 	// Constructor
@@ -70,9 +77,8 @@ public class Camino<K extends Comparable<K>, V, A> implements Serializable {
 	 * Retorna iterador de los arcos del camino
 	 * @return Iterator iterador de los arcos del camino
 	 */
-	public Iterator<Arco<K, V, A>> darArcos(){
-		//TODO 
-		return null;
+	public Iterator<Arco<K, V, A>> darArcos(){ 
+		return arcos.iterator();
 	}
 	
 	/**

@@ -54,5 +54,12 @@ public class Arco<K extends Comparable<K>, V, A> implements Comparable<Arco<K, V
 	public Vertice<K, V, A> darDestino() {
 		return destino;
 	}
-
+	
+	/**
+	 * Retorna el vertice de origen del arco
+	 * @return Vertice de origen del arco
+	 */
+	public Vertice<K, V, A> darOrigen(){
+		return origen;
+	}
 }

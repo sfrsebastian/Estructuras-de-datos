@@ -1,6 +1,6 @@
 package Grafo;
 
-public class NodoDijkstra<K,V,A> extends Nodo<K,V,A> {
+public class NodoDijkstra<K extends Comparable<K>,V,A> extends Nodo<K,V,A> {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------

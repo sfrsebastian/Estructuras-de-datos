@@ -1,6 +1,6 @@
 package Grafo;
 
-public class NodoNivel<K,V,A> extends Nodo<K,V,A> {
+public class NodoNivel<K extends Comparable<K>,V,A> extends Nodo<K,V,A> {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------

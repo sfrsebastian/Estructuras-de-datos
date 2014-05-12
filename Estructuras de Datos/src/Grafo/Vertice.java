@@ -72,14 +72,41 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 		marcado = false;
 	}
 	
-	@Override
-	public int compareTo(Vertice<K, V, A> o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	public K darId(){
 		return idVertice;
+	}
+	
+	public boolean tengoSucesorA(K idDestino){
+		return false;
+		//TODO terminar segun doc
+	}
+	
+	/**
+	 * Verifica si existe un solo arco entre este vertice y el buscado
+	 * @param idDestino El vertice de destino que se quiere verificar
+	 * @return TRUE si son adyacentes, FALSE en caso contrario
+	 */
+	public boolean somosAdyacentes(K idDestino){
+		boolean loSomos = false;
+		
+		Iterator<Arco<K, V, A>> suceIterator = sucesores.iterator();
+		while(suceIterator.hasNext()){
+			Arco<K, V, A> actual = suceIterator.next();
+			if(actual.darDestino().darId().compareTo(idDestino) == 0)
+				loSomos = true;
+		}
+		Iterator<Arco<K, V, A>> suIterator = predecesores.iterator();
+		while(suceIterator.hasNext()){
+			Arco<K, V, A> actual = suIterator.next();
+			if(actual.darOrigen().darId().compareTo(idDestino) == 0)
+				loSomos = true;
+		}
+		
+		return loSomos;
+	}
+	
+	public Arco<K, V, A> darArcoPredecesorDesde(K idOrigen){
+		return null;	
 	}
 
 	/**
@@ -124,6 +151,10 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 		}
 		return encontro;
 	}
+	
+	public boolean hayCadena(K destino){
+		
+	}
 
 	/**
 	 * Retorna el camino simple mas barato a un vertice de destino
@@ -163,5 +194,11 @@ public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertic
 	 */
 	private Iterator<Arco<K, V, A>> darSucesores() {
 		return sucesores.iterator();
+	}
+
+	@Override
+	public int compareTo(Vertice<K, V, A> o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
