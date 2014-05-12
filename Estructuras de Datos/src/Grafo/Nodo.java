@@ -2,7 +2,7 @@ package Grafo;
 
 import java.io.Serializable;
 
-public abstract class Nodo<K extends Comparable<K>, V, A extends IInfoArco> implements Serializable {
+public abstract class Nodo<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Serializable {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
@@ -19,8 +19,12 @@ public abstract class Nodo<K extends Comparable<K>, V, A extends IInfoArco> impl
 	/**
 	 * El arco por el cual se llega al nodo
 	 */
-	Arco<K,V,A> arcoPredecesor;
+	private Arco<K,V,A> arcoPredecesor;
 	
+	/**
+	 * Indica si el nodo esta marcado
+	 */
+	private boolean marcado;
 	//--------------------
 	//CONSTRUCTOR
 	//--------------------
@@ -32,6 +36,7 @@ public abstract class Nodo<K extends Comparable<K>, V, A extends IInfoArco> impl
 	public Nodo(Vertice<K,V,A> nVertice, Arco<K,V,A> nArco ){
 		vertice = nVertice;
 		arcoPredecesor = nArco;
+		marcado = false;
 	}
 	
 	//--------------------
@@ -51,5 +56,27 @@ public abstract class Nodo<K extends Comparable<K>, V, A extends IInfoArco> impl
 	 */
 	public Arco<K, V, A> getArcoPredecesor() {
 		return arcoPredecesor;
+	}
+	
+	/**
+	 * Marca el nodo
+	 */
+	public void marcar(){
+		marcado = true;
+	}
+	
+	/**
+	 * Desmarca el nodo
+	 */
+	public void desmarcar(){
+		marcado = false;
+	}
+	
+	/**
+	 * Indica si el nodo esta marcado
+	 * @return
+	 */
+	public boolean getMarca(){
+		return marcado;
 	}
 }

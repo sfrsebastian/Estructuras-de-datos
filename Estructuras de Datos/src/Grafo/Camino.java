@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import ListaEncadenada.ListaEncadenada;
 
-public class Camino<K extends Comparable<K>, V, A extends IInfoArco> implements Serializable {
+public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Serializable {
 
 	//---------------------------------------
 	// Atributos
@@ -83,44 +83,44 @@ public class Camino<K extends Comparable<K>, V, A extends IInfoArco> implements 
 	 * Retorna el vertice de origen
 	 * @return El vertice de origen.
 	 */
-	public Vertice<K,V,A> getOrigen(){
-		return origen;
+	public V getOrigen(){
+		return origen.getElemento();
 	}
 	
 	/**
 	 * Retorna el vertice de destino
 	 * @return El vertice de destino
 	 */
-	public Vertice<K,V,A> getDestino(){
-		return destino;
+	public V getDestino(){
+		return destino.getElemento();
 	}
 	
 	/**
 	 * Retorna el iterador de los vertices del camino
 	 * @return Iterator iterador de los vertices del camino
 	 */
-	public Iterator<Vertice<K, V, A>> darVertices(){
-		ListaEncadenada<Vertice<K,V,A>>lista = new ListaEncadenada<Vertice<K,V,A>>();
+	public Iterator<V> darVertices(){
+		ListaEncadenada<V>lista = new ListaEncadenada<V>();
 		Iterator<Arco<K,V,A>> it = arcos.iterator();
 		while(it.hasNext()){
 			Arco<K,V,A> actual = it.next();
-			if(lista.buscar(actual.getOrigen()) == null){
-				lista.agregar(actual.getOrigen());
+			if(lista.buscar(actual.getOrigen().getElemento()) == null){
+				lista.agregar(actual.getOrigen().getElemento());
 			}
-			if(lista.buscar(actual.getDestino()) == null){
-				lista.agregar(actual.getDestino());
+			if(lista.buscar(actual.getDestino().getElemento()) == null){
+				lista.agregar(actual.getDestino().getElemento());
 			}
 		}
 		return lista.iterator();
 	}
 	
-	/**
-	 * Retorna iterador de los arcos del camino
-	 * @return Iterator iterador de los arcos del camino
-	 */
-	public Iterator<Arco<K, V, A>> darArcos(){ 
-		return arcos.iterator();
-	}
+//	/**
+//	 * Retorna iterador de los arcos del camino
+//	 * @return Iterator iterador de los arcos del camino
+//	 */
+//	public Iterator<Arco<K, V, A>> darArcos(){ 
+//		return arcos.iterator();
+//	}
 	
 	/**
 	 * Agrega un arco al final del camino
@@ -128,6 +128,8 @@ public class Camino<K extends Comparable<K>, V, A extends IInfoArco> implements 
 	 */
 	public void agregarArcoFinal(Arco<K, V, A> arco){
 		arcos.agregar(arco);
+		costo+=arco.getInfo().getCosto();
+		longitud++;
 		destino = arco.getDestino();
 	}
 	
@@ -137,6 +139,8 @@ public class Camino<K extends Comparable<K>, V, A extends IInfoArco> implements 
 	 */
 	public void agregarArcoComienzo(Arco<K, V, A> arco){
 		arcos.agregarInicio(arco);
+		costo+=arco.getInfo().getCosto();
+		longitud++;
 		origen = arco.getOrigen();
 	}
 }

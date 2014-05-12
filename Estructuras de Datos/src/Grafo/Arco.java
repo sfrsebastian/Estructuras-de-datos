@@ -2,7 +2,7 @@ package Grafo;
 
 import java.io.Serializable;
 
-public class Arco<K extends Comparable<K>, V, A extends IInfoArco> implements Comparable<Arco<K, V, A>>, Serializable {
+public class Arco<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Comparable<Arco<K, V, A>>, Serializable {
 
 	//---------------------------------------
 	// Atributos
@@ -65,6 +65,9 @@ public class Arco<K extends Comparable<K>, V, A extends IInfoArco> implements Co
 		return infoArco;
 	}
 	
+	public String toString(){
+		return origen + " - " + destino;
+	}
 	@Override
 	public int compareTo(Arco<K, V, A> o) {
 		if(infoArco.compareTo(o.getInfo())>0){

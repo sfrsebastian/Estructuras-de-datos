@@ -7,7 +7,7 @@ import Cola.Cola;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 
-public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements Comparable<Vertice<K, V, A>>{
+public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Comparable<Vertice<K, V, A>>{
 
 	//---------------------------------------
 	// Atributos
@@ -21,11 +21,6 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 	 * El elemento del vertice
 	 */
 	private V elemento;
-	
-	/**
-	 * La informacion del vertice
-	 */
-	private A infoVertice;
 	
 	/**
 	 * Indica si el nodo se encuentra marcado
@@ -50,14 +45,16 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 	 * @param id El identificador del vertice
 	 * @param info La informacion que tiene el vertice
 	 */
-	public Vertice(K id, V nElemento, A info){
+	public Vertice(K id, V nElemento){
 		idVertice = id;
 		elemento = nElemento;
-		infoVertice = info;
 		sucesores = new ListaEncadenada<Arco<K,V,A>>();
 		predecesores = new ListaEncadenada<Arco<K,V,A>>();
 		marcado = false;	
 	}
+	//---------------------------------------
+	// Metodos
+	//---------------------------------------
 	
 	/**
 	 * Retorna el id del vertice
@@ -73,17 +70,6 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 	 */
 	public V getElemento(){
 		return elemento;
-	}
-
-	//---------------------------------------
-	// Metodos
-	//---------------------------------------
-	/**
-	 * Retorna la informacion del vertice.
-	 * @return La informacion del vertice
-	 */
-	public A getInfo(){
-		return infoVertice;
 	}
 	
 	/**
@@ -175,7 +161,7 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 	public Arco<K,V,A>darArcoSucesorHacia(K idDestino){
 		Arco<K,V,A> respuesta = null;
 		Iterator<Arco<K,V,A>> it = sucesores.iterator();
-		while(it.hasNext() && respuesta!=null){
+		while(it.hasNext() && respuesta==null){
 			Arco<K,V,A> actual = it.next();
 			if(actual.getDestino().getId().equals(idDestino)){
 				respuesta = actual;
@@ -219,29 +205,41 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 	 * Agrega un arco sucesor al vertice
 	 * @param arcoSucesor El arco sucesor
 	 */
-	public void agregarArcoSucesor(Arco<K, V, A> arcoSucesor){
-		sucesores.agregar(arcoSucesor);
+	public boolean agregarArcoSucesor(Arco<K, V, A> arcoSucesor){
+		Arco<K,V,A> arco = sucesores.buscar(arcoSucesor);
+		if(arco == null){
+			sucesores.agregar(arcoSucesor);
+			return true;
+		}
+		return false;	
 	}
 
 	/**
 	 * Agrega el arco dado por parametro a la lista de predecesores
 	 * @param arco El arco a agregar
 	 */
-	public void agregarArcoPredecesor(Arco<K,V,A> arco){
-		predecesores.agregar(arco);
+	public boolean agregarArcoPredecesor(Arco<K,V,A> arcoPredecesor){
+		Arco<K,V,A> arco = predecesores.buscar(arcoPredecesor);
+		if(arco == null){
+			predecesores.agregar(arcoPredecesor);
+			return true;
+		}
+		return false;	
 	}
 	
 	/**
 	 * Elimina un arco sucesor del grafo
 	 * @param idDestino El arco a eliminar
 	 */
-	public Arco<K,V,A> eliminarArcoSucesor(K idDestino){
-		Arco<K,V,A> respuesta = null;
+	public boolean eliminarArcoSucesor(K idDestino){
+		boolean respuesta = false;
 		Iterator<Arco<K,V,A>> it = sucesores.iterator();
-		while(it.hasNext() && respuesta!=null){
+		while(it.hasNext() && !respuesta){
 			Arco<K,V,A> actual = it.next();
 			if(actual.getDestino().getId().equals(idDestino)){
-				respuesta = predecesores.eliminar(actual);
+				if(sucesores.eliminar(actual)!=null){
+					respuesta = true;
+				}
 			}
 		}
 		return respuesta;
@@ -330,7 +328,7 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 					while ( itpredecesores.hasNext() && !hayCadena){
 						marcar();
 						Arco<K,V,A> arco = itpredecesores.next();
-						Vertice<K,V,A> vtcePredecesor = arco.getDestino(); 
+						Vertice<K,V,A> vtcePredecesor = arco.getOrigen(); 
 						hayCadena = vtcePredecesor.hayCadenaA(destino);
 						desmarcar();
 					}
@@ -419,17 +417,14 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 					Arco<K,V,A> arco = itsucesores.next( );
 					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
 					Camino<K,V,A> camino = vtceSucesor.darCaminoSimpleMasBaratoA(idDestino);
-					if(camino!=null){
-						camino.agregarArcoComienzo(arco);
-						if (camino != null){ 
-							camino.agregarArcoComienzo(arco); 
-							if(respuesta == null){ 
-								respuesta = camino; }
-							else if ( respuesta.getCosto() > camino.getCosto() ) { 
-								respuesta = camino; 
-							}
-						} 
-					}
+					if (camino != null){ 
+						camino.agregarArcoComienzo(arco); 
+						if(respuesta == null){ 
+							respuesta = camino; }
+						else if ( respuesta.getCosto() > camino.getCosto() ) { 
+							respuesta = camino; 
+						}
+					} 
 				}
 			} 
 			desmarcar();
@@ -452,7 +447,7 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 			while(as.hasNext()){
 				Arco<K, V, A> actual = as.next();
 				Vertice<K, V, A> vec = actual.getDestino();
-				vec.recorridoXProfundidad(rta, profundidad + 1, arco);
+				vec.recorridoXProfundidad(rta, profundidad + 1, actual);
 			}
 		}
 	}
@@ -465,6 +460,7 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 		ListaEncadenada<NodoNivel<K,V,A>> lista = new ListaEncadenada<NodoNivel<K,V,A>>();
 		Cola<NodoNivel<K,V,A>> cola = new Cola<NodoNivel<K,V,A>>();
 		NodoNivel<K,V,A> nodo = new NodoNivel<K,V,A>(this,null,1);
+		marcar();
 		cola.agregar(nodo);
 		try{
 			while(true){
@@ -474,10 +470,13 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 				while(arcos.hasNext()){
 					Arco<K,V,A> arco = arcos.next();
 					Vertice<K,V,A> destino = arco.getDestino();
-					NodoNivel<K,V,A> nuevo = new NodoNivel<K,V,A>(destino,arco,actual.getNivel()+1); 
-					cola.agregar(nuevo);
+					if(!destino.getMarca()){
+						NodoNivel<K,V,A> nuevo = new NodoNivel<K,V,A>(destino,arco,actual.getNivel()+1);
+						destino.marcar();
+						cola.agregar(nuevo);
+					}
 				}
-				lista.agregar(actual);
+				lista.agregar(actual);	
 			}
 		}
 		catch(NoSuchElementException e){
@@ -485,6 +484,9 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 		}
 	}
 
+	public String toString(){
+		return "Llave: " + idVertice + " Elemento: " + elemento;
+	}
 	@Override
 	public int compareTo(Vertice<K, V, A> o) {
 		if(idVertice.compareTo(o.getId())>0){
@@ -495,6 +497,22 @@ public class Vertice<K extends Comparable<K>, V, A extends IInfoArco> implements
 		}
 		else{
 			return 0;
+		}
+	}
+
+	/**
+	 *Elimina todos los arcos que se relacionen con el nodo
+	 */
+	public void eliminarArcos() {
+		Iterator<Arco<K,V,A>> it = sucesores.iterator();
+		while(it.hasNext()){
+			Arco<K,V,A> actual = it.next();
+			actual.getDestino().eliminarArcoPredecesor(idVertice);
+		}
+		it = predecesores.iterator();
+		while(it.hasNext()){
+			Arco<K,V,A> actual = it.next();
+			actual.getOrigen().eliminarArcoSucesor(idVertice);
 		}
 	}
 }

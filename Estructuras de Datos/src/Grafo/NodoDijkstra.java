@@ -1,6 +1,6 @@
 package Grafo;
 
-public class NodoDijkstra<K extends Comparable<K>, V, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoDijkstra<K,V,A>>{
+public class NodoDijkstra<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoDijkstra<K,V,A>>{
 	//--------------------
 	//ATRIBUTOS
 	//--------------------

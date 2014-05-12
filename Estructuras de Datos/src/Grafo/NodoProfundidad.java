@@ -1,6 +1,6 @@
 package Grafo;
 
-public class NodoProfundidad<K extends Comparable<K>, V, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoProfundidad<K, V, A>>{
+public class NodoProfundidad<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> extends Nodo<K,V,A> implements Comparable<NodoProfundidad<K, V, A>>{
 	//--------------------
 	//ATRIBUTOS
 	//--------------------

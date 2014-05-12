@@ -6,7 +6,7 @@ import HashTable.TablaHashing;
 import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 
-public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements Serializable {
+public class Grafo<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Serializable {
 	
 	//---------------------------------------
 	// Atributos
@@ -57,8 +57,19 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * @param idVert El id del vertice que se quiere buscar
 	 * @return El vertice, NULL en caso contrario
 	 */
-	public Vertice<K, V, A> darVertice(K idVert){
-		return vertices.buscar(idVert);
+	private Vertice<K,V,A> darVertice(K idVert){
+		Vertice<K,V,A> vertice = vertices.buscar(idVert);
+		return vertice;	
+	}
+	
+	/**
+	 * Retorna el elemento del vertice con codigo dado.
+	 * @param idVertice
+	 * @return El elemento del vertice
+	 */
+	public V darElemento(K idVertice){
+		Vertice<K,V,A> vertice = vertices.buscar(idVertice);
+		return vertice!=null?vertice.getElemento():null;
 	}
 	
 	/**
@@ -67,7 +78,7 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * @param idDestino El id del vertice de destino
 	 * @return El arco que los conecta, NULL en caso contrario
 	 */
-	public Arco<K, V, A> darArco(K idOrigen, K idDestino){
+	public  Arco<K, V, A> darArco(K idOrigen, K idDestino){
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
 		Arco<K,V,A> respuesta = null;
 		if(origen!=null){
@@ -77,13 +88,28 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	}
 	
 	/**
+	 * Retorna el costo entre dos vertices en caso de que exista
+	 * @param idOrigen El vertice de origen
+	 * @param idDestino El vertice de destino
+	 * @return El costo entre los arcos, -1 si el arco no existe.
+	 */
+	public float darCosto(K idOrigen, K idDestino){
+		Arco<K,V,A> arco = darArco(idOrigen, idDestino);
+		if(arco!=null){
+			return arco.getInfo().getCosto();
+		}
+		else{
+			return -1;
+		}
+	}
+	/**
 	 * Agrega un nuevo vertice al grafo 
 	 * @param idVertice El id del vertice que se va a agregar
 	 * @param info La informacion que tiene el vertice
 	 * @return TRUE si se agrego, FALSE en caso contrario
 	 */
-	public boolean agregarVertice(K idVertice, V elemento, A info){
-		Vertice<K, V, A> vertice = new Vertice<K, V, A>(idVertice,elemento, info);
+	public boolean agregarVertice(K idVertice, V elemento){
+		Vertice<K, V, A> vertice = new Vertice<K, V, A>(idVertice,elemento);
 		return vertices.agregar(idVertice, vertice);
 	}
 
@@ -93,19 +119,14 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * @param idVertice El identificador unico del vertice
 	 * @return El vertice eliminado, Null de lo contrario
 	 */
-	public Vertice<K,V,A> eliminarVertice(K idVertice){
+	public V eliminarVertice(K idVertice){
 		Vertice<K,V,A> eliminado = null;
 		eliminado = vertices.eliminar(idVertice);
 		if(eliminado!=null){
-			Iterator<Vertice<K,V,A>> it = vertices.iterator();
-			while(it.hasNext()){
-				Vertice<K,V,A> actual = it.next();
-				eliminarArco(eliminado.getId(),actual.getId());
-				eliminarArco(actual.getId(),eliminado.getId());
-			}
+			eliminado.eliminarArcos();
 			numeroVertices--;
 		}
-		return eliminado;
+		return eliminado.getElemento();
 	}
 
 	/**
@@ -120,9 +141,9 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 		Vertice<K, V, A> vdestino = vertices.buscar(idDestino);
 		if(vorigen != null && vdestino != null){
 			Arco<K, V, A> arco = new Arco<K, V, A>(vorigen,vdestino,info);
-			vorigen.agregarArcoSucesor(arco);
-			vdestino.agregarArcoPredecesor(arco);
-			return true;
+			boolean suc = vorigen.agregarArcoSucesor(arco);
+			boolean dest = vdestino.agregarArcoPredecesor(arco);
+			return suc || dest;
 		}
 		else{
 			return false;
@@ -135,9 +156,9 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * @param idDestino El vertice de destino
 	 * @return El arco eliminado, null de lo contrario
 	 */
-	public Arco<K,V,A> eliminarArco(K idOrigen,K idDestino){
+	public boolean eliminarArco(K idOrigen,K idDestino){
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
-		Arco<K,V,A>respuesta = null;
+		boolean respuesta = false;
 		if(origen!=null){
 			respuesta = origen.eliminarArcoSucesor(idDestino);
 		}
@@ -245,7 +266,7 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * Retorna todos los vertices del grafo
 	 * @return
 	 */
-	Iterator<Vertice<K,V,A>> recorridoPlano(){
+	public Iterator<Vertice<K,V,A>> recorridoPlano(){
 		return vertices.iterator();
 	}
 	
@@ -269,7 +290,7 @@ public class Grafo<K extends Comparable<K>, V, A extends IInfoArco> implements S
 	 * @param idOrigen El codigo del vertice de partida
 	 * @return Iterador de los nodos del grafo.
 	 */
-	Iterator<NodoNivel<K,V,A>> recorridoXNiveles(K idOrigen){
+	public Iterator<NodoNivel<K,V,A>> recorridoXNiveles(K idOrigen){
 		desmarcarVertices();
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
 		if(origen!=null){
