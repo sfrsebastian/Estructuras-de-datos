@@ -33,14 +33,14 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 	public boolean agregar(K nLlave, V nElemento) {
 		reHash();
 		NodoTabla<K,V> nuevo = new NodoTabla<K,V>(nLlave, nElemento);
-		int ubicacion = hash(nLlave);
+		int ubicacion = Math.abs(hash(nLlave));
 		areaPrimaria[ubicacion].agregar(nuevo);
 		tamano++;
 		return true;
 	}
 
 	public V buscar(K nLlave) {
-		Iterator<NodoTabla<K,V>> iterador = areaPrimaria[hash(nLlave)].iterator();
+		Iterator<NodoTabla<K,V>> iterador = areaPrimaria[Math.abs(hash(nLlave))].iterator();
 		while(iterador.hasNext()){
 			NodoTabla<K,V>elemento = iterador.next();
 			if(elemento.darLlave().toString().equals(nLlave.toString())){
@@ -120,7 +120,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 				Iterator<NodoTabla<K,V>> iterador = lista.iterator();
 				while(iterador.hasNext()){
 					NodoTabla<K,V> actual = iterador.next();
-					nueva[hash((K) actual.darLlave())].agregar(actual);
+					nueva[Math.abs(hash((K) actual.darLlave()))].agregar(actual);
 				}
 			}
 			areaPrimaria = nueva;
