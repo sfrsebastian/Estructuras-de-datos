@@ -1,6 +1,7 @@
 package Lista;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public abstract class Lista<T extends Comparable<?super T>> implements ILista<T>, Serializable {
@@ -46,6 +47,21 @@ public abstract class Lista<T extends Comparable<?super T>> implements ILista<T>
 		}
 		return null;
 	}
+	
+	public T buscar(T elemento,Comparator<T> c) {	
+		NodoLista<T> actual = primero;
+		while(actual != null){
+			if(c.compare(elemento, actual.darElemento()) == 0){
+				return actual.darElemento();
+			}
+			else {
+				actual = actual.darSiguiente();
+			}
+		}
+		return null;
+	}
+	
+	
 
 	public T eliminar(T elemento) {
 		NodoLista<T> actual = primero;
@@ -81,6 +97,25 @@ public abstract class Lista<T extends Comparable<?super T>> implements ILista<T>
 		return null;
 	}
 
+	
+	/**
+	 * Retorna el primer elemento de la lista<br>
+	 * Elimina el elemento de la lista.
+	 * @return
+	 */
+	public T darPrimero(){
+		if(primero!=null){
+			T respuesta = primero.darElemento();
+			primero = primero.darSiguiente();
+			if(primero!=null){
+				primero.cambiarAnterior(null);
+			}
+			longitud--;
+			return respuesta;
+		}
+		return null;
+	}
+	
 	public Object[] darArreglo() {
 		Object[] arreglo = new Object[darLongitud()];
 		NodoLista<T> actual = primero;

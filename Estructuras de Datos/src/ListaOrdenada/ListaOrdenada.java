@@ -1,7 +1,6 @@
 package ListaOrdenada;
 
 import java.io.Serializable;
-
 import Lista.Lista;
 import Lista.NodoLista;
 
@@ -11,7 +10,6 @@ import Lista.NodoLista;
  * @created 01-Feb-2014 6:19:56 PM
  */
 public class ListaOrdenada<T extends Comparable <?super T>> extends Lista<T> implements Serializable {
-	
 	//------------------------------------------
 	// Constructor
 	//------------------------------------------
@@ -61,17 +59,5 @@ public class ListaOrdenada<T extends Comparable <?super T>> extends Lista<T> imp
 		}
 		longitud++;
 		return elemento;
-	}
-	
-	/**
-	 * Retorna el primer elemento de la lista<br>
-	 * Elimina el elemento de la lista.
-	 * @return
-	 */
-	public T darPrimero(){
-		T respuesta = primero.darElemento();
-		primero = primero.darSiguiente();
-		primero.cambiarAnterior(null);
-		return respuesta;
 	}
 }
