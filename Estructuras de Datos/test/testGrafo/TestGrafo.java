@@ -5,6 +5,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 import Grafo.Camino;
 import Grafo.Grafo;
+import Grafo.NodoDijkstra;
 import Grafo.NodoNivel;
 import Grafo.NodoProfundidad;
 
@@ -17,7 +18,7 @@ public class TestGrafo extends TestCase {
 	/**
 	 * El grafo para probar
 	 */
-	private Grafo<Character, Character, Informacion> grafo;
+	private Grafo<Character,Character,Informacion> grafo;
 	
 	//---------------------------------------
 	// Escenarios
@@ -47,10 +48,29 @@ public class TestGrafo extends TestCase {
 		grafo.agregarArco('I', 'H', new Informacion(10));
 	}
 	
-	private void setupScenario2(){
-		grafo = new Grafo<Character,Character,Informacion>(9);
-	}
-	
+//	private void setupScenario2(){
+//		grafo = new Grafo<String,String, Informacion>(6);
+//		grafo.agregarVertice("Santa Marta", "Santa Marta");
+//		grafo.agregarVertice("Cartagena", "Cartagena");
+//		grafo.agregarVertice("Medellin", "Medellin");
+//		grafo.agregarVertice("Bogota","Bogota");
+//		grafo.agregarVertice("Cali", "Cali");
+//		grafo.agregarVertice("Leticia", "Leticia");
+//		
+//		grafo.agregarArco("Santa Marta", "Cartagena", new Informacion(1000));
+//		grafo.agregarArco("Cartagena","Santa Marta", new Informacion(8000));
+//		grafo.agregarArco("Cartagena","Bogota", new Informacion(7000));
+//		grafo.agregarArco("Cali","Cartagena", new Informacion(10000));
+//		grafo.agregarArco("Cali","Medellin", new Informacion(7000));
+//		grafo.agregarArco("Cali","Leticia", new Informacion(15000));
+//		grafo.agregarArco("Leticia","Bogota", new Informacion(1000));
+//		grafo.agregarArco("Bogota","Leticia", new Informacion(25000));
+//		grafo.agregarArco("Bogota","Medellin", new Informacion(7000));
+//		grafo.agregarArco("Bogota","Santa Marta", new Informacion(20000));
+//		grafo.agregarArco("Medellin","Bogota", new Informacion(10000));
+//		grafo.agregarArco("Medellin","Cartagena", new Informacion(4000));
+//		grafo.agregarArco("Medellin","Cali", new Informacion(1000));
+//	}
 	//---------------------------------------
 	// Metodos
 	//---------------------------------------
@@ -156,9 +176,9 @@ public class TestGrafo extends TestCase {
 		System.out.println("-------------------DFS-----------------------");
 		while(it.hasNext()){
 			NodoProfundidad<Character,Character,Informacion> actual = it.next();
-			Character padre ='Z';
+			String padre ="null";
 			if(actual.getArcoPredecesor() != null){
-				padre = actual.getArcoPredecesor().getOrigen().getElemento();
+				padre = actual.getArcoPredecesor().getOrigen().getElemento()+"";
 			}
 			System.out.println(actual.getVertice().getElemento() + " - " + actual.getProfundidad() + " - padre: " + padre);
 		}
@@ -171,12 +191,27 @@ public class TestGrafo extends TestCase {
 		System.out.println("-------------------BFS-----------------------");
 		while(it.hasNext()){
 			NodoNivel<Character,Character,Informacion> actual = it.next();
-			Character padre ='Z';
+			String padre ="null";
 			if(actual.getArcoPredecesor() != null){
-				padre = actual.getArcoPredecesor().getOrigen().getElemento();
+				padre = actual.getArcoPredecesor().getOrigen().getElemento()+"";
 			}
 			System.out.println(actual.getVertice().getElemento() + " - " + actual.getNivel() + " - padre: " + padre);
 		}
 		System.out.println("-------------------FIN BFS-----------------------");
+	}
+	
+	public void testDijkstra(){
+		setupScenario1();
+		Iterator<NodoDijkstra<Character,Character,Informacion>> it = grafo.Dijkstra('D');
+		System.out.println("-------------------Dijkstra-----------------------");
+		while(it.hasNext()){
+			NodoDijkstra<Character,Character,Informacion> actual = it.next();
+			String  padre = "null";
+			if(actual.getArcoPredecesor() != null){
+				padre = actual.getArcoPredecesor().getOrigen().getElemento()+"";
+			}
+			System.out.println(actual.getVertice().getElemento() + " - " + actual.getCosto() + " - padre: " + padre);
+		}
+		System.out.println("-------------------Fin Dijkstra-----------------------");
 	}
 }

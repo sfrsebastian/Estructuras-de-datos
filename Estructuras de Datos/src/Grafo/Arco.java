@@ -9,6 +9,11 @@ public class Arco<K extends Comparable<K>, V extends Comparable<V>, A extends II
 	//---------------------------------------
 	
 	/**
+	 * Codigo identificador de la clase
+	 */
+	private static final long serialVersionUID = 4168438114656774777L;
+
+	/**
 	 * La informacion del arco
 	 */
 	private A infoArco;

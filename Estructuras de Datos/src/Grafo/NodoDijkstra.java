@@ -14,8 +14,6 @@ public class NodoDijkstra<K extends Comparable<K>, V extends Comparable<V>, A ex
 	 */
 	public float costo;
 	
-	private boolean marcado;
-	
 	//--------------------
 	//CONSTRUCTOR
 	//--------------------
@@ -28,7 +26,6 @@ public class NodoDijkstra<K extends Comparable<K>, V extends Comparable<V>, A ex
 	public NodoDijkstra(Vertice<K, V, A> nVertice, Arco<K, V, A> nArco,float nCosto) {
 		super(nVertice, nArco);
 		costo = nCosto;
-		marcado = nVertice.getMarca();
 	}
 	
 	//--------------------
@@ -44,22 +41,14 @@ public class NodoDijkstra<K extends Comparable<K>, V extends Comparable<V>, A ex
 
 	@Override
 	public int compareTo(NodoDijkstra<K, V, A> o) {
-		if(costo>o.getCosto()){
+		if(costo>o.costo){
 			return 1;
 		}
-		else if(costo<o.getCosto()){
+		else if(costo<o.costo){
 			return -1;
 		}
 		else{
 			return 0;
 		}
-	}
-
-	public boolean getMarca() {
-		return marcado;
-	}
-
-	public void marcar() {
-		marcado = true;
 	}
 }

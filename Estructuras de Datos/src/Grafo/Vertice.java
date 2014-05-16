@@ -485,22 +485,6 @@ public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends
 		}
 	}
 
-	public String toString(){
-		return "Llave: " + idVertice + " Elemento: " + elemento;
-	}
-	@Override
-	public int compareTo(Vertice<K, V, A> o) {
-		if(idVertice.compareTo(o.getId())>0){
-			return 1;
-		}
-		else if(idVertice.compareTo(o.getId())<0){
-			return -1;
-		}
-		else{
-			return 0;
-		}
-	}
-
 	/**
 	 *Elimina todos los arcos que se relacionen con el nodo
 	 */
@@ -526,26 +510,42 @@ public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends
 		frenteExploracion.agregar(new NodoDijkstra<K,V,A>(this, null, 0)); 
 		NodoDijkstra<K, V, A> nodo;
 		while((nodo = frenteExploracion.darPrimero()) != null){
-			if(nodo.getMarca()){
-				Vertice<K, V, A> vert = nodo.getVertice();
-				Iterator<Arco<K, V, A>> suc = vert.getSucesores();
-				while(suc.hasNext()){
-					Arco<K, V, A> actual = suc.next();
-					Vertice<K, V, A> v = actual.getDestino();
-					NodoDijkstra<K, V, A> nod = new NodoDijkstra<K, V, A>(v, actual,nodo.getCosto() + actual.getInfo().getCosto());
-					if(frenteExploracion.buscar(nod) == null){	
+			Vertice<K, V, A> vert = nodo.getVertice();
+			Iterator<Arco<K, V, A>> suc = vert.getSucesores();
+			while(suc.hasNext()){
+				Arco<K, V, A> actual = suc.next();
+				Vertice<K, V, A> v = actual.getDestino();
+				if(!v.getMarca()){
+					NodoDijkstra<K,V,A>buscado;
+					NodoDijkstra<K, V, A> nod = new NodoDijkstra <K, V, A>(v, actual,nodo.getCosto() + actual.getInfo().getCosto());
+					if((buscado = frenteExploracion.buscar(nod,new ComparadorElemento<K, V, A>())) == null){	
 						frenteExploracion.agregar(nod);
-					}else{
-						NodoDijkstra<K, V, A> buscado = rta.buscar(nod);
-						if(buscado.compareTo(nod) < 0){
-							frenteExploracion.eliminar(buscado);
-							frenteExploracion.agregar(nod);
-						}
+					}
+					else if(buscado.getCosto()>nod.getCosto()){
+						frenteExploracion.eliminar(buscado);
+						frenteExploracion.agregar(nod);
 					}
 				}
-				rta.agregar(nodo);
-				nodo.marcar();
 			}
+			nodo.getVertice().marcar();
+			rta.agregar(nodo);
+		}
+	}
+
+	public String toString(){
+		return "Llave: " + idVertice + " Elemento: " + elemento;
+	}
+
+	@Override
+	public int compareTo(Vertice<K, V, A> o) {
+		if(idVertice.compareTo(o.getId())>0){
+			return 1;
+		}
+		else if(idVertice.compareTo(o.getId())<0){
+			return -1;
+		}
+		else{
+			return 0;
 		}
 	}
 }

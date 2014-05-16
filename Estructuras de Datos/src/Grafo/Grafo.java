@@ -301,13 +301,14 @@ public class Grafo<K extends Comparable<K>, V extends Comparable<V>, A extends I
 		return null;
 	}
 	
-	public Iterator<NodoProfundidad<K, V, A>> Dijkstra(K idOrigen){
+	public Iterator<NodoDijkstra<K, V, A>> Dijkstra(K idOrigen){
 		desmarcarVertices();
 		Vertice<K, V, A> origen = vertices.buscar(idOrigen);
 		if(origen!=null){
 			ListaOrdenada<NodoDijkstra<K, V, A>> rta = new ListaOrdenada<NodoDijkstra<K,V,A>>();
 			ListaOrdenada<NodoDijkstra<K, V, A>> frente = new ListaOrdenada<NodoDijkstra<K,V,A>>();
 			origen.Dijkstra(frente,rta);
+			return rta.iterator();
 		}
 		return null;
 	}
