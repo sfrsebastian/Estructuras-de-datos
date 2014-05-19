@@ -214,4 +214,15 @@ public class TestGrafo extends TestCase {
 		}
 		System.out.println("-------------------Fin Dijkstra-----------------------");
 	}
+	
+	public void testCiclo(){
+		setupScenario1();
+		Camino<Character,Character,Informacion> camino = grafo.darCicloMasLargo('D', "");
+		Iterator<Character>it = camino.darVertices();
+		System.out.println("-------------------Ciclo Largo-----------------------");
+		while(it.hasNext()){
+			System.out.println(it.next());
+		}
+		System.out.println("-------------------Fin Ciclo Largo-----------------------");
+	}
 }

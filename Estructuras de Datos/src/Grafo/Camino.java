@@ -128,9 +128,7 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 			if(lista.buscar(actual.getOrigen().getElemento()) == null){
 				lista.agregar(actual.getOrigen().getElemento());
 			}
-			if(lista.buscar(actual.getDestino().getElemento()) == null){
-				lista.agregar(actual.getDestino().getElemento());
-			}
+			lista.agregar(actual.getDestino().getElemento());
 		}
 		return lista.iterator();
 	}

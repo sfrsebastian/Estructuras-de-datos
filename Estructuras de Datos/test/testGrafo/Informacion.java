@@ -26,7 +26,7 @@ public class Informacion implements IInfoArco {
 	}
 	@Override
 	public float getCosto(String criterio) {
-		return 0;
+		return getCosto();
 	}
 
 }
