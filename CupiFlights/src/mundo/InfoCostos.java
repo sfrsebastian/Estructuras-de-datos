@@ -4,10 +4,10 @@ import Grafo.IInfoArco;
 
 public class InfoCostos implements IInfoArco {
 	
-	private static final String DISTANCIA = "Distancia";
-	private static final String TIEMPO = "Tiempo";
-	private static final String RATING = "Rating";
-	private static final String TARDIOS = "Vuelos Tardios";
+	public static final String DISTANCIA = "Distancia";
+	public static final String TIEMPO = "Tiempo";
+	public static final String RATING = "Rating";
+	public static final String TARDIOS = "Vuelos Tardios";
 	
 	private float distancia;
 	private float tiempo;

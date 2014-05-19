@@ -21,7 +21,9 @@ import org.json.JSONObject;
 
 import Arbol23.Arbol23;
 import ArbolTrie.ArbolTrie;
+import Grafo.Arco;
 import Grafo.Camino;
+import Grafo.Grafo;
 import HashTable.TablaHashing;
 import ListaOrdenada.ListaOrdenada;
 
@@ -88,6 +90,11 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	private Usuario usuarioActivo;
 	
 	/**
+	 * El grafo de la central
+	 */
+	private Grafo<String,Aeropuerto,InfoCostos> grafo;
+	
+	/**
 	 * Formateador fechas
 	 */
 	private SimpleDateFormat dateFormat;
@@ -113,6 +120,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		usuarios = new TablaHashing<String,Usuario>(7,2);
 		usuarioActivo = null;
+		grafo = new Grafo<String,Aeropuerto,InfoCostos>(100);
 		cargarAeropuertos();
 	}
 
@@ -850,49 +858,58 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	@Override
 	public Iterator<Aeropuerto> darGrado(String codigo1, String codigo2) {
-		// TODO Auto-generated method stub
-		return null;
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoSimpleMasCorto(codigo1, codigo2);
+		return respuesta.darVertices();
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMenorLongitud(String codigo1,
-			String codigo2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Aeropuerto> darRutaMenorLongitud(String codigo1, String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+		return respuesta.darVertices();
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMenorLongitudConParada(String codigo1,
-			String codigo2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Aeropuerto> darRutaMenorLongitudConParada(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+		if(respuesta.getLongitud() == 1){
+			Arco<String,Aeropuerto,InfoCostos> arco = grafo.darArco(codigo1, codigo2);
+			grafo.eliminarArco(codigo1, codigo2);
+			respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+			grafo.agregarArco(codigo1, codigo2, arco.getInfo());
+			return respuesta.darVertices();
+		}
+		return respuesta.darVertices();
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMenorTiempo() {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Aeropuerto> darRutaMenorTiempo(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TIEMPO);
+		return respuesta.darVertices();
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMenorTiempoConParada(String codigo1,
-			String codigo2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Aeropuerto> darRutaMenorTiempoConParada(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+		if(respuesta.getLongitud() == 1){
+			Arco<String,Aeropuerto,InfoCostos> arco = grafo.darArco(codigo1, codigo2);
+			grafo.eliminarArco(codigo1, codigo2);
+			respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TIEMPO);
+			grafo.agregarArco(codigo1, codigo2, arco.getInfo());
+			return respuesta.darVertices();
+		}
+		return respuesta.darVertices();
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMayorRating(String codigo1,
-			String codigo2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Aeropuerto> darRutaMayorRating(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TIEMPO);
+		return respuesta.darVertices();
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMenorTardios(String codigo1,
-			String codigo2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Aeropuerto> darRutaMenorTardios(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TARDIOS);
+		return respuesta.darVertices();
 	}
 
 	@Override
@@ -902,7 +919,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	@Override
-	public Iterator<Camino> darToursDisponibles(String[] lista) {
+	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(String[] lista) {
 		// TODO Auto-generated method stub
 		return null;
 	}

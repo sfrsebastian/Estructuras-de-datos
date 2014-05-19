@@ -228,7 +228,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param codigo2 El codigo del aeropuerto de llegada
 	 * @return La ruta de menor tiempo
 	 */
-	public Iterator<Aeropuerto> darRutaMenorTiempo();
+	public Iterator<Aeropuerto> darRutaMenorTiempo(String codigo1,String codigo2);
 	
 	/**
 	 * Retorna la ruta de menor tiempo que involucra paradas
@@ -267,7 +267,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param lista La lista de lugares del tour
 	 * @return Iterador con los distintos tours disponibles
 	 */
-	public Iterator<Camino> darToursDisponibles(String[] lista);
+	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(String[] lista);
 	
 	/**
 	 * Retorna un tour que parte del aeropuerto dado y pasa por los aeropuertos de la preferencia del usuario.
