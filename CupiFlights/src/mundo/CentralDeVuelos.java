@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import Arbol23.Arbol23;
 import ArbolTrie.ArbolTrie;
+import Grafo.Camino;
+import HashTable.TablaHashing;
 import ListaOrdenada.ListaOrdenada;
 
 public class CentralDeVuelos implements ICentralDeVuelos{
@@ -75,6 +77,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 */
 	private Arbol23<Aerolinea> aerolineas;
 
+	private TablaHashing<String,Usuario>usuarios;
 	/**
 	 * Formateador fechas
 	 */
@@ -99,6 +102,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		vuelos = new Arbol23<Vuelo>();
 		aerolineas = new Arbol23<Aerolinea>();
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		usuarios = new TablaHashing<String,Usuario>(7,2);
 		cargarAeropuertos();
 	}
 
@@ -727,10 +731,133 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return listaVuelos.iterator();
 	}
 
+	//2.0
+	@Override
+	public boolean registrarUsuario(String nombre, String apellido,String usuario, String correo, String constrasenia) {
+		if(usuarios.buscar(usuario)==null){
+			Usuario nuevo = new Usuario(nombre, apellido, usuario, correo, constrasenia);
+			usuarios.agregar(usuario, nuevo);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Usuario ingresar(String usuario, String contrasenia) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Aeropuerto agregarAeropuertoUsuario(String codigoAeropuerto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Aeropuerto eliminarAeropuertoUsuario(String codigoAeropuerto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Aerolinea agregarAerolineaUsuario(String codigoAerolinea) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Aerolinea eliminarAerolineaUsuario(String codigoAerolinea) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String agregarCiudadUsuario(String codigoCiudad) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String eliminarCiudadUsuario(String nombreCiudad) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void definirRangoTiempoUsuario(String t1, String t2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darGrado(String codigo1, String codigo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorLongitud(String codigo1,
+			String codigo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorLongitudConParada(String codigo1,
+			String codigo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorTiempo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorTiempoConParada(String codigo1,
+			String codigo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMayorRating(String codigo1,
+			String codigo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorTardios(String codigo1,
+			String codigo2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darTourMasLargo(String codigo1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Camino> darToursDisponibles(String[] lista) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darTourDesde(String codigo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public static void main(String[] args) throws Exception {
 		CentralDeVuelos central = getInstance();
 		central.agregarAeropuerto("BOG");
 		//central.guardarCentral();
 	}
-
 }
