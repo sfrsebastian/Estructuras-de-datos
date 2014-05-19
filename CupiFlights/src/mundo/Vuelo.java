@@ -81,6 +81,11 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 	 * La cantidad es medida a partir de los vuelos en fechas anteriores con mismo numero de vuelo
 	 */
 	private int cancelados;
+	
+	/**
+	 * La duracion del vuelo
+	 */
+	private float duracion;
 
 	/**
 	 * Fecha del vuelo
@@ -105,7 +110,7 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 	 * @param nRating El rating del vuelo contiene indices de tardanza
 	 * @param c fecha del vuelo
 	 */
-	public Vuelo(String nNumero, Aeropuerto nSalida, Aeropuerto nLlegada, Aerolinea nAereolinea, String nTipo, Object[] nRating, Calendar c) {
+	public Vuelo(String nNumero, Aeropuerto nSalida, Aeropuerto nLlegada, Aerolinea nAereolinea, String nTipo, Object[] nRating,float nDuracion, Calendar c) {
 		fecha = c;
 		numero = nNumero;
 		salida = nSalida;
@@ -116,6 +121,7 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 		l15 = (int) nRating[1];
 		l30 = (int) nRating[2];
 		l45 = (int) nRating[3];
+		duracion = nDuracion;
 		cancelados = (int) nRating[4];	
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	}
@@ -222,6 +228,37 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 	}
 
 	/**
+	 * Retorna la duracion del vuelo en minutos
+	 * @return
+	 */
+	public float getDuracion(){
+		return duracion;
+	}
+	
+	/**
+	 * Retorna la distanci que se viaja entre los dos aeropuertos del vuelo
+	 * @return La distancia del vuelo
+	 */
+	public float getDistancia() {
+		double earthRadius = 3958.75;
+		double dLat = Math.toRadians(Double.parseDouble(llegada.getLatitud())-Double.parseDouble(salida.getLatitud()));
+		double dLng = Math.toRadians(Double.parseDouble(llegada.getLongitud())-Double.parseDouble(salida.getLongitud()));
+		double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(Math.toRadians(Double.parseDouble(salida.getLatitud()))) * Math.cos(Math.toRadians(Double.parseDouble(llegada.getLatitud()))) * Math.sin(dLng/2) * Math.sin(dLng/2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double dist = earthRadius * c;
+		double KmConversion = 1.609;
+		return (float) (dist * KmConversion);
+	}
+	
+	/**
+	 * Retorna la cantidad de vuelos tardios
+	 * @return
+	 */
+	public float getTardios(){
+		return l15+l30+l45;
+	}
+	
+	/**
 	 * Retorna la fecha del vuelo
 	 * @return La fecha del vuelo
 	 */
@@ -259,5 +296,5 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 		else{
 			return 0;
 		}
-	}
+	}	
 }

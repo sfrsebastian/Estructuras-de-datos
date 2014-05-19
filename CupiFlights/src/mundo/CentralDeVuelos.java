@@ -212,7 +212,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 * @return El vuelo creado.
 	 * @throws Exception
 	 */
-	private Vuelo leerVuelo(Calendar c,JSONObject objeto, String tipo) throws Exception{
+	private Vuelo leerVuelo(Calendar c,JSONObject objeto, String tipo, float duracion) throws Exception{
 		String numero =  objeto.getString("flightNumber");
 		String codigoSalida = objeto.getString("departureAirportFsCode");
 		Aeropuerto salida = manejarAeropuerto(codigoSalida);
@@ -221,7 +221,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		String codigoAereolinea = objeto.getString("carrierFsCode");
 		Aerolinea aerolinea = manejarAereolinea(codigoAereolinea);
 		Object[] rating = darRating(codigoAereolinea,numero,codigoSalida);
-		Vuelo nuevo = new Vuelo(numero,salida,llegada,aerolinea,tipo,rating, c);
+		Vuelo nuevo = new Vuelo(numero,salida,llegada,aerolinea,tipo,rating,duracion, c);
 		aerolinea.agregarVuelo(nuevo);
 		return nuevo;
 	}
@@ -282,7 +282,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
 		for(int i = 0; i<recibidos.length();i++){
 			JSONObject actual = recibidos.getJSONObject(i);
-			Vuelo nuevo = leerVuelo(c,actual,tipo);
+			JSONObject obd = principal.getJSONObject("flightDurations");
+			Vuelo nuevo = leerVuelo(c,actual,tipo,(float)obd.getDouble("scheduledAirMinutes"));
 			if(tipo.equals(Vuelo.LLEGANDO)){
 				if(a1.getVuelosEntrada().buscarElemento(date, nuevo)==null){
 					a1.agregarVueloEntrada(date, nuevo);
@@ -302,6 +303,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			if(vuelos.buscar(nuevo)==null){
 				System.out.println("La fecha es: " + date );
 				vuelos.agregar(nuevo);
+				grafo.agregarArco(a1.getCodigo(),a2.getCodigo(), new InfoCostos(nuevo));
 				fechas.agregar(date, nuevo);
 				if(tipo.equals(Vuelo.SALIENDO)){
 					System.out.println("Agregado vuelo # " +  nuevo.getNumero() + " fecha:" + dateFormat.format(c.getTime()) +  " - " + a1.getNombre() + " - "+ a2.getNombre() + "\n-------------------");
@@ -496,6 +498,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 			JSONObject actual = recibidos.getJSONObject(i);
 			Aeropuerto nuevo = leerAeropuerto(actual);
 			if(aeropuertos.agregar(nuevo)){
+				grafo.agregarVertice(nuevo.getCodigo(), nuevo);
 				System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
 			}
 		}
@@ -520,6 +523,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		try{
 			Aeropuerto nuevo = leerAeropuerto((JSONObject) arreglo);
 			aeropuertos.agregar(nuevo);
+			grafo.agregarVertice(nuevo.getCodigo(), nuevo);
 			buscarVuelosComun(nuevo);
 			System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
 			return nuevo;
@@ -535,6 +539,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		if(eliminar == null){
 			throw new Exception("El aeropuerto no existe");
 		}
+		grafo.eliminarVertice(eliminar.getCodigo());
 		eliminarVuelos(eliminar);//Se eliminan los vuelos de la clase principal
 		System.out.println("Aeropuerto eliminado: " + eliminar.getNombre() + "\n------------------------");
 		return aeropuertos.eliminar(eliminar);//se elimina el aeropuerto
@@ -742,7 +747,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
 		for(int i = 0; i<recibidos.length();i++){
 			JSONObject actual = recibidos.getJSONObject(i);
-			Vuelo nuevo = leerVuelo(c, actual,tipo);
+			JSONObject obd = principal.getJSONObject("flightDurations");
+			Vuelo nuevo = leerVuelo(c,actual,tipo,(float)obd.getDouble("scheduledAirMinutes"));
 			listaVuelos.agregar(nuevo);
 			System.out.println("cargado vuelo: " + nuevo.getNumero() + tipo);
 		}
@@ -914,8 +920,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	@Override
 	public Iterator<Aeropuerto> darTourMasLargo(String codigo1) {
-		// TODO Auto-generated method stub
-		return null;
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCicloMasLargo(codigo1, InfoCostos.DISTANCIA);
+		return respuesta.darVertices();
 	}
 
 	@Override
