@@ -1,5 +1,6 @@
 package Grafo;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,7 +9,7 @@ import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 import ListaOrdenada.ListaOrdenada;
 
-public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Comparable<Vertice<K, V, A>>{
+public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Comparable<Vertice<K, V, A>>,Serializable{
 
 	//---------------------------------------
 	// Atributos
