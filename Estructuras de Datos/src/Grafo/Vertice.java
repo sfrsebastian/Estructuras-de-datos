@@ -466,6 +466,23 @@ public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends
 		return respuesta;
 	}
 	
+	public Camino<K, V, A> darCicloMasLargo(String criterio) {
+		Camino<K,V,A> respuesta = null;
+		Iterator<Arco<K,V,A>>it = sucesores.iterator();
+		while(it.hasNext()){
+			Arco<K,V,A> actual = it.next();
+			Vertice<K,V,A> v = actual.getDestino();
+			Camino<K,V,A> camino = v.darCaminoMasCostoso(idVertice,criterio);
+			if(respuesta == null){
+				respuesta = camino;
+			}
+			else if(respuesta.getCosto()<camino.getCosto()){
+				respuesta = camino;
+			}
+		}
+		return respuesta;
+	}
+	
 	/**
 	 * Realiza la busqueda por profundidad del vertice 
 	 * @param rta La lista que almacena la respuesta

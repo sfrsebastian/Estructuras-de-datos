@@ -264,10 +264,25 @@ public class Grafo<K extends Comparable<K>, V extends Comparable<V>, A extends I
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
 		Camino<K,V,A> respuesta = null;
 		if(origen!=null){
-			respuesta = origen.darCaminoMasBarato(idDestino,criterio);
+			respuesta = origen.darCaminoMasCostoso(idDestino,criterio);
 		}
 		return respuesta;
 	}	
+	
+	/**
+	 * Retorna el ciclo mas largo segun el criterio en el vertice con codigo dado
+	 * @param idOrigen El codigo de vertice origen
+	 * @param criterio El criterio de costo
+	 * @return El ciclo mas largo
+	 */
+	public Camino<K,V,A> darCicloMasLargo(K idOrigen,String criterio){
+		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
+		Camino<K,V,A> respuesta = null;
+		if(origen!=null){
+			respuesta = origen.darCicloMasLargo(criterio);
+		}
+		return respuesta;
+	}
 	
 	/**
 	 * Desmarca todos los vertices del grafo 
