@@ -189,14 +189,14 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param El nombre de la ciudad
 	 * @return La ciudad eliminada, NULL de lo contrario.
 	 */
-	public String eliminarCiudadUsuario(String nombreCiudad);
+	public String eliminarCiudadUsuario(String codigoCiudad);
 	
 	/**
 	 * Establece el rango de tiempo en las preferencias del usuario
 	 * @param t1 El tiempo minimo de vuelo
 	 * @param t2 El tiempo maximo de vuelos
 	 */
-	public void definirRangoTiempoUsuario(String t1, String t2);
+	public void definirRangoTiempoUsuario(int t1, int t2);
 	/////////
 	//Fin requerimiento 3
 	////////

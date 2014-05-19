@@ -756,7 +756,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	public Usuario ingresar(String usuario, String contrasenia) {
 		Usuario respuesta = null;
 		if((respuesta = usuarios.buscar(usuario))!=null){
-			if(respuesta.AutenticarUsuario(usuario, contrasenia)){
+			if(respuesta.autenticarUsuario(usuario, contrasenia)){
 				usuarioActivo = respuesta;
 				return respuesta;
 			}
@@ -771,44 +771,81 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	
 	@Override
 	public Aeropuerto agregarAeropuertoUsuario(String codigoAeropuerto) {
-		// TODO Auto-generated method stub
+		Aeropuerto agregar = new Aeropuerto(codigoAeropuerto);
+		agregar = aeropuertos.buscar(agregar);
+		if(usuarioActivo!=null){
+			usuarioActivo.agregarAeropuerto(agregar);
+			usuarioActivo.agregarCiudad(agregar.getCiudad());
+			return agregar;
+		}
 		return null;
 	}
 
 	@Override
 	public Aeropuerto eliminarAeropuertoUsuario(String codigoAeropuerto) {
-		// TODO Auto-generated method stub
+		Aeropuerto eliminar = new Aeropuerto(codigoAeropuerto);
+		eliminar = aeropuertos.buscar(eliminar);
+		if(usuarioActivo!=null){
+			usuarioActivo.eliminarAeropuerto(eliminar);
+			usuarioActivo.eliminarCiudad(eliminar.getCiudad());
+			return eliminar;
+		}
 		return null;
 	}
 
 	@Override
 	public Aerolinea agregarAerolineaUsuario(String codigoAerolinea) {
-		// TODO Auto-generated method stub
+		Aerolinea agregar = new Aerolinea(codigoAerolinea);
+		agregar = aerolineas.buscar(agregar);
+		if(usuarioActivo!=null){
+			usuarioActivo.agregarAerolinea(agregar);
+			return agregar;
+		}
 		return null;
 	}
 
 	@Override
 	public Aerolinea eliminarAerolineaUsuario(String codigoAerolinea) {
-		// TODO Auto-generated method stub
+		Aerolinea eliminar = new Aerolinea(codigoAerolinea);
+		eliminar = aerolineas.buscar(eliminar);
+		if(usuarioActivo!=null){
+			usuarioActivo.eliminarAerolinea(eliminar);
+			return eliminar;
+		}
 		return null;
 	}
 
 	@Override
 	public String agregarCiudadUsuario(String codigoCiudad) {
-		// TODO Auto-generated method stub
+		Aeropuerto agregar = new Aeropuerto(codigoCiudad);
+		agregar = aeropuertos.buscar(agregar);
+		String ciudad = agregar.getCiudad();
+		if(usuarioActivo!=null){
+			usuarioActivo.agregarCiudad(ciudad);
+			usuarioActivo.agregarAeropuerto(agregar);
+			return ciudad;
+		}
 		return null;
 	}
 
 	@Override
-	public String eliminarCiudadUsuario(String nombreCiudad) {
-		// TODO Auto-generated method stub
+	public String eliminarCiudadUsuario(String codigoCiudad) {
+		Aeropuerto eliminar = new Aeropuerto(codigoCiudad);
+		eliminar = aeropuertos.buscar(eliminar);
+		String ciudad = eliminar.getCiudad();
+		if(usuarioActivo!=null){
+			usuarioActivo.eliminarCiudad(ciudad);
+			usuarioActivo.eliminarAeropuerto(eliminar);
+			return ciudad;
+		}
 		return null;
 	}
 
 	@Override
-	public void definirRangoTiempoUsuario(String t1, String t2) {
-		// TODO Auto-generated method stub
-		
+	public void definirRangoTiempoUsuario(int t1, int t2) {
+		if(usuarioActivo != null){
+			usuarioActivo.setDuraciones(t1, t2);
+		}
 	}
 
 	@Override

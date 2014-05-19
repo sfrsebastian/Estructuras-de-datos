@@ -33,10 +33,29 @@ public class Usuario implements Comparable<Usuario> {
 	 */
 	private String contrasenia;
 
+	/**
+	 * La duracion minima de vuelo expresada en minutos
+	 */
+	private int duracionMin;
+	
+	/**
+	 * La duracion maxima del vuelo expresada en minutos
+	 */
+	private int duracionMax;
+	
+	/**
+	 * La lista de ciudades preferidas del usuario
+	 */
 	private ListaOrdenada<String> ciudades;
 
+	/**
+	 * La lista de aeropuertos preferidos del usuario
+	 */
 	private ListaOrdenada<Aeropuerto> aeropuertos;
 
+	/**
+	 * La lista de aerolineas preferidas del usuario
+	 */
 	private ListaOrdenada<Aerolinea> aerolineas;
 
 	//--------------------
@@ -56,6 +75,8 @@ public class Usuario implements Comparable<Usuario> {
 		usuario = nApellido;
 		correo = nCorreo;
 		contrasenia = nContrasenia;
+		duracionMin = -1;
+		duracionMax = -1;
 		ciudades = new ListaOrdenada<String>();
 		aeropuertos = new ListaOrdenada<Aeropuerto>();
 		aerolineas = new ListaOrdenada<Aerolinea>();
@@ -70,7 +91,7 @@ public class Usuario implements Comparable<Usuario> {
 	 * @param pass La contrasenia a comparar
 	 * @return TRUE si el usuario se valido, FALSE de lo contrario
 	 */
-	public boolean AutenticarUsuario(String user, String pass){
+	public boolean autenticarUsuario(String user, String pass){
 		return (user.compareTo(usuario) == 0) && (pass.compareTo(contrasenia)==0);
 	}
 
@@ -105,6 +126,22 @@ public class Usuario implements Comparable<Usuario> {
 	public String getCorreo() {
 		return correo;
 	} 
+	
+	/**
+	 * Retorna la duracion minima preferida
+	 * @return 
+	 */
+	public int getDuracionMin(){
+		return duracionMin;
+	}
+	
+	/**
+	 * Retorna la duracion maxima preferida
+	 * @return
+	 */
+	public int getDuracionMax(){
+		return duracionMax;
+	}
 	
 	/**
 	 * Retorna los aeropuerto del usuario
@@ -168,6 +205,16 @@ public class Usuario implements Comparable<Usuario> {
 		aerolineas.eliminar(eliminar);
 	}
 
+	/**
+	 * Cambia las duracion de preferencia del usuario
+	 * @param min La duracion minima
+	 * @param max La duracion maxima
+	 */
+	public void setDuraciones(int min, int max){
+		duracionMin = min;
+		duracionMax = max;
+	}
+	
 	@Override
 	public int compareTo(Usuario o) {
 		return usuario.compareTo(o.getUsuario());

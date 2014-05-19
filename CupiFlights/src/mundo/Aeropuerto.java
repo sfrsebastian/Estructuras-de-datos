@@ -308,7 +308,7 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	 * Retorna el nombre del aeropuerto
 	 */
 	public String toString(){
-		return nombre;
+		return nombre + " - " + codigo;
 	}
 
 	/**
