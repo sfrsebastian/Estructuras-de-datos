@@ -405,19 +405,19 @@ public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends
 	 * @param idDestino El vertice de destino
 	 * @return El camino de menor costo
 	 */
-	public Camino<K,V,A> darCaminoSimpleMasBaratoA(K idDestino){
+	public Camino<K,V,A> darCaminoMasBarato(K idDestino , String criterio){
 		Camino<K,V,A> respuesta = null;
 		if(!marcado){
 			marcar();
 			if(idVertice.compareTo(idDestino)==0){
-				respuesta = new Camino<K,V,A>(this,false);
+				respuesta = new Camino<K,V,A>(this,false,criterio);
 			}
 			else{
 				Iterator<Arco<K,V,A>> itsucesores = sucesores.iterator(); 
 				while (itsucesores.hasNext()){
 					Arco<K,V,A> arco = itsucesores.next( );
 					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
-					Camino<K,V,A> camino = vtceSucesor.darCaminoSimpleMasBaratoA(idDestino);
+					Camino<K,V,A> camino = vtceSucesor.darCaminoMasBarato(idDestino,criterio);
 					if (camino != null){ 
 						camino.agregarArcoComienzo(arco); 
 						if(respuesta == null){ 
@@ -433,6 +433,39 @@ public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends
 		return respuesta;
 	}
 
+	/**
+	 * Retorna el camino simple de mayor costo entre los dos vertices dados.
+	 * @param idDestino El vertice de destino
+	 * @return El camino de mayor costo
+	 */
+	public Camino<K,V,A> darCaminoMasCostoso(K idDestino , String criterio){
+		Camino<K,V,A> respuesta = null;
+		if(!marcado){
+			marcar();
+			if(idVertice.compareTo(idDestino)==0){
+				respuesta = new Camino<K,V,A>(this,false,criterio);
+			}
+			else{
+				Iterator<Arco<K,V,A>> itsucesores = sucesores.iterator(); 
+				while (itsucesores.hasNext()){
+					Arco<K,V,A> arco = itsucesores.next( );
+					Vertice<K,V,A> vtceSucesor = arco.getDestino(); 
+					Camino<K,V,A> camino = vtceSucesor.darCaminoMasBarato(idDestino,criterio);
+					if (camino != null){ 
+						camino.agregarArcoComienzo(arco); 
+						if(respuesta == null){ 
+							respuesta = camino; }
+						else if ( respuesta.getCosto() < camino.getCosto() ) { 
+							respuesta = camino; 
+						}
+					} 
+				}
+			} 
+			desmarcar();
+		}
+		return respuesta;
+	}
+	
 	/**
 	 * Realiza la busqueda por profundidad del vertice 
 	 * @param rta La lista que almacena la respuesta

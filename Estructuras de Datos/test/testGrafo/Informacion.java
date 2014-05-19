@@ -24,5 +24,9 @@ public class Informacion implements IInfoArco {
 	public float getCosto() {
 		return costo;
 	}
+	@Override
+	public float getCosto(String criterio) {
+		return 0;
+	}
 
 }

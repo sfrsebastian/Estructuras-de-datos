@@ -41,9 +41,29 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 	 */
 	private ListaEncadenada<Arco<K, V, A>> arcos;
 	
+	/**
+	 * El criterio del costo del camino
+	 */
+	private String criterio;
+	
 	//---------------------------------------
 	// Constructor
 	//---------------------------------------
+	
+	public Camino(Vertice<K,V,A> vertice, boolean esInicio, String nCriterio){
+		if(!esInicio){
+			destino = vertice;
+			origen = null;
+		}
+		else{
+			origen = vertice;
+			destino = null;
+		}
+		costo = 0;
+		arcos = new ListaEncadenada<Arco<K,V,A>>();
+		criterio = nCriterio==null? null:nCriterio;
+		longitud = 0;
+	}
 	
 	public Camino(Vertice<K,V,A> vertice, boolean esInicio){
 		if(!esInicio){
@@ -56,6 +76,7 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 		}
 		costo = 0;
 		arcos = new ListaEncadenada<Arco<K,V,A>>();
+		criterio = null;
 		longitud = 0;
 	}
 	
@@ -128,7 +149,11 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 	 */
 	public void agregarArcoFinal(Arco<K, V, A> arco){
 		arcos.agregar(arco);
-		costo+=arco.getInfo().getCosto();
+		if(criterio!=null)
+			costo+=arco.getInfo().getCosto(criterio);
+		else
+			costo+=arco.getInfo().getCosto();
+		
 		longitud++;
 		destino = arco.getDestino();
 	}
@@ -139,7 +164,11 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 	 */
 	public void agregarArcoComienzo(Arco<K, V, A> arco){
 		arcos.agregarInicio(arco);
-		costo+=arco.getInfo().getCosto();
+		if(criterio!=null)
+			costo+=arco.getInfo().getCosto(criterio);
+		else
+			costo+=arco.getInfo().getCosto();
+		
 		longitud++;
 		origen = arco.getOrigen();
 	}

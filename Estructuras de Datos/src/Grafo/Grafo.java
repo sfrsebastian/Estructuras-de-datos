@@ -245,11 +245,26 @@ public class Grafo<K extends Comparable<K>, V extends Comparable<V>, A extends I
 	 * @param idDestino El codigo del vertice destino
 	 * @return El camino entre los dos vertices, null de lo contrario.
 	 */
-	public Camino<K,V,A> darCaminoSimpleMasBaratoA(K idOrigen, K idDestino){
+	public Camino<K,V,A> darCaminoMasBarato(K idOrigen, K idDestino,String criterio){
 		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
 		Camino<K,V,A> respuesta = null;
 		if(origen!=null){
-			respuesta = origen.darCaminoSimpleMasBaratoA(idDestino);
+			respuesta = origen.darCaminoMasBarato(idDestino,criterio);
+		}
+		return respuesta;
+	}	
+	
+	/**
+	 * Retorna el camino simple de mayor costo entre los dos vertices dados
+	 * @param idOrigen El codigo del vertice origen
+	 * @param idDestino El codigo del vertice destino
+	 * @return El camino entre los dos vertices, null de lo contrario.
+	 */
+	public Camino<K,V,A> darCaminoMasCostoso(K idOrigen, K idDestino,String criterio){
+		Vertice<K,V,A> origen = vertices.buscar(idOrigen);
+		Camino<K,V,A> respuesta = null;
+		if(origen!=null){
+			respuesta = origen.darCaminoMasBarato(idDestino,criterio);
 		}
 		return respuesta;
 	}	

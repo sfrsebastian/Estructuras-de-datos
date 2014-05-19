@@ -164,9 +164,9 @@ public class TestGrafo extends TestCase {
 	
 	public void testDarCaminoMasBarato(){
 		setupScenario1();
-		Camino<Character,Character,Informacion> camino = grafo.darCaminoSimpleMasBaratoA('B', 'H');
+		Camino<Character,Character,Informacion> camino = grafo.darCaminoMasBarato('B', 'H',null);
 		assertEquals("El camino menos costoso debe ser de costo 11", (float)11, camino.getCosto());
-		camino = grafo.darCaminoSimpleMasBaratoA('D', 'C');
+		camino = grafo.darCaminoMasBarato('D', 'C',null);
 		assertEquals("El camino menos costoso debe ser de costo 18", (float)18, camino.getCosto());
 	}
 	
