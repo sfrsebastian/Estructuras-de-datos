@@ -141,6 +141,11 @@ public interface ICentralDeVuelos extends Serializable{
 	 */
 	public Usuario ingresar(String usuario, String contrasenia);
 	
+	/**
+	 * Cierra la sesion actual de la central
+	 */
+	public void cerrarSesion();
+	
 	////////
 	//Requerimiento 3
 	////////

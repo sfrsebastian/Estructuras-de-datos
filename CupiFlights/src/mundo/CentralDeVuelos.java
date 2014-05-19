@@ -77,7 +77,16 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 */
 	private Arbol23<Aerolinea> aerolineas;
 
+	/**
+	 * La tabla de usuarios de la central
+	 */
 	private TablaHashing<String,Usuario>usuarios;
+	
+	/**
+	 * El usuario actualmente activo en la central
+	 */
+	private Usuario usuarioActivo;
+	
 	/**
 	 * Formateador fechas
 	 */
@@ -103,6 +112,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		aerolineas = new Arbol23<Aerolinea>();
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		usuarios = new TablaHashing<String,Usuario>(7,2);
+		usuarioActivo = null;
 		cargarAeropuertos();
 	}
 
@@ -744,10 +754,21 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	@Override
 	public Usuario ingresar(String usuario, String contrasenia) {
-		// TODO Auto-generated method stub
+		Usuario respuesta = null;
+		if((respuesta = usuarios.buscar(usuario))!=null){
+			if(respuesta.AutenticarUsuario(usuario, contrasenia)){
+				usuarioActivo = respuesta;
+				return respuesta;
+			}
+		}
 		return null;
 	}
 
+	@Override
+	public void cerrarSesion() {
+		usuarioActivo = null;	
+	}
+	
 	@Override
 	public Aeropuerto agregarAeropuertoUsuario(String codigoAeropuerto) {
 		// TODO Auto-generated method stub
