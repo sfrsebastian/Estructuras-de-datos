@@ -59,7 +59,7 @@ public class Grafo<K extends Comparable<K>, V extends Comparable<V>, A extends I
 	 * @param idVert El id del vertice que se quiere buscar
 	 * @return El vertice, NULL en caso contrario
 	 */
-	private Vertice<K,V,A> darVertice(K idVert){
+	public Vertice<K,V,A> darVertice(K idVert){
 		Vertice<K,V,A> vertice = vertices.buscar(idVert);
 		return vertice;	
 	}

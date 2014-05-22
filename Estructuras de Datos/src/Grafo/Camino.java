@@ -133,13 +133,13 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 		return lista.iterator();
 	}
 	
-//	/**
-//	 * Retorna iterador de los arcos del camino
-//	 * @return Iterator iterador de los arcos del camino
-//	 */
-//	public Iterator<Arco<K, V, A>> darArcos(){ 
-//		return arcos.iterator();
-//	}
+	/**
+	 * Retorna iterador de los arcos del camino
+	 * @return Iterator iterador de los arcos del camino
+	 */
+	public Iterator<Arco<K, V, A>> darArcos(){ 
+		return arcos.iterator();
+	}
 	
 	/**
 	 * Agrega un arco al final del camino

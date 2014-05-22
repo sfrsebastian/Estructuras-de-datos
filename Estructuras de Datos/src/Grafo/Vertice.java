@@ -474,12 +474,14 @@ public class Vertice<K extends Comparable<K>, V extends Comparable<V>, A extends
 			Arco<K,V,A> actual = it.next();
 			Vertice<K,V,A> v = actual.getDestino();
 			Camino<K,V,A> camino = v.darCaminoMasCostoso(idVertice,criterio);
-			camino.agregarArcoComienzo(actual);
-			if(respuesta == null){
-				respuesta = camino;
-			}
-			else if(respuesta.getCosto()<camino.getCosto()){
-				respuesta = camino;
+			if(camino!=null){
+				camino.agregarArcoComienzo(actual);
+				if(respuesta == null){
+					respuesta = camino;
+				}
+				else if(respuesta.getCosto()<camino.getCosto()){
+					respuesta = camino;
+				}
 			}
 		}
 		return respuesta;
