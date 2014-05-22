@@ -62,11 +62,11 @@ public class InfoCostos implements IInfoArco {
 	 * @param nVuelo El vuelo con los costos
 	 */
 	public InfoCostos(Vuelo nVuelo){
+		vuelo = nVuelo;
 		distancia = vuelo.getDistancia();
 		tiempo = vuelo.getDuracion();
 		rating = (float) vuelo.getRating();
 		tardios = vuelo.getTardios();
-		vuelo = nVuelo;
 	}
 	
 	@Override

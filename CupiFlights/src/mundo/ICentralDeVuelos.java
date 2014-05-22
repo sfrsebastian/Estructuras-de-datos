@@ -117,7 +117,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * Retorna la ruta del mapa con los aeropuertos y el arbol con los indices de los aeropuertos agregados organizados por indice de tardanza.
 	 * @return La ruta del mapa
 	 */
-	public Object[] darURLMapa();
+	public String darURLMapa();
 	
 	////////////////////
 	//CUPIFLIGHTS 2.0
@@ -236,7 +236,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param codigo El codigo del aeropuerto de entrada
 	 * @return La ruta de menor tiempo con parada
 	 */
-	public Iterator<Aeropuerto> darRutaMenorTiempoConParada(String codigo1, String codigo2);
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMenorTiempoConParada(String codigo1, String codigo2);
 	
 	/**
 	 * Retorna la ruta con vuelos de mayor rating
@@ -244,7 +244,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param codigo2 El codigo del aeropuerto de entrada
 	 * @return La ruta de mayor rating
 	 */
-	public Iterator<Aeropuerto> darRutaMayorRating(String codigo1, String codigo2);
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMayorRating(String codigo1, String codigo2);
 	
 	/**
 	 * Retorna la ruta con menor cantidad de vuelos tardios
@@ -252,7 +252,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param codigo2 El codigo del aeropuerto de llegada
 	 * @return La ruta de menor cantidad de vuelos tardios
 	 */
-	public Iterator<Aeropuerto>darRutaMenorTardios(String codigo1,String codigo2);
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMenorTardios(String codigo1,String codigo2);
 	
 	/**
 	 * Retorna el tour mas largo al aeropuerto dado por parametro<br>
@@ -260,7 +260,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param codigo1 El codigo del aeropuerto
 	 * @return El camino mas largo
 	 */
-	public Iterator<Aeropuerto>darTourMasLargo(String codigo1);
+	public Camino<String, Aeropuerto, InfoCostos> darTourMasLargo(String codigo1);
 	
 	/**
 	 * Retorna los tours disponibles que incluya los aeropeurtos dados
@@ -272,7 +272,7 @@ public interface ICentralDeVuelos extends Serializable{
 	/**
 	 * Retorna un tour que parte del aeropuerto dado y pasa por los aeropuertos de la preferencia del usuario.
 	 * @param codigo El codigo del aeropuerto de inicio
-	 * @return El tour de resultado
+	 * @return El tour de resultado, null si no lo hay
 	 */
-	public Iterator<Aeropuerto> darTourDesde(String codigo);
+	public Camino<String, Aeropuerto, InfoCostos> darTourDesde(String codigo);
 }

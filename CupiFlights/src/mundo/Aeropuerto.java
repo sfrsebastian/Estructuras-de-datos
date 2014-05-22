@@ -308,22 +308,14 @@ public class Aeropuerto implements Comparable<Aeropuerto>,Serializable{
 	 * Retorna el nombre del aeropuerto
 	 */
 	public String toString(){
-		return nombre + " - " + codigo;
+		return nombre + ", " + ciudad + ", " + pais;
 	}
 
 	/**
 	 * Metodo de comparacion de dos aeropuertos a partir de su codigo
 	 */
 	public int compareTo(Aeropuerto o) {
-		int comparacion = codigo.compareTo(o.codigo);
-		if(comparacion>0){
-			return 1;
-		}
-		else if(comparacion<0){
-			return -1;
-		}
-		else{
-			return 0;
-		}
+		int comparacion = codigo.compareTo(o.getCodigo());
+		return comparacion;
 	}
 }

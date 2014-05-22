@@ -286,15 +286,16 @@ public class Vuelo implements Serializable,Comparable<Vuelo> {
 	 * Metodo que compara dos vuelos a partir del numero de vuelo
 	 */
 	public int compareTo(Vuelo o) {
-		int comparacion = numero.compareTo(o.numero);
-		if(comparacion>0){
-			return 1;
-		}
-		else if(comparacion<0){
-			return -1;
+		int comparacionNumero=numero.compareTo(o.numero);
+		int comparacionAero = 0;
+		if(o.getAereolinea()!=null)
+			comparacionAero = aerolinea.compareTo(o.getAereolinea());
+		
+		if(comparacionNumero == 0 && comparacionAero == 0){
+			return 0;
 		}
 		else{
-			return 0;
+			return comparacionNumero;
 		}
 	}	
 }
