@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import Grafo.Camino;
 import mundo.Aeropuerto;
 import mundo.CentralDeVuelos;
+import mundo.InfoCostos;
 
 public class ServletConsultasUsuario extends HttpServlet{
 	
@@ -72,6 +73,7 @@ public class ServletConsultasUsuario extends HttpServlet{
 					if(pedido.equals("calcularGradoSeparacion")){
 						String origen = request.getParameter("origen");
 						String destino = request.getParameter("destino");
+						System.out.println(origen+"-"+destino);
 						Camino c = central.darGrado(origen, origen);
 						imprimirRuta(request, response, c, "Grado de Separacion");
 					}else if(pedido.equals("rutaMasCorta")){
@@ -103,6 +105,10 @@ public class ServletConsultasUsuario extends HttpServlet{
 						String origen = request.getParameter("origen");
 						Camino c = central.darTourDesde(origen);
 						imprimirRuta(request, response, c, "Tour Recomendado");
+					}else if(pedido.equals("verToursDisponibles")){
+						String cods = request.getParameter("codigos");
+						String[] codigos = cods.split(",");
+						Iterator<Camino<String, Aeropuerto, InfoCostos>> i = central.darToursDisponibles(codigos);
 					}
 					//EXTENSION!
 					else if(pedido.equals("LO QUE SEA1")){
@@ -241,7 +247,6 @@ public class ServletConsultasUsuario extends HttpServlet{
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"mapa.html\">Mapa</a></li>"); 
 		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
 		respuesta.println("            <li><a href=\"usuario.html\">Usuario</a></li>"); 
 		respuesta.println("          </ul>"); 

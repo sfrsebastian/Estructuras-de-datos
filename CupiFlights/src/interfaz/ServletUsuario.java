@@ -728,7 +728,7 @@ public class ServletUsuario extends HttpServlet{
 		respuesta.println("                  <option value=\"rutaMasCorta\">Ruta mas corta</option>"); 
 		respuesta.println("                  <option value=\"rutaMasCortaTiempo\">Ruta mas corta por tiempo</option>"); 
 		respuesta.println("                  <option value=\"rutaMejorRating\">Ruta con mejor rating</option>");
-		respuesta.println("                  <option value=\"rutaMenorTardios\">Ruta con mejor rating</option>");
+		respuesta.println("                  <option value=\"rutaMenorTardios\">Ruta menor tardios</option>");
 		respuesta.println("                </select>"); 
 		respuesta.println("              </div>"); 
 		respuesta.println("            </div>"); 
@@ -824,7 +824,26 @@ public class ServletUsuario extends HttpServlet{
 		respuesta.println("            </div>"); 
 		respuesta.println("            <input type=\"hidden\" name=\"pedido\" value=\"verRecomendaciones\">"); 
 		respuesta.println("          </form>"); 
-		respuesta.println("          <hr>   "); 
+		respuesta.println("          <hr>   ");
+		
+		respuesta.println("          <h4 style=\"margin-bottom:30px;\">Ver Opciones de Tours</h4>"); 
+		respuesta.println("          <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"consultas_usuario.html\">");  
+		respuesta.println("        <div class=\"form-group\">"); 
+		respuesta.println("          <label for=\"inputEmail3\" class=\"col-sm-2 control-label\">Codigo</label>"); 
+		respuesta.println("          <div class=\"col-sm-10\">");
+		respuesta.println("          <p>Deben ir separados por comas</p>");
+		respuesta.println("            <input type=\"text\" class=\"form-control\" id=\"inputEmail3\" name=\"codigos\" placeholder=\"Codigos de Aeropuertos\">"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>");
+		respuesta.println("            <div class=\"form-group\">"); 
+		respuesta.println("              <div class=\"col-sm-offset-2 col-sm-10\">"); 
+		respuesta.println("                <button type=\"submit\" class=\"btn btn-info\">Consultar!</button>"); 
+		respuesta.println("              </div>"); 
+		respuesta.println("            </div>"); 
+		respuesta.println("            <input type=\"hidden\" name=\"pedido\" value=\"verToursDisponibles\">"); 
+		respuesta.println("          </form>"); 
+		respuesta.println("          <hr>   ");
+		
 		respuesta.println(""); 
 		respuesta.println("        </div>"); 
 		respuesta.println("      </div>"); 
