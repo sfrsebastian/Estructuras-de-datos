@@ -105,7 +105,7 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 	 * @return El vertice de origen.
 	 */
 	public V getOrigen(){
-		return origen.getElemento();
+		return origen!=null?origen.getElemento():null;
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 	 * @return El vertice de destino
 	 */
 	public V getDestino(){
-		return destino.getElemento();
+		return destino!=null?destino.getElemento():null;
 	}
 	
 	/**
