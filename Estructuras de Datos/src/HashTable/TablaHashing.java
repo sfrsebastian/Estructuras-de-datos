@@ -100,7 +100,7 @@ public class TablaHashing<K,V extends Comparable<?super V>> implements ITablaHas
 	}
 
 	public int hash(K nLlave) {
-		return nLlave.hashCode() % capacidad;
+		return Math.abs(nLlave.hashCode()) % capacidad;
 	}
 	
 	public Iterator iterator(){
