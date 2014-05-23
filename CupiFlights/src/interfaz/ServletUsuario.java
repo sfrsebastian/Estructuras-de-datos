@@ -808,7 +808,7 @@ public class ServletUsuario extends HttpServlet{
 		respuesta.println("              <div class=\"col-sm-10\">"); 
 		
 		respuesta.println("                <select id=\"ae0r1\" name=\"origen\" class=\"form-control\">"); 
-		Iterator<Aeropuerto> ib4 = central.darAeropuertos();
+		Iterator<Aeropuerto> ib4 = usuario.getAeropuertos();
 		while(ib4.hasNext()){
 			Aeropuerto actual = ib4.next();
 			respuesta.println("                  <option value=\""+ actual.getCodigo() +"\">"+actual.getNombre()+"</option>");
@@ -839,7 +839,34 @@ public class ServletUsuario extends HttpServlet{
 		respuesta.println("    </div> <!-- /container -->"); 
 		respuesta.println("</body>"); 
 		respuesta.println("</html>"); 
-
-
+		
+		//FORMULARIO PARA COPIAR, SOLO REEMPLAZAR VALUE DEL HIDDEN Y NOMBRE DE LAS VARIABLES
+		
+		/*
+		 * 		respuesta.println("          <h4 style=\"margin-bottom:30px;\">Ver Recomendaciones</h4>"); 
+		respuesta.println("          <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"consultas_usuario.html\">"); 
+		respuesta.println("            <div class=\"form-group\">"); 
+		respuesta.println("              <label for=\"ae0r1\" class=\"col-sm-2 control-label\">Origen:</label>"); 
+		respuesta.println("              <div class=\"col-sm-10\">"); 
+		
+		respuesta.println("                <select id=\"ae0r1\" name=\"origen\" class=\"form-control\">"); 
+		Iterator<Aeropuerto> ib4 = usuario.getAeropuertos();
+		while(ib4.hasNext()){
+			Aeropuerto actual = ib4.next();
+			respuesta.println("                  <option value=\""+ actual.getCodigo() +"\">"+actual.getNombre()+"</option>");
+		} 
+		respuesta.println("                </select>");
+		
+		respuesta.println("              </div>"); 
+		respuesta.println("            </div>"); 
+		respuesta.println("            <div class=\"form-group\">"); 
+		respuesta.println("              <div class=\"col-sm-offset-2 col-sm-10\">"); 
+		respuesta.println("                <button type=\"submit\" class=\"btn btn-info\">Consultar!</button>"); 
+		respuesta.println("              </div>"); 
+		respuesta.println("            </div>"); 
+		respuesta.println("            <input type=\"hidden\" name=\"pedido\" value=\"verRecomendaciones\">"); 
+		respuesta.println("          </form>"); 
+		respuesta.println("          <hr>   "); 
+		 */
 	}
 }

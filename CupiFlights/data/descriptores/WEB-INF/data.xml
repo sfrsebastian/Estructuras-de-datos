@@ -67,6 +67,10 @@ Autor: Pablo Barvo - 05-Mayo-2006
       <servlet-name>ConsultasUsuario</servlet-name>
       <servlet-class>interfaz.ServletConsultasUsuario</servlet-class>
    </servlet>
+      <servlet>
+      <servlet-name>Extension</servlet-name>
+      <servlet-class>interfaz.ServletExtension</servlet-class>
+   </servlet>
    <!-- MAPPING -->
    
    <servlet-mapping>
@@ -116,6 +120,10 @@ Autor: Pablo Barvo - 05-Mayo-2006
    <servlet-mapping>
       <servlet-name>ConsultasUsuario</servlet-name>
       <url-pattern>/consultas_usuario.html</url-pattern>
+   </servlet-mapping>
+      <servlet-mapping>
+      <servlet-name>Extension</servlet-name>
+      <url-pattern>/extension.html</url-pattern>
    </servlet-mapping>
 
 </web-app>

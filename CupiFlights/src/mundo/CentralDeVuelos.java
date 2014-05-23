@@ -969,7 +969,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		Camino<String,Aeropuerto,InfoCostos>respuesta = caminoParcial;
 		while(it1.hasNext()){
 			Aeropuerto llegada = it1.next();
-			if(grafo.hayCaminoSimple(caminoParcial.getDestino().getCodigo(),llegada.getCodigo())){
+			Aeropuerto a = caminoParcial.getDestino() != null? caminoParcial.getDestino():caminoParcial.getOrigen();
+			if(grafo.hayCaminoSimple(a.getCodigo(),llegada.getCodigo())){
 				Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(caminoParcial.getDestino().getCodigo(),llegada.getCodigo());
 				caminoParcial.agregarArcoFinal(nuevo);
 				if(grafo.hayCaminoSimple(llegada.getCodigo(),caminoParcial.getOrigen().getCodigo())){

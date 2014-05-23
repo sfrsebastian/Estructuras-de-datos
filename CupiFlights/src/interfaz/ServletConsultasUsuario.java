@@ -96,13 +96,24 @@ public class ServletConsultasUsuario extends HttpServlet{
 						Camino c= central.darRutaMenorTardios(origen, destino);
 						imprimirRuta(request, response, c, "Ruta menor tardanza");
 					}else if(pedido.equals("tourMasLargo")){
-						String origen = request.getParameter("codigo");
+						String origen = request.getParameter("origen");
 						Camino c = central.darTourMasLargo(origen);
 						imprimirRuta(request, response, c, "Tour mas largo");
 					}else if(pedido.equals("verRecomendaciones")){
-						String origen = request.getParameter("codigo");
+						String origen = request.getParameter("origen");
 						Camino c = central.darTourDesde(origen);
 						imprimirRuta(request, response, c, "Tour Recomendado");
+					}
+					//EXTENSION!
+					else if(pedido.equals("LO QUE SEA1")){
+						String s1 = request.getParameter("PAR1");
+						//Metodo de la central
+						//imprimirRuta
+					}
+					else if(pedido.equals("LO QUE SEA2")){
+						String s1 = request.getParameter("PAR2");
+						//Metodo de la central
+						//imprimirRuta
 					}
 				}else{
 					response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
@@ -116,6 +127,14 @@ public class ServletConsultasUsuario extends HttpServlet{
 		
 	}
 	
+	/**
+	 * Imprime la ruta pasada por parametro
+	 * @param request
+	 * @param response
+	 * @param c Camino, el camino con la informacion
+	 * @param pedido
+	 * @throws IOException
+	 */
 	private void imprimirRuta(HttpServletRequest request, HttpServletResponse response, Camino c, String pedido) throws IOException {
 		PrintWriter respuesta = response.getWriter();
 		
@@ -138,12 +157,13 @@ public class ServletConsultasUsuario extends HttpServlet{
 		respuesta.println("    // When the user clicks the marker, an info window opens."); 
 		respuesta.println("    function initialize() {"); 
 		respuesta.println("      var mapOptions = {"); 
-		respuesta.println("        zoom: 4,"); 
+		respuesta.println("        zoom: 1,"); 
 		respuesta.println("        center: new google.maps.LatLng(0, -180)"); 
 		respuesta.println("      };"); 
 		respuesta.println(""); 
 		respuesta.println("      var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);"); 
 		respuesta.println(""); 	
+		
 		
 		int ca = 0;
 		if(c!= null){
