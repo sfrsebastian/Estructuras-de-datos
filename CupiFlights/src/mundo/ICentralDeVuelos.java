@@ -204,7 +204,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * Retorna el camino mas corto entre dos aeropuertos
 	 * @return La ruta a seguir
 	 */
-	public Iterator<Aeropuerto> darGrado(String codigo1, String codigo2);
+	public Camino<String, Aeropuerto, InfoCostos> darGrado(String codigo1, String codigo2);
 	
 	/**
 	 * Retorna el camino de menor longitud entre dos aeropuertos
@@ -212,7 +212,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param codigo2 El codigo del aeropuerto de llegada
 	 * @return La ruta de menor longitud
 	 */
-	public Iterator<Aeropuerto> darRutaMenorLongitud(String codigo1,String codigo2);
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMenorLongitud(String codigo1,String codigo2);
 	
 	/**
 	 * Retorna la ruta de menor longitud que involucra paradas

@@ -122,7 +122,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		usuarios = new TablaHashing<String,Usuario>(10,2);
 		usuarioActivo = null;
 		grafo = new Grafo<String,Aeropuerto,InfoCostos>(100);
-		cargarAeropuertos();
+		//cargarAeropuertos();
 	}
 
 	/**
@@ -692,6 +692,14 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public Iterator<Aerolinea> getAerolineas() {
+		return aerolineas.iterator();
+	}
+
+	/**
 	 * Serializa la central en la ruta dada
 	 * @throws Exception
 	 */
@@ -785,6 +793,8 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		if(usuarios.buscar(usuario)==null){
 			Usuario nuevo = new Usuario(nombre, apellido, usuario, correo, constrasenia);
 			usuarios.agregar(usuario, nuevo);
+			usuarioActivo = nuevo;
+			System.out.println(nuevo);
 			return true;
 		}
 		return false;
@@ -836,6 +846,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		Aerolinea agregar = new Aerolinea(codigoAerolinea);
 		agregar = aerolineas.buscar(agregar);
 		if(usuarioActivo!=null){
+			System.out.println(usuarioActivo);
 			usuarioActivo.agregarAerolinea(agregar);
 			return agregar;
 		}
@@ -887,15 +898,15 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darGrado(String codigo1, String codigo2) {
+	public Camino<String,Aeropuerto,InfoCostos> darGrado(String codigo1, String codigo2) {
 		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoSimpleMasCorto(codigo1, codigo2);
-		return respuesta.darVertices();
+		return respuesta;
 	}
 
 	@Override
-	public Iterator<Aeropuerto> darRutaMenorLongitud(String codigo1, String codigo2) {
+	public Camino<String,Aeropuerto,InfoCostos> darRutaMenorLongitud(String codigo1, String codigo2) {
 		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
-		return respuesta.darVertices();
+		return respuesta;
 	}
 
 	@Override
@@ -984,21 +995,27 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		while(arcos.hasNext()){
 			Arco<String,Aeropuerto,InfoCostos> actual = arcos.next();
 			Aeropuerto destino = actual.getDestino().getElemento();
+			String desCiudad = destino.getCiudad();
+			desCiudad = desCiudad.replaceAll("\\s+","");
+			
 			Aeropuerto origen = actual.getOrigen().getElemento();
-			respuesta += "var contentString" + destino.getCiudad() + destino.getCodigo()  +"= '<b>Origen: </b> " + origen.toString() + "<br><b>Destino: </b>" + destino.toString() + "<br><b>Vuelo: </b>" + actual.getInfo().getVuelo().toString()+"';\n";	
-			respuesta += "var infowindow"+ destino.getCiudad()+destino.getCodigo() + "= new google.maps.InfoWindow({\n";
-			respuesta += "	content: contentString" + destino.getCiudad()+destino.getCodigo() + "\n";
+			String desOrig = origen.toString();
+			desOrig = desOrig.replaceAll("\\s+","");
+			
+			respuesta += "var contentString" + desCiudad + destino.getCodigo()  +"= '<b>Origen: </b> " + desOrig + "<br><b>Destino: </b>" + destino.toString() + "<br><b>Vuelo: </b>" + actual.getInfo().getVuelo().toString()+"';\n";	
+			respuesta += "var infowindow"+ desCiudad+destino.getCodigo() + "= new google.maps.InfoWindow({\n";
+			respuesta += "	content: contentString" + desCiudad+destino.getCodigo() + "\n";
 			respuesta +=" });\n";  
 			
-			respuesta += "var latLng" + destino.getCiudad()+destino.getCodigo() + "= new google.maps.LatLng(" + destino.getLatitud() + "," + destino.getLongitud()+");\n";
-			respuesta += "var marker"+destino.getCiudad()+destino.getCodigo() + "= new google.maps.Marker({\n";
-			respuesta += "	position: latLng" + destino.getCiudad()+destino.getCodigo() + ",\n";
+			respuesta += "var latLng" + desCiudad+destino.getCodigo() + "= new google.maps.LatLng(" + destino.getLatitud() + "," + destino.getLongitud()+");\n";
+			respuesta += "var marker"+desCiudad+destino.getCodigo() + "= new google.maps.Marker({\n";
+			respuesta += "	position: latLng" + desCiudad+destino.getCodigo() + ",\n";
 			respuesta += "	map: map,\n";
 			respuesta += "	title: '<b>Vuelo:</b>" + actual.getInfo().getVuelo().toString() + "'\n";
 			respuesta += "});\n";
 			
-			respuesta += "google.maps.event.addListener(marker"+destino.getCiudad()+destino.getCodigo()+", 'click', function() {\n";
-			respuesta += "	infowindow"+destino.getCiudad()+destino.getCodigo()+".open(map,marker"+destino.getCiudad()+destino.getCodigo()+");\n";
+			respuesta += "google.maps.event.addListener(marker"+desCiudad+destino.getCodigo()+", 'click', function() {\n";
+			respuesta += "	infowindow"+desCiudad+destino.getCodigo()+".open(map,marker"+desCiudad+destino.getCodigo()+");\n";
 			respuesta += "});\n";
 		}
 		rutas += "var flightPlanCoordinates = [";
@@ -1022,11 +1039,14 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 //			System.out.println(actual.getCiudad());
 //		}
 //		System.out.println("---------------------darTourmaslargo");
-		Camino<String,Aeropuerto,InfoCostos> camino = central.darRutaMenorTiempoConParada("ATL","LHR");
-		System.out.println(central.darJSRuta(camino));
+//		Camino<String,Aeropuerto,InfoCostos> camino = central.darRutaMenorTiempoConParada("ATL","LHR");
+//		System.out.println(central.darJSRuta(camino));
 //		while(camino.hasNext()){
 //			Aeropuerto actual = camino.next();
 //			System.out.println(actual.getCiudad());
 //		}
+		central.registrarUsuario("felipe", "otalora", "rom", "f@f.com", "1234");
+		Usuario p = central.ingresar("rom", "1234");
+		System.out.println(p);
 	}
 }

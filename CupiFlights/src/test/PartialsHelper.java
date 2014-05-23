@@ -87,7 +87,7 @@ public class PartialsHelper {
 	}
 	
 	public static void main(String[] args) {
-		PartialsHelper p = new PartialsHelper("./data/html/hola.html");
+		PartialsHelper p = new PartialsHelper("./data/html/consultaUsuario/conUsu-total.html");
 		try {
 			p.leerManual();
 		} catch (IOException e) {

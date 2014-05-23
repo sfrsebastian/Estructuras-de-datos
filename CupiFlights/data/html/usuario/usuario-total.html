@@ -1,0 +1,385 @@
+<html>
+<head>
+  <title>Usuario</title>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    body{
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    .sidebar{
+      background-color: gray;
+      padding: 20px;
+    }
+    .sidebar h2{
+      color: white;
+    }
+    .sidebar h4{
+      color: white;
+    }
+    .menor{
+      color: white;
+      border-bottom: 1px solid;
+      text-align: center;
+    }
+
+  </style>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#agregarAeropuerto").click(function(){
+        $("#modalAgregarAeropuerto").modal();
+      });
+      $("#agregarAerolinea").click(function(){
+        $("#modalAgregarAerolinea").modal();
+      });
+      $("#agregarCiudad").click(function(){
+        $("#modalAgregarCiudad").modal();
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-collapse collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">CupiFlighs</a>
+            <ul class="nav navbar-nav">
+              <li><a href="login.html">Admin</a></li><!--class="active" for the active link page!-->
+              <li><a href="consulta.html">Consulta</a></li>
+              <li><a href="mapa.html">Mapa</a></li>
+              <li><a href="general.html">General</a></li>
+              <li><a href="usuario.html">Usuario</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+
+<!--Modals-->
+<div class="modal fade" id="modalAgregarAeropuerto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Agregar/Eliminar Aeropuerto</h3>
+        <p>Elimine o agregue un aeropuerto por su codigo</p>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="agregar">Agregar</label>
+            <input type="text" class="form-control" id="agregar" placeholder="Codigo" name="codigo">
+            <input type="hidden" name="pedido" value="agregarAeropuerto">
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">Agregar Aeropuerto</button>
+          </div>
+        </form>
+        <hr>
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="eliminar">Eliminar</label>
+            <input type="text" class="form-control" id="eliminar" placeholder="Codigo" name="codigo">
+            <input type="hidden" name="pedido" value="eliminarAeropuerto">
+            <button type="submit" class="btn btn-danger" style="margin-top:10px;">Eliminar Aeropuerto</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalAgregarAerolinea" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Agregar/Eliminar Aerolinea</h3>
+        <p>Elimine o agregue una aerolinea por su codigo</p>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="agregar">Agregar</label>
+            <input type="text" class="form-control" id="agregar" placeholder="Codigo" name="codigo">
+            <input type="hidden" name="pedido" value="agregarAerolinea">
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">Agregar Aerolinea</button>
+          </div>
+        </form>
+        <hr>
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="eliminar">Eliminar</label>
+            <input type="text" class="form-control" id="eliminar" placeholder="Codigo" name="codigo">
+            <input type="hidden" name="pedido" value="eliminarAerolinea">
+            <button type="submit" class="btn btn-danger" style="margin-top:10px;">Eliminar Aerolinea</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalAgregarCiudad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Agregar/Eliminar Ciudad</h3>
+        <p>Elimine o agregue una ciudad por su nombre</p>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="agregar">Agregar</label>
+            <input type="text" class="form-control" id="agregar" placeholder="Nombre" name="nombre">
+            <input type="hidden" name="pedido" value="agregarCiudad">
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">Agregar Ciudad</button>
+          </div>
+        </form>
+        <hr>
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="eliminar">Eliminar</label>
+            <input type="text" class="form-control" id="eliminar" placeholder="Nombre" name="nombre">
+            <input type="hidden" name="pedido" value="eliminarCiudad">
+            <button type="submit" class="btn btn-danger" style="margin-top:10px;">Eliminar Ciudad</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/Modals-->
+
+<!--Contenido pagina web-->
+    <div class="container">
+      <h2>Bienvenido Felipe!</h2>
+      <form action="" method="post" role="form">
+        <button type="submit" class="btn btn-info">Cerrar Sesion</button>
+        <input type="hidden" name="pedido" value="salir">
+      </form>
+      <hr>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h2 class="panel-title">Preferencias</h2>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4"><!--Panel Aeropuertos-->
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Aeropuertos agregados</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Aeropuerto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>BOG</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>ATL</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-info" id="agregarAeropuerto">Agregar/Eliminar Aeropuerto</button>
+                </div>
+              </div>
+            </div><!--/Panel Aeropuertos-->
+
+            <div class="col-md-4"><!--Panel Vuelos-->
+              <div class="panel panel-warning">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Aerolineas agregadas</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Aeropuerto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>BOG</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>ATL</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-info" id="agregarAerolinea">Agregar/Eliminar Aerolinea</button>
+                </div>
+              </div>
+            </div><!--/Panel Vuelos-->
+
+            <div class="col-md-4"><!--Panel Ciudades-->
+              <div class="panel panel-danger">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Ciudades agregadas</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Aeropuerto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>BOG</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>ATL</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-info" id="agregarCiudad">Agregar/Eliminar Ciudad</button>
+                </div>
+              </div>
+            </div><!--/Panel Ciudades-->
+
+          </div>
+        </div>
+        <div class="panel-footer">
+          <h3>Duracion de vuelos preferida: <b>20 min</b></h3>
+          <form action="" method="post" role="form">
+            <div class="form-group">
+            <label for="dur">Cambiar Duracion</label>
+            <input type="text" class="form-control" id="dur" placeholder="Duracion" name="duracion">
+            <input type="hidden" name="pedido" value="cambiarDuracion">
+            <button type="submit" class="btn btn-danger" style="margin-top:10px;">Cambiar Duracion</button>
+          </div>
+          </form>
+        </div>
+      </div>
+
+      <!--Consultas del usuario-->
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Consultas</h3>
+        </div>
+        <div class="panel-body">
+          
+          <!--
+            Pedido: calcularGradoSeparacion
+            - origen (codigo aeropuerto)
+            - destino (codigo aeropuerto)
+          -->
+          <h4 style="margin-bottom:30px;">Consulta aqui la informacion que necesites</h4>
+          <form class="form-horizontal" role="form" method="POST" action="consultas_usuario.html">
+            <div class="form-group">
+              <label for="ped" class="col-sm-2 control-label">Consulta:</label>
+              <div class="col-sm-4">
+                <select id="ped" placeholder="Pedido" name="pedido" class="form-control">
+                  <option value="calcularGradoSeparacion">Calcular el grado de separacion</option>
+                  <option value="rutaMasCorta">Ruta mas corta</option>
+                  <option value="rutaMasCortaTiempo">Ruta mas corta por tiempo</option>
+                  <option value="rutaMejorRating">Ruta con mejor rating</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="aeOr" class="col-sm-2 control-label">Origen:</label>
+              <div class="col-sm-10">
+                <input type="text" name="origen" class="form-control" id="aeOr" placeholder="Origen">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="aeDest" class="col-sm-2 control-label">Destino:</label>
+              <div class="col-sm-10">
+                <input type="text" name="destino" class="form-control" id="aeDest" placeholder="Destino">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">Consultar!</button>
+              </div>
+            </div>
+            <input type="hidden" name="pedido" value="calcularGradoSeparacion">
+          </form>
+          <hr> 
+
+          <!--
+            Pedido: tourMasLargo
+            - origen (codigo aeropuerto)
+          -->
+          <h4 style="margin-bottom:30px;">Consultar tour mas largo</h4>
+          <form class="form-horizontal" role="form" method="POST" action="consultas_usuario.html">
+            <div class="form-group">
+              <label for="aeOr" class="col-sm-2 control-label">Origen:</label>
+              <div class="col-sm-10">
+                <input type="text" name="origen" class="form-control" id="aeOr" placeholder="Origen">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">Consultar!</button>
+              </div>
+            </div>
+            <input type="hidden" name="pedido" value="tourMasLargo">
+          </form>
+          <hr>
+
+          <!--
+            Pedido: verRecomendaciones
+          -->
+          <h4 style="margin-bottom:30px;">Ver Recomendaciones</h4>
+          <form class="form-horizontal" role="form" method="POST" action="consultas_usuario.html">
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">Consultar!</button>
+              </div>
+            </div>
+            <input type="hidden" name="pedido" value="verRecomendaciones">
+          </form>
+          <hr>   
+
+        </div>
+      </div>
+
+
+<!--/Cerrar contenido-->
+<hr>
+
+    <footer>
+        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>
+      </footer>
+    </div> <!-- /container -->
+</body>
+</html>

@@ -1,0 +1,145 @@
+<html>
+<head>
+  <title>Usuario</title>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    body{
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    .sidebar{
+      background-color: gray;
+      padding: 20px;
+    }
+    .sidebar h2{
+      color: white;
+    }
+    .sidebar h4{
+      color: white;
+    }
+    .menor{
+      color: white;
+      border-bottom: 1px solid;
+      text-align: center;
+    }
+
+  </style>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#but").click(function(){
+        $("#myModal").modal();
+      });
+    });
+    
+  </script>
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">CupiFlighs</a>
+          <ul class="nav navbar-nav">
+            <li><a href="login.html">Admin</a></li><!--class="active" for the active link page!-->
+            <li><a href="consulta.html">Consulta</a></li>
+            <li><a href="mapa.html">Mapa</a></li>
+            <li><a href="general.html">General</a></li>
+            <li><a href="usuario.html">Usuario</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+<!--form names:
+  nombre
+  apellido
+  usuario
+  correo
+  contrasena1
+  contrasena2
+-->
+
+<!--Modal Starts-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Crea tu cuenta ahora!</h3>
+        <p>Asi de facil es crear una cuenta con <b>CupiFlights!</b></p>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" role="form"><!--form opens-->
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="test" class="form-control" id="nombre" placeholder="Nombre" name="nombre">
+          </div>
+          <div class="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="test" class="form-control" id="apellido" placeholder="Apellido" name="apellido">
+          </div>
+          <div class="form-group">
+            <label for="usuario">Usuario</label>
+            <input type="test" class="form-control" id="usuario" placeholder="Usuario" name="Usuario">
+          </div>
+          <div class="form-group">
+            <label for="correo">Correo</label>
+            <input type="text" class="form-control" id="correo" placeholder="Correo" name="correo">
+          </div>
+          <div class="form-group">
+            <label for="contrasena1">Contrasena</label>
+            <input type="password" class="form-control" id="contrasena1" placeholder="Contrasena" name="contrasena1">
+          </div>
+          <div class="form-group">
+            <label for="contrasena2">Confirmar contrasena</label>
+            <input type="password" class="form-control" id="contrasena2" placeholder="Contrasena" name="contrasena2">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form><!--form closes-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal ends-->
+
+<!--Contenido pagina web-->
+    <div class="container">
+      <h2>Ingresa a tu cuenta de CupiFlights!</h2>
+      <hr>
+      <div style="margin-top:20px">
+        <form role="form" action="" method="post">
+          <div class="form-group">
+            <label for="user">Usuario</label>
+            <input type="text" class="form-control" id="user" placeholder="Usuario">
+          </div>
+          <div class="form-group">
+            <label for="pass">Password</label>
+            <input type="password" class="form-control" id="pass" placeholder="Password">
+          </div>
+          <div class="checkbox">
+            <p>No tienes cuenta? Crea una <a id="but">ahora mismo!</a></p>
+          </div>
+          <button type="submit" class="btn btn-default">Ingresar</button>
+        </form>
+      </div>
+      
+
+<!--/Cerrar contenido-->
+<hr>
+
+    <footer>
+        <p>&copy; Felipe Ot&aacute;lora - Sebasti&aacute;n Florez</p>
+      </footer>
+    </div> <!-- /container -->
+</body>
+</html>

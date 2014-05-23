@@ -1,10 +1,11 @@
 package mundo;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import ListaOrdenada.ListaOrdenada;
 
-public class Usuario implements Comparable<Usuario> {
+public class Usuario implements Comparable<Usuario>,Serializable {
 	//--------------------
 	//ATRIBUTOS
 	//--------------------
@@ -72,7 +73,7 @@ public class Usuario implements Comparable<Usuario> {
 	public Usuario(String nNombre, String nApellido, String nUsuario, String nCorreo, String nContrasenia){
 		nombre = nNombre;
 		apellido = nApellido;
-		usuario = nApellido;
+		usuario = nUsuario;
 		correo = nCorreo;
 		contrasenia = nContrasenia;
 		duracionMin = -1;
@@ -92,7 +93,7 @@ public class Usuario implements Comparable<Usuario> {
 	 * @return TRUE si el usuario se valido, FALSE de lo contrario
 	 */
 	public boolean autenticarUsuario(String user, String pass){
-		return (user.compareTo(usuario) == 0) && (pass.compareTo(contrasenia)==0);
+		return (user.compareTo(usuario) == 0) && (pass.compareTo(contrasenia)== 0);
 	}
 
 	/**
@@ -112,6 +113,14 @@ public class Usuario implements Comparable<Usuario> {
 	}
 
 	/**
+	 * Iterador de aerolineas
+	 * @return Iterator
+	 */
+	public Iterator<Aerolinea> getAerolineas() {
+		return aerolineas.iterator();
+	}
+
+	/**
 	 * Retorna el nombre usuario
 	 * @return El nombre de usuario
 	 */
@@ -127,6 +136,10 @@ public class Usuario implements Comparable<Usuario> {
 		return correo;
 	} 
 	
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
 	/**
 	 * Retorna la duracion minima preferida
 	 * @return 
@@ -218,5 +231,13 @@ public class Usuario implements Comparable<Usuario> {
 	@Override
 	public int compareTo(Usuario o) {
 		return usuario.compareTo(o.getUsuario());
+	}
+	
+	public String toString(){
+		return nombre + "-" + apellido + ":" + contrasenia + "-" + correo;
+	}
+
+	public Iterator<String> getCiudades() {
+		return ciudades.iterator();
 	}
 }

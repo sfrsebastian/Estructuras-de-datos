@@ -130,6 +130,7 @@ public class ServletCupiFlights extends HttpServlet {
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
 		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
+		respuesta.println("            <li><a href=\"usuario.html\">Usuario</a></li>");
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("      </div>"); 

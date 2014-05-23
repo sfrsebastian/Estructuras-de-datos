@@ -260,6 +260,7 @@ public class ServletResultado extends HttpServlet {
 			respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
 			respuesta.println("            <li><a href=\"mapa.html\">Mapa</a></li>"); 
 			respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
+			respuesta.println("            <li><a href=\"usuario.html\">Usuario</a></li>");
 			respuesta.println("          </ul>"); 
 			respuesta.println("        </div>"); 
 			respuesta.println("<!--/.navbar-collapse -->"); 
