@@ -74,7 +74,7 @@ public class ServletConsultasUsuario extends HttpServlet{
 						String origen = request.getParameter("origen");
 						String destino = request.getParameter("destino");
 						System.out.println(origen+"-"+destino);
-						Camino c = central.darGrado(origen, origen);
+						Camino c = central.darGrado(origen, destino);
 						imprimirRuta(request, response, c, "Grado de Separacion");
 					}else if(pedido.equals("rutaMasCorta")){
 						String origen = request.getParameter("origen");
@@ -325,11 +325,11 @@ public class ServletConsultasUsuario extends HttpServlet{
 		respuesta.println("              <li class=\"list-group-item\">Numero vuelos: "+ca+"</li>");
 		
 		
-		int lo = 0;
+		float lo = 0;
 		if(c != null){
-			lo = c.getLongitud();
+			lo = c.getCosto();
 		}
-		respuesta.println("              <li class=\"list-group-item\">Distancia total: "+lo+"</li>");
+		respuesta.println("              <li class=\"list-group-item\">Costo total: "+lo+"</li>");
 		//respuesta.println("              <li class=\"list-group-item\">Rating: 4.5</li>"); 
 		respuesta.println("            </ul>"); 
 		respuesta.println("            </div>"); 
