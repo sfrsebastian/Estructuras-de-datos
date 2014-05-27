@@ -1064,11 +1064,11 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		respuesta +=rutas;
 		return respuesta;
 	}
-	public static void main(String[] args) throws Exception {
-		CentralDeVuelos central = getInstance();
-	//	System.out.println(central.darURLMapa());
-	//	central.agregarAeropuerto("BOG");
-		//central.guardarCentral();
+//	public static void main(String[] args) throws Exception {
+//		CentralDeVuelos central = getInstance();
+//		System.out.println(central.darURLMapa());
+//		central.agregarAeropuerto("BOG");
+//		central.guardarCentral();
 //		Iterator<Aeropuerto> camino = central.darTourDesde("LHR");
 //		while(camino.hasNext()){
 //			Aeropuerto actual = camino.next();
@@ -1081,13 +1081,16 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 //			Aeropuerto actual = camino.next();
 //			System.out.println(actual.getCiudad());
 //		}
-		central.registrarUsuario("Sebastian", "njkcew", "sfrsebastian", "lkjdan", "1234");
-		central.agregarAeropuertoUsuario("CDG");
-		central.agregarAeropuertoUsuario("LHR");
-		central.agregarAeropuertoUsuario("PEK");
-		central.agregarAeropuertoUsuario("HND");
-		Camino<String, Aeropuerto, InfoCostos>camino = central.darTourDesde("ATL");
-		Usuario p = central.ingresar("rom", "1234");
-		System.out.println(p);
-	}
+//		central.registrarUsuario("Sebastian", "njkcew", "sfrsebastian", "lkjdan", "1234");
+//		central.agregarAeropuertoUsuario("CDG");
+//		central.agregarAeropuertoUsuario("LHR");
+//		central.agregarAeropuertoUsuario("PEK");
+//		central.agregarAeropuertoUsuario("HND");
+//		ListaEncadenada<String> lista = new ListaEncadenada<String>();
+//		lista.agregar("CDG");
+//		lista.agregar("ATL");
+//		Iterator<Camino<String, Aeropuerto, InfoCostos>>camino = central.darToursDisponibles(lista);
+//		Usuario p = central.ingresar("rom", "1234");
+//		System.out.println(p);
+//	}
 }

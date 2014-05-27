@@ -20,7 +20,7 @@
 	<target name="init" description="Inicializa las propiedades">
 		<!-- Cambie esta línea según el punto en el que esté instalado JBboss -->
 		<property environment="env" />
-		<property name="jboss.home" value="/Users/felipeotalora/Downloads/jboss-eap-6.2/standalone/deployments" />
+		<property name="jboss.home" value="/Users/sfrsebastian/Documents/JBoss 6.2/standalone/deployments" />
 		<property name="server.path" value="server/default" />
 		
 		<!-- Definición de propiedades -->
