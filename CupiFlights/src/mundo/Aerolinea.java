@@ -180,15 +180,6 @@ public class Aerolinea implements Comparable<Aerolinea>, Serializable {
 	 * Metodo de comparacion por codigos entre dos aerolineas<br>
 	 */
 	public int compareTo(Aerolinea o) {
-		int comparacion = codigo.compareTo(o.codigo);
-		if(comparacion>0){
-			return 1;
-		}
-		else if(comparacion<0){
-			return -1;
-		}
-		else{
-			return 0;
-		}
+		return codigo.compareTo(o.codigo);
 	}
 }

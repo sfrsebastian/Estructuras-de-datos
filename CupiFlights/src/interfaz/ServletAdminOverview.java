@@ -50,7 +50,7 @@ public class ServletAdminOverview extends HttpServlet {
 	protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
 	{
 		HttpSession sesion = request.getSession();
-		if(sesion.getAttribute("usuario") == null){
+		if(!sesion.getAttribute("usuario").equals("rommy")){
 			response.sendRedirect(ServletCupiFlights.RUTA + "/index.html");
 		}else{
 			if(request.getParameter("cargar") != null)
@@ -345,7 +345,8 @@ public class ServletAdminOverview extends HttpServlet {
 		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
 		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
 		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
-		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>");
+		respuesta.println("            <li><a href=\"usuario.html\">Usuario</a></li>");
 		respuesta.println("          </ul>"); 
 		respuesta.println("        </div>"); 
 		respuesta.println("        <div class=\"navbar-collapse collapse\">"); 

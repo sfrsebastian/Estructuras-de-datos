@@ -21,6 +21,11 @@ import org.json.JSONObject;
 
 import Arbol23.Arbol23;
 import ArbolTrie.ArbolTrie;
+import Grafo.Arco;
+import Grafo.Camino;
+import Grafo.Grafo;
+import HashTable.TablaHashing;
+import ListaEncadenada.ListaEncadenada;
 import ListaOrdenada.ListaOrdenada;
 
 public class CentralDeVuelos implements ICentralDeVuelos{
@@ -76,6 +81,21 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	private Arbol23<Aerolinea> aerolineas;
 
 	/**
+	 * La tabla de usuarios de la central
+	 */
+	private TablaHashing<String,Usuario>usuarios;
+	
+	/**
+	 * El usuario actualmente activo en la central
+	 */
+	private Usuario usuarioActivo;
+	
+	/**
+	 * El grafo de la central
+	 */
+	private Grafo<String,Aeropuerto,InfoCostos> grafo;
+	
+	/**
 	 * Formateador fechas
 	 */
 	private SimpleDateFormat dateFormat;
@@ -99,7 +119,10 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		vuelos = new Arbol23<Vuelo>();
 		aerolineas = new Arbol23<Aerolinea>();
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		cargarAeropuertos();
+		usuarios = new TablaHashing<String,Usuario>(10,2);
+		usuarioActivo = null;
+		grafo = new Grafo<String,Aeropuerto,InfoCostos>(100);
+		//cargarAeropuertos();
 	}
 
 	/**
@@ -190,7 +213,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	 * @return El vuelo creado.
 	 * @throws Exception
 	 */
-	private Vuelo leerVuelo(Calendar c,JSONObject objeto, String tipo) throws Exception{
+	private Vuelo leerVuelo(Calendar c,JSONObject objeto, String tipo, float duracion) throws Exception{
 		String numero =  objeto.getString("flightNumber");
 		String codigoSalida = objeto.getString("departureAirportFsCode");
 		Aeropuerto salida = manejarAeropuerto(codigoSalida);
@@ -199,7 +222,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		String codigoAereolinea = objeto.getString("carrierFsCode");
 		Aerolinea aerolinea = manejarAereolinea(codigoAereolinea);
 		Object[] rating = darRating(codigoAereolinea,numero,codigoSalida);
-		Vuelo nuevo = new Vuelo(numero,salida,llegada,aerolinea,tipo,rating, c);
+		Vuelo nuevo = new Vuelo(numero,salida,llegada,aerolinea,tipo,rating,duracion, c);
 		aerolinea.agregarVuelo(nuevo);
 		return nuevo;
 	}
@@ -248,7 +271,6 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		int dia = c.get(Calendar.DAY_OF_MONTH);
 		int mes = c.get(Calendar.MONTH)+1;
 		int anio = c.get(Calendar.YEAR);
-		System.out.println(dia + "- " + mes);
 		String url = "";
 		if(tipo.equals(Vuelo.LLEGANDO)){
 			url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/route/status/" + a2.getCodigo() + "/" + a1.getCodigo() +"/arr/" + anio + "/" + mes + "/"+ dia + "?" + IDENTIFICADORES + "&utc=false&maxFlights=1";
@@ -260,7 +282,14 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
 		for(int i = 0; i<recibidos.length();i++){
 			JSONObject actual = recibidos.getJSONObject(i);
-			Vuelo nuevo = leerVuelo(c,actual,tipo);
+			Vuelo nuevo;
+			try{
+				JSONObject obd = actual.getJSONObject("flightDurations");
+				nuevo = leerVuelo(c,actual,tipo,(float)obd.getDouble("scheduledBlockMinutes"));
+			}
+			catch(Exception e){
+				nuevo = leerVuelo(c,actual,tipo,0);
+			}
 			if(tipo.equals(Vuelo.LLEGANDO)){
 				if(a1.getVuelosEntrada().buscarElemento(date, nuevo)==null){
 					a1.agregarVueloEntrada(date, nuevo);
@@ -277,17 +306,24 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 					a2.agregarVueloEntrada(date,nuevo);
 				}
 			}
-			if(vuelos.buscar(nuevo)==null){
+			Vuelo encontrado;
+			if((encontrado = vuelos.buscar(nuevo))==null){
 				System.out.println("La fecha es: " + date );
 				vuelos.agregar(nuevo);
 				fechas.agregar(date, nuevo);
 				if(tipo.equals(Vuelo.SALIENDO)){
+					grafo.agregarArco(a1.getCodigo(),a2.getCodigo(), new InfoCostos(nuevo));
 					System.out.println("Agregado vuelo # " +  nuevo.getNumero() + " fecha:" + dateFormat.format(c.getTime()) +  " - " + a1.getNombre() + " - "+ a2.getNombre() + "\n-------------------");
 				}
 				else{
+					grafo.agregarArco(a2.getCodigo(),a1.getCodigo(), new InfoCostos(nuevo));
 					System.out.println("Agregado vuelo # " +  nuevo.getNumero() + " fecha:" + dateFormat.format(c.getTime()) +  " - " + a2.getNombre() + " - "+ a1.getNombre() + "\n-------------------");
 				}	
 			}	
+			else{
+				int comp = nuevo.compareTo(encontrado);
+				System.out.println("No agrego");
+			}
 		}
 	}
 
@@ -408,11 +444,11 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 
 	private void buscarVuelosComun(Aeropuerto vuelo) throws Exception {
 		Iterator<Aeropuerto> it2 = aeropuertos.iterator();
-		int i = 0;
-		Random r = new Random();
-		while(it2.hasNext() && i<20){
+//		int i = 0;
+//		Random r = new Random();
+		while(it2.hasNext()){
 			Aeropuerto a2 = it2.next();
-			if(!vuelo.equals(a2) && r.nextBoolean()){
+			if(!vuelo.equals(a2)){
 				//Fecha actual
 				Calendar c = Calendar.getInstance();
 				c.setTimeInMillis(System.currentTimeMillis());
@@ -449,7 +485,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.LLEGANDO);
 					cargarVuelosPorFecha(c, vuelo, a2, Vuelo.SALIENDO);
 				}
-				i++;
+//				i++;
 			}
 		}
 	}
@@ -470,24 +506,25 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		json = sBuilder.toString();
 		JSONObject principal = new JSONObject(json);
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("airports");
-		for(int i = 0; i<recibidos.length();i++){
+		for(int i = 0; i<10;i++){
 			JSONObject actual = recibidos.getJSONObject(i);
 			Aeropuerto nuevo = leerAeropuerto(actual);
 			if(aeropuertos.agregar(nuevo)){
+				grafo.agregarVertice(nuevo.getCodigo(), nuevo);
 				System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
 			}
 		}
 		Iterator<Aeropuerto> i = aeropuertos.iterator();
-		Random r = new Random();
-		Aeropuerto actual = i.next();
-		while(((r.nextBoolean() && r.nextBoolean()&& r.nextBoolean()) == false) && i.hasNext()){
-			actual = i.next();
+//		Random r = new Random();
+//		Aeropuerto actual = i.next();
+		while(i.hasNext()){
+			Aeropuerto actual = i.next();
+			buscarVuelosComun(actual);
 		}
-		buscarVuelosComun(actual);
-		while(((r.nextBoolean() && r.nextBoolean()&& r.nextBoolean()) == false) && i.hasNext()){
-			actual = i.next();
-		}
-		buscarVuelosComun(actual);
+//		buscarVuelosComun(actual);
+//		while(((r.nextBoolean() && r.nextBoolean()&& r.nextBoolean()) == false) && i.hasNext()){
+//			actual = i.next();
+//		}
 	}
 
 	public Aeropuerto agregarAeropuerto(String codigo) throws Exception {
@@ -498,6 +535,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		try{
 			Aeropuerto nuevo = leerAeropuerto((JSONObject) arreglo);
 			aeropuertos.agregar(nuevo);
+			grafo.agregarVertice(nuevo.getCodigo(), nuevo);
 			buscarVuelosComun(nuevo);
 			System.out.println("Aeropuerto agregado: " + nuevo.getNombre() + "\n------------------------");
 			return nuevo;
@@ -513,6 +551,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		if(eliminar == null){
 			throw new Exception("El aeropuerto no existe");
 		}
+		grafo.eliminarVertice(eliminar.getCodigo());
 		eliminarVuelos(eliminar);//Se eliminan los vuelos de la clase principal
 		System.out.println("Aeropuerto eliminado: " + eliminar.getNombre() + "\n------------------------");
 		return aeropuertos.eliminar(eliminar);//se elimina el aeropuerto
@@ -615,29 +654,49 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return respuesta;
 	}
 
-	public Object[] darURLMapa(){
-		ArbolTrie<Aeropuerto> arbol = new ArbolTrie<Aeropuerto>();
-		String url = "http://maps.googleapis.com/maps/api/staticmap?size=700x430";
+	public String darURLMapa(){
+		String respuesta = "";
 		Iterator<Aeropuerto> i = aeropuertos.iterator();
-		char indice = 65;
-		Random r = new Random();
-		int j = 0;
-		while(i.hasNext() && j<30){
-			boolean next = r.nextBoolean();
+		while(i.hasNext()){
 			Aeropuerto actual = i.next();
-			if(next){
-				String armado = "&markers=color:red%7Clabel:" + indice + "%7C" + actual.getLatitud()+ ","+actual.getLongitud();
-				url += armado;
-				arbol.agregar(indice+"", actual);
-				indice++;
-			}
-			j++;
+			respuesta += "var " + actual.getCodigo() + "= new google.maps.LatLng(" + actual.getLatitud() + "," + actual.getLongitud()+");\n";
+			respuesta += "var a"+actual.getCodigo() + "= new google.maps.Marker({\n";
+			respuesta += "	position:" + actual.getCodigo() + ",\n";
+			respuesta += "	map: map,\n";
+			respuesta += "	title: " + " ' " + actual.getNombre() + ": " + actual.getTardanza() + " ' \n";
+			respuesta += "});\n";
 		}
-		url+= "&sensor=false";
-		Object[] respuesta = new Object[2];
-		respuesta[0] = url;
-		respuesta[1] = arbol;
-		return respuesta;
+		return respuesta.toString();
+//		ArbolTrie<Aeropuerto> arbol = new ArbolTrie<Aeropuerto>();
+//		String url = "http://maps.googleapis.com/maps/api/staticmap?size=700x430";
+//		Iterator<Aeropuerto> i = aeropuertos.iterator();
+//		char indice = 65;
+//		Random r = new Random();
+//		int j = 0;
+//		while(i.hasNext() && j<30){
+//			boolean next = r.nextBoolean();
+//			Aeropuerto actual = i.next();
+//			if(next){
+//				String armado = "&markers=color:red%7Clabel:" + indice + "%7C" + actual.getLatitud()+ ","+actual.getLongitud();
+//				url += armado;
+//				arbol.agregar(indice+"", actual);
+//				indice++;
+//			}
+//			j++;
+//		}
+//		url+= "&sensor=false";
+//		Object[] respuesta = new Object[2];
+//		respuesta[0] = url;
+//		respuesta[1] = arbol;
+//		return respuesta;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Iterator<Aerolinea> getAerolineas() {
+		return aerolineas.iterator();
 	}
 
 	/**
@@ -720,17 +779,275 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		JSONArray recibidos= (JSONArray) principal.getJSONArray("flightStatuses");
 		for(int i = 0; i<recibidos.length();i++){
 			JSONObject actual = recibidos.getJSONObject(i);
-			Vuelo nuevo = leerVuelo(c, actual,tipo);
+			JSONObject obd = principal.getJSONObject("flightDurations");
+			Vuelo nuevo = leerVuelo(c,actual,tipo,(float)obd.getDouble("scheduledAirMinutes"));
 			listaVuelos.agregar(nuevo);
 			System.out.println("cargado vuelo: " + nuevo.getNumero() + tipo);
 		}
 		return listaVuelos.iterator();
 	}
 
-	public static void main(String[] args) throws Exception {
-		CentralDeVuelos central = getInstance();
-		central.agregarAeropuerto("BOG");
-		//central.guardarCentral();
+	//2.0
+	@Override
+	public boolean registrarUsuario(String nombre, String apellido,String usuario, String correo, String constrasenia) {
+		if(usuarios.buscar(usuario)==null){
+			Usuario nuevo = new Usuario(nombre, apellido, usuario, correo, constrasenia);
+			usuarios.agregar(usuario, nuevo);
+			usuarioActivo = nuevo;
+			System.out.println(nuevo);
+			return true;
+		}
+		return false;
 	}
 
+	@Override
+	public Usuario ingresar(String usuario, String contrasenia) {
+		Usuario respuesta = null;
+		if((respuesta = usuarios.buscar(usuario))!=null){
+			if(respuesta.autenticarUsuario(usuario, contrasenia)){
+				usuarioActivo = respuesta;
+				return respuesta;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void cerrarSesion() {
+		usuarioActivo = null;	
+	}
+	
+	@Override
+	public Aeropuerto agregarAeropuertoUsuario(String codigoAeropuerto) {
+		Aeropuerto agregar = new Aeropuerto(codigoAeropuerto);
+		agregar = aeropuertos.buscar(agregar);
+		if(usuarioActivo!=null){
+			usuarioActivo.agregarAeropuerto(agregar);
+			usuarioActivo.agregarCiudad(agregar.getCiudad());
+			return agregar;
+		}
+		return null;
+	}
+
+	@Override
+	public Aeropuerto eliminarAeropuertoUsuario(String codigoAeropuerto) {
+		Aeropuerto eliminar = new Aeropuerto(codigoAeropuerto);
+		eliminar = aeropuertos.buscar(eliminar);
+		if(usuarioActivo!=null){
+			usuarioActivo.eliminarAeropuerto(eliminar);
+			usuarioActivo.eliminarCiudad(eliminar.getCiudad());
+			return eliminar;
+		}
+		return null;
+	}
+
+	@Override
+	public Aerolinea agregarAerolineaUsuario(String codigoAerolinea) {
+		Aerolinea agregar = new Aerolinea(codigoAerolinea);
+		agregar = aerolineas.buscar(agregar);
+		if(usuarioActivo!=null){
+			System.out.println(usuarioActivo);
+			usuarioActivo.agregarAerolinea(agregar);
+			return agregar;
+		}
+		return null;
+	}
+
+	@Override
+	public Aerolinea eliminarAerolineaUsuario(String codigoAerolinea) {
+		Aerolinea eliminar = new Aerolinea(codigoAerolinea);
+		eliminar = aerolineas.buscar(eliminar);
+		if(usuarioActivo!=null){
+			usuarioActivo.eliminarAerolinea(eliminar);
+			return eliminar;
+		}
+		return null;
+	}
+
+	@Override
+	public String agregarCiudadUsuario(String codigoCiudad) {
+		Aeropuerto agregar = new Aeropuerto(codigoCiudad);
+		agregar = aeropuertos.buscar(agregar);
+		String ciudad = agregar.getCiudad();
+		if(usuarioActivo!=null){
+			usuarioActivo.agregarCiudad(ciudad);
+			usuarioActivo.agregarAeropuerto(agregar);
+			return ciudad;
+		}
+		return null;
+	}
+
+	@Override
+	public String eliminarCiudadUsuario(String codigoCiudad) {
+		Aeropuerto eliminar = new Aeropuerto(codigoCiudad);
+		eliminar = aeropuertos.buscar(eliminar);
+		String ciudad = eliminar.getCiudad();
+		if(usuarioActivo!=null){
+			usuarioActivo.eliminarCiudad(ciudad);
+			usuarioActivo.eliminarAeropuerto(eliminar);
+			return ciudad;
+		}
+		return null;
+	}
+
+	@Override
+	public void definirRangoTiempoUsuario(int t1, int t2) {
+		if(usuarioActivo != null){
+			usuarioActivo.setDuraciones(t1, t2);
+		}
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darGrado(String codigo1, String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoSimpleMasCorto(codigo1, codigo2);
+		return respuesta;
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darRutaMenorLongitud(String codigo1, String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+		return respuesta;
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorLongitudConParada(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+		while(respuesta.getLongitud() == 1){
+			Arco<String,Aeropuerto,InfoCostos> arco = grafo.darArco(codigo1, codigo2);
+			grafo.eliminarArco(codigo1, codigo2);
+			respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+			grafo.agregarArco(codigo1, codigo2, arco.getInfo());
+		}
+		return respuesta.darVertices();
+	}
+
+	@Override
+	public Iterator<Aeropuerto> darRutaMenorTiempo(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TIEMPO);
+		return respuesta.darVertices();
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darRutaMenorTiempoConParada(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.DISTANCIA);
+		while(respuesta.getLongitud() == 1){
+			Arco<String,Aeropuerto,InfoCostos> arco = grafo.darArco(codigo1, codigo2);
+			grafo.eliminarArco(codigo1, codigo2);
+			respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TIEMPO);
+			grafo.agregarArco(codigo1, codigo2, arco.getInfo());
+		}
+		return respuesta;
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darRutaMayorRating(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TIEMPO);
+		return respuesta;
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darRutaMenorTardios(String codigo1,String codigo2) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCaminoMasBarato(codigo1, codigo2, InfoCostos.TARDIOS);
+		return respuesta;
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darTourMasLargo(String codigo1) {
+		Camino<String,Aeropuerto,InfoCostos> respuesta = grafo.darCicloMasLargo(codigo1, InfoCostos.DISTANCIA);
+		return respuesta!=null?respuesta:null;
+	}
+
+	@Override
+	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(String[] lista) {
+		return null;
+	}
+
+	@Override
+	public Camino<String,Aeropuerto,InfoCostos> darTourDesde(String codigo) {
+		Iterator<Aeropuerto> it1 = usuarioActivo.getAeropuertos();
+		Camino<String,Aeropuerto,InfoCostos>caminoParcial = new Camino<String,Aeropuerto,InfoCostos>(grafo.darVertice(codigo),true," ");
+		Camino<String,Aeropuerto,InfoCostos>respuesta = caminoParcial;
+		while(it1.hasNext()){
+			Aeropuerto llegada = it1.next();
+			Aeropuerto a = caminoParcial.getDestino() != null? caminoParcial.getDestino():caminoParcial.getOrigen();
+			if(grafo.hayCaminoSimple(a.getCodigo(),llegada.getCodigo())){
+				Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(caminoParcial.getDestino().getCodigo(),llegada.getCodigo());
+				caminoParcial.agregarArcoFinal(nuevo);
+				if(grafo.hayCaminoSimple(llegada.getCodigo(),caminoParcial.getOrigen().getCodigo())){
+					respuesta = caminoParcial;
+				}
+			}
+		}
+		Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(respuesta.getDestino().getCodigo(),codigo);
+		caminoParcial.agregarArcoFinal(nuevo);
+		if(respuesta.getLongitud() == 2){
+			return null;
+		}
+		else{
+			return respuesta;
+		}
+	}
+	
+	public String darJSRuta (Camino<String,Aeropuerto,InfoCostos> ruta){
+		Iterator<Aeropuerto> iterador = ruta.darVertices();
+		Iterator<Arco<String,Aeropuerto,InfoCostos>> arcos = ruta.darArcos();
+		String respuesta = "";
+		String rutas = "";
+		while(arcos.hasNext()){
+			Arco<String,Aeropuerto,InfoCostos> actual = arcos.next();
+			Aeropuerto destino = actual.getDestino().getElemento();
+			String desCiudad = destino.getCiudad();
+			desCiudad = desCiudad.replaceAll("\\s+","");
+			
+			Aeropuerto origen = actual.getOrigen().getElemento();
+			String desOrig = origen.toString();
+			desOrig = desOrig.replaceAll("\\s+","");
+			
+			respuesta += "var contentString" + desCiudad + destino.getCodigo()  +"= '<b>Origen: </b> " + desOrig + "<br><b>Destino: </b>" + destino.toString() + "<br><b>Vuelo: </b>" + actual.getInfo().getVuelo().toString()+"';\n";	
+			respuesta += "var infowindow"+ desCiudad+destino.getCodigo() + "= new google.maps.InfoWindow({\n";
+			respuesta += "	content: contentString" + desCiudad+destino.getCodigo() + "\n";
+			respuesta +=" });\n";  
+			
+			respuesta += "var latLng" + desCiudad+destino.getCodigo() + "= new google.maps.LatLng(" + destino.getLatitud() + "," + destino.getLongitud()+");\n";
+			respuesta += "var marker"+desCiudad+destino.getCodigo() + "= new google.maps.Marker({\n";
+			respuesta += "	position: latLng" + desCiudad+destino.getCodigo() + ",\n";
+			respuesta += "	map: map,\n";
+			respuesta += "	title: '<b>Vuelo:</b>" + actual.getInfo().getVuelo().toString() + "'\n";
+			respuesta += "});\n";
+			
+			respuesta += "google.maps.event.addListener(marker"+desCiudad+destino.getCodigo()+", 'click', function() {\n";
+			respuesta += "	infowindow"+desCiudad+destino.getCodigo()+".open(map,marker"+desCiudad+destino.getCodigo()+");\n";
+			respuesta += "});\n";
+		}
+		rutas += "var flightPlanCoordinates = [";
+		while(iterador.hasNext()){
+			Aeropuerto actual = iterador.next();
+			rutas+="new google.maps.LatLng(" + actual.getLatitud() + "," + actual.getLongitud()+"),\n";
+		}
+		rutas = rutas.substring(0, rutas.length()-2);
+		rutas+="];";
+		respuesta +=rutas;
+		return respuesta;
+	}
+	public static void main(String[] args) throws Exception {
+		CentralDeVuelos central = getInstance();
+	//	System.out.println(central.darURLMapa());
+	//	central.agregarAeropuerto("BOG");
+	//	central.guardarCentral();
+//		Iterator<Aeropuerto> camino = central.darTourDesde("LHR");
+//		while(camino.hasNext()){
+//			Aeropuerto actual = camino.next();
+//			System.out.println(actual.getCiudad());
+//		}
+//		System.out.println("---------------------darTourmaslargo");
+//		Camino<String,Aeropuerto,InfoCostos> camino = central.darRutaMenorTiempoConParada("ATL","LHR");
+//		System.out.println(central.darJSRuta(camino));
+//		while(camino.hasNext()){
+//			Aeropuerto actual = camino.next();
+//			System.out.println(actual.getCiudad());
+//		}
+		central.registrarUsuario("felipe", "otalora", "rom", "f@f.com", "1234");
+		Usuario p = central.ingresar("rom", "1234");
+		System.out.println(p);
+	}
 }
