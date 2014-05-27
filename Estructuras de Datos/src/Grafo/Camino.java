@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import ListaEncadenada.ListaEncadenada;
 
-public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Serializable {
+public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends IInfoArco> implements Serializable, Comparable<Camino<K,V,A>> {
 
 	//---------------------------------------
 	// Atributos
@@ -170,4 +170,15 @@ public class Camino<K extends Comparable<K>, V extends Comparable<V>, A extends 
 		longitud++;
 		origen = arco.getOrigen();
 	}
+
+	@Override
+	public int compareTo(Camino<K, V, A> o) {
+		if(costo>o.costo)
+			return 1;
+		else if(costo<o.costo)
+			return -1;
+		else
+			return 0;
+	}
+	
 }
