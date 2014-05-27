@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Grafo.Camino;
+import ListaEncadenada.ListaEncadenada;
 import mundo.Aeropuerto;
 import mundo.CentralDeVuelos;
 import mundo.InfoCostos;
@@ -107,8 +108,15 @@ public class ServletConsultasUsuario extends HttpServlet{
 						imprimirRuta(request, response, c, "Tour Recomendado");
 					}else if(pedido.equals("verToursDisponibles")){
 						String cods = request.getParameter("codigos");
+						System.out.println(cods);
 						String[] codigos = cods.split(",");
-						Iterator<Camino<String, Aeropuerto, InfoCostos>> i = central.darToursDisponibles(codigos);
+						ListaEncadenada<String> lista = new ListaEncadenada<String>();
+						for (String string : codigos) {
+							lista.agregar(string);
+						}
+						System.out.println(lista.darLongitud());
+						Iterator<Camino<String, Aeropuerto, InfoCostos>> i = central.darToursDisponibles(lista);
+						imprimirContenido(request, response, i);
 					}
 					//EXTENSION!
 					else if(pedido.equals("LO QUE SEA1")){
@@ -346,10 +354,148 @@ public class ServletConsultasUsuario extends HttpServlet{
 		imprimirFooter(request, response);
 	}
 	
-	private void imprimirContenido(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void imprimirContenido(HttpServletRequest request, HttpServletResponse response, Iterator<Camino<String, Aeropuerto, InfoCostos>> i) throws IOException {
 		PrintWriter respuesta = response.getWriter();
 		
+		respuesta.println("<html>"); 
+		respuesta.println("<head>"); 
+		respuesta.println("  <meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\">"); 
+		respuesta.println("  <meta charset=\"utf-8\">"); 
+		respuesta.println("  <title>Tours</title>"); 
+		respuesta.println("  <style>"); 
+		respuesta.println("    #map-canvas {"); 
+		respuesta.println("      height: 100%;"); 
+		respuesta.println("      margin: 0px;"); 
+		respuesta.println("      padding: 0px"); 
+		respuesta.println("    }"); 
+		respuesta.println("  </style>"); 
 		
+		respuesta.println("	<script src=\"http://code.jquery.com/jquery-1.11.0.min.js\"></script>"); 
+		respuesta.println("	<link rel=\"stylesheet\" href=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css\">"); 
+		respuesta.println("	<script src=\"http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js\"></script>"); 
+		respuesta.println("	<style type=\"text/css\">"); 
+		respuesta.println("		body{"); 
+		respuesta.println("			padding-top: 50px;"); 
+		respuesta.println("			padding-bottom: 20px;"); 
+		respuesta.println("		}"); 
+		respuesta.println("    .sidebar{"); 
+		respuesta.println("      background-color: gray;"); 
+		respuesta.println("      padding: 20px;"); 
+		respuesta.println("    }"); 
+		respuesta.println("    .sidebar h2{"); 
+		respuesta.println("      color: white;"); 
+		respuesta.println("    }"); 
+		respuesta.println("    .sidebar h4{"); 
+		respuesta.println("      color: white;"); 
+		respuesta.println("    }"); 
+		respuesta.println("    .menor{"); 
+		respuesta.println("      color: white;"); 
+		respuesta.println("      border-bottom: 1px solid;"); 
+		respuesta.println("      text-align: center;"); 
+		respuesta.println("    }"); 
+		respuesta.println(""); 
+		respuesta.println("	</style>"); 
+		respuesta.println("</head>"); 
+		
+		
+		
+		respuesta.println("<body>"); 
+		respuesta.println("	<div class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">"); 
+		respuesta.println("      <div class=\"container\">"); 
+		respuesta.println("        <div class=\"navbar-header\">"); 
+		respuesta.println("          <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">"); 
+		respuesta.println("            <span class=\"sr-only\">Toggle navigation</span>"); 
+		respuesta.println("            <span class=\"icon-bar\"></span>"); 
+		respuesta.println("            <span class=\"icon-bar\"></span>"); 
+		respuesta.println("            <span class=\"icon-bar\"></span>"); 
+		respuesta.println("          </button>"); 
+		respuesta.println("          <a class=\"navbar-brand\" href=\"index.html\">CupiFlighs</a>"); 
+		respuesta.println("          <ul class=\"nav navbar-nav\">"); 
+		respuesta.println("            <li><a href=\"login.html\">Admin</a></li><!--class=\"active\" for the active link page!-->"); 
+		respuesta.println("            <li><a href=\"consulta.html\">Consulta</a></li>"); 
+		respuesta.println("            <li><a href=\"general.html\">General</a></li>"); 
+		respuesta.println("            <li><a href=\"usuario.html\">Usuario</a></li>"); 
+		respuesta.println("          </ul>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("<!--/.navbar-collapse -->"); 
+		respuesta.println("      </div>"); 
+		respuesta.println("    </div>"); 
+		respuesta.println(""); 
+		respuesta.println(""); 
+		respuesta.println("    <!-- Main jumbotron for a primary marketing message or call to action -->"); 
+		respuesta.println("    <div class=\"container\">"); 
+		respuesta.println("      <div class=\"row\">"); 
+		respuesta.println("        <div class=\"col-md-5\">"); 
+		respuesta.println("          <div class=\"sidebar\" style=\"height:600px\">"); 
+		respuesta.println("            <h2>Tours del Usuario</h2>"); 
+		respuesta.println("            <hr>"); 
+
+		if(!i.hasNext()){
+			respuesta.println("<div class=\"alert alert-danger\">Atenci&oacute;n! No hay datos disponibles</div>");
+		}
+		
+		//respuesta.println("            <hr>");  
+		//respuesta.println("            <h4>Mas Informacion</h4>"); 
+		respuesta.println("            <ul class=\"list-group\">"); 
+		//respuesta.println("              <li class=\"list-group-item\">Numero vuelos: "con+"</li>");
+		
+		//respuesta.println("              <li class=\"list-group-item\">Costo total: "+lo+"</li>");
+		//respuesta.println("              <li class=\"list-group-item\">Rating: 4.5</li>"); 
+		respuesta.println("            </ul>"); 
+		respuesta.println("            </div>"); 
+		respuesta.println("          </div>"); 
+		respuesta.println("        <div class=\"col-md-7\">"); 
+		respuesta.println("          <div class=\"main content\">"); 
+		respuesta.println("            <h2>Tours disponibles</h2>"); 
+		respuesta.println("            <hr>"); 
+		//-------------------------
+		respuesta.println("                  <div class=\"table-responsive\">"); 
+		respuesta.println("            <table class=\"table table-striped\">"); 
+		respuesta.println("              <thead>"); 
+		respuesta.println("                <tr>"); 
+		respuesta.println("                  <th>#</th>");
+		respuesta.println("                  <th>Ruta</th>");
+//		respuesta.println("                  <th>Ciudad</th>"); 
+//		respuesta.println("                  <th>Pais</th>");
+//		respuesta.println("                  <th>Bandera</th>");
+//		respuesta.println("                  <th>Calificacion</th>"); 
+		respuesta.println("                </tr>"); 
+		respuesta.println("              </thead>"); 
+		respuesta.println("              <tbody>"); 
+		
+		if(i != null){
+
+			int con = 1;
+			while(i.hasNext()){
+				Camino<String, Aeropuerto, InfoCostos> actual = i.next();
+				String ruta = "";
+				Iterator<Aeropuerto> as = actual.darVertices();
+				while(as.hasNext()){
+					Aeropuerto aactual = as.next();
+					ruta += aactual.getNombre() + ",";
+				}
+				
+				respuesta.println("                <tr>"); 
+				respuesta.println("                  <td>"+con+"</td>");
+				respuesta.println("                  <td>"+ruta+"</td>");
+				//			respuesta.println("                  <td>"+actual.getCiudad()+"</td>"); 
+				//			respuesta.println("                  <td>"+actual.getPais()+"</td>");
+				//			respuesta.println("                  <td><img src=\"http://flagpedia.net/data/flags/mini/" + (actual.getCodigoPais()).toLowerCase() + ".png\"></td>");
+				//			respuesta.println("                  <td>"+actual.getCalificacion()+"</td>"); 
+				respuesta.println("                </tr>"); 
+				con++;
+			}
+		}
+
+		respuesta.println("              </tbody>"); 
+		respuesta.println("            </table>");
+		respuesta.println("                  </div>");
+		//-------------------------
+		respuesta.println("          </div>"); 
+		respuesta.println("        </div>"); 
+		respuesta.println("      </div>");
+		
+		imprimirFooter(request, response);
 	}
 	
 	private void imprimirFooter(HttpServletRequest request, HttpServletResponse response) throws IOException {
