@@ -958,9 +958,39 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		return respuesta!=null?respuesta:null;
 	}
 
-	@Override
+	@Override 
 	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(Lista lista) {
-		return null;
+		ListaEncadenada<Camino<String,Aeropuerto,InfoCostos>>respuesta = new ListaEncadenada<Camino<String,Aeropuerto,InfoCostos>>();
+		Iterator<String> it1 = lista.iterator();
+		String codigo = it1.next();
+		Camino<String,Aeropuerto,InfoCostos>caminoParcial = new Camino<String,Aeropuerto,InfoCostos>(grafo.darVertice(codigo),true," ");
+		while(it1.hasNext()){
+			Aeropuerto n = new Aeropuerto(it1.next());
+			Aeropuerto llegada = aeropuertos.buscar(n);
+			Aeropuerto a = caminoParcial.getDestino() != null? caminoParcial.getDestino():caminoParcial.getOrigen();
+			Arco<String,Aeropuerto,InfoCostos> nuevo;
+			if((nuevo = grafo.darArco(a.getCodigo(),llegada.getCodigo()))!=null){
+				if(grafo.darArco(llegada.getCodigo(),codigo)!=null){
+					caminoParcial.agregarArcoFinal(nuevo);
+					agregarCamino(respuesta,caminoParcial,codigo);
+				}
+			}
+		}
+		return respuesta.iterator();
+	}
+
+	/**
+	 * Agrega a la lista el camino cerrado
+	 * @param respuesta
+	 * @param caminoParcial
+	 * @param codigo
+	 */
+	private void agregarCamino(ListaEncadenada<Camino<String, Aeropuerto, InfoCostos>> respuesta,Camino<String, Aeropuerto, InfoCostos> caminoParcial, String codigo) {
+		if(caminoParcial.getLongitud() > 0){
+			Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(caminoParcial.getDestino().getCodigo(),codigo);
+			caminoParcial.agregarArcoFinal(nuevo);
+			respuesta.agregar(caminoParcial);
+		}
 	}
 
 	@Override
