@@ -25,6 +25,7 @@ import Grafo.Arco;
 import Grafo.Camino;
 import Grafo.Grafo;
 import HashTable.TablaHashing;
+import Lista.Lista;
 import ListaEncadenada.ListaEncadenada;
 import ListaOrdenada.ListaOrdenada;
 
@@ -122,7 +123,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		usuarios = new TablaHashing<String,Usuario>(10,2);
 		usuarioActivo = null;
 		grafo = new Grafo<String,Aeropuerto,InfoCostos>(100);
-		//cargarAeropuertos();
+		cargarAeropuertos();
 	}
 
 	/**
@@ -958,7 +959,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	}
 
 	@Override
-	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(String[] lista) {
+	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(Lista lista) {
 		return null;
 	}
 
@@ -966,26 +967,30 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 	public Camino<String,Aeropuerto,InfoCostos> darTourDesde(String codigo) {
 		Iterator<Aeropuerto> it1 = usuarioActivo.getAeropuertos();
 		Camino<String,Aeropuerto,InfoCostos>caminoParcial = new Camino<String,Aeropuerto,InfoCostos>(grafo.darVertice(codigo),true," ");
-		Camino<String,Aeropuerto,InfoCostos>respuesta = caminoParcial;
 		while(it1.hasNext()){
 			Aeropuerto llegada = it1.next();
 			Aeropuerto a = caminoParcial.getDestino() != null? caminoParcial.getDestino():caminoParcial.getOrigen();
-			if(grafo.hayCaminoSimple(a.getCodigo(),llegada.getCodigo())){
-				Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(caminoParcial.getDestino().getCodigo(),llegada.getCodigo());
-				caminoParcial.agregarArcoFinal(nuevo);
-				if(grafo.hayCaminoSimple(llegada.getCodigo(),caminoParcial.getOrigen().getCodigo())){
-					respuesta = caminoParcial;
+			Arco<String,Aeropuerto,InfoCostos> nuevo;
+			if((nuevo = grafo.darArco(a.getCodigo(),llegada.getCodigo()))!=null){
+				if(grafo.darArco(llegada.getCodigo(),codigo)!=null){
+					caminoParcial.agregarArcoFinal(nuevo);
 				}
 			}
 		}
-		Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(respuesta.getDestino().getCodigo(),codigo);
-		caminoParcial.agregarArcoFinal(nuevo);
-		if(respuesta.getLongitud() == 2){
+		if(caminoParcial.getLongitud() > 0){
+			Arco<String,Aeropuerto,InfoCostos> nuevo = grafo.darArco(caminoParcial.getDestino().getCodigo(),codigo);
+			caminoParcial.agregarArcoFinal(nuevo);
+			return caminoParcial;
+		}
+		else
 			return null;
-		}
-		else{
-			return respuesta;
-		}
+		
+//		if(respuesta.getLongitud() == 2){
+//			return null;
+//		}
+//		else{
+//			return respuesta;
+//		}
 	}
 	
 	public String darJSRuta (Camino<String,Aeropuerto,InfoCostos> ruta){
@@ -1033,7 +1038,7 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 		CentralDeVuelos central = getInstance();
 	//	System.out.println(central.darURLMapa());
 	//	central.agregarAeropuerto("BOG");
-	//	central.guardarCentral();
+		//central.guardarCentral();
 //		Iterator<Aeropuerto> camino = central.darTourDesde("LHR");
 //		while(camino.hasNext()){
 //			Aeropuerto actual = camino.next();
@@ -1046,7 +1051,12 @@ public class CentralDeVuelos implements ICentralDeVuelos{
 //			Aeropuerto actual = camino.next();
 //			System.out.println(actual.getCiudad());
 //		}
-		central.registrarUsuario("felipe", "otalora", "rom", "f@f.com", "1234");
+		central.registrarUsuario("Sebastian", "njkcew", "sfrsebastian", "lkjdan", "1234");
+		central.agregarAeropuertoUsuario("CDG");
+		central.agregarAeropuertoUsuario("LHR");
+		central.agregarAeropuertoUsuario("PEK");
+		central.agregarAeropuertoUsuario("HND");
+		Camino<String, Aeropuerto, InfoCostos>camino = central.darTourDesde("ATL");
 		Usuario p = central.ingresar("rom", "1234");
 		System.out.println(p);
 	}

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 
 import Grafo.Camino;
+import Lista.Lista;
 
 public interface ICentralDeVuelos extends Serializable{
 
@@ -267,7 +268,7 @@ public interface ICentralDeVuelos extends Serializable{
 	 * @param lista La lista de lugares del tour
 	 * @return Iterador con los distintos tours disponibles
 	 */
-	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(String[] lista);
+	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(Lista<String> lista);
 	
 	/**
 	 * Retorna un tour que parte del aeropuerto dado y pasa por los aeropuertos de la preferencia del usuario.

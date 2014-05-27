@@ -808,7 +808,7 @@ public class ServletUsuario extends HttpServlet{
 		respuesta.println("              <div class=\"col-sm-10\">"); 
 		
 		respuesta.println("                <select id=\"ae0r1\" name=\"origen\" class=\"form-control\">"); 
-		Iterator<Aeropuerto> ib4 = usuario.getAeropuertos();
+		Iterator<Aeropuerto> ib4 = central.darAeropuertos();
 		while(ib4.hasNext()){
 			Aeropuerto actual = ib4.next();
 			respuesta.println("                  <option value=\""+ actual.getCodigo() +"\">"+actual.getNombre()+"</option>");
