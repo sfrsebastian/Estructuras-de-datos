@@ -39,13 +39,19 @@ public class ServletLogin extends HttpServlet {
 	//--------------------------------------------
 	// Metodos
 	//--------------------------------------------
-	
+
 	protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
 	{
 		HttpSession session = request.getSession();
-		if(session.getAttribute("usuario") != null)
-			response.sendRedirect(ServletCupiFlights.RUTA + "/admin.html");
-		
+		if(session != null){
+			String p = (String) session.getAttribute("usuario");
+			if(p != null){
+				if(p.equals("rommy")){
+					response.sendRedirect(ServletCupiFlights.RUTA + "/admin.html");
+				}
+			}
+		}
+
 		imprimirEncabezado(request, response);
 		imprimirContenido(request, response);
 	}

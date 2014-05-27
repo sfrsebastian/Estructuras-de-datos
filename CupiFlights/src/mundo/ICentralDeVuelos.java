@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Iterator;
 
+import Grafo.Camino;
+import Lista.Lista;
+
 public interface ICentralDeVuelos extends Serializable{
 
 	/**
@@ -115,5 +118,162 @@ public interface ICentralDeVuelos extends Serializable{
 	 * Retorna la ruta del mapa con los aeropuertos y el arbol con los indices de los aeropuertos agregados organizados por indice de tardanza.
 	 * @return La ruta del mapa
 	 */
-	public Object[] darURLMapa();
+	public String darURLMapa();
+	
+	////////////////////
+	//CUPIFLIGHTS 2.0
+	///////////////////
+	/**
+	 * Registra el usuario con los datos dados.
+	 * @param nombre El nombre del usuario
+	 * @param apellido El apellido del usuario
+	 * @param usuario El usuario deseado
+	 * @param correo El correo del usuario
+	 * @param constrasenia La contrasenia del usuario
+	 * @return TRUE si se registra exitosamente, FALSE de lo contrario
+	 */
+	public boolean registrarUsuario(String nombre, String apellido, String usuario, String correo, String constrasenia);
+	
+	/**
+	 * Autentica al usuario para darle ingreso al sistema.
+	 * @param usuario El usuario de ingreso
+	 * @param contrasenia La contrasenia del usuario
+	 * @return El usuario autenticado, NULL de lo contrario.
+	 */
+	public Usuario ingresar(String usuario, String contrasenia);
+	
+	/**
+	 * Cierra la sesion actual de la central
+	 */
+	public void cerrarSesion();
+	
+	////////
+	//Requerimiento 3
+	////////
+	/**
+	 * Agrega el aeropuerto con codigo dado a las preferencias del usuario
+	 * @param codigoAeropuerto El codigo del aeropuerto
+	 * @return El aeropuerto agregado
+	 */
+	public Aeropuerto agregarAeropuertoUsuario(String codigoAeropuerto);
+	
+	/**
+	 * Elimina el aeropuerto con codigo dado de las preferencias del usuario
+	 * @param codigoAeropuerto El codigo del aeropuerto
+	 * @return El aeropuerto eliminado, NULL de lo contrario
+	 */
+	public Aeropuerto eliminarAeropuertoUsuario(String codigoAeropuerto);
+	/**
+	 * Agrega la aerolinea con codigo dado a las preferencias del usuario.
+	 * @param codigoAerolinea El codigo de la aerolinea a agregar
+	 * @return La aerolinea agregada
+	 */
+	public Aerolinea agregarAerolineaUsuario(String codigoAerolinea);
+	
+	/**
+	 * Elimina la aerolinea con codigo dado de las preferencias del usuario.
+	 * @param codigoAerolinea El codigo de la aerolinea
+	 * @return La aerolinea eliminada, NULL de lo contrario
+	 */
+	public Aerolinea eliminarAerolineaUsuario(String codigoAerolinea);
+	
+	/**
+	 * Agrega la ciudad dada a las preferencias del usuario
+	 * Si la ciudad no existe, se agrega el aeropuerto tambien.
+	 * @param codigoCiudad El codigo de la ciudad
+	 * @return El nombre de la ciudad agregada
+	 */
+	public String agregarCiudadUsuario(String codigoCiudad);
+	
+	/**
+	 * Elimina la ciudad dada de las preferencias del usuario.
+	 * @param El nombre de la ciudad
+	 * @return La ciudad eliminada, NULL de lo contrario.
+	 */
+	public String eliminarCiudadUsuario(String codigoCiudad);
+	
+	/**
+	 * Establece el rango de tiempo en las preferencias del usuario
+	 * @param t1 El tiempo minimo de vuelo
+	 * @param t2 El tiempo maximo de vuelos
+	 */
+	public void definirRangoTiempoUsuario(int t1, int t2);
+	/////////
+	//Fin requerimiento 3
+	////////
+	/**
+	 * Retorna el camino mas corto entre dos aeropuertos
+	 * @return La ruta a seguir
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darGrado(String codigo1, String codigo2);
+	
+	/**
+	 * Retorna el camino de menor longitud entre dos aeropuertos
+	 * @param codigo1 EL codigo del aeropuerto de salida
+	 * @param codigo2 El codigo del aeropuerto de llegada
+	 * @return La ruta de menor longitud
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMenorLongitud(String codigo1,String codigo2);
+	
+	/**
+	 * Retorna la ruta de menor longitud que involucra paradas
+	 * @param codigo1 El codigo del aeorpuerto de salida
+	 * @param codigo El codigo del aeropuerto de entrada
+	 * @return La ruta de menor longitud con parada
+	 */
+	public Iterator<Aeropuerto> darRutaMenorLongitudConParada(String codigo1, String codigo2);
+	
+	/**
+	 * Retorna el camino de menor tiempo entre dos aeropuertos
+	 * @param codigo1 EL codigo del aeropuerto de salida
+	 * @param codigo2 El codigo del aeropuerto de llegada
+	 * @return La ruta de menor tiempo
+	 */
+	public Iterator<Aeropuerto> darRutaMenorTiempo(String codigo1,String codigo2);
+	
+	/**
+	 * Retorna la ruta de menor tiempo que involucra paradas
+	 * @param codigo1 El codigo del aeorpuerto de salida
+	 * @param codigo El codigo del aeropuerto de entrada
+	 * @return La ruta de menor tiempo con parada
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMenorTiempoConParada(String codigo1, String codigo2);
+	
+	/**
+	 * Retorna la ruta con vuelos de mayor rating
+	 * @param codigo1 El codigo del aeropuerto de salida
+	 * @param codigo2 El codigo del aeropuerto de entrada
+	 * @return La ruta de mayor rating
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMayorRating(String codigo1, String codigo2);
+	
+	/**
+	 * Retorna la ruta con menor cantidad de vuelos tardios
+	 * @param codigo1 El codigo del aeropuerto de salida
+	 * @param codigo2 El codigo del aeropuerto de llegada
+	 * @return La ruta de menor cantidad de vuelos tardios
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darRutaMenorTardios(String codigo1,String codigo2);
+	
+	/**
+	 * Retorna el tour mas largo al aeropuerto dado por parametro<br>
+	 * El tour mas largo es el camino mas largo con salida y llegada en el aeropuerto dado.
+	 * @param codigo1 El codigo del aeropuerto
+	 * @return El camino mas largo
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darTourMasLargo(String codigo1);
+	
+	/**
+	 * Retorna los tours disponibles que incluya los aeropeurtos dados
+	 * @param lista La lista de lugares del tour
+	 * @return Iterador con los distintos tours disponibles
+	 */
+	public Iterator<Camino<String,Aeropuerto,InfoCostos>> darToursDisponibles(Lista<String> lista);
+	
+	/**
+	 * Retorna un tour que parte del aeropuerto dado y pasa por los aeropuertos de la preferencia del usuario.
+	 * @param codigo El codigo del aeropuerto de inicio
+	 * @return El tour de resultado, null si no lo hay
+	 */
+	public Camino<String, Aeropuerto, InfoCostos> darTourDesde(String codigo);
 }
